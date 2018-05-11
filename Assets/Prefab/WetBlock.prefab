@@ -89,7 +89,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 39ef57e2edb190d48a1fb46d7721e21d, type: 2}
+  - {fileID: 2100000, guid: 84b9e1d19d11078d11005b9844295342, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,12 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9ab2958a4d79b48a5f43fccaa132e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StandardTexture: {fileID: 0}
-  BurnTexture: {fileID: 0}
   StandardMaterial: {fileID: 2100000, guid: 39ef57e2edb190d48a1fb46d7721e21d, type: 2}
   BurnMaterial: {fileID: 2100000, guid: 292bccefac0650a4f902fcf2315bf24c, type: 2}
   BurnFlg: 0
-  StartBlock: 0
+  StartBlockFlg: 0
 --- !u!135 &135944676118617678
 SphereCollider:
   m_ObjectHideFlags: 1
