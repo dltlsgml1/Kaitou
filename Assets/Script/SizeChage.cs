@@ -2,42 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class ChangeSizeCamera : MonoBehaviour
-{
-    public float ChangeSize(float Size) //カメラサイズを変更してズームインズームアウトを表現
-    {
-        if (Input.GetKey(KeyCode.Z))
-        {
-            if (Size < 20)
-            {
-                Size += 0.1f;
-            }
-        }
-        if (Input.GetKey(KeyCode.X))
-        {
-            if (Size > 1)
-            {
-                Size -= 0.1f;
-            }
-        }
-        return Size;
-    }
-}
 
 
 public class SizeChage : MonoBehaviour {
-    Camera cam;
+    Camera Camera;
     // Use this for initialization
     void Start()
     {
-        cam = GetComponent<Camera>();   //カメラのデータを持ってくる
+        Camera = GetComponent<Camera>();   //カメラのデータを持ってくる
     }
 
 	// Update is called once per frame
 	void Update ()
     {
-        ChangeSizeCamera changeSize = new ChangeSizeCamera();   //サイズ変える用のクラスをロード
-        cam.orthographicSize = changeSize.ChangeSize(cam.orthographicSize); //カメラサイズの変更
+        ChangeSize(); //カメラサイズの変更
 
+    }
+    void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (Camera.orthographicSize < 20)
+            {
+                Camera.orthographicSize += 0.1f;
+            }
+        }
+        if (Input.GetKey(KeyCode.X))
+        {
+            if (Camera.orthographicSize > 1)
+            {
+                Camera.orthographicSize -= 0.1f;
+            }
+        }
     }
 }
