@@ -29,12 +29,13 @@ public class MoveCamera : MonoBehaviour {
         RotationCamera();
         FormatDate();
         InputDate();
-
+        
 	}
 
     public void ParallelMove()      //平行移動関数
     {
-        ScreenPosition = transform.InverseTransformPoint(Position);
+        ScreenPosition = transform.InverseTransformPoint(Position);     //スクリーン座標に現在の座標の逆行列をセット
+        //カメラのスクリーン座標変換
         if (Input.GetKey(KeyCode.D))
         {
             ScreenPosition.x -= MoveCameraSpeed;
@@ -52,7 +53,8 @@ public class MoveCamera : MonoBehaviour {
         {
             ScreenPosition.y += MoveCameraSpeed;
         }
-        Position = transform.TransformPoint(ScreenPosition);
+        
+        Position = transform.TransformPoint(ScreenPosition);       //返還されたスクリーン座標をワールドに戻してセット
     }
 
     public void RotationCamera()    //カメラ回転関数
