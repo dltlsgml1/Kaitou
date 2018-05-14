@@ -16,8 +16,8 @@ public class RayTest : MonoBehaviour {
     {
         //  Debug.Log(camera.transform.position);
 
-        vec = camera.transform.parent.GetComponent<Transform>().transform.position;
-        vec.z -= 20;
+        vec = camera.transform.position;
+        
         Vector3 zerovec;
         Vector3 scray;
         zerovec.x = 0;

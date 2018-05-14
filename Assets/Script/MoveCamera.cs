@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveCamera : MonoBehaviour {
+    public Camera MainCamera;
+    public Camera Background;
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
@@ -53,7 +55,8 @@ public class MoveCamera : MonoBehaviour {
         {
             ScreenPosition.y += MoveCameraSpeed;
         }
-        
+
+
         Position = transform.TransformPoint(ScreenPosition);       //返還されたスクリーン座標をワールドに戻してセット
     }
 
@@ -76,6 +79,26 @@ public class MoveCamera : MonoBehaviour {
         if (Input.GetKey(KeyCode.RightArrow))
         {
             Rotation.y -= RotationCameraSpeed;
+        }
+    }
+
+    void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (MainCamera.orthographicSize < 20)
+            {
+                MainCamera.orthographicSize += 0.1f;
+                Background.orthographicSize += 0.1f;
+            }
+        }
+        if (Input.GetKey(KeyCode.X))
+        {
+            if (MainCamera.orthographicSize > 1)
+            {
+                MainCamera.orthographicSize -= 0.1f;
+                Background.orthographicSize -= 0.1f;
+            }
         }
     }
 
