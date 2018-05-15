@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SizeChage : MonoBehaviour {
     Camera Camera;
+    int FormatSize = 5;
     // Use this for initialization
     void Start()
     {
@@ -16,23 +17,31 @@ public class SizeChage : MonoBehaviour {
 	void Update ()
     {
         ChangeSize(); //カメラサイズの変更
+        Format();   //カメラサイズの初期化
 
     }
     void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
     {
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetButton("LButton"))
         {
             if (Camera.orthographicSize < 20)
             {
                 Camera.orthographicSize += 0.1f;
             }
         }
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetButton("RButton"))
         {
             if (Camera.orthographicSize > 1)
             {
                 Camera.orthographicSize -= 0.1f;
             }
+        }
+    }
+    void Format()//カメラサイズの初期化
+    {
+        if (Input.GetButton("SelectButton"))
+        {
+            Camera.orthographicSize = FormatSize;
         }
     }
 }
