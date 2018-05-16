@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour {
-
+    public LoadMainStages StageLoader;
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+        StageLoader = new LoadMainStages();
 	}
 	
 	// Update is called once per frame
