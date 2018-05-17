@@ -22,14 +22,14 @@ public class Blocks : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitMaterial();
+        //InitMaterial();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         // 燃えているかのフラグでマテリアルの色を変更する
-        CheckBurnFlg();
+        //CheckBurnFlg();
 	}
 
     // 燃えているかのチェック

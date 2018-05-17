@@ -8,11 +8,11 @@ public class WetBlock : Blocks {
 
 	// Use this for initialization
 	void Start () {
-        InitMaterial();
+      //  InitMaterial();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        CheckBurnFlg();
+       // CheckBurnFlg();
 	}
 }

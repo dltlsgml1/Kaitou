@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114058243973627896}
   m_Layer: 0
   m_Name: CollapseBlock
-  m_TagString: Untagged
+  m_TagString: CollapseBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,6 +184,9 @@ MonoBehaviour:
   BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
+  DeleteTime: 5
+  DeleteCnt: 0
+  DeleteFlag: 0
 --- !u!135 &135854892562069624
 SphereCollider:
   m_ObjectHideFlags: 1

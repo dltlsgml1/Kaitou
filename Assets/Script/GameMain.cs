@@ -5,24 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour {
     public LoadMainStages StageLoader;
-	// Use this for initialization
+    public GameObject NowStageObj;
+
+    public int NowStage = 0;
 	void Start ()
     {
-        StageLoader = new LoadMainStages();
+        StageLoader = gameObject.AddComponent<LoadMainStages>();
+        StageLoader.LoadStage();
+        SetStage(NowStage);
 	}
 	
+    public void SetStage(int NowStage)
+    {
+        GameObject TempStage;
+        TempStage = StageLoader.GetStage(NowStage);
+        NowStageObj = TempStage;
+    }
+
+    
+
 	// Update is called once per frame
 	void Update () {
-        //マウスクリックで任意のシーン切り替え
+    
         if (Input.GetMouseButtonDown(0))
         {
-            SceneManager.LoadScene("StageSelect");
+           
         }
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    SceneManager.LoadScene("Pause");
-        //}
+        
 
     }
 }
