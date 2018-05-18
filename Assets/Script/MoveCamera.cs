@@ -24,9 +24,9 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.z = 0;
         Position = this.transform.position;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void LateUpdate () {
         ParallelMove();
         RotationCamera();
         FormatDate();

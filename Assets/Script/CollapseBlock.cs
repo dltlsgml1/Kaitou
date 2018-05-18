@@ -10,28 +10,37 @@ public class CollapseBlock : Blocks {
     public float DeleteCnt = 0.0f;   //burnFlgがついてからカウント開始。
     public bool DeleteFlag = false;       //消滅する時間以上になるとdelete処理に入るためのフラグ。
 
-	// Use this for initialization
-	void Start () {
-       // InitMaterial();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (DeleteFlag == true) 
+    public void SetDeleteFlag(bool flag)
+    {
+        DeleteFlag = flag;
+    }
+    public void ActivingTimer()
+    {
+        DeleteCnt += 0.1f;
+    }
+
+    public bool IsTimerDone()
+    {
+        if(DeleteCnt==DeleteTime)
         {
-            DeleteCnt += 0.1f;
+            DeleteCnt = 0.0f;
+            return true;
         }
-        if (DeleteCnt == DeleteTime)
-        {
-            DestroyObject(this);
-        }
-        //CheckBurnFlg();
-	}
+        return false;
+    }
+
+    public void SetBurn(GameObject Obj)
+    {
+        Obj.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+    }
 
     public void SetDeleteFlag()
     {
         DeleteFlag = true;
     }
-
     
+    public void DeleteObject()
+    {
+        DestroyObject(this, 5.0f);
+    }
 }

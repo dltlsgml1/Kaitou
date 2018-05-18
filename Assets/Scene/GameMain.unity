@@ -305,6 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1180727678}
   - component: {fileID: 1180727677}
+  - component: {fileID: 1180727679}
   m_Layer: 0
   m_Name: MainSceneScript
   m_TagString: Untagged
@@ -325,6 +326,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageLoader: {fileID: 0}
   NowStageObj: {fileID: 0}
+  Block:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  CollapsBlock:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  WetBlock:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  MainCamera: {fileID: 551781101}
+  BlocksCount: 0
   NowStage: 0
 --- !u!4 &1180727678
 Transform:
@@ -339,6 +375,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1180727679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1180727676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f570e365d45f41d418ca915bf77b5a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StandardMaterial: {fileID: 0}
+  BurnMaterial: {fileID: 0}
+  BurnFlg: 0
+  StartBlockFlg: 0
+  DeleteTime: 5
+  DeleteCnt: 0
+  DeleteFlag: 0
 --- !u!1 &1288049760
 GameObject:
   m_ObjectHideFlags: 0

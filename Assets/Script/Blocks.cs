@@ -32,17 +32,9 @@ public class Blocks : MonoBehaviour {
         //CheckBurnFlg();
 	}
 
-    // 燃えているかのチェック
-    protected void CheckBurnFlg()
+    public void SetBurn(GameObject Obj)
     {
-        if (this.BurnFlg)
-        {
-            ChangeMaterial(BurnMaterial);
-        }
-        else
-        {
-            ChangeMaterial(StandardMaterial);
-        }
+        Obj.GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 
     // マテリアルの変更
