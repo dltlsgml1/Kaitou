@@ -279,7 +279,7 @@ public class Sound
             case eSoundFilename.SS_Cancel:
                 str = "StageSelect/SS_Cancel";
                 break;
-            case eSoundFilename.SS_TitleBgm:
+            case eSoundFilename.SS_StageselectBgm:
                 str = "StageSelect/SS_StageselectBgm";
                 break;
 
