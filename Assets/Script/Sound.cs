@@ -19,34 +19,41 @@ public class Sound
     public enum eSoundFilename{
 
         // タイトル
-        TITLE_TitleBgm,
-        TITLE_Enter,
-        TITLE_Cancel,
-        TITLE_Paper,
+        TT_TitleBgm,
+        TT_Enter,
+        TT_Cancel,
+        TT_Paper,
 
         // ステージセレクト
-        STAGESELECT_StageIn,
-        STAGESELECT_StageSelect,
-        STAGESELECT_Enter,
-        STAGESELECT_Cancel,
-        STAGESELECT_TitleBgm,
+        SS_StageIn,
+        SS_StageSelect,
+        SS_Enter,
+        SS_Cancel,
+        SS_StageselectBgm,
 
         // ゲームメイン
-        GAMEMAIN_Burn,
-        GAMEMAIN_BurnNow,
-        GAMEMAIN_Crash,
-        GAMEMAIN_FireOut,
-        GAMEMAIN_Sign,
-        GAMEMAIN_SignOut,
-        GAMEMAIN_Enter,
-        GAMEMAIN_Paper,
-        GAMEMAIN_Cancel,
+        GM_Burn,
+        GM_BurnNow,
+        GM_Crash,
+        GM_FireOut,
+        GM_Sign,
+        GM_SignOut,
+        GM_Enter,
+        GM_Paper,
+        GM_Cancel,
+        GM_GamemainBgm,
+
+        // オプション
+        OP_Enter,
+        OP_Cancel,
+        OP_Select,
+        OP_Paper,
 
         // ポーズ
-        PAUSE_Enter,
-        PAUSE_Cancel,
-        PAUSE_Select,
-        PAUSE_Paper,
+        PS_Enter,
+        PS_Cancel,
+        PS_Select,
+        PS_Paper,
     }
 
     // シングルトン
@@ -246,77 +253,94 @@ public class Sound
         switch(filename)
         {
             // タイトル
-            case eSoundFilename.TITLE_TitleBgm:
-                str = "Title/TitleBgm";
+            case eSoundFilename.TT_TitleBgm:
+                str = "Title/TT_TitleBgm";
                 break;
-            case eSoundFilename.TITLE_Enter:
-                str = "Title/Enter";
+            case eSoundFilename.TT_Enter:
+                str = "Title/TT_Enter";
                 break;
-            case eSoundFilename.TITLE_Cancel:
-                str = "Title/Cancel";
+            case eSoundFilename.TT_Cancel:
+                str = "Title/TT_Cancel";
                 break;
-            case eSoundFilename.TITLE_Paper:
-                str = "Title/Paper";
+            case eSoundFilename.TT_Paper:
+                str = "Title/TT_Paper";
                 break;
 
             // ステージセレクト
-            case eSoundFilename.STAGESELECT_StageIn:
-                str = "StageSelect/StageIn";
+            case eSoundFilename.SS_StageIn:
+                str = "StageSelect/SS_StageIn";
                 break;
-            case eSoundFilename.STAGESELECT_StageSelect:
-                str = "StageSelect/StageSelect";
+            case eSoundFilename.SS_StageSelect:
+                str = "StageSelect/SS_StageSelect";
                 break;
-            case eSoundFilename.STAGESELECT_Enter:
-                str = "StageSelect/Enter";
+            case eSoundFilename.SS_Enter:
+                str = "StageSelect/SS_Enter";
                 break;
-            case eSoundFilename.STAGESELECT_Cancel:
-                str = "StageSelect/Cancel";
+            case eSoundFilename.SS_Cancel:
+                str = "StageSelect/SS_Cancel";
                 break;
-            case eSoundFilename.STAGESELECT_TitleBgm:
-                str = "StageSelect/TitleBgm";
+            case eSoundFilename.SS_TitleBgm:
+                str = "StageSelect/SS_StageselectBgm";
                 break;
 
             // ゲームメイン
-            case eSoundFilename.GAMEMAIN_Burn:
-                str = "GameMain/Burn";
+            case eSoundFilename.GM_Burn:
+                str = "GameMain/GM_Burn";
                 break;
-            case eSoundFilename.GAMEMAIN_BurnNow:
-                str = "GameMain/BurnNow";
+            case eSoundFilename.GM_BurnNow:
+                str = "GameMain/GM_BurnNow";
                 break;
-            case eSoundFilename.GAMEMAIN_Crash:
-                str = "GameMain/Crash";
+            case eSoundFilename.GM_Crash:
+                str = "GameMain/GM_Crash";
                 break;
-            case eSoundFilename.GAMEMAIN_FireOut:
-                str = "GameMain/FireOut";
+            case eSoundFilename.GM_FireOut:
+                str = "GameMain/GM_FireOut";
                 break;
-            case eSoundFilename.GAMEMAIN_Sign:
-                str = "GameMain/Sign";
+            case eSoundFilename.GM_Sign:
+                str = "GameMain/GM_Sign";
                 break;
-            case eSoundFilename.GAMEMAIN_SignOut:
-                str = "GameMain/SignOut";
+            case eSoundFilename.GM_SignOut:
+                str = "GameMain/GM_SignOut";
                 break;
-            case eSoundFilename.GAMEMAIN_Enter:
-                str = "GameMain/Enter";
+            case eSoundFilename.GM_Enter:
+                str = "GameMain/GM_Enter";
                 break;
-            case eSoundFilename.GAMEMAIN_Paper:
-                str = "GameMain/Paper";
+            case eSoundFilename.GM_Paper:
+                str = "GameMain/GM_Paper";
                 break;
-            case eSoundFilename.GAMEMAIN_Cancel:
-                str = "GameMain/Cancel";
+            case eSoundFilename.GM_Cancel:
+                str = "GameMain/GM_Cancel";
+                break;
+            case eSoundFilename.GM_GamemainBgm:
+                str = "GameMain/GM_GamemainBgm";
+                break;
+
+            // オプション
+            case eSoundFilename.OP_Enter:
+                str = "Option/OP_Enter";
+                break;
+            case eSoundFilename.OP_Cancel:
+                str = "Option/OP_Cancel";
+                break;
+            case eSoundFilename.OP_Select:
+                str = "Option/OP_Select";
+                break;
+            case eSoundFilename.OP_Paper:
+                str = "Option/OP_Paper";
                 break;
 
             // ポーズ
-            case eSoundFilename.PAUSE_Enter:
-                str = "Pause/Enter";
+            case eSoundFilename.PS_Enter:
+                str = "Pause/PS_Enter";
                 break;
-            case eSoundFilename.PAUSE_Cancel:
-                str = "Pause/Cancel";
+            case eSoundFilename.PS_Cancel:
+                str = "Pause/PS_Cancel";
                 break;
-            case eSoundFilename.PAUSE_Select:
-                str = "Pause/Select";
+            case eSoundFilename.PS_Select:
+                str = "Pause/PS_Select";
                 break;
-            case eSoundFilename.PAUSE_Paper:
-                str = "Pause/Paper";
+            case eSoundFilename.PS_Paper:
+                str = "Pause/PS_Paper";
                 break;
 
             // 例外処理
