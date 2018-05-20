@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveCamera : MonoBehaviour {
+    public Camera MainCamera;
+    public Camera Background;
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
@@ -29,22 +31,42 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.z = 0;
         Position = this.transform.position;
     }
+<<<<<<< HEAD
 	
 	// Update is called once per frame
 	void Update () {
         ChangeSpeed();
+=======
+
+    // Update is called once per frame
+    void LateUpdate () {
+>>>>>>> CreateCollision
         ParallelMove();
         RotationCamera();
         FormatDate();
         InputDate();
+<<<<<<< HEAD
         KeyDebug();
+=======
+        
+>>>>>>> CreateCollision
 	}
     public void ChangeSpeed()
     {
+<<<<<<< HEAD
         HiSpeedChangeFlag = false;
         LowSpeedChangeFlag = false;
         Key = Input.GetAxisRaw("SpeedChange");
         if(Key!=0)
+=======
+        ScreenPosition = transform.InverseTransformPoint(Position);     //スクリーン座標に現在の座標の逆行列をセット
+        //カメラのスクリーン座標変換
+        if (Input.GetKey(KeyCode.D))
+        {
+            ScreenPosition.x -= MoveCameraSpeed;
+        }
+        if (Input.GetKey(KeyCode.A))
+>>>>>>> CreateCollision
         {
             if (Key < DefaultKey)
             {
@@ -158,6 +180,26 @@ public class MoveCamera : MonoBehaviour {
             }
         }
 
+    }
+
+    void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (MainCamera.orthographicSize < 20)
+            {
+                MainCamera.orthographicSize += 0.1f;
+                Background.orthographicSize += 0.1f;
+            }
+        }
+        if (Input.GetKey(KeyCode.X))
+        {
+            if (MainCamera.orthographicSize > 1)
+            {
+                MainCamera.orthographicSize -= 0.1f;
+                Background.orthographicSize -= 0.1f;
+            }
+        }
     }
 
     public void FormatDate()        //初期化関数

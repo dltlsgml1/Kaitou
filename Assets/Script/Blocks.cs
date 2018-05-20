@@ -22,27 +22,19 @@ public class Blocks : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitMaterial();
+        //InitMaterial();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         // 燃えているかのフラグでマテリアルの色を変更する
-        CheckBurnFlg();
+        //CheckBurnFlg();
 	}
 
-    // 燃えているかのチェック
-    protected void CheckBurnFlg()
+    public void SetBurn(GameObject Obj)
     {
-        if (this.BurnFlg)
-        {
-            ChangeMaterial(BurnMaterial);
-        }
-        else
-        {
-            ChangeMaterial(StandardMaterial);
-        }
+        Obj.GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 
     // マテリアルの変更
