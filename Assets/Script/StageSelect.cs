@@ -18,7 +18,7 @@ public class StageSelect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		RB= GetComponent<Rigidbody>();      //このオブジェクトのRigidbody
+		RB= GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
     }
 	
 	// Update is called once per frame
@@ -32,24 +32,22 @@ public class StageSelect : MonoBehaviour {
 
     public void StageSelectMoveFlag()   //左スティックでステージの移動
     {
-        float Decision;
-        Vector3 pos = this.transform.position;
-        Decision = Input.GetAxisRaw("LeftStick X");
+        float Decision;                                 //左右を判定用
+        Vector3 pos = this.transform.position;          //オブジェクトのポジションを取る
+        Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Input.GetButtonDown("LeftStick X"))
         {
-            if (Decision < -DefaultKey)
+            if (Decision < -DefaultKey&&!TargetFlag)
             {
-                StageID -= 1;
-
+                StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
                 RightMoveFlag = true;
             }
-            if (Decision > DefaultKey)
+            if (Decision > DefaultKey && !TargetFlag)
             {
-                StageID += 1;
-
-
+                StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
                 LeftMoveFlag = true;
             }
+            
         }
     }
 
@@ -57,7 +55,6 @@ public class StageSelect : MonoBehaviour {
     {
         if (LeftMoveFlag && !TargetFlag || RightMoveFlag && !TargetFlag)    //移動範囲の設定
         {
-
             TargetPos = this.transform.position;
             if (RightMoveFlag)  //右に移動する場合
             {
@@ -67,9 +64,8 @@ public class StageSelect : MonoBehaviour {
             {
                 TargetPos.x -= Speed;
             }
-            TargetFlag = true;
+            TargetFlag = true;          //移動範囲の設定が何度も起こらないようにフラグをたてて移動中にここに来ないように
             RB.isKinematic = false;
-
         }
 
         Vector3 V = new Vector3(1, 0, 0);
