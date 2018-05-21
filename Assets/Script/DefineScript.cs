@@ -11,5 +11,5 @@ public class DefineScript
 
     public static int NUM_STAGE = 5;
     public static int NUM_BACKGROUND = 3;
-
+    public enum CollisionIndex {Front=0,Back,Right,Left,Top,Bottom};
 }
