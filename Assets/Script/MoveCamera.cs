@@ -11,14 +11,7 @@ public class MoveCamera : MonoBehaviour {
     Vector3 Position;                           //位置のデータ
     Vector3 Rotation;                           //回転のデータ
     Vector2 ScreenPosition;                     //スクリーンの位置データ
-    float Key;                                  //Axisで取られた正負の確認
-    float DefaultKey=0.5f;                      //勝手に移動するの防ぐ用
-    public bool CheckDebug;
-    public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
-    public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
-    public float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
-    public float ChangeSpeedFast = 3.0f;        //スピードチェンジ時の速さ(早い時)
-    public float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
+    public float MoveCameraSpeed = 0.1f;        //平行移動時のスピード
     public float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
     
     // Use this for initialization
@@ -31,34 +24,18 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.z = 0;
         Position = this.transform.position;
     }
-<<<<<<< HEAD
-	
-	// Update is called once per frame
-	void Update () {
-        ChangeSpeed();
-=======
 
     // Update is called once per frame
     void LateUpdate () {
->>>>>>> CreateCollision
         ParallelMove();
         RotationCamera();
         FormatDate();
         InputDate();
-<<<<<<< HEAD
-        KeyDebug();
-=======
         
->>>>>>> CreateCollision
 	}
-    public void ChangeSpeed()
+
+    public void ParallelMove()      //平行移動関数
     {
-<<<<<<< HEAD
-        HiSpeedChangeFlag = false;
-        LowSpeedChangeFlag = false;
-        Key = Input.GetAxisRaw("SpeedChange");
-        if(Key!=0)
-=======
         ScreenPosition = transform.InverseTransformPoint(Position);     //スクリーン座標に現在の座標の逆行列をセット
         //カメラのスクリーン座標変換
         if (Input.GetKey(KeyCode.D))
@@ -66,120 +43,43 @@ public class MoveCamera : MonoBehaviour {
             ScreenPosition.x -= MoveCameraSpeed;
         }
         if (Input.GetKey(KeyCode.A))
->>>>>>> CreateCollision
         {
-            if (Key < DefaultKey)
-            {
-                HiSpeedChangeFlag = true;
-            }
-            if (Key > -DefaultKey)
-            {
-                LowSpeedChangeFlag = true;
-            }
-        }
-    }
-    public void ParallelMove()      //平行移動関数
-    {
-        ScreenPosition = transform.InverseTransformPoint(Position);
-       
-
-        Key = 0;
-        Key = Input.GetAxisRaw("RightStick X");
-        if (Key != 0)
-        {
-            if (Key < DefaultKey)
-            {
-
-                ScreenPosition.x -= MoveCameraSpeed;
-            }
-            if (Key > -DefaultKey)
-            {
-                ScreenPosition.x += MoveCameraSpeed;
-            }
-        }
-        Key = Input.GetAxisRaw("RightStick Y");
-        if (Key != 0)
-        {
-            if (Key < DefaultKey)
-            {
-
-                ScreenPosition.y -= MoveCameraSpeed;
-            }
-            if (Key > -DefaultKey)
-            {
-                ScreenPosition.y += MoveCameraSpeed;
-            }
+            ScreenPosition.x += MoveCameraSpeed;
         }
 
-        Position = transform.TransformPoint(ScreenPosition);
+        if (Input.GetKey(KeyCode.W))
+        {
+            ScreenPosition.y -= MoveCameraSpeed;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            ScreenPosition.y += MoveCameraSpeed;
+        }
+
+
+        Position = transform.TransformPoint(ScreenPosition);       //返還されたスクリーン座標をワールドに戻してセット
     }
 
     public void RotationCamera()    //カメラ回転関数
     {
-        Key = 0;
-
-        Key = Input.GetAxisRaw("LeftStick Y");
-        if (Key != 0)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (Key < DefaultKey)
-            {
-                if(Rotation.x < 85)
-                {
-                    if (HiSpeedChangeFlag)
-                        Rotation.x += ChangeSpeedFast;
-
-                    if (LowSpeedChangeFlag)
-                        Rotation.x += ChangeSpeedLow;
-
-                    if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
-                        Rotation.x += RotationCameraSpeed;
-                }
-               
-            }
-            if(Key > -DefaultKey)
-            {
-                if (Rotation.x > -60)
-                {
-                    if (HiSpeedChangeFlag)
-                        Rotation.x -= ChangeSpeedFast;
-
-                    if (LowSpeedChangeFlag)
-                        Rotation.x -= ChangeSpeedLow;
-
-                    if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
-                        Rotation.x -= RotationCameraSpeed;
-                }
-            }
+            if(Rotation.x<85)
+            Rotation.x += RotationCameraSpeed;
         }
-
-        Key = Input.GetAxisRaw("LeftStick X");
-        if (Key != 0)
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (Key < DefaultKey)
-            {
-                if (HiSpeedChangeFlag)
-                    Rotation.y += ChangeSpeedFast;
-
-                if (LowSpeedChangeFlag)
-                    Rotation.y += ChangeSpeedLow;
-
-                if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
-                    Rotation.y += RotationCameraSpeed;
-            }
-            if (Key > -DefaultKey)
-            {
-
-                if (HiSpeedChangeFlag)
-                    Rotation.y -= ChangeSpeedFast;
-
-                if (LowSpeedChangeFlag)
-                    Rotation.y -= ChangeSpeedLow;
-
-                if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
-                    Rotation.y -= RotationCameraSpeed;
-            }
+            if(Rotation.x>-60)
+            Rotation.x -= RotationCameraSpeed;
         }
-
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Rotation.y += RotationCameraSpeed;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Rotation.y -= RotationCameraSpeed;
+        }
     }
 
     void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
@@ -204,7 +104,7 @@ public class MoveCamera : MonoBehaviour {
 
     public void FormatDate()        //初期化関数
     {
-        if (Input.GetButton("SelectButton"))
+        if (Input.GetKey(KeyCode.R))
         {
             Position = FormatPosition;
             Rotation = FormatRotation;
@@ -215,21 +115,4 @@ public class MoveCamera : MonoBehaviour {
         this.transform.position = Position;
         this.transform.rotation = Quaternion.Euler(Rotation);
     }
-
-    public void KeyDebug()          //keyの入力が出来てるかのデバッグ用(削除する予定)
-    {
-        CheckDebug = false;
-        if (CheckDebug = Input.GetButtonDown("StartButton"))
-        {
-            Debug.Log("スタートボタン");
-        }
-        if (CheckDebug = Input.GetButtonDown("AButton")) 
-        {
-            Debug.Log("Aボタン");
-        }
-        if (CheckDebug = Input.GetButtonDown("BButton")) 
-        {
-            Debug.Log("Bボタン");
-        }
-    } 
 }
