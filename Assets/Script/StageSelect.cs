@@ -14,9 +14,10 @@ public class StageSelect : MonoBehaviour {
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     public float Distance = 15.0f;             //オブジェクト間の距離
+    public Vector3 vector = new Vector3(0, 0, 0);
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
     }
 	
@@ -64,12 +65,12 @@ public class StageSelect : MonoBehaviour {
             TargetFlag = true;          //移動範囲の設定が何度も起こらないようにフラグをたてて移動中にここに来ないように
             RB.isKinematic = false;
         }
-        Vector3 V = new Vector3(1, 0, 0);
+        
         if (LeftMoveFlag)
         {
             if (this.transform.position.x > TargetPos.x)
             {
-                RB.AddForce(-V);     //右に移動
+                RB.AddForce(-vector);     //右に移動
             }
             else
             {
@@ -83,7 +84,7 @@ public class StageSelect : MonoBehaviour {
         {
             if (this.transform.position.x < TargetPos.x)
             {
-                RB.AddForce(V);        //左に移動
+                RB.AddForce(vector);        //左に移動
 
             }
             else
@@ -98,7 +99,7 @@ public class StageSelect : MonoBehaviour {
     public void SelectStage()       //遊ぶステージの決定
     {
         float Decision;
-        if (Input.GetButtonDown("BButton"))
+        if (Input.GetButtonDown("BButton")&&!TargetFlag)
         {
             SelectStageFlag = true;
         }
