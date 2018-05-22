@@ -11,7 +11,7 @@ public class DefineScript
 
     public static int NUM_STAGE = 5;
     public static int NUM_BACKGROUND = 3;
-    public static float JUDGE_DISTANCE = 3.0f;
+    public static float JUDGE_DISTANCE = 2.0f;
     public enum CollisionIndex {Front=0,Back,Right,Left,Top,Bottom};
 
 }

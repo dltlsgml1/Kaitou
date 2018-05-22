@@ -46,14 +46,12 @@ public class GameMain : MonoBehaviour {
 
     void Atari()
     {
-        bool z = false;
+      
        
         Vector3[] bkvec = new Vector3[6];
         Vector3[] ckvec = new Vector3[6];
         Vector2[] bkvec2 = new Vector2[6];
         Vector2[] ckvec2 = new Vector2[6];
-        Vector2 v1;
-        Vector2 v2;
 
         Vector3[] blockposition = new Vector3[Block.Length];
         Vector3[] collapsblockposition = new Vector3[CollapsBlock.Length];
@@ -67,10 +65,8 @@ public class GameMain : MonoBehaviour {
             collapsblockposition[i] = MainCamera.WorldToScreenPoint(CollapsBlock[i].transform.position);
           
         }
-        v1 = (Vector2)blockposition[0];
-        v2 = (Vector2)collapsblockposition[0];
-        Debug.Log(Vector3.Distance(blockposition[0], collapsblockposition[0]));
-        Debug.Log(Vector2.Distance(v1, v2));
+
+      
 
         for (int CollapsCount = 0; CollapsCount < CollapsBlock.Length; CollapsCount++) 
         {
@@ -80,16 +76,22 @@ public class GameMain : MonoBehaviour {
                 {
                     ck[k] = CollapsBlock[CollapsCount].transform.GetChild(k).gameObject;
                     ckvec[k] = MainCamera.WorldToScreenPoint(ck[k].transform.position);
-                    ckvec2[k] = (Vector2)ckvec[k];
+                    
                     for (int l = 0; l < 6;l++)
                     {
                         bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
-                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);
-                        bkvec2[l] = (Vector2)bkvec2[l];
-                        
-                        if(Vector3.Distance(ckvec[k],bkvec[l])<DefineScript.JUDGE_DISTANCE)
+                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);       
+                        if(Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
                         {
-        
+                            //Ray ray = MainCamera.ScreenPointToRay(blockposition[BlockCount]);
+                            //RaycastHit rayhit;
+                            //Physics.Raycast(ray, out rayhit);
+                            //if(rayhit.transform.gameObject != Block[BlockCount])
+                            //{
+                            //    continue;
+                            //}
+
+
                             Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
                             Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
                         }
@@ -105,17 +107,3 @@ public class GameMain : MonoBehaviour {
     }
 
 }
-//for (int m = 0; m < Block.Length; m++)
-//{
-//    if (bkvec[l].z >= bkvec[m].z &&
-//       Vector3.Distance(blockposition[BlockCount],blockposition[l]) < 1.0f 
-//       )
-//    {
-//        z = true;
-//        break;
-//    }
-//}
-//if (z == true)
-//{
-//    break;
-//}
