@@ -23,13 +23,6 @@ public class GameMain : MonoBehaviour {
         StageLoader = gameObject.AddComponent<LoadMainStages>();
         StageLoader.LoadStage();
         SetStage(NowStage);
-        //for(int i=0;i<5;i++)
-        //{
-        //    if(Block[i]!=null)
-        //    {
-        //        BlocksCount++;
-        //    }
-        //}
 	}
 	
     public void SetStage(int NowStage)
@@ -44,48 +37,61 @@ public class GameMain : MonoBehaviour {
     }
 
     
-
-	// Update is called once per frame
+    
 	void Update ()
     {
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-        //    Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-
-        //}
-
-
+       
         Atari();
     }
 
     void Atari()
     {
-
+        bool z = false;
+       
         Vector3[] bkvec = new Vector3[6];
         Vector3[] ckvec = new Vector3[6];
-        for (int i = 0; i < CollapsBlock.Length; i++)
-        {      
-            for (int j=0;j<Block.Length;j++)
+        Vector2[] bkvec2 = new Vector2[6];
+        Vector2[] ckvec2 = new Vector2[6];
+        Vector2 v1;
+        Vector2 v2;
+
+        Vector3[] blockposition = new Vector3[Block.Length];
+        Vector3[] collapsblockposition = new Vector3[CollapsBlock.Length];
+        for(int i=0;i<Block.Length;i++)
+        {
+            blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+        
+        }
+        for(int i=0;i<CollapsBlock.Length; i++)
+        {
+            collapsblockposition[i] = MainCamera.WorldToScreenPoint(CollapsBlock[i].transform.position);
+          
+        }
+        v1 = (Vector2)blockposition[0];
+        v2 = (Vector2)collapsblockposition[0];
+        Debug.Log(Vector3.Distance(blockposition[0], collapsblockposition[0]));
+        Debug.Log(Vector2.Distance(v1, v2));
+
+        for (int CollapsCount = 0; CollapsCount < CollapsBlock.Length; CollapsCount++) 
+        {
+            for (int BlockCount = 0; BlockCount < Block.Length; BlockCount++) 
             {
                 for (int k=0;k<6;k++)
                 {
-                    ck[k] = CollapsBlock[i].transform.GetChild(k).gameObject;
+                    ck[k] = CollapsBlock[CollapsCount].transform.GetChild(k).gameObject;
                     ckvec[k] = MainCamera.WorldToScreenPoint(ck[k].transform.position);
+                    ckvec2[k] = (Vector2)ckvec[k];
                     for (int l = 0; l < 6;l++)
                     {
-                        bk[l] = Block[j].transform.GetChild(l).gameObject;   
+                        bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
                         bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);
-                        if(Vector3.Distance(ckvec[k],bkvec[l])<5.0f)
+                        bkvec2[l] = (Vector2)bkvec2[l];
+                        
+                        if(Vector3.Distance(ckvec[k],bkvec[l])<DefineScript.JUDGE_DISTANCE)
                         {
-                            Block[j].gameObject.GetComponent<Blocks>().BurnFlg = true;
-                            Block[j].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-                            CollapsBlock[i].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-                            CollapsBlock[i].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
+        
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
                         }
 
                     }
@@ -93,24 +99,23 @@ public class GameMain : MonoBehaviour {
             }
            
         }
-
-
-        //if (Vector3.Distance(bkvec[(int)DefineScript.CollisionIndex.Right],ckvec[(int)DefineScript.CollisionIndex.Left])<5.0f)
-        //{
-
-        //        Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-        //        Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-
-        //        CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-        //        CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-
-        //}
-
-        Debug.Log(bkvec[(int)DefineScript.CollisionIndex.Top]);
-        Debug.Log(ckvec[(int)DefineScript.CollisionIndex.Top]);
-
+        
 
 
     }
 
 }
+//for (int m = 0; m < Block.Length; m++)
+//{
+//    if (bkvec[l].z >= bkvec[m].z &&
+//       Vector3.Distance(blockposition[BlockCount],blockposition[l]) < 1.0f 
+//       )
+//    {
+//        z = true;
+//        break;
+//    }
+//}
+//if (z == true)
+//{
+//    break;
+//}
