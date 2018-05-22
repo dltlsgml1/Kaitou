@@ -10,24 +10,17 @@ public class GameMain : MonoBehaviour {
     public GameObject[] CollapsBlock = new GameObject[10];
     public GameObject[] WetBlock = new GameObject[10];
     public Camera MainCamera;
-    public GameObject Box;
-    Ray ray1, ray2;
 
-    public int BlocksCount =0;
 
+    public int CollapsBlockCount = 0;
+    public int BlocksCount = 0;
     public int NowStage = 0;
+
 	void Start ()
     {
         StageLoader = gameObject.AddComponent<LoadMainStages>();
         StageLoader.LoadStage();
         SetStage(NowStage);
-        //for(int i=0;i<5;i++)
-        //{
-        //    if(Block[i]!=null)
-        //    {
-        //        BlocksCount++;
-        //    }
-        //}
 	}
 	
     public void SetStage(int NowStage)
@@ -38,113 +31,88 @@ public class GameMain : MonoBehaviour {
         Block = GameObject.FindGameObjectsWithTag("NormalBlock");
         CollapsBlock = GameObject.FindGameObjectsWithTag("CollapseBlock");
         WetBlock = GameObject.FindGameObjectsWithTag("WetBlock");
-
+        
     }
 
     
-
-	// Update is called once per frame
+    
 	void Update ()
     {
-
-        
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-        //    Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-
-
-        //}
-
-
+       
         Atari();
     }
 
     void Atari()
     {
-        Mesh CollapsMesh = CollapsBlock[0].GetComponent<MeshFilter>().mesh;
-        Mesh BlockMesh = Block[0].GetComponent<MeshFilter>().mesh;
 
-        Vector3[] CollapsVertices = CollapsMesh.vertices;
-        Vector3[] BlockVertices = BlockMesh.vertices;
+        bool IsOveraped=false;
 
 
-        for(int i=0;i<8;i++)
+        GameObject[] bk = new GameObject[10];
+        GameObject[] ck = new GameObject[10];
+        Vector3[] bkvec = new Vector3[6];
+        Vector3[] ckvec = new Vector3[6];
+        Vector3[] blockposition = new Vector3[Block.Length];
+        Vector3[] collapsblockposition = new Vector3[CollapsBlock.Length];
+        for(int i=0;i<Block.Length;i++)
         {
-            CollapsVertices[i] = MainCamera.WorldToScreenPoint(CollapsVertices[i]);
-            BlockVertices[i] = MainCamera.WorldToScreenPoint(BlockVertices[i]);
-
+            blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);    
+        }
+        for(int i=0;i<CollapsBlock.Length; i++)
+        {
+            collapsblockposition[i] = MainCamera.WorldToScreenPoint(CollapsBlock[i].transform.position);
+          
         }
 
-        if(
-            Vector3.Distance(CollapsVertices[3],BlockVertices[2])<15.0f &&
-            Vector3.Distance(CollapsVertices[5],BlockVertices[4])<15.0f &&
-            Vector3.Distance(CollapsVertices[7],BlockVertices[6])<15.0f &&
-            Vector3.Distance(CollapsVertices[1],BlockVertices[0])<15.0f 
-            )
+      
+
+        for (int CollapsCount = 0; CollapsCount < CollapsBlock.Length; CollapsCount++) 
         {
-            Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-            Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
+            for (int BlockCount = 0; BlockCount < Block.Length; BlockCount++) 
+            {
+                for (int k=0;k<6;k++)
+                {
+                    ck[k] = CollapsBlock[CollapsCount].transform.GetChild(k).gameObject;
+                    ckvec[k] = MainCamera.WorldToScreenPoint(ck[k].transform.position);
+                    
+                    for (int l = 0; l < 6;l++)
+                    {
+                        bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
+                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);       
+                        if(Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
+                        {
+                            for (int m = 0; m < Block.Length; m++)
+                            {
+                                if (Vector2.Distance((Vector2)blockposition[BlockCount], (Vector2)blockposition[m]) < 1.0f
+                                    && BlockCount!=m)
+                                {
+                                    if (blockposition[BlockCount].z > blockposition[m].z)
+                                    {
+                                        IsOveraped = true;
+                                        break;
+                                    }
+                                }
+                            }
 
-            CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-            CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
+                            if (IsOveraped==true)
+                            {
+                                IsOveraped = false;
+                                continue;
+                            }
+
+                            Block[BlockCount].gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+
+                            //Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
+                            //Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
+                        }
+
+                    }
+                }
+            }
+           
         }
-        if (
-            Vector3.Distance(CollapsVertices[2], BlockVertices[3]) < 15.0f &&
-            Vector3.Distance(CollapsVertices[4], BlockVertices[5]) < 15.0f &&
-            Vector3.Distance(CollapsVertices[6], BlockVertices[7]) < 15.0f &&
-            Vector3.Distance(CollapsVertices[0], BlockVertices[1]) < 15.0f
-            )
-        {
-            Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-            Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
+        
 
-            CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-            CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-        }
-
-        //if (
-        //   Vector3.Distance(CollapsVertices[3], BlockVertices[5]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[2], BlockVertices[4]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[1], BlockVertices[7]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[0], BlockVertices[6]) < 1.0f
-        //   )
-        //{
-        //    Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-        //    Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-
-
-        //}
-        //if (
-        //   Vector3.Distance(CollapsVertices[3], BlockVertices[1]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[2], BlockVertices[0]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[5], BlockVertices[7]) < 1.0f &&
-        //   Vector3.Distance(CollapsVertices[4], BlockVertices[6]) < 1.0f
-        //   )
-        //{
-        //    Block[0].gameObject.GetComponent<Blocks>().BurnFlg = true;
-        //    Block[0].gameObject.GetComponent<Blocks>().SetBurn(Block[0]);
-
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().BurnFlg = true;
-        //    CollapsBlock[0].gameObject.GetComponent<CollapseBlock>().SetBurn(CollapsBlock[0]);
-
-
-        //}
-
-        Debug.Log(Vector3.Distance(CollapsVertices[4], BlockVertices[4]));
-        Debug.Log(CollapsVertices[4]);
-        Debug.Log(BlockVertices[4]);
-        Debug.Log(CollapsBlock[0].transform.position);
-        Debug.Log(Block[0].transform.position);
-        Debug.Log(MainCamera.WorldToScreenPoint(CollapsBlock[0].transform.position));
-        Debug.Log(MainCamera.WorldToScreenPoint(Block[0].transform.position));
 
     }
 
