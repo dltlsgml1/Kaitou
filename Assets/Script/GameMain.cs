@@ -11,8 +11,6 @@ public class GameMain : MonoBehaviour {
     public GameObject[] WetBlock = new GameObject[10];
     public Camera MainCamera;
 
-    public GameObject[] bk = new GameObject[10];
-    public GameObject[] ck = new GameObject[10];
 
     public int CollapsBlockCount = 0;
     public int BlocksCount = 0;
@@ -46,19 +44,19 @@ public class GameMain : MonoBehaviour {
 
     void Atari()
     {
-      
-       
+
+        bool IsOveraped=false;
+
+
+        GameObject[] bk = new GameObject[10];
+        GameObject[] ck = new GameObject[10];
         Vector3[] bkvec = new Vector3[6];
         Vector3[] ckvec = new Vector3[6];
-        Vector2[] bkvec2 = new Vector2[6];
-        Vector2[] ckvec2 = new Vector2[6];
-
         Vector3[] blockposition = new Vector3[Block.Length];
         Vector3[] collapsblockposition = new Vector3[CollapsBlock.Length];
         for(int i=0;i<Block.Length;i++)
         {
-            blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
-        
+            blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);    
         }
         for(int i=0;i<CollapsBlock.Length; i++)
         {
@@ -83,17 +81,29 @@ public class GameMain : MonoBehaviour {
                         bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);       
                         if(Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
                         {
-                            //Ray ray = MainCamera.ScreenPointToRay(blockposition[BlockCount]);
-                            //RaycastHit rayhit;
-                            //Physics.Raycast(ray, out rayhit);
-                            //if(rayhit.transform.gameObject != Block[BlockCount])
-                            //{
-                            //    continue;
-                            //}
+                            for (int m = 0; m < Block.Length; m++)
+                            {
+                                if (Vector2.Distance((Vector2)blockposition[BlockCount], (Vector2)blockposition[m]) < 1.0f
+                                    && BlockCount!=m)
+                                {
+                                    if (blockposition[BlockCount].z > blockposition[m].z)
+                                    {
+                                        IsOveraped = true;
+                                        break;
+                                    }
+                                }
+                            }
 
+                            if (IsOveraped==true)
+                            {
+                                IsOveraped = false;
+                                continue;
+                            }
 
-                            Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
-                            Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
+                            Block[BlockCount].gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+
+                            //Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
+                            //Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
                         }
 
                     }
