@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Sound
 {
     /// SEチャンネル数
-    const int SE_CHANNEL = 4;
+    const int SE_CHANNEL = 8;
 
     /// サウンド種別
     enum eType
@@ -248,6 +248,10 @@ public class Sound
     // サウンドファイル検索
     public static string SearchFilename(eSoundFilename filename)
     {
+        return GetInstance()._SearchFilename(filename);
+    }
+    string _SearchFilename(eSoundFilename filename)
+    {
         string str;
 
         switch(filename)
@@ -422,11 +426,11 @@ public class Sound
     }
 
     // ボリューム変更
-    public static bool SetVolumeSe(string key, float vol, int channel = -1)
+    public static bool SetVolumeSe(string key, float vol, int channel)
     {
         return GetInstance()._SetVolumeSe(key, vol, channel);
     }
-    bool _SetVolumeSe(string key, float vol, int channel = -1)
+    bool _SetVolumeSe(string key, float vol, int channel)
     {
         if (_poolSe.ContainsKey(key) == false)
         {
@@ -445,9 +449,129 @@ public class Sound
         }
         else
         {
-            // デフォルトで再生
-            var source = _GetAudioSource(eType.Se);
-            source.volume = vol;
+            return false;
+        }
+
+        return true;
+    }
+
+    // SEの停止
+    public static bool StopSe(string key, int channel)
+    {
+        return GetInstance()._StopSe(key, channel);
+    }
+    bool _StopSe(string key, int channel)
+    {
+        if (_poolSe.ContainsKey(key) == false)
+        {
+            // 対応するキーがない
+            return false;
+        }
+
+        // リソースの取得
+        var _data = _poolSe[key];
+
+        if (0 <= channel && channel < SE_CHANNEL)
+        {
+            // チャンネル指定
+            var source = _GetAudioSource(eType.Se, channel);
+            source.Stop();
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    // ループの設定
+    public static bool SetLoopFlgSe(string key, bool flg, int channel)
+    {
+        return GetInstance()._SetLoopFlgSe(key, flg, channel);
+    }
+    bool _SetLoopFlgSe(string key, bool flg, int channel)
+    {
+        if (_poolSe.ContainsKey(key) == false)
+        {
+            // 対応するキーがない
+            return false;
+        }
+
+        // リソースの取得
+        var _data = _poolSe[key];
+
+        if (0 <= channel && channel < SE_CHANNEL)
+        {
+            // チャンネル指定
+            var source = _GetAudioSource(eType.Se, channel);
+            source.loop = flg;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    // SEの一時停止
+    public static bool PauseSe(string key, int channel)
+    {
+        return GetInstance()._PauseSe(key, channel);
+    }
+    bool _PauseSe(string key, int channel)
+    {
+        if (_poolSe.ContainsKey(key) == false)
+        {
+            // 対応するキーがない
+            return false;
+        }
+
+        // リソースの取得
+        var _data = _poolSe[key];
+
+        if (0 <= channel && channel < SE_CHANNEL)
+        {
+            // チャンネル指定
+            var source = _GetAudioSource(eType.Se, channel);
+            source.Pause();
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    // SEの一時停止解除
+    public static bool UnPauseSe(string key, int channel)
+    {
+        return GetInstance()._UnPauseSe(key, channel);
+    }
+    bool _UnPauseSe(string key, int channel)
+    {
+        if (_poolSe.ContainsKey(key) == false)
+        {
+            // 対応するキーがない
+            return false;
+        }
+
+        // リソースの取得
+        var _data = _poolSe[key];
+
+        if (0 <= channel && channel < SE_CHANNEL)
+        {
+            // チャンネル指定
+            var source = _GetAudioSource(eType.Se, channel);
+            source.UnPause();
+        }
+        else
+        {
+            return false;
         }
 
         return true;
