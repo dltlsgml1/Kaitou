@@ -13,9 +13,9 @@ public class Title : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //マウスクリックで任意のシーン切り替え
-        if (Input.GetButtonDown("BButton"))
+        if (Input.GetMouseButtonDown(0))
         {
-            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+            SceneManager.LoadScene("StageSelect");
         }
 
     }
