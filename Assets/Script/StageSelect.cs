@@ -15,9 +15,15 @@ public class StageSelect : MonoBehaviour {
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     public float Distance = 15.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(0, 0, 0);
+    public int StageNum = 4;                //ステージの数(仮置き)
+    GameObject StageLoadObject;
+    StageLoad StageLoad;
+
 
     // Use this for initialization
     void Start () {
+        StageLoadObject = GameObject.Find("StagePrefab");
+        StageLoad = StageLoadObject.GetComponent<StageLoad>();
         RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
     }
 	
@@ -26,6 +32,7 @@ public class StageSelect : MonoBehaviour {
         StageSelectMoveFlag();      //ステージ移動フラグを立てる
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
+        TestSetPrefab();
         Transitions();              //遷移
     }
 
@@ -36,16 +43,20 @@ public class StageSelect : MonoBehaviour {
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Input.GetButton("LeftStick X"))
         {
-            if (Decision < -DefaultKey&&!TargetFlag)
+            if (StageID < StageNum)
+            {
+               
+                if (Decision > DefaultKey && !TargetFlag)
+                {
+                    StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
+                    LeftMoveFlag = true;
+                }
+            }
+            if (Decision < -DefaultKey && !TargetFlag)
             {
                 StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
                 RightMoveFlag = true;
             }
-            if (Decision > DefaultKey && !TargetFlag)
-            {
-                StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
-                LeftMoveFlag = true;
-            }           
         }
     }
 
@@ -110,6 +121,13 @@ public class StageSelect : MonoBehaviour {
             {
                 BackTitleFlag = true;
             }
+        }
+    }
+    public void TestSetPrefab()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            StageLoad.SetStagePrefab();
         }
     }
     public void Transitions()       //遷移

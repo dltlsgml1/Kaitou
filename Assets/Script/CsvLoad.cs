@@ -14,7 +14,7 @@ public class CsvLoad : MonoBehaviour {
 		public Nullable<int> StageID;       //CSVのステージID部分
 		public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
-        public Nullable<bool> ClearFlag;      //CSVのクリアチェック部分
+        public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
         public string StageTitle;             //CSVのTitle部分
     }
 	//実際のキャラデータ格納箇所
@@ -38,7 +38,7 @@ public class CsvLoad : MonoBehaviour {
 		StringReader sr = new StringReader (csv.text);
 		// ストリームリーダーをstringに変換
 		string strStream    = sr.ReadToEnd( );
-        Debug.Log(strStream.Length);
+        Debug.Log(sr);
 		// StringSplitOptionを設定(要はカンマとカンマに何もなかったら格納しないことにする)
 		System.StringSplitOptions option = StringSplitOptions.RemoveEmptyEntries;
 		// カンマ分けの準備(区分けする文字を設定する)
@@ -46,19 +46,22 @@ public class CsvLoad : MonoBehaviour {
         
         //行に分ける
         string [ ] lines = strStream.Split(new char [ ] { '\r', '\n' }, option);
-        Debug.Log(lines.Length);
+
         // 行数設定
         int h = lines.Length;
-        
+        //int h = 32;
+        Debug.Log("行数:" + h);
         // 列数設定
-		int w = lines[0].Split(spliter, option).Length;
-
-		// 返り値の2次元配列の要素数を設定
-		sdata = new string [h, w];
+        int w = lines[0].Split(spliter, option).Length;
+        //int w = 5;
+        Debug.Log("列数:" + w);
+        // 返り値の2次元配列の要素数を設定
+        sdata = new string [h, w];
 
 		// 行データを切り分けて,2次元配列へ変換する
 		for(int i = 0; i < h; i++)
 		{
+            Debug.Log("よくわからん:" + lines[i].Split(spliter, option));
 			string [ ] splitedData = lines [i].Split(spliter, option);
 
 			for(int j = 0; j < w; j++)
@@ -92,7 +95,7 @@ public class CsvLoad : MonoBehaviour {
                     StageID = int.Parse (arrays [i, 0]),
                     StageName = arrays [i, 1],
                     UpperCunt = int.Parse (arrays [i, 2]),
-                    ClearFlag = bool.Parse (arrays [i, 3]),
+                    ClearFlag = int.Parse (arrays [i, 3]),
                     StageTitle = arrays[i, 4],
                     
 				});
