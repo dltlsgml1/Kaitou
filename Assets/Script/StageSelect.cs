@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StageSelect : MonoBehaviour {
-
     public bool SelectStageFlag = false;    //ステージ選択決定
     public bool BackTitleFlag = false;      //タイトルに戻る判定
     public bool RightMoveFlag = false;      //右に移動するフラグ
@@ -14,19 +13,26 @@ public class StageSelect : MonoBehaviour {
     public int StageID;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
-    public float Speed = 15.0f;             //オブジェクト間の距離
+    public float Distance = 15.0f;             //オブジェクト間の距離
+    public Vector3 vector = new Vector3(0, 0, 0);
+    public int StageNum = 4;                //ステージの数(仮置き)
+    GameObject StageLoadObject;
+    StageLoad StageLoad;
 
-	// Use this for initialization
-	void Start () {
-		RB= GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
+
+    // Use this for initialization
+    void Start () {
+        StageLoadObject = GameObject.Find("StagePrefab");
+        StageLoad = StageLoadObject.GetComponent<StageLoad>();
+        RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
     }
 	
 	// Update is called once per frame
 	void Update () {
-
         StageSelectMoveFlag();      //ステージ移動フラグを立てる
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
+        TestSetPrefab();
         Transitions();              //遷移
     }
 
@@ -35,19 +41,22 @@ public class StageSelect : MonoBehaviour {
         float Decision;                                 //左右を判定用
         Vector3 pos = this.transform.position;          //オブジェクトのポジションを取る
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
-        if (Input.GetButtonDown("LeftStick X"))
+        if (Input.GetButton("LeftStick X"))
         {
-            if (Decision < -DefaultKey&&!TargetFlag)
+            if (StageID < StageNum)
+            {
+               
+                if (Decision > DefaultKey && !TargetFlag)
+                {
+                    StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
+                    LeftMoveFlag = true;
+                }
+            }
+            if (Decision < -DefaultKey && !TargetFlag)
             {
                 StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
                 RightMoveFlag = true;
             }
-            if (Decision > DefaultKey && !TargetFlag)
-            {
-                StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
-                LeftMoveFlag = true;
-            }
-            
         }
     }
 
@@ -58,22 +67,21 @@ public class StageSelect : MonoBehaviour {
             TargetPos = this.transform.position;
             if (RightMoveFlag)  //右に移動する場合
             {
-                TargetPos.x += Speed;
+                TargetPos.x += Distance;
             }
             if (LeftMoveFlag)   //左に移動する場合
             {
-                TargetPos.x -= Speed;
+                TargetPos.x -= Distance;
             }
             TargetFlag = true;          //移動範囲の設定が何度も起こらないようにフラグをたてて移動中にここに来ないように
             RB.isKinematic = false;
         }
-
-        Vector3 V = new Vector3(1, 0, 0);
+        
         if (LeftMoveFlag)
         {
             if (this.transform.position.x > TargetPos.x)
             {
-                RB.AddForce(-V);     //右に移動
+                RB.AddForce(-vector);     //右に移動
             }
             else
             {
@@ -83,16 +91,13 @@ public class StageSelect : MonoBehaviour {
                 TargetFlag = false;
             }
         }
-    
-
         if (RightMoveFlag)
         {
             if (this.transform.position.x < TargetPos.x)
             {
-                RB.AddForce(V);        //左に移動
+                RB.AddForce(vector);        //左に移動
 
             }
-
             else
             {
                 this.transform.position = TargetPos;
@@ -102,11 +107,10 @@ public class StageSelect : MonoBehaviour {
             }
         }
     }
-
     public void SelectStage()       //遊ぶステージの決定
     {
         float Decision;
-        if (Input.GetButtonDown("BButton"))
+        if (Input.GetButtonDown("BButton")&&!TargetFlag)
         {
             SelectStageFlag = true;
         }
@@ -118,9 +122,14 @@ public class StageSelect : MonoBehaviour {
                 BackTitleFlag = true;
             }
         }
-
     }
-
+    public void TestSetPrefab()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            StageLoad.SetStagePrefab();
+        }
+    }
     public void Transitions()       //遷移
     {
         if (SelectStageFlag)

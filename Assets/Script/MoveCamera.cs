@@ -80,7 +80,7 @@ public class MoveCamera : MonoBehaviour {
     }
     public void ParallelMove()      //平行移動関数
     {
-        ScreenPosition = transform.InverseTransformPoint(Position);
+        ScreenPosition = transform.InverseTransformPoint(Position); //ワールド座標をスクリーン座標に変換
        
 
         Key = 0;
@@ -111,7 +111,7 @@ public class MoveCamera : MonoBehaviour {
             }
         }
 
-        Position = transform.TransformPoint(ScreenPosition);
+        Position = transform.TransformPoint(ScreenPosition);    //スクリーン座標をワールド座標に変換
     }
 
     public void RotationCamera()    //カメラ回転関数
