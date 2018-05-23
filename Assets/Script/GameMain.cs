@@ -31,6 +31,8 @@ public class GameMain : MonoBehaviour {
         Block = GameObject.FindGameObjectsWithTag("NormalBlock");
         CollapsBlock = GameObject.FindGameObjectsWithTag("CollapseBlock");
         WetBlock = GameObject.FindGameObjectsWithTag("WetBlock");
+        BlocksCount = Block.Length;
+        CollapsBlockCount = CollapsBlock.Length;
         
     }
 
@@ -38,16 +40,16 @@ public class GameMain : MonoBehaviour {
     
 	void Update ()
     {
-       
-        Atari();
+
+        if (Atari() == true)
+        {
+            Debug.Log("Clear");
+        }
     }
 
-    void Atari()
+    bool Atari()
     {
-
         bool IsOveraped=false;
-
-
         GameObject[] bk = new GameObject[10];
         GameObject[] ck = new GameObject[10];
         Vector3[] bkvec = new Vector3[6];
@@ -63,8 +65,6 @@ public class GameMain : MonoBehaviour {
             collapsblockposition[i] = MainCamera.WorldToScreenPoint(CollapsBlock[i].transform.position);
           
         }
-
-      
 
         for (int CollapsCount = 0; CollapsCount < CollapsBlock.Length; CollapsCount++) 
         {
@@ -93,17 +93,18 @@ public class GameMain : MonoBehaviour {
                                     }
                                 }
                             }
-
                             if (IsOveraped==true)
                             {
                                 IsOveraped = false;
                                 continue;
                             }
-
-                            Block[BlockCount].gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-
-                            //Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
-                            //Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
+                            if (Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg == false) 
+                            {
+                                BlocksCount--;
+                            }
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
+                          
                         }
 
                     }
@@ -113,7 +114,11 @@ public class GameMain : MonoBehaviour {
         }
         
 
-
+        if(BlocksCount==0)
+        {
+            return true;
+        }
+        return false;
     }
 
 }
