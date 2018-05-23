@@ -31,34 +31,26 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.z = 0;
         Position = this.transform.position;
     }
-<<<<<<< HEAD
-	
-	// Update is called once per frame
-	void Update () {
-        ChangeSpeed();
-=======
 
     // Update is called once per frame
+    void Update() {
+        ChangeSpeed();
+    }
+    // Update is called once per frame
     void LateUpdate () {
->>>>>>> CreateCollision
         ParallelMove();
         RotationCamera();
         FormatDate();
         InputDate();
-<<<<<<< HEAD
         KeyDebug();
-=======
         
->>>>>>> CreateCollision
 	}
     public void ChangeSpeed()
     {
-<<<<<<< HEAD
         HiSpeedChangeFlag = false;
         LowSpeedChangeFlag = false;
         Key = Input.GetAxisRaw("SpeedChange");
         if(Key!=0)
-=======
         ScreenPosition = transform.InverseTransformPoint(Position);     //スクリーン座標に現在の座標の逆行列をセット
         //カメラのスクリーン座標変換
         if (Input.GetKey(KeyCode.D))
@@ -66,7 +58,6 @@ public class MoveCamera : MonoBehaviour {
             ScreenPosition.x -= MoveCameraSpeed;
         }
         if (Input.GetKey(KeyCode.A))
->>>>>>> CreateCollision
         {
             if (Key < DefaultKey)
             {
