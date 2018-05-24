@@ -10,6 +10,7 @@ public class GameMain : MonoBehaviour {
     public GameObject[] CollapsBlock = new GameObject[10];
     public GameObject[] WetBlock = new GameObject[10];
     public Camera MainCamera;
+  
 
 
     public int CollapsBlockCount = 0;
