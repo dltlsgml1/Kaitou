@@ -15,20 +15,20 @@ public class Blocks : MonoBehaviour {
 
     //public GameObject StandardTexture;
     //public GameObject BurnTexture;
+
     public Material StandardMaterial;
     public Material BurnMaterial;
-    public bool BurnFlg;
+    public bool BurnFlg = false;
     public bool StartBlockFlg;
 
     // Use this for initialization
     void Start () {
         this.GetComponent<MeshRenderer>().material.color = Color.yellow;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-
+        if(StartBlockFlg == true)
+        {
+            BurnFlg = true;
+            this.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
         
 	}
 
@@ -37,24 +37,6 @@ public class Blocks : MonoBehaviour {
         Obj.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
-    // マテリアルの変更
-    private void ChangeMaterial(Material mat)
-    {
-        this.GetComponent<Renderer>().material = mat;
-    }
 
-    // マテリアルの初期化
-    protected void InitMaterial()
-    {
-        if (StartBlockFlg)
-        {
-            BurnFlg = true;
-            this.GetComponent<Renderer>().material = BurnMaterial;
-        }
-        else
-        {
-            this.GetComponent<Renderer>().material = StandardMaterial;
-        }
 
-    }
 }
