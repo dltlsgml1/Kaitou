@@ -71,6 +71,28 @@ public class GameMain : MonoBehaviour {
         {
             for (int BlockCount = 0; BlockCount < Block.Length; BlockCount++) 
             {
+
+                Mesh mesh = Block[BlockCount].GetComponent<MeshFilter>().mesh;
+                Vector3[] vertices = mesh.vertices;
+
+                Vector3 side1 = vertices[3] - vertices[1];
+                Vector3 side2 = vertices[5] - vertices[1];
+                Vector3 normal = Vector3.Cross(side1, side2);
+                normal = Vector3.Normalize(normal);
+                Debug.DrawRay(Block[BlockCount].transform.position, normal*100, Color.red);
+                Ray ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
+                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+                Vector3 side3 = ray.direction - ray.origin;
+                float dot = Vector3.Dot(normal, side3);
+                if (dot < 0.0f)
+                {
+                    Debug.Log("向いてる");
+                }
+                else
+                {
+                    Debug.Log("向いてない");
+                }
+
                 for (int k=0;k<6;k++)
                 {
                     ck[k] = CollapsBlock[CollapsCount].transform.GetChild(k).gameObject;
@@ -79,11 +101,19 @@ public class GameMain : MonoBehaviour {
                     for (int l = 0; l < 6;l++)
                     {
                         bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
-                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);       
-                        if(Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
+                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position);
+                       
+                        
+
+                        if (Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
                         {
                             for (int m = 0; m < Block.Length; m++)
                             {
+                                
+
+
+
+
                                 if (Vector2.Distance((Vector2)blockposition[BlockCount], (Vector2)blockposition[m]) < 1.0f
                                     && BlockCount!=m)
                                 {

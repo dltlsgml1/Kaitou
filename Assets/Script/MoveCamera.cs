@@ -75,7 +75,7 @@ public class MoveCamera : MonoBehaviour {
        
 
         Key = 0;
-        Key = Input.GetAxisRaw("RightStick X");
+        Key = Input.GetAxisRaw("RightStick X");  
         if (Key != 0)
         {
             if (Key < DefaultKey)
