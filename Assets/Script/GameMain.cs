@@ -7,16 +7,16 @@ public class GameMain : MonoBehaviour {
     public LoadMainStages StageLoader;
     public GameObject NowStageObj;
     public GameObject[] Block = new GameObject[10];
-    public GameObject[] CollapsBlock = new GameObject[10];
-    public GameObject[] WetBlock = new GameObject[10];
     public Camera MainCamera;
     Vector3 side1;
     Vector3 side2;
-
+    GameObject[] CollapsBocks = new GameObject[10];
+    GameObject[,] CollapsPlane = new GameObject[10,6];
 
 
     public int CollapsBlockCount = 0;
     public int BlocksCount = 0;
+    public int CollapsCount = 0;
     public int NowStage = 0;
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
@@ -34,18 +34,27 @@ public class GameMain : MonoBehaviour {
         TempStage = StageLoader.GetStage(NowStage);
         NowStageObj = TempStage;
         Block = GameObject.FindGameObjectsWithTag("NormalBlock");
-        WetBlock = GameObject.FindGameObjectsWithTag("WetBlock");
-        
-        CollapsBlockCount = CollapsBlock.Length;
         
 
+        for(int i=0;i<Block.Length;i++)
+        {
+            if (Block[i].GetComponent<Blocks>().BurnFlg == false)
+            {
+                BlocksCount++;
+            }
+            for(int j=0;j<6;j++)
+            {
+                CollapsPlane[i, j] = Block[i].transform.GetChild(j).gameObject;
+            }
+            
+        }
+      
     }
 
     
     
 	void Update ()
     {
-
         if (Atari() == true)
         {
             Debug.Log("Clear");
@@ -54,13 +63,25 @@ public class GameMain : MonoBehaviour {
 
     bool Atari()
     {
+        for(int i=0,j=0;i<Block.Length;i++)
+        {
+            if (Block[i].GetComponent<Blocks>().BurnFlg == true &&
+                Block[i].GetComponent<Blocks>().BurnChecked == false)
+            {
+                Block[i].GetComponent<Blocks>().BurnChecked = true;
+                CollapsBocks[j] = Block[i];
+                j++;
+                CollapsCount++;
+            }
+        }
+        
+
+
         bool IsOveraped=false;
         GameObject[] bk = new GameObject[10];
-        GameObject[] ck = new GameObject[10];
         Vector3[] bkvec = new Vector3[6];
         Vector3[] ckvec = new Vector3[6];
         Vector3[] blockposition = new Vector3[Block.Length];
-        Vector3[] collapsblockposition = new Vector3[CollapsBlock.Length];
         for(int i=0;i<Block.Length;i++)
         {
             blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);    
@@ -68,20 +89,13 @@ public class GameMain : MonoBehaviour {
        
         Ray ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
-        for (int CollapsCount = 0; CollapsCount < CollapsBlock.Length; CollapsCount++) 
-        {
-            Mesh CollapsMesh = CollapsBlock[CollapsCount].GetComponent<MeshFilter>().mesh;
-            Vector3[] CollapsVertices = CollapsMesh.vertices;
+       for(int CollapsCount = 0; )
             for (int BlockCount = 0; BlockCount < Block.Length; BlockCount++) 
             {
                 Mesh BlockMesh = Block[BlockCount].GetComponent<MeshFilter>().mesh;
-                Vector3[] BlockVertices = BlockMesh.vertices;
-                
+                Vector3[] BlockVertices = BlockMesh.vertices;  
                 for (int k=0;k<6;k++)
                 {
-                    ck[k] = CollapsBlock[CollapsCount].transform.GetChild(k).gameObject;
-                    ckvec[k] = MainCamera.WorldToScreenPoint(ck[k].transform.position);
-                    IsVisibleCollaps = IsVisibleFromCamera(k, CollapsVertices, ray);
                     for (int l = 0; l < 6;l++)
                     {
                         bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
@@ -91,21 +105,7 @@ public class GameMain : MonoBehaviour {
 
                         if (Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
                         {
-                            if(IsVisibleBlock==false)
-                            {
-                                if(blockposition[BlockCount].z>collapsblockposition[CollapsCount].z)
-                                {
-                                    continue;
-                                }
-                            }
-
-                            if (IsVisibleCollaps == false)
-                            {
-                                if (blockposition[BlockCount].z < collapsblockposition[CollapsCount].z)
-                                {
-                                    continue;
-                                }
-                            }
+                           
 
                             //for (int m = 0; m < Block.Length; m++)
                             //{
@@ -138,7 +138,7 @@ public class GameMain : MonoBehaviour {
                 }
             }
            
-        }
+        
         
 
         if(BlocksCount==0)
@@ -193,7 +193,6 @@ public class GameMain : MonoBehaviour {
         float dot = Vector3.Dot(normal, side3);
         if (dot < 0.0f)
         {
-            Debug.Log(i);
             return true;
         }
         else

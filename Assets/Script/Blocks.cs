@@ -19,6 +19,7 @@ public class Blocks : MonoBehaviour {
     public Material StandardMaterial;
     public Material BurnMaterial;
     public bool BurnFlg = false;
+    public bool BurnChecked = false;
     public bool StartBlockFlg;
 
     // Use this for initialization
