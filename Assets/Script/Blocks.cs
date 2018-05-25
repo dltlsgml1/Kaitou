@@ -15,6 +15,8 @@ public class Blocks : MonoBehaviour {
 
     //public GameObject StandardTexture;
     //public GameObject BurnTexture;
+
+    public GameObject SetFire;
     public Material StandardMaterial;
     public Material BurnMaterial;
     public bool BurnFlg;
@@ -34,6 +36,11 @@ public class Blocks : MonoBehaviour {
 
     public void SetBurn(GameObject Obj)
     {
+        //エフェクト操作
+        SetFire.gameObject.SetActive(true);
+        SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
+                                                            this.transform.position.y+0.5f,
+                                                            this.transform.position.z);
         Obj.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 

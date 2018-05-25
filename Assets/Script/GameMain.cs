@@ -100,10 +100,9 @@ public class GameMain : MonoBehaviour {
                                 continue;
                             }
 
-                            Block[BlockCount].gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
 
-                            //Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
-                            //Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
+                            Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
                         }
 
                     }

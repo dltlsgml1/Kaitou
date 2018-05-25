@@ -13,6 +13,10 @@ public class CollapseBlock : Blocks {
     private void Start()
     {
         gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+        SetFire.gameObject.SetActive(true);
+        SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
+                                                            this.transform.position.y+0.5f,
+                                                            this.transform.position.z);
     }
     public void SetDeleteFlag(bool flag)
     {
