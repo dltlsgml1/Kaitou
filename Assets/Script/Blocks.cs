@@ -21,6 +21,8 @@ public class Blocks : MonoBehaviour {
     public bool BurnFlg = false;
     public bool BurnChecked = false;
     public bool StartBlockFlg;
+    public int NormalIndex;
+    public int CollapsIndex;
 
     // Use this for initialization
     void Start () {

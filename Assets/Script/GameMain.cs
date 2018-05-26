@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+public struct Plane
+{
+    Vector3 Position;
+    Collaps Planes;
+}
+public struct Collaps
+{
+    Vector3 Top;
+    Vector3 Bot;
+    Vector3 R;
+    Vector3 L;
+    Vector3 F;
+    Vector3 B;
+}
+
 public class GameMain : MonoBehaviour {
     public LoadMainStages StageLoader;
     public GameObject NowStageObj;
@@ -11,15 +27,32 @@ public class GameMain : MonoBehaviour {
     Vector3 side1;
     Vector3 side2;
     GameObject[] CollapsBocks = new GameObject[10];
+    GameObject[] NormalBlocks = new GameObject[10];
+    GameObject[,] Plane = new GameObject[10,6];
     GameObject[,] CollapsPlane = new GameObject[10,6];
+    GameObject[,] NormalPlain = new GameObject[10, 6];
 
 
-    public int CollapsBlockCount = 0;
+    Vector3[,] PlaneVector= new Vector3[10,6];
+    Vector3[,] NormalPlaneVector= new Vector3[10,6];
+    Vector3[,] CollapsPlaneVector= new Vector3[10,6];
+  
+
+
+
+    Vector3[] CollapsBlockPosition = new Vector3[10];
+    Vector3[] NormalBlockPosition = new Vector3[10];
+    Vector3[] BlockPosition = new Vector3[10];
+
+
+    
     public int BlocksCount = 0;
     public int CollapsCount = 0;
+    public int NormalCount = 0;
     public int NowStage = 0;
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
+    public bool PlaneCollaps = false;
 
 	void Start ()
     {
@@ -36,18 +69,7 @@ public class GameMain : MonoBehaviour {
         Block = GameObject.FindGameObjectsWithTag("NormalBlock");
         
 
-        for(int i=0;i<Block.Length;i++)
-        {
-            if (Block[i].GetComponent<Blocks>().BurnFlg == false)
-            {
-                BlocksCount++;
-            }
-            for(int j=0;j<6;j++)
-            {
-                CollapsPlane[i, j] = Block[i].transform.GetChild(j).gameObject;
-            }
-            
-        }
+        
       
     }
 
@@ -55,6 +77,22 @@ public class GameMain : MonoBehaviour {
     
 	void Update ()
     {
+
+        for (int i = 0; i < Block.Length; i++)
+        {
+            BlockPosition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+            if (Block[i].GetComponent<Blocks>().BurnFlg == false)
+            {
+                BlocksCount++;
+            }
+            for (int j = 0; j < 6; j++)
+            {
+                Plane[i, j] = Block[i].transform.GetChild(j).gameObject;
+                PlaneVector[i, j] = Plane[i, j].transform.position;
+                PlaneVector[i, j] = MainCamera.WorldToScreenPoint(PlaneVector[i, j]);
+              
+            }
+        }
         if (Atari() == true)
         {
             Debug.Log("Clear");
@@ -63,87 +101,112 @@ public class GameMain : MonoBehaviour {
 
     bool Atari()
     {
-        for(int i=0,j=0;i<Block.Length;i++)
+        NormalCount = 0;
+        CollapsCount = 0;
+
+        for(int i=0,j=0,k=0;i<Block.Length;i++)
         {
-            if (Block[i].GetComponent<Blocks>().BurnFlg == true &&
-                Block[i].GetComponent<Blocks>().BurnChecked == false)
+            Blocks b = Block[i].GetComponent<Blocks>();
+            if (Block[i].GetComponent<Blocks>().BurnFlg == true)
             {
-                Block[i].GetComponent<Blocks>().BurnChecked = true;
+  
                 CollapsBocks[j] = Block[i];
+                CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+                Block[i].GetComponent<Blocks>().CollapsIndex = i;
+                for(int l=0;l<6;l++)
+                {
+                    CollapsPlaneVector[j, l] = PlaneVector[i, l];
+                }
                 j++;
                 CollapsCount++;
             }
-        }
-        
-
-
-        bool IsOveraped=false;
-        GameObject[] bk = new GameObject[10];
-        Vector3[] bkvec = new Vector3[6];
-        Vector3[] ckvec = new Vector3[6];
-        Vector3[] blockposition = new Vector3[Block.Length];
-        for(int i=0;i<Block.Length;i++)
-        {
-            blockposition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);    
-        }
-       
-        Ray ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
-
-       for(int CollapsCount = 0; )
-            for (int BlockCount = 0; BlockCount < Block.Length; BlockCount++) 
+            if(Block[i].GetComponent<Blocks>().BurnFlg == false)
             {
-                Mesh BlockMesh = Block[BlockCount].GetComponent<MeshFilter>().mesh;
-                Vector3[] BlockVertices = BlockMesh.vertices;  
-                for (int k=0;k<6;k++)
+                NormalBlocks[k] = Block[i];
+                NormalBlockPosition[k] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+                Block[i].GetComponent<Blocks>().NormalIndex = i;
+                for (int l = 0; l < 6; l++)
                 {
-                    for (int l = 0; l < 6;l++)
-                    {
-                        bk[l] = Block[BlockCount].transform.GetChild(l).gameObject;   
-                        bkvec[l] = MainCamera.WorldToScreenPoint(bk[l].transform.position); 
-                        IsVisibleBlock = IsVisibleFromCamera(l, BlockVertices, ray);
-                       
-
-                        if (Vector2.Distance((Vector2)ckvec[k],(Vector2)bkvec[l])<DefineScript.JUDGE_DISTANCE)
-                        {
-                           
-
-                            //for (int m = 0; m < Block.Length; m++)
-                            //{
-
-                            //    if (Vector2.Distance((Vector2)blockposition[BlockCount], (Vector2)blockposition[m]) < 1.0f
-                            //        && BlockCount!=m)
-                            //    {
-                            //        if (blockposition[BlockCount].z > blockposition[m].z)
-                            //        {
-                            //            IsOveraped = true;
-                            //            break;
-                            //        }
-                            //    }
-                            //}
-                            //if (IsOveraped==true)
-                            //{
-                            //    IsOveraped = false;
-                            //    continue;
-                            //}
-                            if (Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg == false) 
-                            {
-                                BlocksCount--;
-                            }
-                            Block[BlockCount].gameObject.GetComponent<Blocks>().BurnFlg = true;
-                            Block[BlockCount].gameObject.GetComponent<Blocks>().SetBurn(Block[BlockCount]);
-                          
-                        }
-
-                    }
+                    NormalPlaneVector[k, l] = PlaneVector[i, l];
                 }
+                NormalCount++;
+                k++;       
             }
-           
-        
-        
 
-        if(BlocksCount==0)
+        }
+
+        //for(int i=0;i<6;i++)
+        //{
+        //    Debug.Log(NormalPlaneVector[0, i]);
+        //    Debug.Log(CollapsPlaneVector[0, i]);
+        //}
+        //bool IsOveraped=false;
+        //Ray ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
+
+        for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
         {
-            return true;
+            Mesh CollapsMesh = CollapsBocks[CollapsNow].GetComponent<MeshFilter>().mesh;
+            Vector3[] CollapsVertices = CollapsMesh.vertices;
+            for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
+            {
+               
+                Mesh BlockMesh = Block[BlockNow].GetComponent<MeshFilter>().mesh;
+                Vector3[] BlockVertices = BlockMesh.vertices;
+
+                if (Vector2.Distance(NormalPlaneVector[BlockNow,(int)DefineScript.CollisionIndex.Top],
+                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Bottom])
+                    <DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+                if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Bottom],
+                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Top])
+                    < DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+                if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Left],
+                   CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Right])
+                   < DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+                if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Right],
+                   CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Left])
+                   < DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+                if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Front],
+                   CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Back])
+                   < DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+                if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Back],
+                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Front])
+                    < DefineScript.JUDGE_DISTANCE)
+                {
+                    PlaneCollaps = true;
+                }
+
+                
+
+                if(PlaneCollaps==true)
+                { 
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn(NormalBlocks[BlockNow]);
+                    PlaneCollaps = false;
+                }
+
+
+            }
+
+
+            if (NormalCount == 0)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -184,8 +247,6 @@ public class GameMain : MonoBehaviour {
                 break;
         }
 
-
-        
         Vector3 side3 = CameraRay.direction - CameraRay.origin;
 
         normal = Vector3.Cross(side1, side2);
@@ -201,4 +262,32 @@ public class GameMain : MonoBehaviour {
         }
     }
 
+    bool Collaps(Vector3[] NormalPlaneVector,Vector3[] CollapsPlainVector)
+    {
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Top], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Bottom]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Bottom], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Top]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Right], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Left]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Left], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Right]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Front], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Back]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Back], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Front]) < DefineScript.JUDGE_DISTANCE)
+        {
+            return true;
+        }
+        return false;
+    }
 }

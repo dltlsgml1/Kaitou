@@ -18,8 +18,8 @@ public class MoveCamera : MonoBehaviour {
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
     public float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
     public float ChangeSpeedFast = 3.0f;        //スピードチェンジ時の速さ(早い時)
-    public float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
-    public float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
+    public float MoveCameraSpeed = 0.05f;        //平行移動時のスピード
+    public float RotationCameraSpeed = 0.05f;    //カメラ回転のスピード
     
     // Use this for initialization
     void Start() {
