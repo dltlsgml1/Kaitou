@@ -106,13 +106,11 @@ public class GameMain : MonoBehaviour {
 
         for(int i=0,j=0,k=0;i<Block.Length;i++)
         {
-            Blocks b = Block[i].GetComponent<Blocks>();
             if (Block[i].GetComponent<Blocks>().BurnFlg == true)
             {
   
                 CollapsBocks[j] = Block[i];
                 CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
-                Block[i].GetComponent<Blocks>().CollapsIndex = i;
                 for(int l=0;l<6;l++)
                 {
                     CollapsPlaneVector[j, l] = PlaneVector[i, l];
@@ -124,7 +122,6 @@ public class GameMain : MonoBehaviour {
             {
                 NormalBlocks[k] = Block[i];
                 NormalBlockPosition[k] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
-                Block[i].GetComponent<Blocks>().NormalIndex = i;
                 for (int l = 0; l < 6; l++)
                 {
                     NormalPlaneVector[k, l] = PlaneVector[i, l];
@@ -135,12 +132,7 @@ public class GameMain : MonoBehaviour {
 
         }
 
-        //for(int i=0;i<6;i++)
-        //{
-        //    Debug.Log(NormalPlaneVector[0, i]);
-        //    Debug.Log(CollapsPlaneVector[0, i]);
-        //}
-        //bool IsOveraped=false;
+        
         Ray ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
@@ -153,17 +145,20 @@ public class GameMain : MonoBehaviour {
                 Mesh BlockMesh = Block[BlockNow].GetComponent<MeshFilter>().mesh;
                 Vector3[] BlockVertices = BlockMesh.vertices;
                 IsVisibleCollaps = IsVisibleFromCamera((int)DefineScript.CollisionIndex.Top, CollapsVertices, ray);
-                Debug.Log(IsVisibleCollaps);
                 if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Top],
                     CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Bottom])
                     < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Bottom, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                     else
@@ -171,6 +166,10 @@ public class GameMain : MonoBehaviour {
                         if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
 
@@ -179,12 +178,16 @@ public class GameMain : MonoBehaviour {
                     CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Top])
                     < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+                   
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Top, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                     else
@@ -192,6 +195,10 @@ public class GameMain : MonoBehaviour {
                         if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
 
@@ -200,13 +207,17 @@ public class GameMain : MonoBehaviour {
                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Right])
                    < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+                   
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Right, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
                         }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
+                        }
                     }
                     else
                     {
@@ -214,26 +225,38 @@ public class GameMain : MonoBehaviour {
                         {
                             PlaneCollaps = false;
                         }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
+                        }
                     }
-                    PlaneCollaps = true;
+                    
                 }
                 if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Right],
                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Left])
                    < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+                    
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Left, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
                         }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
+                        }
                     }
                     else
                     {
                         if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                 }
@@ -241,12 +264,16 @@ public class GameMain : MonoBehaviour {
                    CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Back])
                    < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+                  
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Back, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                     else
@@ -254,6 +281,10 @@ public class GameMain : MonoBehaviour {
                         if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                 }
@@ -261,12 +292,16 @@ public class GameMain : MonoBehaviour {
                     CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Front])
                     < DefineScript.JUDGE_DISTANCE)
                 {
-                    PlaneCollaps = true;
+                   
                     if (IsVisibleFromCamera((int)DefineScript.CollisionIndex.Front, CollapsVertices, ray))
                     {
                         if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = Block[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                     else
@@ -274,6 +309,10 @@ public class GameMain : MonoBehaviour {
                         if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                         {
                             PlaneCollaps = false;
+                        }
+                        else
+                        {
+                            PlaneCollaps = Block[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                 }

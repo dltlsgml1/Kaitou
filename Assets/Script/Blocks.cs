@@ -19,10 +19,8 @@ public class Blocks : MonoBehaviour {
     public Material StandardMaterial;
     public Material BurnMaterial;
     public bool BurnFlg = false;
-    public bool BurnChecked = false;
     public bool StartBlockFlg;
-    public int NormalIndex;
-    public int CollapsIndex;
+    public float BurnCnt;
 
     // Use this for initialization
     void Start () {
@@ -40,6 +38,18 @@ public class Blocks : MonoBehaviour {
         Obj.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
+    public bool Burning()
+    {
+        BurnCnt += 0.05f;
+        if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME) 
+        {
+            BurnCnt = 0.0f;
+            return true;
+        }
 
+        Debug.Log(BurnCnt);
+        Debug.Log(this.gameObject);
+        return false;
+    }
 
 }
