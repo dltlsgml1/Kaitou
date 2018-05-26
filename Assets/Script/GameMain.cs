@@ -37,9 +37,6 @@ public class GameMain : MonoBehaviour {
     Vector3[,] NormalPlaneVector= new Vector3[10,6];
     Vector3[,] CollapsPlaneVector= new Vector3[10,6];
   
-
-
-
     Vector3[] CollapsBlockPosition = new Vector3[10];
     Vector3[] NormalBlockPosition = new Vector3[10];
     Vector3[] BlockPosition = new Vector3[10];
@@ -387,34 +384,5 @@ public class GameMain : MonoBehaviour {
         {
             return false;
         }
-    }
-
-    bool Collaps(Vector3[] NormalPlaneVector,Vector3[] CollapsPlainVector)
-    {
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Top], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Bottom]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Bottom], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Top]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Right], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Left]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Left], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Right]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Front], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Back]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Back], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Front]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        return false;
     }
 }
