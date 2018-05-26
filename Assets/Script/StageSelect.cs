@@ -127,7 +127,7 @@ public class StageSelect : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            StageLoad.SetStagePrefab();
+            StageLoad.SetStagePrefab(StageID + 1);
         }
     }
     public void Transitions()       //遷移
