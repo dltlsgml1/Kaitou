@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapScript : MonoBehaviour {
+    public Vector3 MapPosition;
+    
 
 	// Use this for initialization
 	void Start () {

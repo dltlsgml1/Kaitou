@@ -13,8 +13,8 @@ public class StageSelect : MonoBehaviour {
     public int StageID;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
-    public float Distance = 15.0f;             //オブジェクト間の距離
-    public Vector3 vector = new Vector3(0, 0, 0);
+    private float Distance = 14.0f;             //オブジェクト間の距離
+    public Vector3 vector = new Vector3(5, 0, 0);
     public int StageNum = 4;                //ステージの数(仮置き)
     GameObject StageLoadObject;
     StageLoad StageLoad;
