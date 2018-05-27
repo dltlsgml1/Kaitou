@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour {
     public Camera MainCamera;
     public Camera Background;
+    public Pause pause;              //ポーズスクリプト宣言
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
@@ -30,7 +31,8 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.y = 0;
         FormatRotation.z = 0;
         Position = this.transform.position;
-    }
+        this.pause = GameObject.Find("CameraObejct/Main Camera").GetComponent<Pause>();//ポーズスクリプト呼び出し
+       }
 
     // Update is called once per frame
     void Update() {
@@ -38,6 +40,10 @@ public class MoveCamera : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
+        if (this.pause.is_pause)    //ポーズ中ゲーム維持　時間停止
+        {
+            return;
+        }
         ParallelMove();
         RotationCamera();
         FormatDate();

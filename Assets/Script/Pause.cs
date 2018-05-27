@@ -1,173 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.SceneManagement;
 
 
 public class Pause : MonoBehaviour {
 
-    enum PouseState { Back, Restart, Stageselect };
-    PouseState state;
-    int move = 0;
-    float outside = 20.0f;
-    //GameObject Cursor = GameObject.Find("Pause_Cursor");
-    //GameObject Cursor = GameObject.Find("/Pouse/Pause_Cursor");
-    //GameObject.Find("/UI Root/MyPanel/Label") as GameObject;
-    GameObject resetscript;
-    GameMain Gamescript;
-    Vector3 vec_Cursor;//= Cursor.transform.localPosition;    
-    GameObject Cursor;
-    // Use this for initialization
-    void Start () {
-        //ポーズ画面初期値へ持ってくる
-        transform.localPosition = transform.up / outside;
-        //vec_Cursor = GameObject.Find("Pause_Cursor").transform.position;
-        //GameObject Cursor = GameObject.Find("/Pause_Cursor");
-        //vec_Cursor = Cursor.transform.localPosition;
-        Cursor = GameObject.FindGameObjectWithTag("Pause_Cursor");        
-    }
+    public bool is_pause = false;
+    //　ポーズした時に表示するUI
+    [SerializeField]
+    private GameObject pauseUI;
+
+
+
+	// Use this for initialization
+	void Start () {
+       // gameObject.SetActive(true); //活性化
+        
+            //ゲームタイム維持
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        //確認用start-----------------------------
-        if (Input.GetKey(KeyCode.E))    //仮置き
+
+        //ｑキーでゲームバック
+        BackGameMain();
+
+
+        //ｒキーでリスタート
+        if (Input.GetKeyDown("r"))
         {
-            BackGameMain();
+            Restart();
         }
-        if (Input.GetKey(KeyCode.R))    //仮置き
+
+        //spaceキーでステセレ遷移
+        if (Input.GetKeyDown("space"))
         {
-            Restart();	
-        }
+            BackStageSelect();
+        }      
 
+        //gameObject.SetActive(false); //非活性化
 
+	}
 
-
-        //確認用end----------------------------
-
-        MoveSelect();//移動処理
-
-        switch (state)
-        {
-            case PouseState.Back:
-                BackGameMain();
-                break;
-
-            case PouseState.Restart:
-                Restart();
-                //確認用消す予定
-                if (Input.GetKey(KeyCode.I))    //仮置き
-                {
-                    transform.localPosition = transform.up / outside;
-                    Debug.Log("position :" + transform.position);
-                    vec_Cursor = Cursor.transform.localPosition;
-                }
-                break;
-
-            case PouseState.Stageselect:
-                BackStageSelect();
-                // state = Title;
-                break;
-            default:
-               
-                break;
-        }
-        Debug.Log("position :" + transform.position);
-        //確認用消す予定
-        if (Input.GetKey(KeyCode.I))    //仮置き
-        {
-            transform.localPosition = transform.up / outside;
-            Debug.Log("position :" + transform.position);
-            vec_Cursor = Cursor.transform.localPosition;
-        }
-
-
-    }
-
-    private void MoveSelect()
-    {
-        //ある座標に向かって移動アニメーション追加予定
-        //Debug.Log("移動：MoveSelect");
-
-        //移動先
-        //if (Input.GetKey(KeyCode.PageUp))
-        if(Input.GetKeyDown("up"))
-        {
-            //SceneManager.LoadSceneAsync("StageSelect");
-            move -= 1;
-            Debug.Log("上");
-        }
-        //if (Input.GetKey(KeyCode.PageDown))
-        if(Input.GetKeyDown("down"))
-        {
-            //SceneManager.LoadSceneAsync("StageSelect");
-            move += 1;
-            Debug.Log("下");
-        }
-        if (move>2)//Pause選択数分超えないようにループ
-        {
-            move = 0;
-        }
-
-        //Debug.Log("y:" +vec_Cursor);
-        //Debug.Log(transform.position);
-        //float backposition = 0.0f;
-
- 
-        //GameObject Cursor = GameObject.Find("Pause_Cursor");
-       
-        vec_Cursor = Cursor.transform.localPosition;
-        //Pause画面セレクト指移動
-        switch (move) {
-            case 0://バック位置
-                //指定
-                // transform.position.y = backposition;//1.6f;     //仮置き
-                vec_Cursor.y = 1.5f;     //仮置き
-                //Cursor.transform.localPosition = vec_Cursor;
-
-                //transform.position = transform.up * 1.6f;
-                //Debug.Log(transform.position);
-                break;
-            case 1://リスタート位置
-                vec_Cursor.y = 0f;     //仮置き
-                //Cursor.transform.localPosition = vec_Cursor;
-
-                //transform.position = transform.up * 0;
-                break;
-            case 2://ステセレ位置
-                vec_Cursor.y = -1.0f;     //仮置き
-                //Cursor.transform.localPosition = vec_Cursor;
-                //transform.position = transform.up * -1.0f;
-                break;
-
-        }
-
-        Cursor.transform.localPosition = vec_Cursor;
-
-        //Debug.Log("y2:" + vec_Cursor);
-        //Debug.Log(Cursor.transform.localPosition);
-        if (Input.GetKey(KeyCode.Q))
-        {
-            //state = (PouseState)move;
-            Debug.Log("move:" + move);
-            Debug.Log("state:" + state);
-
-        }
-
-        //確認用消す予定
-        if (Input.GetKey(KeyCode.I))    //仮置き
-        {
-            transform.localPosition = transform.up * -outside;
-            Debug.Log("position :" + transform.position);
-            vec_Cursor = Cursor.transform.localPosition;
-        }
-
-    }
-
-    private void Restart()      //ステージリスタート
+    private void Restart()      //リスタート
     {
         //アニメーション追加予定
-
+        //SE追加予定
 
         //初期化
         //カメラ//ステージデータ//数値
@@ -177,8 +56,6 @@ public class Pause : MonoBehaviour {
         //resetscript.GetComponent<GameMain>();
         //Gamescript.SetStage(resetscript.Newstage);
 
-        //ポーズ画面画面外移動
-        transform.localPosition = transform.up * outside;
 
         //scene入ってリセット(仮)
         SceneManager.LoadSceneAsync("GameMain");
@@ -187,6 +64,7 @@ public class Pause : MonoBehaviour {
     private void BackStageSelect()
     {
         //アニメーション追加予定
+        //SE追加予定
 
         //セレクトへ遷移処理
         SceneManager.LoadSceneAsync("StageSelect");
@@ -195,12 +73,33 @@ public class Pause : MonoBehaviour {
     private void BackGameMain()
     {
         //アニメーション追加予定
+        //SE追加予定
+   
+        if (Input.GetKeyDown("q"))
+        {
+            //　ポーズUIのアクティブ、非アクティブを切り替え
+            pauseUI.SetActive(!pauseUI.activeSelf);
 
-        //ポーズ画面を消す処理
-        //ポーズ画面画面外移動
-        transform.localPosition = transform.up * outside;
+            //　ポーズUIが表示されてる時は停止
+            if (pauseUI.activeSelf)
+            {
+                Time.timeScale = 0f;
+                is_pause = true;
+                //　ポーズUIが表示されてなければ通常通り進行
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                is_pause = false;
+            }
+        }
 
-        
     }
 
+
+
+
+
 }
+
+
