@@ -17,19 +17,13 @@ public class GameMain : MonoBehaviour
     GameObject[,] CollapsPlane = new GameObject[10, 6];
     GameObject[,] NormalPlain = new GameObject[10, 6];
 
-
     Vector3[,] PlaneVector = new Vector3[10, 6];
     Vector3[,] NormalPlaneVector = new Vector3[10, 6];
     Vector3[,] CollapsPlaneVector = new Vector3[10, 6];
 
-
-
-
     Vector3[] CollapsBlockPosition = new Vector3[10];
     Vector3[] NormalBlockPosition = new Vector3[10];
     Vector3[] BlockPosition = new Vector3[10];
-
-
 
     public int BlocksCount = 0;
     public int CollapsCount = 0;
@@ -38,12 +32,25 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
+  
+
 
     void Start()
     {
         StageLoader = gameObject.AddComponent<LoadMainStages>();
         StageLoader.LoadStage();
         SetStage(NowStage);
+        
+        Sound.LoadBgm("gm_bgm", "GM_Bgm");
+        Sound.LoadBgm("gm_burn", "GM_Burn");
+        Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
+        Sound.LoadSe("se_burn", "GM_Burn");
+        Sound.LoadSe("se_burnnow", "GM_BurnNow");
+        Sound.PlayBgm("gm_bgm");
+        Sound.PlaySe("se_burn", 2);
+
+       
+
     }
 
     public void SetStage(int NowStage)
@@ -52,16 +59,11 @@ public class GameMain : MonoBehaviour
         TempStage = StageLoader.GetStage(NowStage);
         NowStageObj = TempStage;
         Block = GameObject.FindGameObjectsWithTag("NormalBlock");
-
-
-
-
     }
-
-
 
     void Update()
     {
+;
 
         for (int i = 0; i < Block.Length; i++)
         {
@@ -126,8 +128,6 @@ public class GameMain : MonoBehaviour
             Vector3[] CollapsVertices = CollapsMesh.vertices;
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                Debug.Log(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Left]);
-                Debug.Log(CollapsPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Right]);
                 if (Vector2.Distance(NormalPlaneVector[BlockNow, (int)DefineScript.CollisionIndex.Top],
                     CollapsPlaneVector[CollapsNow, (int)DefineScript.CollisionIndex.Bottom])
                     < DefineScript.JUDGE_DISTANCE)
@@ -306,9 +306,14 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn(NormalBlocks[BlockNow]);
+                    Blocks.nowplayingse = false;
+
                     PlaneCollaps = false;
                 }
-
+                else
+                {
+                    Blocks.nowplayingse = false;
+                }
 
             }
 
@@ -318,6 +323,7 @@ public class GameMain : MonoBehaviour
                 return true;
             }
         }
+        
         return false;
     }
     public bool IsVisibleFromCamera(int i, Vector3[] vertices, Ray CameraRay)
