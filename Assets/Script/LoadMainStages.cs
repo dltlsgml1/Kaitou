@@ -12,8 +12,8 @@ public class LoadMainStages : MonoBehaviour
     public void LoadStage()
     {
         Backgrounds[0] = Resources.Load<Sprite>("images");
-        Stages[0] = Resources.Load(DefineScript.PASS_STAGE + "Stage02") as GameObject;
-        Instantiate(Stages[0]);
+      //  Stages[0] = Resources.Load(DefineScript.PASS_STAGE + "Stage02") as GameObject;
+       // Instantiate(Stages[0]);
     }
 
     public GameObject GetStage(int StageNum)

@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class Blocks : MonoBehaviour {
 
-    //public bool burnFlg { get; private set; }            //燃えているか判定
-    //public bool startBlock { get; private set; }            //このブロックがスタートブロックなのか判定
-    //public float burnCount { get; set; }               //このブロックは何秒で燃え移るのかを持つデータ
-
-    //private short blockID {get;set;}                  //このブロックのID。CSVから読み込みする可能性あり
-
-    //public GameObject Model { get; private set; }                      //ブレンダーなどで作られた３Dモデル。現状３Dモデルの型がきまってないから、とりあえずGameObjectで。
-    //public GameObject Texture { get; private set; }                     //このブロックが持つテクスチャ。同じ理由でGameObject.
-
-    //public GameObject StandardTexture;
-    //public GameObject BurnTexture;
 
     public GameObject SetFire;
     public Material StandardMaterial;
     public Material BurnMaterial;
     public bool BurnFlg;
     public bool StartBlockFlg;
+    public float BurnCnt;
 
     // Use this for initialization
     void Start () {
         this.GetComponent<MeshRenderer>().material.color = Color.yellow;
-	}
+        if (StartBlockFlg == true)
+        {
+            BurnFlg = true;
+            SetBurn();
+            this.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -44,24 +40,24 @@ public class Blocks : MonoBehaviour {
         Obj.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
-    // マテリアルの変更
-    private void ChangeMaterial(Material mat)
+    public void SetBurn()
     {
-        this.GetComponent<Renderer>().material = mat;
+        SetFire.gameObject.SetActive(true);
+        SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
+                                                            this.transform.position.y + 0.5f,
+                                                            this.transform.position.z);
     }
 
-    // マテリアルの初期化
-    protected void InitMaterial()
+    public bool Burning()
     {
-        if (StartBlockFlg)
+        BurnCnt += 0.05f;
+        if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
-            BurnFlg = true;
-            this.GetComponent<Renderer>().material = BurnMaterial;
+            BurnCnt = 0.0f;
+            SetBurn();
+            return true;
         }
-        else
-        {
-            this.GetComponent<Renderer>().material = StandardMaterial;
-        }
-
+        
+        return false;
     }
 }
