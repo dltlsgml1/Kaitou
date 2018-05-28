@@ -40,6 +40,7 @@ public class MoveCamera : MonoBehaviour {
     void LateUpdate () {
         ParallelMove();
         RotationCamera();
+        ChangeSize();
         FormatDate();
         InputDate();
         KeyDebug();
@@ -50,14 +51,7 @@ public class MoveCamera : MonoBehaviour {
         HiSpeedChangeFlag = false;
         LowSpeedChangeFlag = false;
         Key = Input.GetAxisRaw("SpeedChange");
-        if(Key!=0)
-        ScreenPosition = transform.InverseTransformPoint(Position);     //スクリーン座標に現在の座標の逆行列をセット
-        //カメラのスクリーン座標変換
-        if (Input.GetKey(KeyCode.D))
-        {
-            ScreenPosition.x -= MoveCameraSpeed;
-        }
-        if (Input.GetKey(KeyCode.A))
+        if (Key!=0)
         {
             if (Key < DefaultKey)
             {
@@ -175,15 +169,16 @@ public class MoveCamera : MonoBehaviour {
 
     void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
     {
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetButton("LButton"))
         {
             if (MainCamera.orthographicSize < 20)
             {
+                
                 MainCamera.orthographicSize += 0.1f;
                 Background.orthographicSize += 0.1f;
             }
         }
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetButton("RButton"))
         {
             if (MainCamera.orthographicSize > 1)
             {
