@@ -6,13 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour {
 
-    public bool is_pause = false;
+    public static bool is_pause = false;
     //　ポーズした時に表示するUI
     [SerializeField]
     private GameObject pauseUI;
-    GameObject Cursor;
-    PauseSelect pauseselect;
+    public GameObject Cursor;
 
+
+    public enum PouseState { Back, Restart, Stageselect };
+    PouseState state;
+    public int move = 0;
+    public float outside = 20.0f;
+
+    Vector3 vec_Cursor;//= Cursor.transform.localPosition;  
 
 	// Use this for initialization
 	void Start () {
@@ -22,22 +28,37 @@ public class Pause : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        
         ////ｑキーでゲームバック
         if (Input.GetKeyDown("q"))
         {
-             BackGameMain();
+            is_pause = true;
+           
         }
+
+
+        if(is_pause==true)
+        {
+            
+            SetPause();
+            MoveSelect();
+        }
+
+        if(is_pause==true && Input.GetKeyDown("w"))
+        {
+            OffPause();
+            is_pause = false;
+        }
+
 
         if (Input.GetKeyDown("space") && is_pause)  //決定キーに差し替え予定
         {
-            this.Cursor = GameObject.Find("CameraObejct/Pause/Pause_Cursor");
-            this.pauseselect = Cursor.GetComponent<PauseSelect>();
-
-            switch (pauseselect.move)
+            
+            switch (move)
             {
                 case 0:
                     //SE追加予定
-                    BackGameMain();
+                    SetPause();
                     break;
                 case 1:
                     //SE追加予定
@@ -82,35 +103,85 @@ public class Pause : MonoBehaviour {
         SceneManager.LoadSceneAsync("StageSelect");
     }
 
-    private void BackGameMain()
+    private void SetPause()
     {
         //アニメーション追加予定
         //SE追加予定
-   
-        //if (Input.GetKeyDown("q"))
-        //{
-            //　ポーズUIのアクティブ、非アクティブを切り替え
-            pauseUI.SetActive(!pauseUI.activeSelf);
+        //　ポーズUIのアクティブ、非アクティブを切り替え
 
-            //　ポーズUIが表示されてる時は停止
-            if (pauseUI.activeSelf)
-            {
-                Time.timeScale = 0f;
-                is_pause = true;
-                //　ポーズUIが表示されてなければ通常通り進行
-            }
-            else
-            {
-                Time.timeScale = 1f;
-                is_pause = false;
-            }
-        //}
+        Debug.Log("im in Setpause");
+        if (pauseUI.gameObject.activeSelf == false) 
+        {
+            pauseUI.SetActive(true);
+        }
+       
+        Time.timeScale = 0f;
+ 
 
     }
 
 
+    void OffPause()
+    {
+        if(pauseUI.gameObject.activeSelf==true)
+        {
+            pauseUI.SetActive(false);
+           
+        }
+        
+        Time.timeScale = 1f;
+    }
+
+    private void MoveSelect()
+    {
+        //ある座標に向かって移動アニメーション追加予定
 
 
+        //移動先
+        if (Input.GetKeyDown("up"))
+        {
+            move -= 1;
+            //SE追加
+        }
+        if (Input.GetKeyDown("down"))
+        {
+            move += 1;
+            //SE追加
+        }
+        //Pause選択数分超えないようにループ
+        if (move > 2)
+        {
+            move = 0;
+        }
+        if (move < 0)
+        {
+            move = 2;
+        }
+
+
+
+        vec_Cursor = Cursor.transform.localPosition;
+        //Pause画面セレクト指移動
+        switch (move)
+        {
+            case 0://バック位置
+                //指定
+                vec_Cursor.y = 1.5f;     //仮置き
+                //selectFlg = ture;
+                break;
+            case 1://リスタート位置
+                vec_Cursor.y = 0f;     //仮置き
+                //selectFlg = ture;
+                break;
+            case 2://ステセレ位置
+                vec_Cursor.y = -1.0f;     //仮置き
+                //selectFlg = ture;
+                break;
+        }
+
+        Cursor.transform.localPosition = vec_Cursor;
+        
+    }
 
 }
 
