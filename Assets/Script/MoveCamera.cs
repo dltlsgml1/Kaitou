@@ -92,11 +92,11 @@ public class MoveCamera : MonoBehaviour {
             if (Key < DefaultKey)
             {
 
-                ScreenPosition.y -= MoveCameraSpeed;
+                ScreenPosition.y += MoveCameraSpeed;
             }
             if (Key > -DefaultKey)
             {
-                ScreenPosition.y += MoveCameraSpeed;
+                ScreenPosition.y -= MoveCameraSpeed;
             }
         }
 
@@ -144,7 +144,7 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("LeftStick X");
         if (Key != 0)
         {
-            if (Key < DefaultKey)
+            if (Key > -DefaultKey)
             {
                 if (HiSpeedChangeFlag)
                     Rotation.y += ChangeSpeedFast;
@@ -155,7 +155,7 @@ public class MoveCamera : MonoBehaviour {
                 if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
                     Rotation.y += RotationCameraSpeed;
             }
-            if (Key > -DefaultKey)
+            if (Key < DefaultKey)
             {
 
                 if (HiSpeedChangeFlag)

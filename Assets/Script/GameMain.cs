@@ -9,6 +9,8 @@ public class GameMain : MonoBehaviour
     public GameObject NowStageObj;
     public GameObject[] Block = new GameObject[10];
     public Camera MainCamera;
+    public GameObject Clear;
+
     Vector3 side1;
     Vector3 side2;
     GameObject[] CollapsBocks = new GameObject[10];
@@ -46,6 +48,7 @@ public class GameMain : MonoBehaviour
             }
            
         }
+        Clear.gameObject.SetActive(false);
     }
 
     void Start()
@@ -96,12 +99,12 @@ public class GameMain : MonoBehaviour
         if(MoveCamera.ResetFlg ==true)
         {
             Restart();
-            Debug.Log("Reset IN");
+            
             MoveCamera.ResetFlg = false;
         }
         if (Atari() == true)
         {
-            Debug.Log("Clear");
+          
         }
     }
 
@@ -339,6 +342,7 @@ public class GameMain : MonoBehaviour
 
             if (NormalCount == 0)
             {
+                Clear.gameObject.SetActive(true);
                 return true;
             }
         }
@@ -424,5 +428,11 @@ public class GameMain : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        Sound.StopBgm();
+        Sound.StopSe("se_burn", 2);
     }
 }
