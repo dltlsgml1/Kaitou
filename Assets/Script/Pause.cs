@@ -22,7 +22,7 @@ public class Pause : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-   
+        move = 0;
 	}
 	
 	// Update is called once per frame
@@ -53,12 +53,12 @@ public class Pause : MonoBehaviour {
 
         if (Input.GetKeyDown("space") && is_pause)  //決定キーに差し替え予定
         {
-            
+            is_pause = false;
             switch (move)
             {
                 case 0:
                     //SE追加予定
-                    SetPause();
+                    OffPause();
                     break;
                 case 1:
                     //SE追加予定
@@ -89,7 +89,7 @@ public class Pause : MonoBehaviour {
         //resetscript.GetComponent<GameMain>();
         //Gamescript.SetStage(resetscript.Newstage);
 
-
+        OffPause();
         //scene入ってリセット(仮)
         SceneManager.LoadSceneAsync("GameMain");
     }
@@ -99,6 +99,7 @@ public class Pause : MonoBehaviour {
         //アニメーション追加予定
         //SE追加予定
 
+        OffPause();
         //セレクトへ遷移処理
         SceneManager.LoadSceneAsync("StageSelect");
     }
@@ -125,8 +126,7 @@ public class Pause : MonoBehaviour {
     {
         if(pauseUI.gameObject.activeSelf==true)
         {
-            pauseUI.SetActive(false);
-           
+            pauseUI.SetActive(false);           
         }
         
         Time.timeScale = 1f;
