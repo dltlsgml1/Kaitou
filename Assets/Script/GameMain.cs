@@ -33,7 +33,20 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
   
-
+    public void Restart()
+    {
+        for(int i=0;i<Block.Length;i++)
+        {
+            if(Block[i].GetComponent<Blocks>().BurnFlg==true)
+            {
+                Block[i].GetComponent<Blocks>().BurnFlg = false;
+                Block[i].GetComponent<MeshRenderer>().material = Blocks.Mat_Normal;
+                Block[i].GetComponent<Blocks>().SetFire.gameObject.SetActive(false);
+                Block[i].GetComponent<Blocks>().StartFlg();
+            }
+           
+        }
+    }
 
     void Start()
     {
@@ -68,10 +81,9 @@ public class GameMain : MonoBehaviour
         for (int i = 0; i < Block.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
-            if (Block[i].GetComponent<Blocks>().BurnFlg == false)
-            {
+
                 BlocksCount++;
-            }
+
             for (int j = 0; j < 6; j++)
             {
                 Plane[i, j] = Block[i].transform.GetChild(j).gameObject;
@@ -79,6 +91,13 @@ public class GameMain : MonoBehaviour
                 PlaneVector[i, j] = MainCamera.WorldToScreenPoint(PlaneVector[i, j]);
 
             }
+        }
+
+        if(MoveCamera.ResetFlg ==true)
+        {
+            Restart();
+            Debug.Log("Reset IN");
+            MoveCamera.ResetFlg = false;
         }
         if (Atari() == true)
         {

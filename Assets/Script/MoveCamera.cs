@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class MoveCamera : MonoBehaviour {
     public Camera MainCamera;
     public Camera Background;
+    public static bool  ResetFlg = false;
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
@@ -43,6 +46,7 @@ public class MoveCamera : MonoBehaviour {
         ChangeSize();
         FormatDate();
         InputDate();
+        BackStageSelect();
         KeyDebug();
         
 	}
@@ -75,11 +79,11 @@ public class MoveCamera : MonoBehaviour {
             if (Key < DefaultKey)
             {
 
-                ScreenPosition.x -= MoveCameraSpeed;
+                ScreenPosition.x += MoveCameraSpeed;
             }
             if (Key > -DefaultKey)
             {
-                ScreenPosition.x += MoveCameraSpeed;
+                ScreenPosition.x -= MoveCameraSpeed;
             }
         }
         Key = Input.GetAxisRaw("RightStick Y");
@@ -194,6 +198,7 @@ public class MoveCamera : MonoBehaviour {
         {
             Position = FormatPosition;
             Rotation = FormatRotation;
+            ResetFlg = true;
         }
     }
     public void InputDate()         //データの入れ込み
@@ -201,7 +206,13 @@ public class MoveCamera : MonoBehaviour {
         this.transform.position = Position;
         this.transform.rotation = Quaternion.Euler(Rotation);
     }
-
+    public void BackStageSelect()
+    {
+        if (Input.GetButtonDown("StartButton"))
+        {
+            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+        }
+    }
     public void KeyDebug()          //keyの入力が出来てるかのデバッグ用(削除する予定)
     {
         CheckDebug = false;

@@ -41,7 +41,7 @@ public class StageSelect : MonoBehaviour {
         float Decision;                                 //左右を判定用
         Vector3 pos = this.transform.position;          //オブジェクトのポジションを取る
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
-        if (Input.GetButton("LeftStick X"))
+        if (Decision!=0)
         {
             if (StageID < StageNum)
             {

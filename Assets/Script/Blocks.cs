@@ -16,7 +16,7 @@ public class Blocks : MonoBehaviour {
     // Use this for initialization
     private void Awake()
     {
-        Mat_Normal = Resources.Load(DefineScript.PASS_GAMEMAIN_MAT + "GameMain_BlockNomal_01") as Material;
+        Mat_Normal = Resources.Load("GameMain/Materials/GameMain_BlockNomal_01") as Material;
         Mat_Collaps = Resources.Load("GameMain/Materials/GameMain_BlockNomal_02") as Material;
         
     }
@@ -29,6 +29,17 @@ public class Blocks : MonoBehaviour {
             SetBurn();
             SetMaterial();
         }
+    }
+
+    public void StartFlg()
+    {
+        if (StartBlockFlg == true)
+        {
+            BurnFlg = true;
+            SetBurn();
+            SetMaterial();
+        }
+
     }
 	
 	public void SetMaterial()
