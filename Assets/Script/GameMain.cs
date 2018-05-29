@@ -5,57 +5,55 @@ using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
 {
-    public LoadMainStages StageLoader;
+    public LoadMainStages StageLoader;                      
     public GameObject NowStageObj;
-    public GameObject[] Block = new GameObject[10];
+    
     public Camera MainCamera;
     public GameObject Clear;
 
-    Vector3 side1;
-    Vector3 side2;
-    GameObject[] CollapsBocks = new GameObject[10];
-    GameObject[] NormalBlocks = new GameObject[10];
-    GameObject[,] Plane = new GameObject[10, 6];
-    GameObject[,] CollapsPlane = new GameObject[10, 6];
-    GameObject[,] NormalPlain = new GameObject[10, 6];
 
-    Vector3[,] PlaneVector = new Vector3[10, 6];
-    Vector3[,] NormalPlaneVector = new Vector3[10, 6];
-    Vector3[,] CollapsPlaneVector = new Vector3[10, 6];
+    GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
+    GameObject[] CollapsBocks = new GameObject[DefineScript.NUM_BLOCKS];
+    GameObject[] NormalBlocks = new GameObject[DefineScript.NUM_BLOCKS];
+    GameObject[,] Plane = new GameObject[DefineScript.NUM_BLOCKS, 6];
+//  GameObject[,] CollapsPlane = new GameObject[DefineScript.NUM_BLOCKS, 6];
+//  GameObject[,] NormalPlain = new GameObject[DefineScript.NUM_BLOCKS, 6];
 
-    Vector3[] CollapsBlockPosition = new Vector3[10];
-    Vector3[] NormalBlockPosition = new Vector3[10];
-    Vector3[] BlockPosition = new Vector3[10];
+    Vector3[,] PlaneVector = new Vector3[DefineScript.NUM_BLOCKS, 6];
+    Vector3[,] NormalPlaneVector = new Vector3[DefineScript.NUM_BLOCKS, 6];
+    Vector3[,] CollapsPlaneVector = new Vector3[DefineScript.NUM_BLOCKS, 6];
+
+    Vector3[] CollapsBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
+    Vector3[] NormalBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
+    Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
     public int BlocksCount = 0;
     public int CollapsCount = 0;
     public int NormalCount = 0;
-    public int NowStage = 0;
+    public int NowStageID = 0;
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
   
     public void Restart()
     {
-        for(int i=0;i<Block.Length;i++)
+        for(int i=0;i<Blocks.Length;i++)
         {
-            if(Block[i].GetComponent<Blocks>().BurnFlg==true)
+            if(Blocks[i].GetComponent<Blocks>().BurnFlg==true)
             {
-                Block[i].GetComponent<Blocks>().BurnFlg = false;
-                Block[i].GetComponent<MeshRenderer>().material = Blocks.Mat_Normal;
-                Block[i].GetComponent<Blocks>().SetFire.gameObject.SetActive(false);
-                Block[i].GetComponent<Blocks>().StartFlg();
+                Blocks[i].GetComponent<Blocks>().BurnFlg = false;
+                Blocks[i].GetComponent<MeshRenderer>().material = LoadResources.Mat_Normal;
+                Blocks[i].GetComponent<Blocks>().SetFire.gameObject.SetActive(false);
+                Blocks[i].GetComponent<Blocks>().StartFlg();
             }
-           
         }
         Clear.gameObject.SetActive(false);
     }
 
     void Start()
     {
-        StageLoader = gameObject.AddComponent<LoadMainStages>();
-        StageLoader.LoadStage();
-        SetStage(NowStage);
+        Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
+       
         
         Sound.LoadBgm("gm_bgm", "GM_Bgm");
         Sound.LoadBgm("gm_burn", "GM_Burn");
@@ -71,25 +69,25 @@ public class GameMain : MonoBehaviour
 
     public void SetStage(int NowStage)
     {
-        GameObject TempStage;
-        TempStage = StageLoader.GetStage(NowStage);
-        NowStageObj = TempStage;
-        Block = GameObject.FindGameObjectsWithTag("NormalBlock");
+        //GameObject TempStage;
+        //TempStage = StageLoader.GetStage(NowStage);
+        //NowStageObj = TempStage;
+        
     }
 
     void Update()
     {
 ;
 
-        for (int i = 0; i < Block.Length; i++)
+        for (int i = 0; i < Blocks.Length; i++)
         {
-            BlockPosition[i] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+            BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
 
                 BlocksCount++;
 
             for (int j = 0; j < 6; j++)
             {
-                Plane[i, j] = Block[i].transform.GetChild(j).gameObject;
+                Plane[i, j] = Blocks[i].transform.GetChild(j).gameObject;
                 PlaneVector[i, j] = Plane[i, j].transform.position;
                 PlaneVector[i, j] = MainCamera.WorldToScreenPoint(PlaneVector[i, j]);
 
@@ -113,13 +111,13 @@ public class GameMain : MonoBehaviour
         NormalCount = 0;
         CollapsCount = 0;
 
-        for (int i = 0, j = 0, k = 0; i < Block.Length; i++)
+        for (int i = 0, j = 0, k = 0; i < Blocks.Length; i++)
         {
-            if (Block[i].GetComponent<Blocks>().BurnFlg == true)
+            if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
 
-                CollapsBocks[j] = Block[i];
-                CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+                CollapsBocks[j] = Blocks[i];
+                CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
                 {
                     CollapsPlaneVector[j, l] = PlaneVector[i, l];
@@ -127,10 +125,10 @@ public class GameMain : MonoBehaviour
                 j++;
                 CollapsCount++;
             }
-            if (Block[i].GetComponent<Blocks>().BurnFlg == false)
+            if (Blocks[i].GetComponent<Blocks>().BurnFlg == false)
             {
-                NormalBlocks[k] = Block[i];
-                NormalBlockPosition[k] = MainCamera.WorldToScreenPoint(Block[i].transform.position);
+                NormalBlocks[k] = Blocks[i];
+                NormalBlockPosition[k] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
                 {
                     NormalPlaneVector[k, l] = PlaneVector[i, l];
@@ -306,7 +304,7 @@ public class GameMain : MonoBehaviour
                         }
                         else
                         {
-                            PlaneCollaps = Block[BlockNow].GetComponent<Blocks>().Burning();
+                            PlaneCollaps = Blocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                     else
@@ -317,7 +315,7 @@ public class GameMain : MonoBehaviour
                         }
                         else
                         {
-                            PlaneCollaps = Block[BlockNow].GetComponent<Blocks>().Burning();
+                            PlaneCollaps = Blocks[BlockNow].GetComponent<Blocks>().Burning();
                         }
                     }
                 }
@@ -327,14 +325,14 @@ public class GameMain : MonoBehaviour
                 if (PlaneCollaps == true)
                 {
                     NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn(NormalBlocks[BlockNow]);
-                    Blocks.nowplayingse = false;
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn();
+                    global::Blocks.nowplayingse = false;
 
                     PlaneCollaps = false;
                 }
                 else
                 {
-                    Blocks.nowplayingse = false;
+                    global::Blocks.nowplayingse = false;
                 }
 
             }

@@ -11,23 +11,14 @@ public class Blocks : MonoBehaviour {
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt;
-    public static Material Mat_Normal;
-    public static Material Mat_Collaps;
-    // Use this for initialization
-    private void Awake()
-    {
-        Mat_Normal = Resources.Load("GameMain/Materials/GameMain_BlockNomal_01") as Material;
-        Mat_Collaps = Resources.Load("GameMain/Materials/GameMain_BlockNomal_02") as Material;
-        
-    }
 
-    void Start () {
-        this.GetComponent<MeshRenderer>().material.color = Color.yellow;
+  
+    void Start () {      
         if (StartBlockFlg == true)
         {
             BurnFlg = true;
             SetBurn();
-            SetMaterial();
+            SetBurnMaterial();
         }
     }
 
@@ -37,14 +28,14 @@ public class Blocks : MonoBehaviour {
         {
             BurnFlg = true;
             SetBurn();
-            SetMaterial();
+            SetBurnMaterial();
         }
 
     }
 	
-	public void SetMaterial()
+	public void SetBurnMaterial()
     {
-        this.GetComponent<MeshRenderer>().material = Mat_Collaps;
+        this.GetComponent<MeshRenderer>().material = LoadResources.Mat_Collaps;
     }
 
     public void SetBurn(GameObject Obj)
@@ -53,8 +44,7 @@ public class Blocks : MonoBehaviour {
         SetFire.gameObject.SetActive(true);
         SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
                                                             this.transform.position.y+0.5f,
-                                                            this.transform.position.z);
-        
+                                                            this.transform.position.z);     
     }
 
     public void SetBurn()
@@ -78,7 +68,7 @@ public class Blocks : MonoBehaviour {
             BurnFlg = true;
             BurnCnt = 0.0f;
             SetBurn();
-            SetMaterial();
+            SetBurnMaterial();
             return true;
         }
         
