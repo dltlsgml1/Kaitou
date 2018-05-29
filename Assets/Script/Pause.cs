@@ -84,8 +84,22 @@ public class Pause : MonoBehaviour {
         
         OffPause();
 
+<<<<<<< HEAD
         //リスタート初期化関数追加予定
 
+=======
+        //初期化
+        //カメラ//ステージデータ//数値
+        //初期化データ呼び出し
+
+        //リスタート処理
+        //resetscript.GetComponent<GameMain>();
+        //Gamescript.SetStage(resetscript.Newstage);
+
+        OffPause();
+        //scene入ってリセット(仮)
+        SceneManager.LoadSceneAsync("GameMain");
+>>>>>>> d9ab8c8bfb3c2d7d89b3160c430c6f25046ba1bb
     }
 
     private void BackStageSelect()
