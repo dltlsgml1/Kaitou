@@ -16,8 +16,6 @@ public class GameMain : MonoBehaviour
     GameObject[] CollapsBocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] NormalBlocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[,] Plane = new GameObject[DefineScript.NUM_BLOCKS, 6];
-//  GameObject[,] CollapsPlane = new GameObject[DefineScript.NUM_BLOCKS, 6];
-//  GameObject[,] NormalPlain = new GameObject[DefineScript.NUM_BLOCKS, 6];
 
     Vector3[,] PlaneVector = new Vector3[DefineScript.NUM_BLOCKS, 6];
     Vector3[,] NormalPlaneVector = new Vector3[DefineScript.NUM_BLOCKS, 6];
@@ -34,6 +32,7 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
+
   
     public void Restart()
     {
@@ -53,8 +52,6 @@ public class GameMain : MonoBehaviour
     void Start()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
-       
-        
         Sound.LoadBgm("gm_bgm", "GM_Bgm");
         Sound.LoadBgm("gm_burn", "GM_Burn");
         Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
@@ -62,42 +59,30 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("se_burnnow", "GM_BurnNow");
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
-
-       
-
+      
     }
 
     public void SetStage(int NowStage)
-    {
-        //GameObject TempStage;
-        //TempStage = StageLoader.GetStage(NowStage);
-        //NowStageObj = TempStage;
-        
+    {   
     }
 
     void Update()
     {
-;
-
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
-
-                BlocksCount++;
-
+            BlocksCount++;
             for (int j = 0; j < 6; j++)
             {
                 Plane[i, j] = Blocks[i].transform.GetChild(j).gameObject;
                 PlaneVector[i, j] = Plane[i, j].transform.position;
                 PlaneVector[i, j] = MainCamera.WorldToScreenPoint(PlaneVector[i, j]);
-
             }
         }
 
         if(MoveCamera.ResetFlg ==true)
         {
             Restart();
-            
             MoveCamera.ResetFlg = false;
         }
         if (Atari() == true)

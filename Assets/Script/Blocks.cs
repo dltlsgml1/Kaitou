@@ -3,17 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Blocks : MonoBehaviour {
+    
 
+    
     public static bool nowplayingse = false;
     public GameObject SetFire;
-    public Material StandardMaterial;
-    public Material BurnMaterial;
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt;
+    public bool[] CollapsPlain = new bool[6];
+    public int CollapsNum = 0;
+    public static int NowCollapsingBlock = 0;
 
-  
-    void Start () {      
+
+    Material Mat_Normal;
+    Material Mat_Collaps;
+
+    private void Awake()
+    {
+        Mat_Normal = Resources.Load("GameMain/Materials/GameMain_BlockNomal_01") as Material;
+        Mat_Collaps = Resources.Load("GameMain/Materials/GameMain_BlockNomal_02") as Material;
+       
+    }
+
+    void Start ()
+    {      
         if (StartBlockFlg == true)
         {
             BurnFlg = true;
@@ -30,22 +44,13 @@ public class Blocks : MonoBehaviour {
             SetBurn();
             SetBurnMaterial();
         }
-
     }
 	
 	public void SetBurnMaterial()
     {
-        this.GetComponent<MeshRenderer>().material = LoadResources.Mat_Collaps;
+        this.GetComponent<MeshRenderer>().material = Mat_Collaps;
     }
-
-    public void SetBurn(GameObject Obj)
-    {
-        //エフェクト操作
-        SetFire.gameObject.SetActive(true);
-        SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
-                                                            this.transform.position.y+0.5f,
-                                                            this.transform.position.z);     
-    }
+    
 
     public void SetBurn()
     {
@@ -62,7 +67,7 @@ public class Blocks : MonoBehaviour {
             Sound.PlaySe("se_burnnow", 1);
             nowplayingse = true;
         }
-        BurnCnt += 0.05f;
+        BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
         if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
             BurnFlg = true;
@@ -71,7 +76,6 @@ public class Blocks : MonoBehaviour {
             SetBurnMaterial();
             return true;
         }
-        
         return false;
     }
 }

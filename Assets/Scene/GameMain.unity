@@ -826,23 +826,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageLoader: {fileID: 0}
   NowStageObj: {fileID: 0}
-  Block:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   MainCamera: {fileID: 551781101}
   Clear: {fileID: 1601578498}
   BlocksCount: 0
   CollapsCount: 0
   NormalCount: 0
-  NowStage: 0
+  NowStageID: 0
   IsVisibleBlock: 0
   IsVisibleCollaps: 0
   PlaneCollaps: 0
@@ -1189,12 +1178,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1601578498}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1809021403}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1809021399
 GameObject:
@@ -1267,6 +1256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462184770}
+  - {fileID: 1601578500}
   m_Father: {fileID: 1569801944}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
