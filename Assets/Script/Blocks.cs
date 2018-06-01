@@ -13,9 +13,12 @@ public class Blocks : MonoBehaviour {
     public float BurnCnt;
     public bool[] CollapsPlain = new bool[6];
     public int CollapsNum = 0;
+
+
     public static int NowCollapsingBlock = 0;
-
-
+    public static float BurnCount = 0.0f;
+    public bool NowBurning = false;
+    public bool BurningDone = false;
     Material Mat_Normal;
     Material Mat_Collaps;
 
@@ -67,6 +70,13 @@ public class Blocks : MonoBehaviour {
             Sound.PlaySe("se_burnnow", 1);
             nowplayingse = true;
         }
+
+        if (NowBurning == false)
+        {
+            BurnCnt = 0.0f;
+            NowBurning = true;
+        }
+
         BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
         if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
