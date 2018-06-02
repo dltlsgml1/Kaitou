@@ -15,15 +15,15 @@ public class Pause : MonoBehaviour {
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
-    public int move = 0;    
-    public int move_Max = 2; //
+    public int move;    
+    public int move_Max; //
 
     Vector3 vec_Cursor;//= Cursor.transform.localPosition;  
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         move = 0;
-
+        move_Max = 2;
         Sound.LoadSe("se_cancel", Sound.SearchFilename(Sound.eSoundFilename.PS_Cancel));
         Sound.LoadSe("se_enter", Sound.SearchFilename(Sound.eSoundFilename.PS_Enter));
         Sound.LoadSe("se_paper", Sound.SearchFilename(Sound.eSoundFilename.PS_Paper));
@@ -36,8 +36,8 @@ public class Pause : MonoBehaviour {
 
 
         ////ｑキーでゲームバック
-        //if (Input.GetKeyDown("q"))
-        if(Input.GetButtonDown("STARTButton"))
+        if (Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
+        //if(Input.GetButtonDown("STARTButton"))
         {
             is_pause = true;
         }
@@ -95,7 +95,7 @@ public class Pause : MonoBehaviour {
     private void BackStageSelect()
     {
         //アニメーション追加予定
-        Sound.PlaySe("se_enter", 4);
+        //Sound.PlaySe("se_enter", 4);
         OffPause();
         //セレクトへ遷移処理
         SceneManager.LoadSceneAsync("StageSelect");
@@ -106,7 +106,7 @@ public class Pause : MonoBehaviour {
         //アニメーション追加予定
         //　ポーズUIのアクティブ、非アクティブを切り替え
 
-        Debug.Log("im in Setpause");
+        //Debug.Log("im in Setpause");
         if (pauseUI.gameObject.activeSelf == false) 
         {
             pauseUI.SetActive(true);
@@ -114,8 +114,6 @@ public class Pause : MonoBehaviour {
         }
        
         Time.timeScale = 0f;
- 
-
     }
 
 
@@ -126,7 +124,7 @@ public class Pause : MonoBehaviour {
         {
             pauseUI.SetActive(false);           
         }
-        
+        is_pause = false;
         Time.timeScale = 1f;
     }
 
@@ -158,7 +156,7 @@ public class Pause : MonoBehaviour {
             move = move_Max;
         }
 
-
+        Debug.Log("move" + move);
 
         vec_Cursor = Cursor.transform.localPosition;
         //Pause画面セレクト指移動
@@ -203,7 +201,23 @@ public class Pause : MonoBehaviour {
     //    }
 
     //}
+        
 
+    //維持関数
+    public static void StopMode()
+    {
+        if (is_pause)
+        { 
+
+            Debug.Log("im in_StopMode");
+            return ;
+           
+        }
+        Debug.Log("im Out_StopMode");
+
+    }
+    //Pause.StopMode();
+    //if (Pause.is_pause){return;}
 }
 
 
