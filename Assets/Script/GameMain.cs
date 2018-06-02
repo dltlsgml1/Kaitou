@@ -13,7 +13,7 @@ public class GameMain : MonoBehaviour
 
 
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
-    GameObject[] CollapsBlocks = new GameObject[DefineScript.NUM_BLOCKS];
+    GameObject[] CollapsBocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] NormalBlocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[,] Plane = new GameObject[DefineScript.NUM_BLOCKS, 6];
 
@@ -91,18 +91,10 @@ public class GameMain : MonoBehaviour
         {
           
         }
-        
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[0]);
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[1]);
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[2]);
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[3]);
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[4]);
-        Debug.Log(CollapsBlocks[0].GetComponent<Blocks>().CollapsPlain[5]);
-        
-            
+        Debug.Log(seigen);
     }
 
-    bool atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
+    void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
     {
 
         if (Vector2.Distance(NormalPlaneVector[BlockNow, Blockplain],
@@ -114,27 +106,27 @@ public class GameMain : MonoBehaviour
             {
                 if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                 {
-                    return false;
+                    PlaneCollaps = false;
                 }
                 else
                 {
-                    return true;
+
+                    PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                 }
             }
             else
             {
                 if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                 {
-                    return false;
+                    PlaneCollaps = false;
                 }
                 else
                 {
-                    return true;
+                    PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                 }
             }
 
         }
-        return false;
 
     }
 
@@ -148,7 +140,7 @@ public class GameMain : MonoBehaviour
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
 
-                CollapsBlocks[j] = Blocks[i];
+                CollapsBocks[j] = Blocks[i];
                 CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
                 {
@@ -171,36 +163,34 @@ public class GameMain : MonoBehaviour
 
         }
 
-        
 
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
         {
-            Mesh CollapsMesh = CollapsBlocks[CollapsNow].GetComponent<MeshFilter>().mesh;
+            Mesh CollapsMesh = CollapsBocks[CollapsNow].GetComponent<MeshFilter>().mesh;
             Vector3[] CollapsVertices = CollapsMesh.vertices;
 
            
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Top] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top,CollapsVertices);
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Bottom] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom,CollapsVertices);
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Left] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left,CollapsVertices);
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Right] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right,CollapsVertices);
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Back] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back,CollapsVertices);
-                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsPlain[(int)DefineScript.CollisionIndex.Front] = atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front,CollapsVertices);
                 
                 if (PlaneCollaps == true)
                 {
                     NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn();
                     global::Blocks.nowplayingse = false;
-                    
+                    seigen--;
                     PlaneCollaps = false;
                 }
                 else
                 {
-                    
                     global::Blocks.nowplayingse = false;
                 }
 
