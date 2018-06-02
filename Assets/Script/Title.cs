@@ -15,7 +15,7 @@ public class Title : MonoBehaviour {
         //マウスクリックで任意のシーン切り替え
         if (Input.GetButtonDown("BButton"))
         {
-            SceneManager.LoadScene("StageSelect");
+            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
         }
 
     }
