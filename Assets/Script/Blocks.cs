@@ -14,6 +14,7 @@ public class Blocks : MonoBehaviour {
     public bool[] CollapsPlain = new bool[6];
     public int CollapsNum = 0;
     public static int NowCollapsingBlock = 0;
+    public bool canburn = false;
 
 
     Material Mat_Normal;
@@ -70,10 +71,9 @@ public class Blocks : MonoBehaviour {
         BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
         if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
-            BurnFlg = true;
+            canburn = true;
             BurnCnt = 0.0f;
-            SetBurn();
-            SetBurnMaterial();
+       
             return true;
         }
         return false;

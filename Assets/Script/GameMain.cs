@@ -10,6 +10,7 @@ public class GameMain : MonoBehaviour
     
     public Camera MainCamera;
     public GameObject Clear;
+    public GameObject Fail;
 
 
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
@@ -34,7 +35,7 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
-    public int seigen = 4;
+    public int seigen = 2;
   
     public void Restart()
     {
@@ -107,6 +108,7 @@ public class GameMain : MonoBehaviour
                 if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                 {
                     PlaneCollaps = false;
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
                 }
                 else
                 {
@@ -119,6 +121,8 @@ public class GameMain : MonoBehaviour
                 if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                 {
                     PlaneCollaps = false;
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+
                 }
                 else
                 {
@@ -171,39 +175,59 @@ public class GameMain : MonoBehaviour
             Mesh CollapsMesh = CollapsBocks[CollapsNow].GetComponent<MeshFilter>().mesh;
             Vector3[] CollapsVertices = CollapsMesh.vertices;
 
-           
+
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top,CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom,CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left,CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right,CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back,CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front,CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
+                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
                 
-                if (PlaneCollaps == true)
-                {
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn();
-                    global::Blocks.nowplayingse = false;
-                    seigen--;
-                    PlaneCollaps = false;
-                }
-                else
-                {
-                    global::Blocks.nowplayingse = false;
-                }
+                //if (PlaneCollaps == true && Input.GetKeyDown(KeyCode.Space))
+                //{
+                //    NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
+                //    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn();
+                //    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurnMaterial();
+                //    global::Blocks.nowplayingse = false;
+                //    seigen--;
+                //    PlaneCollaps = false;
+                //}
+                //else
+                //{
+                //    global::Blocks.nowplayingse = false;
+                //}
 
             }
 
 
-            if (NormalCount == 0)
-            {
-                Clear.gameObject.SetActive(true);
-                return true;
-            }
+
         }
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for(int i=0;i<NormalCount;i++)
+            {
+                if(NormalBlocks[i].GetComponent<Blocks>().canburn==true)
+                {
+                    NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
+                    NormalBlocks[i].GetComponent<Blocks>().SetBurn();
+                    NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
+                }
+            }
+            seigen--;
+
+        }
+        if (NormalCount == 0)
+        {
+            Clear.gameObject.SetActive(true);
+            return true;
+        }
+        if(seigen ==0)
+        {
+            Fail.gameObject.SetActive(true);
+        }
+
         return false;
     }
     public bool IsVisibleFromCamera(int i, Vector3[] vertices, Ray CameraRay)
