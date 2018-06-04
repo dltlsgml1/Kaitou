@@ -10,25 +10,28 @@ public class StageLoad : MonoBehaviour {
     private static GameObject CSVData;
     private static CsvLoad CsvData;
     public GameObject StagePrefab;
-    public float Distance = 15.0f;             //オブジェクト間の距離
-    private int StageID = 1;
-
+    private float Distance = 14.0f;             //オブジェクト間の距離
+    public int StageID;
+    PassStageID PassID;
     // Use this for initialization
     void Start()
     {
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
+        SetStagePrefab();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		       
 	}
 
-    public void SetStagePrefab(int StageID)
+    public void SetStagePrefab()
     {
-        StagePrefab = (GameObject)Resources.Load(CsvData.StageDateList[StageID].StageName);
-        Instantiate(StagePrefab, new Vector3(0, 1, 0), Quaternion.Euler(-90,0,0));
-        
+        Transform parent = this.transform;
+        for (int i = 0; i < CsvLoad.height-1; i++)
+        {
+            StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CsvData.StageDateList[i+1].StageName);
+            Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
+        }
     }
 }

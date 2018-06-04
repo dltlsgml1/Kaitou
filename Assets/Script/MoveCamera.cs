@@ -11,18 +11,20 @@ public class MoveCamera : MonoBehaviour {
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
-    Vector3 Position;                           //位置のデータ
-    Vector3 Rotation;                           //回転のデータ
+    public Vector3 Position;                           //位置のデータ
+    public Vector3 Rotation;                           //回転のデータ
     Vector2 ScreenPosition;                     //スクリーンの位置データ
     float Key;                                  //Axisで取られた正負の確認
     float DefaultKey=0.5f;                      //勝手に移動するの防ぐ用
     public bool CheckDebug;
     public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
+    public bool MoveFlag;                       //カメラを移動させているか
     public float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
     public float ChangeSpeedFast = 3.0f;        //スピードチェンジ時の速さ(早い時)
     public float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
     public float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
+    
     
     // Use this for initialization
     void Start() {
@@ -32,7 +34,6 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.x = 0;
         FormatRotation.y = 0;
         FormatRotation.z = 0;
-        Position = this.transform.position;
     }
 
     // Update is called once per frame
@@ -69,6 +70,7 @@ public class MoveCamera : MonoBehaviour {
     }
     public void ParallelMove()      //平行移動関数
     {
+        MoveFlag = false;
         ScreenPosition = transform.InverseTransformPoint(Position); //ワールド座標をスクリーン座標に変換
        
 
@@ -76,6 +78,7 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("RightStick X");
         if (Key != 0)
         {
+            MoveFlag = true;
             if (Key < DefaultKey)
             {
 
@@ -89,6 +92,7 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("RightStick Y");
         if (Key != 0)
         {
+            MoveFlag = true;
             if (Key < DefaultKey)
             {
 
@@ -102,7 +106,6 @@ public class MoveCamera : MonoBehaviour {
 
         Position = transform.TransformPoint(ScreenPosition);    //スクリーン座標をワールド座標に変換
     }
-
     public void RotationCamera()    //カメラ回転関数
     {
         Key = 0;
@@ -110,6 +113,7 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("LeftStick Y");
         if (Key != 0)
         {
+            MoveFlag = true;
             if (Key < DefaultKey)
             {
                 if(Rotation.x < 85)
@@ -144,6 +148,7 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("LeftStick X");
         if (Key != 0)
         {
+            MoveFlag = true;
             if (Key > -DefaultKey)
             {
                 if (HiSpeedChangeFlag)
@@ -170,11 +175,11 @@ public class MoveCamera : MonoBehaviour {
         }
 
     }
-
     void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
     {
         if (Input.GetButton("LButton"))
         {
+            MoveFlag = true;
             if (MainCamera.orthographicSize < 20)
             {
                 
@@ -184,6 +189,7 @@ public class MoveCamera : MonoBehaviour {
         }
         if (Input.GetButton("RButton"))
         {
+            MoveFlag = true;
             if (MainCamera.orthographicSize > 1)
             {
                 MainCamera.orthographicSize -= 0.1f;
@@ -191,7 +197,6 @@ public class MoveCamera : MonoBehaviour {
             }
         }
     }
-
     public void FormatDate()        //初期化関数
     {
         if (Input.GetButton("SelectButton"))
@@ -229,4 +234,9 @@ public class MoveCamera : MonoBehaviour {
             Debug.Log("Bボタン");
         }
     } 
+    public void correction()        //位置の補正
+    {
+
+    }
+
 }

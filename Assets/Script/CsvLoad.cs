@@ -15,6 +15,12 @@ public class CsvLoad : MonoBehaviour {
 		public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
         public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
+        public Nullable<float> Pos_X;        //カメラのポジションX
+        public Nullable<float> Pos_Y;        //カメラのポジションY
+        public Nullable<float> Pos_Z;        //カメラのポジションZ
+        public Nullable<float> Rot_X;        //カメラの角度X
+        public Nullable<float> Rot_Y;        //カメラの角度Y
+        public Nullable<float> Rot_Z;        //カメラの角度Z
         public string StageTitle;             //CSVのTitle部分
     }
 	//実際のキャラデータ格納箇所
@@ -27,7 +33,7 @@ public class CsvLoad : MonoBehaviour {
 	private string[] fields;
 
 	//読み込めたか確認の表示用の変数
-	private int height = 0;    //行数
+	public static int height = 0;    //行数
 
 	//public string line = "";
 
@@ -36,6 +42,7 @@ public class CsvLoad : MonoBehaviour {
 		TextAsset csv = Resources.Load (path) as TextAsset;
         Debug.Log("resourceload直後" + csv);
 		StringReader sr = new StringReader (csv.text);
+        Debug.Log(sr);
 		// ストリームリーダーをstringに変換
 		string strStream    = sr.ReadToEnd( );
         Debug.Log(sr);
@@ -71,7 +78,7 @@ public class CsvLoad : MonoBehaviour {
 		}
 
 		// 確認表示用の変数(行数、列数)を格納する
-		this.height = h;    //行数   
+		height = h;    //行数   
 
 		Resources.UnloadAsset (csv);
 	}
@@ -86,7 +93,13 @@ public class CsvLoad : MonoBehaviour {
 					StageName = null,
 					UpperCunt = null,
 					ClearFlag = null,
-					StageTitle = null,
+                    Pos_X = null,
+                    Pos_Y = null,
+                    Pos_Z = null,
+                    Rot_X=null,
+                    Rot_Y=null,
+                    Rot_Z=null,
+                    StageTitle = null,
 				});
 			} else {
 
@@ -96,7 +109,13 @@ public class CsvLoad : MonoBehaviour {
                     StageName = arrays [i, 1],
                     UpperCunt = int.Parse (arrays [i, 2]),
                     ClearFlag = int.Parse (arrays [i, 3]),
-                    StageTitle = arrays[i, 4],
+                    Pos_X = float.Parse(arrays[i, 4]),
+                    Pos_Y = float.Parse(arrays[i, 5]),
+                    Pos_Z = float.Parse(arrays[i, 6]),
+                    Rot_X = float.Parse(arrays[i, 7]),
+                    Rot_Y = float.Parse(arrays[i, 8]),
+                    Rot_Z = float.Parse(arrays[i, 9]),                  
+                    StageTitle = arrays[i, 10],
                     
 				});
 			}
@@ -107,8 +126,13 @@ public class CsvLoad : MonoBehaviour {
 			Debug.Log(i + ":" + "StageID/" + StageDateList[i].StageID);        
 			Debug.Log(i + ":" + "StageName/" + StageDateList[i].StageName);
 			Debug.Log(i + ":" + "UpperCunt/" + StageDateList[i].UpperCunt);
-			Debug.Log(i + ":" + "ClearFlag/" + StageDateList[i].ClearFlag);
-			Debug.Log(i + ":" + "StageTitle/" + StageDateList[i].StageTitle);
+			Debug.Log(i + ":" + "Pos_X/" + StageDateList[i].Pos_X);
+            Debug.Log(i + ":" + "Pos_Y/" + StageDateList[i].Pos_Y);
+            Debug.Log(i + ":" + "Pos_Z/" + StageDateList[i].Pos_Z);
+            Debug.Log(i + ":" + "Rot_X/" + StageDateList[i].Rot_X);
+            Debug.Log(i + ":" + "Rot_Y/" + StageDateList[i].Rot_Y);
+            Debug.Log(i + ":" + "Rot_Z/" + StageDateList[i].Rot_Z);
+            Debug.Log(i + ":" + "StageTitle/" + StageDateList[i].StageTitle);
 		}
 	}
 	// Use this for initialization
@@ -116,8 +140,7 @@ public class CsvLoad : MonoBehaviour {
         //キャラクターデータ
         Debug.Log("スタート直後" + StageDatePath);
 		csvLoad (StageDatePath, ref this.sData);
-		charDataConvert (this.sData,this.height);
-
+		charDataConvert (this.sData,height);
 		Debug.Log ("CSVLoadStart");
 	}
 
