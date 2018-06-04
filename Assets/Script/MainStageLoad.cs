@@ -18,7 +18,7 @@ public class MainStageLoad : MonoBehaviour
     MoveCamera Transform;
     public int UpperCount;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         MainObject= GameObject.Find("GameObject");
         Transform=MainObject.GetComponent<MoveCamera>();

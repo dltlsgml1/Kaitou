@@ -27,6 +27,7 @@ public class GameMain : MonoBehaviour
     Vector3[] NormalBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
+    MainStageLoad LoadObj;
 
     Ray ray;
 
@@ -37,7 +38,7 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
-    public int seigen = 2;
+    private int seigen;
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
@@ -69,6 +70,8 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("se_burnnow", "GM_BurnNow");
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
+        seigen = PassStageID.PassUpperCount();
+        Debug.Log(PassStageID.PassUpperCount() + "/" + seigen);
       
     }
 
