@@ -4,35 +4,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class PassStageID : MonoBehaviour {
+public class PassStageID {
 
-    public GameObject StageIDObject;
-    public int StageID;
-    private bool CheckFlag = false;
-	// Use this for initialization
-	void Start () {
+    public static int StageID;
+    public static string StageName;
 
-       
+    // シングルトン
+    static PassStageID _singleton = null;
+    // インスタンス取得
+    public static PassStageID GetInstance()
+    {
+        return _singleton ?? (_singleton = new PassStageID());
+    }
+
+    // Use this for initialization
+    void Start () {
         
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-        StageIDObject = GameObject.Find("StageSelectObject");
-        if (StageIDObject != null)
-        {
-            StageSelect stageSelect = StageIDObject.GetComponent<StageSelect>();
-            StageID = stageSelect.StageID;
-           
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SceneManager.LoadScene("Title"); ;
-        }
+        
     }
 
-    private void Awake()
+    public static void GetStageID(int id)
     {
-        DontDestroyOnLoad(this);
+        StageID = id;
     }
+
+    public static int PassStageId()
+    {
+        return StageID;
+    }
+
+    public static void GetStageName(string Name)
+    {
+        StageName = Name;
+    }
+
+    public static string PassStageName()
+    {
+        return StageName;
+    }
+
 }

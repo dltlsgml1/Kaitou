@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class StageSelect : MonoBehaviour
 {
     public bool SelectStageFlag = false;    //ステージ選択決定
@@ -12,17 +13,19 @@ public class StageSelect : MonoBehaviour
     public bool TargetFlag = false;         //移動範囲固定用フラグ
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
-    public int StageID;                     //ステージID
+    public int StageID = 1;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(5, 0, 0);   //移動時のベクトル
-    public int StageNum = 4;                //ステージの数(仮置き)
+    public int StageNum = 31;                //ステージの数(仮置き)
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
     StageLoad StageLoad;
     Sound Sound;
-
+    PassStageID PassID;
+    private static GameObject CSVData;
+    private static CsvLoad CsvData;
 
 
     // Use this for initialization
@@ -40,6 +43,9 @@ public class StageSelect : MonoBehaviour
 
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
+
+        CSVData = GameObject.Find("CSVLoad");
+        CsvData = CSVData.GetComponent<CsvLoad>();
     }
 
     // Update is called once per frame
@@ -48,7 +54,6 @@ public class StageSelect : MonoBehaviour
         StageSelectMoveFlag();      //ステージ移動フラグを立てる
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
-        TestSetPrefab();
         Transitions();              //遷移
     }
 
@@ -59,7 +64,7 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < StageNum)
+            if (StageID < StageNum+1)
             {
 
                 if (Decision > DefaultKey && !TargetFlag)
@@ -155,18 +160,14 @@ public class StageSelect : MonoBehaviour
             }
         }
     }
-    public void TestSetPrefab()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            StageLoad.SetStagePrefab(StageID + 1);
-        }
-    }
+
     public void Transitions()       //遷移
     {
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
+            PassStageID.GetStageID(StageID);
+            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)
