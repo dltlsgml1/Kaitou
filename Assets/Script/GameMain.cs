@@ -60,12 +60,10 @@ public class GameMain : MonoBehaviour
         keka = false;
         ClearFlg = false;
         seigen = PassStageID.PassUpperCount();
-        MainCamera.transform.position = PassStageID.PassPosition();
-        MainCamera.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
-        BackGroundCamera.transform.position = PassStageID.PassPosition();
-        BackGroundCamera.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
-        CameraObj.transform.position = PassStageID.PassPosition();
-        CameraObj.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
+
+        MoveCamera mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
+        mvcamera.Position = PassStageID.PassPosition();
+        mvcamera.Rotation = PassStageID.PassRotation();
     }
 
     public int Getseigen()

@@ -475,6 +475,31 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 551781101}
+    - target: {fileID: 114310458051715466, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310458051715466, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0.08823532
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310458051715466, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 0.02076125
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310458051715466, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0.02076125
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310458051715466, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 824f1cc2dc97b3f4d9110001c4b5ed3f, type: 2}
   m_IsPrefabParent: 0
@@ -1229,6 +1254,7 @@ MonoBehaviour:
   IsVisibleBlock: 0
   IsVisibleCollaps: 0
   PlaneCollaps: 0
+  seigen: 0
   minusseigen: 0
   ClearFlg: 0
   keka: 0
