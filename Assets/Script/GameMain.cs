@@ -36,6 +36,9 @@ public class GameMain : MonoBehaviour
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
     public int seigen = 2;
+    public bool minusseigen = false;
+    public bool ClearFlg = false;
+    public bool keka = false;
   
     public void Restart()
     {
@@ -55,6 +58,8 @@ public class GameMain : MonoBehaviour
     void Start()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
+        Clear.gameObject.SetActive(false);
+        Fail.gameObject.SetActive(false);
         Sound.LoadBgm("gm_bgm", "GM_Bgm");
         Sound.LoadBgm("gm_burn", "GM_Burn");
         Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
@@ -112,7 +117,6 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-
                     PlaneCollaps = NormalBlocks[BlockNow].GetComponent<Blocks>().Burning();
                 }
             }
@@ -138,7 +142,7 @@ public class GameMain : MonoBehaviour
     {
         NormalCount = 0;
         CollapsCount = 0;
-
+        minusseigen = false;
         for (int i = 0, j = 0, k = 0; i < Blocks.Length; i++)
         {
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
@@ -167,6 +171,13 @@ public class GameMain : MonoBehaviour
 
         }
 
+        if (seigen == 0 && NormalCount != 0)
+        {
+            if (Fail.gameObject.activeSelf == false)
+            {
+                Fail.gameObject.SetActive(true);
+            }
+        }
 
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
@@ -213,20 +224,32 @@ public class GameMain : MonoBehaviour
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().SetBurn();
                     NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
+                    global::Blocks.BurningCnt = 0.0f;
+                    if(minusseigen==false)
+                    {
+                        seigen--;
+                        minusseigen = true;
+                    }
+                      
                 }
             }
-            seigen--;
+
 
         }
+
+        
+
         if (NormalCount == 0)
         {
-            Clear.gameObject.SetActive(true);
+            if (Clear.gameObject.activeSelf == false)
+            {
+                Clear.gameObject.SetActive(true);
+            }
+            ClearFlg = true;
             return true;
         }
-        if(seigen ==0)
-        {
-            Fail.gameObject.SetActive(true);
-        }
+
+       
 
         return false;
     }
@@ -281,36 +304,7 @@ public class GameMain : MonoBehaviour
             return false;
         }
     }
-
-    bool Collaps(Vector3[] NormalPlaneVector, Vector3[] CollapsPlainVector)
-    {
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Top], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Bottom]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Bottom], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Top]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Right], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Left]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Left], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Right]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Front], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Back]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        if (Vector2.Distance((Vector2)NormalPlaneVector[(int)DefineScript.CollisionIndex.Back], (Vector2)CollapsPlainVector[(int)DefineScript.CollisionIndex.Front]) < DefineScript.JUDGE_DISTANCE)
-        {
-            return true;
-        }
-        return false;
-    }
-
+    
     private void OnDestroy()
     {
         Sound.StopBgm();
