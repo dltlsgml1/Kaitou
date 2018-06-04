@@ -8,6 +8,8 @@ public class PassStageID {
 
     public static int StageID;
     public static string StageName;
+    public static Vector3 CameraRotation;
+    public static Vector3 CameraPosition;
 
     // シングルトン
     static PassStageID _singleton = null;
@@ -47,5 +49,27 @@ public class PassStageID {
     {
         return StageName;
     }
+    public static void GetRotation(float x, float y, float z)
+    {
+        CameraRotation.x = x;
+        CameraRotation.y = y;
+        CameraRotation.z = z;
+    }
 
+    public static Vector3 PassRotation()
+    {
+        return CameraRotation;
+    }
+
+    public static void GetPosition(float x, float y, float z)
+    {
+        CameraPosition.x = x;
+        CameraPosition.y = y;
+        CameraPosition.z = z;
+    }
+
+    public static Vector3 PassPosition()
+    {
+        return CameraPosition;
+    }
 }

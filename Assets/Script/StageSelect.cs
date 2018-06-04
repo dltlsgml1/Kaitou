@@ -168,6 +168,8 @@ public class StageSelect : MonoBehaviour
             SelectStageFlag = false;
             PassStageID.GetStageID(StageID);
             PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
+            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)

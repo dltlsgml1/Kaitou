@@ -11,8 +11,8 @@ public class MoveCamera : MonoBehaviour {
 
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
-    Vector3 Position;                           //位置のデータ
-    Vector3 Rotation;                           //回転のデータ
+    public Vector3 Position;                           //位置のデータ
+    public Vector3 Rotation;                           //回転のデータ
     Vector2 ScreenPosition;                     //スクリーンの位置データ
     float Key;                                  //Axisで取られた正負の確認
     float DefaultKey=0.5f;                      //勝手に移動するの防ぐ用
@@ -34,7 +34,6 @@ public class MoveCamera : MonoBehaviour {
         FormatRotation.x = 0;
         FormatRotation.y = 0;
         FormatRotation.z = 0;
-        Position = this.transform.position;
     }
 
     // Update is called once per frame

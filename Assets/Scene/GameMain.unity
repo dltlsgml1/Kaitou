@@ -329,7 +329,7 @@ Transform:
   - {fileID: 2119737840}
   - {fileID: 922072687}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448977134
 GameObject:
@@ -358,7 +358,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &448977136
 MonoBehaviour:
@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainStagePrefab: {fileID: 0}
   StageID: 0
+  MainObject: {fileID: 0}
 --- !u!1 &462184768
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,47 +971,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1317051736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1317051738}
-  - component: {fileID: 1317051737}
-  m_Layer: 0
-  m_Name: CSVload
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1317051737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1317051736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d96d480c9e39924d8c2fc2dd181e93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StageDatePath: CSV/StageData.csv
---- !u!4 &1317051738
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1317051736}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8544922, y: -1.8950195, z: -16.614258}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1374889244 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4105759327881608, guid: 9839318396d1c7341b819eafdd185809,
@@ -1121,6 +1081,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 551781101}
   Background: {fileID: 1809021402}
+  Position: {x: 0, y: 0, z: 0}
+  Rotation: {x: 0, y: 0, z: 0}
   CheckDebug: 0
   HiSpeedChangeFlag: 0
   LowSpeedChangeFlag: 0
@@ -1143,7 +1105,7 @@ Transform:
   - {fileID: 1809021403}
   - {fileID: 345355166}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1591111139
 Prefab:
@@ -1267,7 +1229,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1809021399
 GameObject:
