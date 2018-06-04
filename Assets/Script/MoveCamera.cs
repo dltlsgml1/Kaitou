@@ -214,10 +214,10 @@ public class MoveCamera : MonoBehaviour {
     }
     public void BackStageSelect()
     {
-        if (Input.GetButtonDown("StartButton"))
+       /* if (Input.GetButtonDown("StartButton"))
         {
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
-        }
+        }*/
     }
     public void KeyDebug()          //keyの入力が出来てるかのデバッグ用(削除する予定)
     {

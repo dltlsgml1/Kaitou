@@ -13,7 +13,7 @@ public class StageSelect : MonoBehaviour
     public bool TargetFlag = false;         //移動範囲固定用フラグ
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
-    public int StageID = 1;                     //ステージID
+    private int StageID = 1;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
@@ -46,6 +46,8 @@ public class StageSelect : MonoBehaviour
 
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
+        StageID = PassStageID.PassStageId();
+        this.transform.position = new Vector3(-Distance*(StageID-1), 0, 0);
     }
 
     // Update is called once per frame

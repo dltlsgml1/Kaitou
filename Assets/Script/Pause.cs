@@ -130,10 +130,33 @@ public class Pause : MonoBehaviour {
     private void MoveSelect()
     {
         //ある座標に向かって移動アニメーション追加予定
-
+        float Distance = Input.GetAxisRaw("LeftStick Y");
 
         //移動先
-        if (Input.GetKeyDown("up"))
+        if (Distance != 0) {
+            if(Distance > -0.5)
+            {
+                if(Input.GetButtonDown("LeftStick Y"))
+                {
+                    move -= 1;
+                    //SE追加
+                    Sound.PlaySe("se_select", 6);
+                }
+            }
+            if (Distance < 0.5)
+            {
+                if (Input.GetButtonDown("LeftStick Y"))
+                {
+                    move += 1;
+                    //SE追加
+                    Sound.PlaySe("se_select", 6);                
+                }
+            }
+
+        }
+
+
+        /*if (Input.GetKeyDown("up"))
         {
             move -= 1;
             //SE追加
@@ -144,7 +167,7 @@ public class Pause : MonoBehaviour {
             move += 1;
             //SE追加
             Sound.PlaySe("se_select", 6);
-        }
+        }*/
         //Pause選択数分超えないようにループ
         if (move > move_Max)
         {
