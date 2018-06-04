@@ -396,7 +396,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 448977134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8544922, y: -1.8950195, z: -16.614258}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -416,6 +416,7 @@ MonoBehaviour:
   MainStagePrefab: {fileID: 0}
   StageID: 0
   MainObject: {fileID: 0}
+  UpperCount: 0
 --- !u!1 &462184768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,10 +1333,10 @@ MonoBehaviour:
   HiSpeedChangeFlag: 0
   LowSpeedChangeFlag: 0
   MoveFlag: 0
-  ChangeSpeedLow: 0.1
-  ChangeSpeedFast: 3
+  ChangeSpeedLow: 0.5
+  ChangeSpeedFast: 5
   MoveCameraSpeed: 0.1
-  RotationCameraSpeed: 0.5
+  RotationCameraSpeed: 3
 --- !u!4 &1569801944
 Transform:
   m_ObjectHideFlags: 0

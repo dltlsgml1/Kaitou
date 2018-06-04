@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PassStageID {
 
-    public static int StageID;
+    public static int StageID = 1;
     public static string StageName;
     public static Vector3 CameraRotation;
     public static Vector3 CameraPosition;
