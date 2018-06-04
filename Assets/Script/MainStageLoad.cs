@@ -16,6 +16,7 @@ public class MainStageLoad : MonoBehaviour
     public GameObject MainObject;
     PassStageID PassID;
     MoveCamera Transform;
+    public int UpperCount;
     // Use this for initialization
     void Start()
     {
@@ -41,7 +42,7 @@ public class MainStageLoad : MonoBehaviour
         Debug.Log(Transform.Position);
         Transform.Rotation = PassStageID.PassRotation();
         Debug.Log(Transform.Rotation);
-
+        UpperCount = PassStageID.PassUpperCount();
 
     }
 }

@@ -10,7 +10,7 @@ public class PassStageID {
     public static string StageName;
     public static Vector3 CameraRotation;
     public static Vector3 CameraPosition;
-
+    public static int UpperCount;
     // シングルトン
     static PassStageID _singleton = null;
     // インスタンス取得
@@ -71,5 +71,14 @@ public class PassStageID {
     public static Vector3 PassPosition()
     {
         return CameraPosition;
+    }
+
+    public static void GetUpperCount(int Count)
+    {
+        UpperCount = Count;
+    }
+    public static int PassUpperCount()
+    {
+        return UpperCount;
     }
 }
