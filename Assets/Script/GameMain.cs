@@ -232,7 +232,7 @@ public class GameMain : MonoBehaviour
 
 
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("AButton"))
         {
             for(int i=0;i<NormalCount;i++)
             {

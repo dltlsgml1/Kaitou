@@ -13,7 +13,7 @@ public class StageSelect : MonoBehaviour
     public bool TargetFlag = false;         //移動範囲固定用フラグ
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
-    private int StageID = 1;                     //ステージID
+    private int StageID = 2;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
@@ -168,11 +168,11 @@ public class StageSelect : MonoBehaviour
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
-            PassStageID.GetStageID(StageID);
-            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
-            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID].UpperCunt);
+            PassStageID.GetStageID(StageID+1);
+            PassStageID.GetStageName(CsvData.StageDateList[StageID+1].StageName);
+            PassStageID.GetPosition((float)CsvData.StageDateList[StageID+1].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CsvData.StageDateList[StageID+1].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
+            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID+1].UpperCunt);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)

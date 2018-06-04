@@ -11,7 +11,9 @@ public class Pause : MonoBehaviour {
     [SerializeField]
     private GameObject pauseUI;
     public GameObject Cursor;
-
+    bool StickFlag = false;
+    bool moved = false;
+    int count = 0;
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
@@ -134,25 +136,33 @@ public class Pause : MonoBehaviour {
 
         //移動先
         if (Distance != 0) {
-            if(Distance > -0.5)
-            {
-                if(Input.GetButtonDown("LeftStick Y"))
-                {
-                    move -= 1;
-                    //SE追加
-                    Sound.PlaySe("se_select", 6);
-                }
+
+            if (Distance < -0.5f || Distance > 0.5f)
+            {          
+                StickFlag = true;
             }
-            if (Distance < 0.5)
+            else
             {
-                if (Input.GetButtonDown("LeftStick Y"))
-                {
-                    move += 1;
-                    //SE追加
-                    Sound.PlaySe("se_select", 6);                
-                }
+                StickFlag = false;
+                moved = false;
             }
 
+            if(StickFlag == true && moved == false && Distance < -0.5f)
+            {
+                move += 1;
+                moved = true;
+            }
+
+            if (StickFlag == true && moved == false && Distance > 0.5f)
+            {
+                move -= 1;
+                moved = true;
+            }
+
+
+
+
+            Sound.PlaySe("se_select", 6);
         }
 
 
