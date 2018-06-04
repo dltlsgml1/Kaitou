@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameMain : MonoBehaviour
     public Camera MainCamera;
     public GameObject Clear;
     public GameObject Fail;
-
+    public Text targettext;
 
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] CollapsBocks = new GameObject[DefineScript.NUM_BLOCKS];
@@ -25,6 +26,7 @@ public class GameMain : MonoBehaviour
     Vector3[] CollapsBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
     Vector3[] NormalBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
+
 
     Ray ray;
 
@@ -143,6 +145,7 @@ public class GameMain : MonoBehaviour
         NormalCount = 0;
         CollapsCount = 0;
         minusseigen = false;
+        targettext.text = seigen.ToString();
         for (int i = 0, j = 0, k = 0; i < Blocks.Length; i++)
         {
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
