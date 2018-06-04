@@ -42,6 +42,7 @@ public class MoveCamera : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
+        if (Pause.is_pause) { return; }
         ParallelMove();
         RotationCamera();
         ChangeSize();
