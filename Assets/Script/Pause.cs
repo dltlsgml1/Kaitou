@@ -85,7 +85,7 @@ public class Pause : MonoBehaviour {
         //RestartLoad
         //アニメーション追加予定
         //Sound.PlaySe("se_enter", 4);
-
+        gameObject.GetComponent<GameMain>().Restart();
         OffPause();
 
         //リスタート初期化関数追加予定
@@ -105,8 +105,7 @@ public class Pause : MonoBehaviour {
     {
         //アニメーション追加予定
         //　ポーズUIのアクティブ、非アクティブを切り替え
-
-        //Debug.Log("im in Setpause");
+        
         if (pauseUI.gameObject.activeSelf == false) 
         {
             pauseUI.SetActive(true);
@@ -155,8 +154,7 @@ public class Pause : MonoBehaviour {
         {
             move = move_Max;
         }
-
-        Debug.Log("move" + move);
+        
 
         vec_Cursor = Cursor.transform.localPosition;
         //Pause画面セレクト指移動
@@ -208,12 +206,10 @@ public class Pause : MonoBehaviour {
     {
         if (is_pause)
         { 
-
-            Debug.Log("im in_StopMode");
+            
             return ;
            
         }
-        Debug.Log("im Out_StopMode");
 
     }
     //Pause.StopMode();

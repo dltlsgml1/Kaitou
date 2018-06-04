@@ -221,19 +221,7 @@ public class MoveCamera : MonoBehaviour {
     }
     public void KeyDebug()          //keyの入力が出来てるかのデバッグ用(削除する予定)
     {
-        CheckDebug = false;
-        if (CheckDebug = Input.GetButtonDown("StartButton"))
-        {
-            Debug.Log("スタートボタン");
-        }
-        if (CheckDebug = Input.GetButtonDown("AButton")) 
-        {
-            Debug.Log("Aボタン");
-        }
-        if (CheckDebug = Input.GetButtonDown("BButton")) 
-        {
-            Debug.Log("Bボタン");
-        }
+
     } 
     public void correction()        //位置の補正
     {

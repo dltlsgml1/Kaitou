@@ -36,12 +36,9 @@ public class MainStageLoad : MonoBehaviour
         Transform parent = this.transform;
 
         MainStagePrefab = (GameObject)Resources.Load("Prefabs/Stage/" + PassStageID.PassStageName());
-        Debug.Log(MainStagePrefab);
         Instantiate(MainStagePrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0),parent);
         Transform.Position = PassStageID.PassPosition();
-        Debug.Log(Transform.Position);
         Transform.Rotation = PassStageID.PassRotation();
-        Debug.Log(Transform.Rotation);
         UpperCount = PassStageID.PassUpperCount();
 
     }

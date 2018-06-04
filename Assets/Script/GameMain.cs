@@ -5,11 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
-{
-    public LoadMainStages StageLoader;                      
+{                  
     public GameObject NowStageObj;
     
     public Camera MainCamera;
+    public Camera BackGroundCamera;
+    public GameObject CameraObj;
     public GameObject Clear;
     public GameObject Fail;
     public Text targettext;
@@ -27,18 +28,15 @@ public class GameMain : MonoBehaviour
     Vector3[] NormalBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
-    MainStageLoad LoadObj;
-
     Ray ray;
 
     public int BlocksCount = 0;
     public int CollapsCount = 0;
     public int NormalCount = 0;
-    public int NowStageID = 0;
     public bool IsVisibleBlock = false;
     public bool IsVisibleCollaps = false;
     public bool PlaneCollaps = false;
-    private int seigen;
+    public int seigen;
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
@@ -53,9 +51,26 @@ public class GameMain : MonoBehaviour
                 Blocks[i].GetComponent<MeshRenderer>().material = LoadResources.Mat_Normal;
                 Blocks[i].GetComponent<Blocks>().SetFire.gameObject.SetActive(false);
                 Blocks[i].GetComponent<Blocks>().StartFlg();
+
+
             }
         }
         Clear.gameObject.SetActive(false);
+        Fail.gameObject.SetActive(false);
+        keka = false;
+        ClearFlg = false;
+        seigen = PassStageID.PassUpperCount();
+        MainCamera.transform.position = PassStageID.PassPosition();
+        MainCamera.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
+        BackGroundCamera.transform.position = PassStageID.PassPosition();
+        BackGroundCamera.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
+        CameraObj.transform.position = PassStageID.PassPosition();
+        CameraObj.transform.rotation =Quaternion.Euler( PassStageID.PassRotation());
+    }
+
+    public int Getseigen()
+    {
+        return seigen;
     }
 
     void Start()
@@ -71,7 +86,6 @@ public class GameMain : MonoBehaviour
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
         seigen = PassStageID.PassUpperCount();
-        Debug.Log(PassStageID.PassUpperCount() + "/" + seigen);
       
     }
 
@@ -102,7 +116,6 @@ public class GameMain : MonoBehaviour
         {
           
         }
-        Debug.Log(seigen);
     }
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
