@@ -42,6 +42,7 @@ public class GameMain : MonoBehaviour
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
+
   
     public void Restart()
     {
@@ -100,9 +101,16 @@ public class GameMain : MonoBehaviour
         }
         if (Atari() == true)
         {
-          
+            keka = true;
         }
-        Debug.Log(seigen);
+        if(keka==true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+            }
+            
+        }
     }
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
@@ -182,6 +190,7 @@ public class GameMain : MonoBehaviour
             if (Fail.gameObject.activeSelf == false)
             {
                 Fail.gameObject.SetActive(true);
+                return true;
             }
         }
 
