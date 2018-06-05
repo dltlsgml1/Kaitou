@@ -112,7 +112,10 @@ public class GameMain : MonoBehaviour
         }
         if (Atari() == true)
         {
-          
+            if(Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton"))
+            {
+                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+            }
         }
     }
 
@@ -194,6 +197,7 @@ public class GameMain : MonoBehaviour
             {
                 Fail.gameObject.SetActive(true);
             }
+            return true;
         }
 
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
