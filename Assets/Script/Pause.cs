@@ -11,7 +11,9 @@ public class Pause : MonoBehaviour {
     [SerializeField]
     private GameObject pauseUI;
     public GameObject Cursor;
-
+    bool StickFlag = false;
+    bool moved = false;
+    int count = 0;
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
@@ -85,7 +87,7 @@ public class Pause : MonoBehaviour {
         //RestartLoad
         //アニメーション追加予定
         //Sound.PlaySe("se_enter", 4);
-
+        gameObject.GetComponent<GameMain>().Restart();
         OffPause();
 
         //リスタート初期化関数追加予定
@@ -105,8 +107,7 @@ public class Pause : MonoBehaviour {
     {
         //アニメーション追加予定
         //　ポーズUIのアクティブ、非アクティブを切り替え
-
-        //Debug.Log("im in Setpause");
+        
         if (pauseUI.gameObject.activeSelf == false) 
         {
             pauseUI.SetActive(true);
@@ -131,10 +132,41 @@ public class Pause : MonoBehaviour {
     private void MoveSelect()
     {
         //ある座標に向かって移動アニメーション追加予定
-
+        float Distance = Input.GetAxisRaw("LeftStick Y");
 
         //移動先
-        if (Input.GetKeyDown("up"))
+        if (Distance != 0) {
+
+            if (Distance < -0.5f || Distance > 0.5f)
+            {          
+                StickFlag = true;
+            }
+            else
+            {
+                StickFlag = false;
+                moved = false;
+            }
+
+            if(StickFlag == true && moved == false && Distance < -0.5f)
+            {
+                move += 1;
+                moved = true;
+            }
+
+            if (StickFlag == true && moved == false && Distance > 0.5f)
+            {
+                move -= 1;
+                moved = true;
+            }
+
+
+
+
+            Sound.PlaySe("se_select", 6);
+        }
+
+
+        /*if (Input.GetKeyDown("up"))
         {
             move -= 1;
             //SE追加
@@ -145,7 +177,7 @@ public class Pause : MonoBehaviour {
             move += 1;
             //SE追加
             Sound.PlaySe("se_select", 6);
-        }
+        }*/
         //Pause選択数分超えないようにループ
         if (move > move_Max)
         {
@@ -155,8 +187,7 @@ public class Pause : MonoBehaviour {
         {
             move = move_Max;
         }
-
-        Debug.Log("move" + move);
+        
 
         vec_Cursor = Cursor.transform.localPosition;
         //Pause画面セレクト指移動
@@ -208,12 +239,10 @@ public class Pause : MonoBehaviour {
     {
         if (is_pause)
         { 
-
-            Debug.Log("im in_StopMode");
+            
             return ;
            
         }
-        Debug.Log("im Out_StopMode");
 
     }
     //Pause.StopMode();

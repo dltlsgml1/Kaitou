@@ -1,226 +1,101 @@
-﻿/*
+﻿//********************************************
+// Screenshot class ver1.0
+//  complete_date_ver1.0 : 2018/06/04_ikeda
+//********************************************
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-public class ScreenShot : MonoBehaviour {
+public class Screenshot : MonoBehaviour
+{
+    private string projectName;     // プロジェクトの名前(読み込み参照用)
+    private string prefabName;      // プレハブオブジェクト名(ベース名)
+    private string childPrefabName; // クリアイメージのオブジェクト名
+    private string fileName;        // スクリーンショットイメージの名前
+    private bool isRunning;         // コルーチン用
 
-    public string savePath = "Assets/Resources/StageSelect/SS_Canvas/ClearStageSS/";
-    //public string savePath = "";
-
-    public string fileName = "clear_stage";
-    public int count;
-
-    bool isRunning = false;
-
-	// Use this for initialization
-	void Start () {
-
-        count = 0;
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            count++;
-
-            //CreateClearImage();
-            //LoadClearImageToMaterial("StageSelect/SS_Canvas/ClearStageSS/");
-
-            StartCoroutine("CreateClearImage");
-
-        }
-
-    }
-
-    IEnumerator CreateClearImage()
+    // 初期化
+    public void Init(string projectname, string prefabname, string childprefabname, string filename)
     {
-        // 並行しない用処理
+        projectName = projectname;
+
+        prefabName = prefabname;
+
+        childPrefabName = childprefabname;
+
+        fileName = filename;
+
+        isRunning = false;
+    }
+
+    // スクリーンショットの生成
+    public IEnumerator CreateClearImage(int id)
+    {
         if (isRunning)
         {
             yield return null;
         }
         isRunning = true;
 
-        // 保存先
-        var texturePath = savePath + fileName + count + ".PNG";
+        // 前のスクリーンショットの削除
+        yield return StartCoroutine(DeleteScreenshot(id));
 
-        // 前のスクリーンショットを削除
-        while(System.IO.File.Exists(texturePath))
-        {
-            System.IO.File.Delete(texturePath);
-        }
-
-        // スクリーンショット作成
-        ScreenCapture.CaptureScreenshot(texturePath);
-
-        yield return new WaitForEndOfFrame(); 
-
-        // ファイルの生成確認
-        while(!System.IO.File.Exists(texturePath))
-        {
-            Debug.Log("not yet SS");
-            yield return null;
-        }
-        Debug.Log("createSS: " + fileName + count);
-
-        // unityのアセットフォルダの更新
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        AssetDatabase.ImportAsset(texturePath);
-
-        yield return new WaitForEndOfFrame();
-
-        // マテリアルの更新
-        LoadClearImageToMaterial("StageSelect/SS_Canvas/ClearStageSS/");
-
-        // 終了処理
-        isRunning = false;
-    }
-
-    void LoadClearImageToMaterial(string path)
-    {
-        // テクスチャロード
-        Texture2D clearTex = Resources.Load(path + fileName + count) as Texture2D;
-
-        // セットしたいオブジェクトにロードしたテクスチャをセット
-        GameObject obj = GameObject.Find(fileName + count);
-        obj.GetComponent<Renderer>().material.SetTexture("_MainTex", clearTex);
-
-    }
-
-}
-*/
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ScreenShot : MonoBehaviour
-{
-    private string projectName;
-
-    private string saveFilePath;
-    private string fileName;
-
-    private int stageMax = 3;
-
-    private int stageId;
-    private bool isRunning;
-
-    // Use this for initialization
-    void Start()
-    {
-        projectName = "test";
-        saveFilePath = CreateSavePath(projectName);
-
-        stageId = 0;
+        // スクリーンショットの作成
+        yield return StartCoroutine(CreateScreenshot(id));
 
         isRunning = false;
-
-        StartCoroutine(CreateScreenshot(stageId));
-
-        for (int i = 1; i <= stageMax; i++)
-        {
-            SearchToSetCrearImage(i);
-        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // スクリーンショットの削除
+    private IEnumerator DeleteScreenshot(int id)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // スクリーンショット作成
-            StartCoroutine(CreateScreenshot(stageId));
-            // マテリアルの更新
-            StartCoroutine(LoadClearImageToMaterial(stageId));
-        }
-        keyNum();
+        string fileId = IdToString(id);
 
-    }
-
-    void keyNum()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            stageId = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            stageId = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            stageId = 2;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            stageId = 3;
-        }
-    }
-
-    IEnumerator CreateScreenshot(int id)
-    {
-        if (System.IO.File.Exists("clear_stage" + id + ".png") == true)
+        // ファイルがあるかどうか
+        if (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
         {
             // ファイル削除
-            System.IO.File.Delete("clear_stage" + id + ".png");
-            while (System.IO.File.Exists("clear_stage" + id + ".png") == true)
+            System.IO.File.Delete(projectName + "_Data/" + fileName + fileId + ".png.meta");
+            while (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png.meta") == true)
+            {
+                yield return null;
+            }
+            System.IO.File.Delete(projectName + "_Data/" + fileName + fileId + ".png");
+            while (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
             {
                 yield return null;
             }
         }
 
+    }
+
+    // スクリーンショットの作成
+    private IEnumerator CreateScreenshot(int id)
+    {
+        string fileId = IdToString(id);
+
         // スクリーンショットを撮る
-        ScreenCapture.CaptureScreenshot("clear_stage" + id + ".png");
+        ScreenCapture.CaptureScreenshot(fileName + fileId + ".png");
 
-
-        while (System.IO.File.Exists("clear_stage" + id + ".png") == false)
+        // スクリーンショット生成まで待つ
+        while (System.IO.File.Exists(fileName + fileId + ".png") == false)
         {
             yield return null;
         }
 
     }
 
-    IEnumerator LoadClearImageToMaterial(int id)
+    // マテリアルの変更
+    public bool SearchToSetClearImage(int id)
     {
-        if (isRunning)
-        {
-            yield return null;
-        }
-        isRunning = true;
+        string fileId = IdToString(id);
+        MeshRenderer renderer;
 
-        while (System.IO.File.Exists("test_Data/" + "clear_stage" + id + ".png") == false)
-        {
-            yield return null;
-        }
-        // ①．ファイル => バイナリ変換
-        byte[] image = System.IO.File.ReadAllBytes("test_Data/" + "clear_stage" + id + ".png");
-
-        // ②．受け入れ用Texture2D作成
-        Texture2D tex = new Texture2D(0, 0);
-
-        // ③．バイナリ => Texture変換
-        tex.LoadImage(image);
-
-        // ④．Texture2Dをマテリアルに指定
-        MeshRenderer renderer = GameObject.Find("clear_stage" + id).GetComponent<MeshRenderer>();
-        renderer.materials[0].mainTexture = tex;
-
-        isRunning = false;
-    }
-
-    void SearchToSetCrearImage(int id)
-    {
-        if (System.IO.File.Exists("test_Data/" + "clear_stage" + id + ".png") == true)
+        if (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
         {
             // ①．ファイル => バイナリ変換
-            byte[] image = System.IO.File.ReadAllBytes("test_Data/" + "clear_stage" + id + ".png");
+            byte[] image = System.IO.File.ReadAllBytes(projectName + "_Data/" + fileName + fileId + ".png");
 
             // ②．受け入れ用Texture2D作成
             Texture2D tex = new Texture2D(0, 0);
@@ -229,27 +104,33 @@ public class ScreenShot : MonoBehaviour
             tex.LoadImage(image);
 
             // ④．Texture2Dをマテリアルに指定
-            MeshRenderer renderer = GameObject.Find("clear_stage" + id).GetComponent<MeshRenderer>();
+            //MeshRenderer renderer = GameObject.Find(prefabName + fileId).GetComponent<MeshRenderer>();
+            renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
             renderer.materials[0].mainTexture = tex;
 
+            return true;
         }
+
+        renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
+        renderer.materials[0].mainTexture = null;
+        
+        return false;
     }
 
-    // 保存先
-    private string CreateSavePath(string projectname)
+    // IDの「0」付与対応用
+    private string IdToString(int id)
     {
-        return projectname + "_Data/";
-    }
+        string str;
 
-    // ステージIDの名前作成(クリア用)
-    private string CreateClearFilename()
-    {
-        return "clear_stage";
-    }
+        if(id >= 0 && id <= 9)
+        {
+            str = "0" + id;
+        }
+        else
+        {
+            str = "" + id;
+        }
 
-    // ステージIDのファイル名作成(クリア用)
-    private string CreatePngFilename(int id)
-    {
-        return CreateClearFilename() + id + ".png";
+        return str;
     }
 }

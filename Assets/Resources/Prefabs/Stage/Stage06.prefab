@@ -648,7 +648,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1639097721343866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 1, z: 2}
+  m_LocalPosition: {x: 1, y: 1, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4490288633038950}
@@ -707,7 +707,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1140852261285954}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -2, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4370880983281432}
@@ -766,7 +766,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1438259675794042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 2, z: 4}
+  m_LocalPosition: {x: -1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4137254974076084}
@@ -851,7 +851,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1668396457057520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 4, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4349202074361418}
@@ -2607,11 +2607,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SetFire: {fileID: 1753666967018450}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
-  StartBlockFlg: 0
+  StartBlockFlg: 1
   BurnCnt: 0
+  CollapsPlain: 000000000000
+  CollapsNum: 0
+  canburn: 0
 --- !u!114 &114290601218656618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2624,11 +2625,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SetFire: {fileID: 1811195381693552}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
+  CollapsPlain: 000000000000
+  CollapsNum: 0
+  canburn: 0
 --- !u!114 &114489515629181008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2641,11 +2643,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SetFire: {fileID: 1749247968916114}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
-  StartBlockFlg: 1
+  StartBlockFlg: 0
   BurnCnt: 0
+  CollapsPlain: 000000000000
+  CollapsNum: 0
+  canburn: 0
 --- !u!114 &114595355854755494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2658,11 +2661,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SetFire: {fileID: 1645269187561012}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
+  CollapsPlain: 000000000000
+  CollapsNum: 0
+  canburn: 0
 --- !u!198 &198100054026676974
 ParticleSystem:
   m_ObjectHideFlags: 1

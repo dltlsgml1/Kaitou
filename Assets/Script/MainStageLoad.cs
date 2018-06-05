@@ -11,7 +11,6 @@ public class MainStageLoad : MonoBehaviour
     private static GameObject CSVData;
     private static CsvLoad CsvData;
     public GameObject MainStagePrefab;
-    private float Distance = 14.0f;             //オブジェクト間の距離
     public int StageID;
     public GameObject MainObject;
     PassStageID PassID;
@@ -34,14 +33,11 @@ public class MainStageLoad : MonoBehaviour
     {
         StageID = PassStageID.PassStageId();
         Transform parent = this.transform;
-
+        Debug.Log(PassStageID.PassStageId());
         MainStagePrefab = (GameObject)Resources.Load("Prefabs/Stage/" + PassStageID.PassStageName());
-        Debug.Log(MainStagePrefab);
         Instantiate(MainStagePrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0),parent);
         Transform.Position = PassStageID.PassPosition();
-        Debug.Log(Transform.Position);
         Transform.Rotation = PassStageID.PassRotation();
-        Debug.Log(Transform.Rotation);
         UpperCount = PassStageID.PassUpperCount();
 
     }
