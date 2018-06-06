@@ -4,13 +4,33 @@ using UnityEngine;
 
 public class MapScript : MonoBehaviour {
 
+    private int StageID;
+
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnEnable()
+    {
+        StageID = PassStageID.PassStageId();
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
+
+    public void MapOpen()
+    {
+
+    }
+
+    public void MapMove()
+    {
+
+    }
+
+
+
 }

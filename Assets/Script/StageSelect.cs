@@ -11,19 +11,22 @@ public class StageSelect : MonoBehaviour
     public bool RightMoveFlag = false;      //右に移動するフラグ
     public bool LeftMoveFlag = false;       //左に移動するフラグ
     public bool TargetFlag = false;         //移動範囲固定用フラグ
+    public bool ContinuousMoveFlag = false; //連続して移動する時のフラグ
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
     private int StageID = 2;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
-    public Vector3 vector = new Vector3(5, 0, 0);   //移動時のベクトル
-    public int StageNum = 31;                //ステージの数(仮置き)
+    public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
+   // public int StageNum = 31;                //ステージの数(仮置き)
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
     StageLoad StageLoad;
     Sound Sound;
     PassStageID PassID;
+    GameObject MapObject;
+    MapScript Map;
     private static GameObject CSVData;
     private static CsvLoad CsvData;
 
@@ -31,6 +34,9 @@ public class StageSelect : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        MapObject = GameObject.Find("SS_StageList");
+        Map = MapObject.GetComponent<MapScript>();
+        Map.enabled = false;
         StageLoadObject = GameObject.Find("StagePrefab");
         StageLoad = StageLoadObject.GetComponent<StageLoad>();
         RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
@@ -40,25 +46,46 @@ public class StageSelect : MonoBehaviour
         Sound.SetVolumeBgm("bgm", Volume);
         Sound.SetVolumeSe("Move", Volume, 0);
         Sound.SetVolumeSe("StageIn", Volume, 1);
-
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
 
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
         StageID = PassStageID.PassStageId();
-        this.transform.position = new Vector3(-Distance*(StageID-1), 0, 0);
+        this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
+    }
+
+    private void OnEnable()
+    {
+        CSVData = GameObject.Find("CSVLoad");
+        CsvData = CSVData.GetComponent<CsvLoad>();
+        StageID = PassStageID.PassStageId();
+        this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        ChangeMapOpen();
         StageSelectMoveFlag();      //ステージ移動フラグを立てる
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
         Transitions();              //遷移
     }
 
+    public void ChangeMapOpen()         //マップに切り替え
+    {
+        float Decision;                                 //上下を判定用
+        Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
+        
+        if (Decision < -DefaultKey)
+        {
+            Debug.Log(Decision);
+            Map.enabled = true;
+            PassStageID.GetStageID(StageID);
+            this.enabled = false;
+        }
+    }
     public void StageSelectMoveFlag()   //左スティックでステージの移動
     {
         float Decision;                                 //左右を判定用
@@ -66,8 +93,8 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < StageNum+1)
-            {
+            if (StageID < 32)
+            { 
 
                 if (Decision > DefaultKey && !TargetFlag)
                 {
@@ -82,7 +109,6 @@ public class StageSelect : MonoBehaviour
             }
         }
     }
-
     public void StageSelectMove()   //ステージの移動
     {
         if (LeftMoveFlag && !TargetFlag || RightMoveFlag && !TargetFlag)    //移動範囲の設定
@@ -162,7 +188,6 @@ public class StageSelect : MonoBehaviour
             }
         }
     }
-
     public void Transitions()       //遷移
     {
         if (SelectStageFlag)
