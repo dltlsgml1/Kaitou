@@ -40,7 +40,6 @@ public class GameMain : MonoBehaviour
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
-
   
     public void Restart()
     {
@@ -113,22 +112,10 @@ public class GameMain : MonoBehaviour
         }
         if (Atari() == true)
         {
-<<<<<<< HEAD
-            keka = true;
-        }
-        if(keka==true)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
-            }
-            
-=======
             if(Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton"))
             {
                 SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
             }
->>>>>>> Dev
         }
     }
 
@@ -209,7 +196,6 @@ public class GameMain : MonoBehaviour
             if (Fail.gameObject.activeSelf == false)
             {
                 Fail.gameObject.SetActive(true);
-                return true;
             }
             return true;
         }
