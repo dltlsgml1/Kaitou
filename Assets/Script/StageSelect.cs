@@ -14,7 +14,7 @@ public class StageSelect : MonoBehaviour
     public bool ContinuousMoveFlag = false; //連続して移動する時のフラグ
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
-    private int StageID = 2;                     //ステージID
+    public int StageID = 1;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
@@ -51,6 +51,7 @@ public class StageSelect : MonoBehaviour
 
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
+        this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
     }
@@ -80,7 +81,7 @@ public class StageSelect : MonoBehaviour
         
         if (Decision < -DefaultKey)
         {
-            Debug.Log(Decision);
+       
             Map.enabled = true;
             PassStageID.GetStageID(StageID);
             this.enabled = false;
@@ -173,7 +174,7 @@ public class StageSelect : MonoBehaviour
     public void SelectStage()       //遊ぶステージの決定
     {
         float Decision;
-        if (Input.GetButtonDown("BButton") && !TargetFlag)
+        if (Input.GetButtonDown("AButton") && !TargetFlag)
         {
             Sound.PlaySe("StageIn", 1);
             Sound.StopBgm();
@@ -194,10 +195,10 @@ public class StageSelect : MonoBehaviour
         {
             SelectStageFlag = false;
             PassStageID.GetStageID(StageID+1);
-            PassStageID.GetStageName(CsvData.StageDateList[StageID+1].StageName);
-            PassStageID.GetPosition((float)CsvData.StageDateList[StageID+1].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CsvData.StageDateList[StageID+1].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID+1].UpperCunt);
+            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
+            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
+            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID].UpperCunt);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)
