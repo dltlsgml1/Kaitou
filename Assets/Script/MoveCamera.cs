@@ -43,14 +43,16 @@ public class MoveCamera : MonoBehaviour {
     // Update is called once per frame
     void LateUpdate () {
         if (Pause.is_pause) { return; }
-        ParallelMove();
-        RotationCamera();
-        ChangeSize();
-        FormatDate();
-        InputDate();
-        BackStageSelect();
-        KeyDebug();
-        
+        if (!Input.GetButton("AButton"))
+        {
+            ParallelMove();
+            RotationCamera();
+            ChangeSize();
+            FormatDate();
+            InputDate();
+            BackStageSelect();
+            KeyDebug();
+        }
 	}
     public void ChangeSpeed()
     {

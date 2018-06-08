@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Blocks : MonoBehaviour {
-    
 
-    
+
+    public bool CollapsTop;
+    public bool CollapsBottom;
+    public bool CollapsFront;
+    public bool CollapsBack;
+    public bool CollapsLeft;
+    public bool CollapsRight;
     public static bool nowplayingse = false;
     public GameObject SetFire;
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt;
-    public bool[] CollapsPlain = new bool[6];
     public int CollapsNum = 0;
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;

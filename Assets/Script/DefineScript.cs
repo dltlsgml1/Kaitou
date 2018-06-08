@@ -21,6 +21,6 @@ public class DefineScript
     public static int NUM_BLOCKS = 30;
 
     public static float JUDGE_BURNNINGTIME = 5.0f;
-    public static float JUDGE_DISTANCE = 60.0f;
+    public static float JUDGE_DISTANCE = 3.0f;
     public static float JUDGE_BURNNIGSPEED = 0.05f;
 }

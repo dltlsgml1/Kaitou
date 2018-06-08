@@ -33,7 +33,6 @@ public class MainStageLoad : MonoBehaviour
     {
         StageID = PassStageID.PassStageId();
         Transform parent = this.transform;
-        Debug.Log(PassStageID.PassStageId());
         MainStagePrefab = (GameObject)Resources.Load("Prefabs/Stage/" + PassStageID.PassStageName());
         Instantiate(MainStagePrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0),parent);
         Transform.Position = PassStageID.PassPosition();

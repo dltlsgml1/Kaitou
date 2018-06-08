@@ -5,18 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
-{                  
-    public GameObject NowStageObj;
-    
+{
     public Camera MainCamera;
-    public Camera BackGroundCamera;
-    public GameObject CameraObj;
     public GameObject Clear;
     public GameObject Fail;
-    public Text targettext;
+    
+
 
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
-    GameObject[] CollapsBocks = new GameObject[DefineScript.NUM_BLOCKS];
+    GameObject[] CollapsBlocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] NormalBlocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[,] Plane = new GameObject[DefineScript.NUM_BLOCKS, 6];
 
@@ -65,11 +62,7 @@ public class GameMain : MonoBehaviour
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
-
-    public int Getseigen()
-    {
-        return seigen;
-    }
+    
 
     void Start()
     {
@@ -162,13 +155,12 @@ public class GameMain : MonoBehaviour
         NormalCount = 0;
         CollapsCount = 0;
         minusseigen = false;
-        targettext.text = seigen.ToString();
         for (int i = 0, j = 0, k = 0; i < Blocks.Length; i++)
         {
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
 
-                CollapsBocks[j] = Blocks[i];
+                CollapsBlocks[j] = Blocks[i];
                 CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
                 {
@@ -204,33 +196,24 @@ public class GameMain : MonoBehaviour
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
         {
-            Mesh CollapsMesh = CollapsBocks[CollapsNow].GetComponent<MeshFilter>().mesh;
+            Mesh CollapsMesh = CollapsBlocks[CollapsNow].GetComponent<MeshFilter>().mesh;
             Vector3[] CollapsVertices = CollapsMesh.vertices;
 
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
-                atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
-                
-                //if (PlaneCollaps == true && Input.GetKeyDown(KeyCode.Space))
-                //{
-                //    NormalBlocks[BlockNow].GetComponent<Blocks>().BurnFlg = true;
-                //    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurn();
-                //    NormalBlocks[BlockNow].GetComponent<Blocks>().SetBurnMaterial();
-                //    global::Blocks.nowplayingse = false;
-                //    seigen--;
-                //    PlaneCollaps = false;
-                //}
-                //else
-                //{
-                //    global::Blocks.nowplayingse = false;
-                //}
-
+                if(CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true)
+                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true)
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true)
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true)
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true)
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true)
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);             
             }
 
 
