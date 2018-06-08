@@ -44,18 +44,8 @@ public class Pause : MonoBehaviour {
 
         ////ｑキーでゲームバック
         if (Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
-        //if(Input.GetButtonDown("STARTButton"))
         {
             is_pause = true;
-        }
-
-        if (Input.GetKeyDown("u"))
-        {
-            FedeIn();
-        }
-        if (Input.GetKeyDown("i"))
-        {
-            FedeOut();
         }
 
         if (is_pause==true)
@@ -71,7 +61,6 @@ public class Pause : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("BButton") && is_pause)
-        //    if (Input.GetKeyDown("space") && is_pause)  //決定キーに差し替え予定
         {
             is_pause = false;
             switch (move)
