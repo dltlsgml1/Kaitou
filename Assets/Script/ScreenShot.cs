@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Screenshot : MonoBehaviour
+public class ScreenShot : MonoBehaviour
 {
     private string projectName;     // プロジェクトの名前(読み込み参照用)
     private string prefabName;      // プレハブオブジェクト名(ベース名)
@@ -91,6 +91,8 @@ public class Screenshot : MonoBehaviour
     {
         string fileId = IdToString(id);
         MeshRenderer renderer;
+        Color color;
+        string path = "StagePrefab/" + prefabName + fileId + "(Clone)/" + childPrefabName;
 
         if (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
         {
@@ -105,18 +107,24 @@ public class Screenshot : MonoBehaviour
 
             // ④．Texture2Dをマテリアルに指定
             //MeshRenderer renderer = GameObject.Find(prefabName + fileId).GetComponent<MeshRenderer>();
-            renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
+            renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
             renderer.materials[0].mainTexture = tex;
+
+            color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+            renderer.material.color = color;
 
             return true;
         }
 
-        renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
+        renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
         renderer.materials[0].mainTexture = null;
+
+        color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+        renderer.material.color = color;
         
         return false;
     }
-
+    
     // IDの「0」付与対応用
     private string IdToString(int id)
     {
