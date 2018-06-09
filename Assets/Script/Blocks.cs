@@ -11,6 +11,14 @@ public class Blocks : MonoBehaviour {
     public bool CollapsBack;
     public bool CollapsLeft;
     public bool CollapsRight;
+
+    public bool IsTopCollapsed = false;
+    public bool IsRightCollapsed = false;
+    public bool IsLeftCollapsed = false;
+    public bool IsBottomCollapsed = false;
+    public bool IsFrontCollapsed = false;
+    public bool IsBackCollapsed = false;
+
     public static bool nowplayingse = false;
     public GameObject SetFire;
     public bool BurnFlg;
@@ -66,7 +74,7 @@ public class Blocks : MonoBehaviour {
                                                             this.transform.position.z);
     }
 
-    public bool Burning()
+    public void Burning()
     {
         if (nowplayingse == false)
         {
@@ -77,8 +85,10 @@ public class Blocks : MonoBehaviour {
         if (BurningCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
             canburn = true;
-            return true;
         }
-        return false;
+        else
+        {
+            canburn = false;
+        }
     }
 }
