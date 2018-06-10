@@ -26,11 +26,10 @@ public class Blocks : MonoBehaviour {
     public GameObject SetFire;
     public bool BurnFlg;
     public bool StartBlockFlg;
-    public float BurnCnt;
+    public float BurnCnt = 0.0f;
     public int CollapsNum = 0;
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;
-    public static float BurningCnt = 0.0f;
     
 
 
@@ -85,8 +84,8 @@ public class Blocks : MonoBehaviour {
             Sound.PlaySe("se_burnnow", 1);
             nowplayingse = true;
         }
-        BurningCnt += DefineScript.JUDGE_BURNNIGSPEED;
-        if (BurningCnt >= DefineScript.JUDGE_BURNNINGTIME)
+        BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
+        if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
             canburn = true;
         }
