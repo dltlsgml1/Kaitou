@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 
 public class CsvLoad : MonoBehaviour {
-
+    CSVData CSVPass;
 	public string StageDatePath = "CSV/StageData.csv";
 
 	//アビリティデータリスト
@@ -102,7 +102,7 @@ public class CsvLoad : MonoBehaviour {
                     StageTitle = null,
 				});
 			} else {
-
+               
                 StageDateList.Add(new StageDate()
                 {
                     StageID = int.Parse (arrays [i, 0]),
@@ -118,7 +118,21 @@ public class CsvLoad : MonoBehaviour {
                     StageTitle = arrays[i, 10],
                     
 				});
-			}
+                CSVData.GetData().Add(new CSVData.StageDate()
+                {
+                    StageID = int.Parse(arrays[i, 0]),
+                    StageName = arrays[i, 1],
+                    UpperCunt = int.Parse(arrays[i, 2]),
+                    ClearFlag = int.Parse(arrays[i, 3]),
+                    Pos_X = float.Parse(arrays[i, 4]),
+                    Pos_Y = float.Parse(arrays[i, 5]),
+                    Pos_Z = float.Parse(arrays[i, 6]),
+                    Rot_X = float.Parse(arrays[i, 7]),
+                    Rot_Y = float.Parse(arrays[i, 8]),
+                    Rot_Z = float.Parse(arrays[i, 9]),
+                    StageTitle = arrays[i, 10],
+                });
+            }
 		}
 
 		//デバッグログ確認
@@ -135,12 +149,17 @@ public class CsvLoad : MonoBehaviour {
             Debug.Log(i + ":" + "StageTitle/" + StageDateList[i].StageTitle);
 		}*/
 	}
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        csvLoad(StageDatePath, ref this.sData);
+        charDataConvert(this.sData, height);
+    }
+    // Use this for initialization
+    void Start () {
         //キャラクターデータ
       //  Debug.Log("スタート直後" + StageDatePath);
-		csvLoad (StageDatePath, ref this.sData);
-		charDataConvert (this.sData,height);
+		//csvLoad (StageDatePath, ref this.sData);
+		//charDataConvert (this.sData,height);
 		//Debug.Log ("CSVLoadStart");
 	}
 

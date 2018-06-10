@@ -27,7 +27,8 @@ public class StageSelect : MonoBehaviour
     PassStageID PassID;
     GameObject MapObject;
     MapScript Map;
-    private static GameObject CSVData;
+    CSVData CSVdata;
+    private static GameObject CSV;
     private static CsvLoad CsvData;
 
 
@@ -49,19 +50,20 @@ public class StageSelect : MonoBehaviour
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
 
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
+        CSV = GameObject.Find("CSVLoad");
+        CsvData = CSV.GetComponent<CsvLoad>();
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
-        this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
+        this.transform.position = new Vector3(-Distance*(StageID-1), 0, 0);
     }
 
     private void OnEnable()
     {
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
+        CSV = GameObject.Find("CSVLoad");
+        CsvData = CSV.GetComponent<CsvLoad>();
         StageID = PassStageID.PassStageId();
-        this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
+        Debug.Log(StageID);
+        this.transform.position = new Vector3(-Distance * (StageID-1), 0, 0);
     }
 
     // Update is called once per frame
@@ -72,19 +74,21 @@ public class StageSelect : MonoBehaviour
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
         Transitions();              //遷移
+        debug();
     }
 
     public void ChangeMapOpen()         //マップに切り替え
     {
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
-        
-        if (Decision < -DefaultKey)
+        if (!TargetFlag)
         {
-       
-            Map.enabled = true;
-            PassStageID.GetStageID(StageID);
-            this.enabled = false;
+            if (Decision < -DefaultKey)
+            {
+                PassStageID.GetStageID(StageID);
+                Map.enabled = true;
+                this.enabled = false;
+            }
         }
     }
     public void StageSelectMoveFlag()   //左スティックでステージの移動
@@ -194,7 +198,7 @@ public class StageSelect : MonoBehaviour
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
-            PassStageID.GetStageID(StageID+1);
+            PassStageID.GetStageID(StageID);
             PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
             PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
             PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
@@ -206,5 +210,10 @@ public class StageSelect : MonoBehaviour
             BackTitleFlag = false;
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
+    }
+    public void debug()
+    {
+        if(Input.GetKeyDown(KeyCode.M))
+            CSVData.test();
     }
 }

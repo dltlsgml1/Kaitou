@@ -16,18 +16,27 @@ public class StageLoad : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        
+    }
+
+    private void Awake()
+    {
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
         SetStagePrefab();
+        Debug.Log("ろーど");
+        this.enabled = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 	}
 
     public void SetStagePrefab()
     {
         Transform parent = this.transform;
+        parent.position = new Vector3(0, 0, 0);
+        
         for (int i = 0; i < CsvLoad.height-1; i++)
         {
             StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CsvData.StageDateList[i+1].StageName);
