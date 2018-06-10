@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 65952671245007710}
   - component: {fileID: 23631457557712302}
   - component: {fileID: 114650222144970240}
+  - component: {fileID: 114000484066671128}
   m_Layer: 0
   m_Name: NormalBlock (4)
   m_TagString: NormalBlock
@@ -60,6 +61,7 @@ GameObject:
   - component: {fileID: 65626826953037708}
   - component: {fileID: 23969435863860084}
   - component: {fileID: 114986937162245636}
+  - component: {fileID: 114262530492318624}
   m_Layer: 0
   m_Name: NormalBlock (2)
   m_TagString: NormalBlock
@@ -133,6 +135,7 @@ GameObject:
   - component: {fileID: 65884401857161508}
   - component: {fileID: 23881672832075202}
   - component: {fileID: 114718950494423280}
+  - component: {fileID: 114475452376363282}
   m_Layer: 0
   m_Name: NormalBlock (3)
   m_TagString: NormalBlock
@@ -294,6 +297,7 @@ GameObject:
   - component: {fileID: 65441704377442254}
   - component: {fileID: 23035314485280608}
   - component: {fileID: 114528292199083408}
+  - component: {fileID: 114604344458687682}
   m_Layer: 0
   m_Name: NormalBlock (1)
   m_TagString: NormalBlock
@@ -2595,6 +2599,69 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000484066671128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1066563212222356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeEmissionFlag: 0
+  MiniEmission: 0
+  MaxEmission: 1
+  Maxtime: 1
+  CanBurnMiniEmission: 0
+  CanBurnMaxEmission: 0.3
+  CanBurnMaxTime: 0.5
+  UpCountFlag: 1
+  DownCountFlag: 0
+  canBurnFlag: 0
+--- !u!114 &114262530492318624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127384431607616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeEmissionFlag: 0
+  MiniEmission: 0
+  MaxEmission: 1
+  Maxtime: 1
+  CanBurnMiniEmission: 0
+  CanBurnMaxEmission: 0.3
+  CanBurnMaxTime: 0.5
+  UpCountFlag: 1
+  DownCountFlag: 0
+  canBurnFlag: 0
+--- !u!114 &114475452376363282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1240045477731418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeEmissionFlag: 0
+  MiniEmission: 0
+  MaxEmission: 1
+  Maxtime: 1
+  CanBurnMiniEmission: 0
+  CanBurnMaxEmission: 0.3
+  CanBurnMaxTime: 0.5
+  UpCountFlag: 1
+  DownCountFlag: 0
+  canBurnFlag: 0
 --- !u!114 &114528292199083408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2606,12 +2673,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7c9ca25feb6fc4d850347a3a237156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollapsTop: 1
+  CollapsBottom: 1
+  CollapsFront: 1
+  CollapsBack: 1
+  CollapsLeft: 1
+  CollapsRight: 1
+  IsTopCollapsed: 0
+  IsRightCollapsed: 0
+  IsLeftCollapsed: 0
+  IsBottomCollapsed: 0
+  IsFrontCollapsed: 0
+  IsBackCollapsed: 0
   SetFire: {fileID: 1583994347368396}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
+  CollapsNum: 0
+  canburn: 0
+--- !u!114 &114604344458687682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1570137485942922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeEmissionFlag: 0
+  MiniEmission: 0
+  MaxEmission: 1
+  Maxtime: 1
+  CanBurnMiniEmission: 0
+  CanBurnMaxEmission: 0.3
+  CanBurnMaxTime: 0.5
+  UpCountFlag: 1
+  DownCountFlag: 0
+  canBurnFlag: 0
 --- !u!114 &114650222144970240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2623,12 +2723,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7c9ca25feb6fc4d850347a3a237156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollapsTop: 1
+  CollapsBottom: 1
+  CollapsFront: 1
+  CollapsBack: 1
+  CollapsLeft: 1
+  CollapsRight: 1
+  IsTopCollapsed: 0
+  IsRightCollapsed: 0
+  IsLeftCollapsed: 0
+  IsBottomCollapsed: 0
+  IsFrontCollapsed: 0
+  IsBackCollapsed: 0
   SetFire: {fileID: 1707903089933338}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
+  CollapsNum: 0
+  canburn: 0
 --- !u!114 &114718950494423280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2640,12 +2752,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7c9ca25feb6fc4d850347a3a237156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollapsTop: 1
+  CollapsBottom: 1
+  CollapsFront: 1
+  CollapsBack: 1
+  CollapsLeft: 1
+  CollapsRight: 1
+  IsTopCollapsed: 0
+  IsRightCollapsed: 0
+  IsLeftCollapsed: 0
+  IsBottomCollapsed: 0
+  IsFrontCollapsed: 0
+  IsBackCollapsed: 0
   SetFire: {fileID: 1320416705172328}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 1
   BurnCnt: 0
+  CollapsNum: 0
+  canburn: 0
 --- !u!114 &114986937162245636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2657,12 +2781,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7c9ca25feb6fc4d850347a3a237156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollapsTop: 1
+  CollapsBottom: 1
+  CollapsFront: 1
+  CollapsBack: 1
+  CollapsLeft: 1
+  CollapsRight: 1
+  IsTopCollapsed: 0
+  IsRightCollapsed: 0
+  IsLeftCollapsed: 0
+  IsBottomCollapsed: 0
+  IsFrontCollapsed: 0
+  IsBackCollapsed: 0
   SetFire: {fileID: 1378022339064206}
-  StandardMaterial: {fileID: 0}
-  BurnMaterial: {fileID: 0}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
+  CollapsNum: 0
+  canburn: 0
 --- !u!198 &198019044389877314
 ParticleSystem:
   m_ObjectHideFlags: 1
