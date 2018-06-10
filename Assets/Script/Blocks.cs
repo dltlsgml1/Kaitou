@@ -19,15 +19,18 @@ public class Blocks : MonoBehaviour {
     public bool IsFrontCollapsed = false;
     public bool IsBackCollapsed = false;
 
+    public bool NormalNowcol = false;
+    public bool CollapsNowcol = false;
+
     public static bool nowplayingse = false;
     public GameObject SetFire;
     public bool BurnFlg;
     public bool StartBlockFlg;
-    public float BurnCnt;
+    public float BurnCnt = 0.0f;
     public int CollapsNum = 0;
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;
-    public static float BurningCnt = 0.0f;
+    
 
 
     Material Mat_Normal;
@@ -81,14 +84,22 @@ public class Blocks : MonoBehaviour {
             Sound.PlaySe("se_burnnow", 1);
             nowplayingse = true;
         }
-        BurningCnt += DefineScript.JUDGE_BURNNIGSPEED;
-        if (BurningCnt >= DefineScript.JUDGE_BURNNINGTIME)
+        BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
+        if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
         {
             canburn = true;
         }
-        else
-        {
-            canburn = false;
-        }
+    }
+
+    public void UnsetCollapsFlag()
+    {
+        IsTopCollapsed = false;
+        IsRightCollapsed = false;
+        IsLeftCollapsed = false;
+        IsBottomCollapsed = false;
+        IsFrontCollapsed = false;
+        IsBackCollapsed = false;
+        NormalNowcol = false;
+        CollapsNowcol = false;
     }
 }
