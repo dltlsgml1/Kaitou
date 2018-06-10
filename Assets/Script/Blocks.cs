@@ -19,6 +19,9 @@ public class Blocks : MonoBehaviour {
     public bool IsFrontCollapsed = false;
     public bool IsBackCollapsed = false;
 
+    public bool NormalNowcol = false;
+    public bool CollapsNowcol = false;
+
     public static bool nowplayingse = false;
     public GameObject SetFire;
     public bool BurnFlg;
@@ -28,6 +31,7 @@ public class Blocks : MonoBehaviour {
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;
     public static float BurningCnt = 0.0f;
+    
 
 
     Material Mat_Normal;
@@ -86,9 +90,17 @@ public class Blocks : MonoBehaviour {
         {
             canburn = true;
         }
-        else
-        {
-            canburn = false;
-        }
+    }
+
+    public void UnsetCollapsFlag()
+    {
+        IsTopCollapsed = false;
+        IsRightCollapsed = false;
+        IsLeftCollapsed = false;
+        IsBottomCollapsed = false;
+        IsFrontCollapsed = false;
+        IsBackCollapsed = false;
+        NormalNowcol = false;
+        CollapsNowcol = false;
     }
 }
