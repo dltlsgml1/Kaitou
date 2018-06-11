@@ -34,7 +34,7 @@ public class StageLoad : MonoBehaviour {
         Transform parent = this.transform;
         parent.position = new Vector3(0, 0, 0);
         
-        for (int i = 0; i < CsvLoad.height-1; i++)
+        for (int i = 0; i < 29; i++)
         {
             StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CSVData.StageDateList[i].StageName);
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);

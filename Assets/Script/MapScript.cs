@@ -26,11 +26,11 @@ public class MapScript : MonoBehaviour {
     public Vector3 Vec = new Vector3(10, 0, 0);
     private Vector3 StartPosition;
     private Vector3 EndPosition;
-    float Width = 1.9f;
-    float Height = 1.3f;
+    float Width = 2.15f;
+    float Height = 1.31f;
     float rate = 0f;
-    float EvenNumber = -3.2f;
-    float OddNumber = -3.6f;
+    float EvenNumber = -3.52f;
+    float OddNumber = -3.96f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;
     public int MaxStage = 29;
@@ -123,8 +123,8 @@ public class MapScript : MonoBehaviour {
         CameraData.transform.position = new Vector3(0, -5, 0);
         CameraData.transform.rotation= Quaternion.Euler(20, 0, 0);
 
-        this.transform.position = new Vector3(0, -6, -10);
-        this.transform.rotation = Quaternion.Euler(0, 0, 0);
+        this.transform.position = new Vector3(0.39f, -8.92f, -2.78f);
+        this.transform.rotation = Quaternion.Euler(73.569f, 180, 0);
 
 
 
@@ -468,8 +468,8 @@ Rotation X 50 Y 0 Z 10
                     CameraData.transform.position = new Vector3(0, 0, 0);
                     CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
                     Finger.transform.position = new Vector3(100, 100, 100);
-                    this.transform.position = new Vector3(-8.36f, -9.48f, -10);
-                    this.transform.rotation = Quaternion.Euler(50, 0, 10);
+                    this.transform.position = new Vector3(-9.26f, -11.9f, -2.01f);
+                    this.transform.rotation = Quaternion.Euler(80.68201f, 135.925f, -41.118f);
                     FadeFlag.FadeInFlag = true;
                     InitFlag = true;
                     FadeInit = false;
