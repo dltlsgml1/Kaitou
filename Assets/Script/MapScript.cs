@@ -8,28 +8,34 @@ public class MapScript : MonoBehaviour {
     GameObject Finger;
     StageSelect StageEnable;
     GameObject CameraData;
-    bool PositionFlag = false;
-    float Width = 1.9f;
+    GameObject Fade;
+    StageSelectFade FadeFlag; 
+    public bool InitFlag = true;
     bool CameraPositionFlag = false;
     bool StagePositionFlag = false;
+    bool PositionFlag = false;
+    private bool SelectFlag = false;
+    private bool FadeInit = false;
     public Vector3 Vec = new Vector3(10, 0, 0);
-    public bool InitFlag = true;
+    float Width = 1.9f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;
+    
 
 	// Use this for initialization
 	void Start () {
-		
+        Debug.Log("ろーど");
 	}
 
     private void OnEnable()
     {
+        Fade = GameObject.Find("Panel");
+        FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
         Finger = GameObject.Find("Pause_Cursor");
         Finger.transform.position = new Vector3(-7.3f+((StageID-1) * Width), -1f, -11);
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable=StageSelectObject.GetComponent<StageSelect>();
-       
         CameraData = GameObject.Find("CameraObejct");
     }
 
@@ -42,6 +48,7 @@ public class MapScript : MonoBehaviour {
         else
         {
             StageSelect();
+            OutMap();
         }
 
  
@@ -118,19 +125,36 @@ public class MapScript : MonoBehaviour {
         }
         if (Input.GetButtonDown("AButton"))
         {
-            PassStageID.GetStageID(StageID);
-            StageEnable.enabled = true;
-            Debug.Log(StageID);
-            CameraData.transform.position = new Vector3(0, 0, 0);
-            CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
-            this.transform.position = new Vector3(-8.36f, -9.48f, -10);
-            this.transform.rotation = Quaternion.Euler(50, 0, 10);
-            InitFlag = true;
-            this.enabled = false;
+            SelectFlag = true;
         }
         /*
 Position X -8.36 Y-9.48 Z -10
 Rotation X 50 Y 0 Z 10
 */
+    }
+
+    public void OutMap()
+    {
+        if (SelectFlag)
+        {
+            if(!FadeInit)
+            {
+                FadeFlag.FadeOutFlag = true;
+                FadeInit = true;
+            }
+            if (!FadeFlag.FadeOutFlag)
+            {
+                PassStageID.GetStageID(StageID);
+                StageEnable.enabled = true;
+                CameraData.transform.position = new Vector3(0, 0, 0);
+                CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
+                this.transform.position = new Vector3(-8.36f, -9.48f, -10);
+                this.transform.rotation = Quaternion.Euler(50, 0, 10);
+                FadeFlag.FadeInFlag = true;
+                InitFlag = true;
+                this.enabled = false;
+            }
+
+        }
     }
 }

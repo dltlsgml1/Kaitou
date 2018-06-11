@@ -26,21 +26,6 @@ public class CSVData {
         return StageDateList;
     }
 
-    public static void test()
-    {
-        for (int i = 0; i < 31; i++)
-        {
-            Debug.Log(i + ":" + "StageID/" + StageDateList[i].StageID);
-            Debug.Log(i + ":" + "StageName/" + StageDateList[i].StageName);
-            Debug.Log(i + ":" + "UpperCunt/" + StageDateList[i].UpperCunt);
-            Debug.Log(i + ":" + "Pos_X/" + StageDateList[i].Pos_X);
-            Debug.Log(i + ":" + "Pos_Y/" + StageDateList[i].Pos_Y);
-            Debug.Log(i + ":" + "Pos_Z/" + StageDateList[i].Pos_Z);
-            Debug.Log(i + ":" + "Rot_X/" + StageDateList[i].Rot_X);
-            Debug.Log(i + ":" + "Rot_Y/" + StageDateList[i].Rot_Y);
-            Debug.Log(i + ":" + "Rot_Z/" + StageDateList[i].Rot_Z);
-            Debug.Log(i + ":" + "StageTitle/" + StageDateList[i].StageTitle);
-        }
-    }
+   
 
 }
