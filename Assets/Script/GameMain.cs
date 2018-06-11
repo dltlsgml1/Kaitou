@@ -207,33 +207,59 @@ public class GameMain : MonoBehaviour
             }
         }
 
-        for(int i=0;i<NormalCount;i++)
+        
+        if (Input.GetButton("AButton"))
         {
-            if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
+            for (int i = 0; i < NormalCount; i++)
             {
-                NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
-                if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
+                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
+                    {
+                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+                        rensya = true;
+                        unrensya = false;
+                        
+                    }
+                   
                 }
-                unrensya = false;
+                else
+                {
+                    NormalBlocks[i].GetComponent<Blocks>().canburn = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
+                }
             }
-            else
-            {
-                NormalBlocks[i].GetComponent<Blocks>().canburn = false;
-                NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-            }
+            
         }
-        if (Input.GetButtonDown("AButton"))
-        {
-            rensya = true;
+        if(Input.GetButtonUp("AButton"))
+        { 
             seigen--;
         }
-
         
 
         if (rensya == true)
         {
+            for (int i = 0; i < NormalCount; i++)
+            {
+                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
+                {
+                    unrensya = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
+                    {
+                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+                        
+                    }
+
+                }
+                else
+                {
+                    NormalBlocks[i].GetComponent<Blocks>().canburn = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
+                }
+            }
+
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)

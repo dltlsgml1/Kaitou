@@ -77,19 +77,6 @@ public class Blocks : MonoBehaviour {
                                                             this.transform.position.z);
     }
 
-    public void Burning()
-    {
-        if (nowplayingse == false)
-        {
-            Sound.PlaySe("se_burnnow", 1);
-            nowplayingse = true;
-        }
-        BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
-        if (BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
-        {
-            canburn = true;
-        }
-    }
 
     public void UnsetCollapsFlag()
     {
