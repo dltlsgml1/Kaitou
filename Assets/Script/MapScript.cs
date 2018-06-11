@@ -16,15 +16,29 @@ public class MapScript : MonoBehaviour {
     bool PositionFlag = false;
     private bool SelectFlag = false;
     private bool FadeInit = false;
+    private bool StartFade = false;
+    private bool XStickFlag = false;
+    public bool Xmoved;
+    private bool YStickFlag = false;
+    public bool Ymoved;
+    public bool FingerMoveFlag = false;
+    public bool EvenFlag = false;
     public Vector3 Vec = new Vector3(10, 0, 0);
+    private Vector3 StartPosition;
+    private Vector3 EndPosition;
     float Width = 1.9f;
+    float Height = 1.3f;
+    float rate = 0f;
+    float EvenNumber = -3.2f;
+    float OddNumber = -3.6f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;
-    
+    public int MaxStage = 29;
+    public int Decision = 0;
+    public int FingerPos;
 
-	// Use this for initialization
-	void Start () {
-        Debug.Log("ろーど");
+    // Use this for initialization
+    void Start () {
 	}
 
     private void OnEnable()
@@ -33,10 +47,40 @@ public class MapScript : MonoBehaviour {
         FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
         Finger = GameObject.Find("Pause_Cursor");
-        Finger.transform.position = new Vector3(-7.3f+((StageID-1) * Width), -1f, -11);
+        Decision = StageID / 6;
+        FingerPos = StageID % 6;
+        switch (Decision)
+        {
+            case 0:
+                EvenFlag = true;
+                break;
+            case 1:
+                EvenFlag = false;
+                break;
+            case 2:
+                EvenFlag = true;
+                break;
+            case 3:
+                EvenFlag = false;
+                break;
+            case 4:
+                EvenFlag = true;
+                break;
+            default:
+                break;
+        }
+        if (EvenFlag)
+        {
+            Finger.transform.position = new Vector3(EvenNumber + ((FingerPos) * Width), -1+(-Decision * Height), -11);
+        }
+        else
+        {
+            Finger.transform.position = new Vector3(OddNumber + ((FingerPos) * Width), -1+(-Decision * Height), -11);
+        }
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable=StageSelectObject.GetComponent<StageSelect>();
         CameraData = GameObject.Find("CameraObejct");
+        Ymoved = true;
     }
 
     // Update is called once per frame
@@ -47,8 +91,15 @@ public class MapScript : MonoBehaviour {
         }
         else
         {
-            StageSelect();
-            OutMap();
+            if (FingerMoveFlag)
+            {
+                MapMove();
+            }
+            else
+            {
+                StageSelect();
+                OutMap();
+            }
         }
 
  
@@ -84,6 +135,16 @@ public class MapScript : MonoBehaviour {
     public void MapMove()
     {
 
+            Finger.transform.position = Vector3.Lerp(StartPosition, EndPosition, rate);
+            rate += 0.1f;
+            //if (Finger.transform.position.x >= EndPosition.x)
+            if(Finger.transform.position==EndPosition)
+            {
+                rate = 0f;
+                FingerMoveFlag = false;
+            }
+        
+       
     }
 
     public void StageSelect()
@@ -93,33 +154,285 @@ public class MapScript : MonoBehaviour {
         XDecision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (XDecision != 0)
         {
-            if (StageID < 32)
+            if (XDecision < -0.5f || XDecision > 0.5f)
             {
-
-                if (XDecision > DefaultKey)
-                    StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
+                XStickFlag = true;
             }
-
-            if (XDecision < -DefaultKey)
+            else
             {
-                StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
+                XStickFlag = false;
+                Xmoved = false;
+            }
+            if (StageID > 0)
+            {
+                if (XStickFlag == true && Xmoved == false && XDecision < -0.5f || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    StageID -= 1;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Xmoved = true;
+                    FingerMoveFlag = true;
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y=-1f+(-Decision*Height);
+                }
+            }
+            if (StageID < MaxStage)
+            {
+                if (XStickFlag == true && Xmoved == false && XDecision > 0.5f || Input.GetKeyDown(KeyCode.RightArrow
+                    ))
+                {
+                    StageID += 1;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    Xmoved = true;
+                    FingerMoveFlag = true;
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y = -1f + (-Decision * Height);
+                    Debug.Log(EndPosition);
+                }
             }
         }
         YDecision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
+
         if (YDecision != 0)
         {
-            if (StageID < 32-6)
+            if (YDecision < -0.5f || YDecision > 0.5f)
             {
-
-                if (YDecision > DefaultKey)
-                    StageID += 6;                           //左入力でステージナンバーが上がるはずなので上げる
+                YStickFlag = true;
             }
-
-            if (StageID > 6)
+            else
             {
-                if (YDecision < -DefaultKey)
+                YStickFlag = false;
+                Ymoved = false;
+            }
+            if (StageID >= MaxStage - 6)
+            {
+                if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    StageID -= 6;                           //左入力でステージナンバーが下がるはずなので下げる
+                    StageID = 29;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y = -1f + (-Decision * Height);
+                    Ymoved = true;
+                    FingerMoveFlag = true;
+                }
+            }
+            if (StageID < MaxStage-6)
+            {
+                if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    Ymoved = true;
+                    FingerMoveFlag = true;
+                    StageID += 6;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y = -1f + (-Decision * Height);
+                   
+                    
+                }
+            }
+            
+            if (StageID <= 5)
+            {
+                if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    StageID = 0;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y = -1f + (-Decision * Height);
+                    Ymoved = true;
+                    FingerMoveFlag = true;
+                }
+            }
+            if (StageID > 5)
+            {
+                if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    StageID -= 6;
+                    Decision = StageID / 6;
+                    FingerPos = StageID % 6;
+                    switch (Decision)
+                    {
+                        case 0:
+                            EvenFlag = true;
+                            break;
+                        case 1:
+                            EvenFlag = false;
+                            break;
+                        case 2:
+                            EvenFlag = true;
+                            break;
+                        case 3:
+                            EvenFlag = false;
+                            break;
+                        case 4:
+                            EvenFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    StartPosition = Finger.transform.position;
+                    EndPosition = StartPosition;
+                    if (EvenFlag)
+                    {
+                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    }
+                    else
+                    {
+                        EndPosition.x = OddNumber + ((FingerPos) * Width);
+                    }
+                    EndPosition.y = -1f + (-Decision * Height);
+                    Ymoved = true;
+                    FingerMoveFlag = true;
                 }
             }
         }
@@ -127,32 +440,42 @@ public class MapScript : MonoBehaviour {
         {
             SelectFlag = true;
         }
-        /*
+
+    }
+    /*
 Position X -8.36 Y-9.48 Z -10
 Rotation X 50 Y 0 Z 10
 */
-    }
-
     public void OutMap()
     {
         if (SelectFlag)
         {
-            if(!FadeInit)
+            if (!StartFade)
             {
-                FadeFlag.FadeOutFlag = true;
-                FadeInit = true;
+                StartFade = true;
             }
-            if (!FadeFlag.FadeOutFlag)
+            else
             {
-                PassStageID.GetStageID(StageID);
-                StageEnable.enabled = true;
-                CameraData.transform.position = new Vector3(0, 0, 0);
-                CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
-                this.transform.position = new Vector3(-8.36f, -9.48f, -10);
-                this.transform.rotation = Quaternion.Euler(50, 0, 10);
-                FadeFlag.FadeInFlag = true;
-                InitFlag = true;
-                this.enabled = false;
+                if (!FadeInit)
+                {
+                    FadeFlag.FadeOutFlag = true;
+                    FadeInit = true;
+                }
+                if (!FadeFlag.FadeOutFlag)
+                {
+                    PassStageID.GetStageID(StageID);
+                    StageEnable.enabled = true;
+                    CameraData.transform.position = new Vector3(0, 0, 0);
+                    CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    Finger.transform.position = new Vector3(100, 100, 100);
+                    this.transform.position = new Vector3(-8.36f, -9.48f, -10);
+                    this.transform.rotation = Quaternion.Euler(50, 0, 10);
+                    FadeFlag.FadeInFlag = true;
+                    InitFlag = true;
+                    FadeInit = false;
+                    SelectFlag = false;
+                    this.enabled = false;
+                }
             }
 
         }
