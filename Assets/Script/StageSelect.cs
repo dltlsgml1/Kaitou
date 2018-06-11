@@ -19,7 +19,7 @@ public class StageSelect : MonoBehaviour
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
-   // public int StageNum = 31;                //ステージの数(仮置き)
+    public int StageNum = 30;                //ステージの数(仮置き)
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
     StageLoad StageLoad;
@@ -27,8 +27,6 @@ public class StageSelect : MonoBehaviour
     PassStageID PassID;
     GameObject MapObject;
     MapScript Map;
-    private static GameObject CSVData;
-    private static CsvLoad CsvData;
 
 
     // Use this for initialization
@@ -49,8 +47,6 @@ public class StageSelect : MonoBehaviour
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
 
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
@@ -58,8 +54,7 @@ public class StageSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
+       
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
     }
@@ -72,19 +67,21 @@ public class StageSelect : MonoBehaviour
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
         Transitions();              //遷移
+
     }
 
     public void ChangeMapOpen()         //マップに切り替え
     {
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
-        
-        if (Decision < -DefaultKey)
+        if (!TargetFlag)
         {
-       
-            Map.enabled = true;
-            PassStageID.GetStageID(StageID);
-            this.enabled = false;
+            if (Decision < -DefaultKey)
+            {
+                PassStageID.GetStageID(StageID);
+                Map.enabled = true;
+                this.enabled = false;
+            }
         }
     }
     public void StageSelectMoveFlag()   //左スティックでステージの移動
@@ -94,7 +91,7 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < 32)
+            if (StageID < StageNum)
             { 
 
                 if (Decision > DefaultKey && !TargetFlag)
@@ -194,11 +191,11 @@ public class StageSelect : MonoBehaviour
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
-            PassStageID.GetStageID(StageID+1);
-            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
-            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID].UpperCunt);
+            PassStageID.GetStageID(StageID);
+            PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
+            PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
+            PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)
@@ -207,4 +204,5 @@ public class StageSelect : MonoBehaviour
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
     }
+ 
 }
