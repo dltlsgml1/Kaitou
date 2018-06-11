@@ -37,6 +37,8 @@ public class GameMain : MonoBehaviour
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
+    public bool rensya = false;
+    public bool unrensya = false;
   
     public void Restart()
     {
@@ -89,7 +91,8 @@ public class GameMain : MonoBehaviour
         BlocksCount = 0;
         NormalCount = 0;
         CollapsCount = 0;
-        minusseigen = false;
+        unrensya = true;
+
 
         for (int i = 0; i < Blocks.Length; i++)
         {
@@ -168,30 +171,36 @@ public class GameMain : MonoBehaviour
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                if(CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBottom == true)
                 {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
                 }              
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsTop == true)
                 {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
                 }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsRight == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
 
                 }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true && 
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsLeft == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
 
                 }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true &&
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsFront == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
                 }
                     
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true)
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
+                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBack == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
                 }
@@ -207,6 +216,7 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().canburn = true;
                 }
+                unrensya = false;
             }
             else
             {
@@ -216,29 +226,32 @@ public class GameMain : MonoBehaviour
         }
         if (Input.GetButtonDown("AButton"))
         {
-            for(int i=0;i<NormalCount;i++)
+            rensya = true;
+            seigen--;
+        }
+
+        
+
+        if (rensya == true)
+        {
+            for (int i = 0; i < NormalCount; i++)
             {
-                if(NormalBlocks[i].GetComponent<Blocks>().canburn==true)
+                if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().SetBurn();
                     NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
 
-                    if (minusseigen==false)
-                    {
-                        seigen--;
-                        minusseigen = true;
-                    }
-                      
                 }
             }
-
-
         }
 
+        if(unrensya == true)
+        {
+            rensya = false;
+        }
         
-
         if (NormalCount == 0)
         {
             if (Clear.gameObject.activeSelf == false)
