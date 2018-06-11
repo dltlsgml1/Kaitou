@@ -37,6 +37,8 @@ public class GameMain : MonoBehaviour
     public bool minusseigen = false;
     public bool ClearFlg = false;
     public bool keka = false;
+    public bool rensya = false;
+    public bool unrensya = false;
   
     public void Restart()
     {
@@ -89,7 +91,8 @@ public class GameMain : MonoBehaviour
         BlocksCount = 0;
         NormalCount = 0;
         CollapsCount = 0;
-        minusseigen = false;
+        unrensya = true;
+
 
         for (int i = 0; i < Blocks.Length; i++)
         {
@@ -213,6 +216,7 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().canburn = true;
                 }
+                unrensya = false;
             }
             else
             {
@@ -222,29 +226,32 @@ public class GameMain : MonoBehaviour
         }
         if (Input.GetButtonDown("AButton"))
         {
-            for(int i=0;i<NormalCount;i++)
+            rensya = true;
+            seigen--;
+        }
+
+        
+
+        if (rensya == true)
+        {
+            for (int i = 0; i < NormalCount; i++)
             {
-                if(NormalBlocks[i].GetComponent<Blocks>().canburn==true)
+                if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().SetBurn();
                     NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
 
-                    if (minusseigen==false)
-                    {
-                        seigen--;
-                        minusseigen = true;
-                    }
-                      
                 }
             }
-
-
         }
 
+        if(unrensya == true)
+        {
+            rensya = false;
+        }
         
-
         if (NormalCount == 0)
         {
             if (Clear.gameObject.activeSelf == false)
