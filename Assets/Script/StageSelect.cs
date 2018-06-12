@@ -19,7 +19,7 @@ public class StageSelect : MonoBehaviour
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
-    public int StageNum = 30;                //ステージの数(仮置き)
+   // public int StageNum = 31;                //ステージの数(仮置き)
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
     StageLoad StageLoad;
@@ -27,7 +27,15 @@ public class StageSelect : MonoBehaviour
     PassStageID PassID;
     GameObject MapObject;
     MapScript Map;
+    private static GameObject CSVData;
+    private static CsvLoad CsvData;
 
+    public GameObject NowObj;
+    public bool IsClearNowObj;
+    private FadeImage fadeImage;
+    public float LookTime;
+    public float InvisibleTime;
+    public float FadeTime;
 
     // Use this for initialization
     void Start()
@@ -47,14 +55,19 @@ public class StageSelect : MonoBehaviour
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
 
+        CSVData = GameObject.Find("CSVLoad");
+        CsvData = CSVData.GetComponent<CsvLoad>();
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
+
+        SetNowStagePrefab();
     }
 
     private void OnEnable()
     {
-       
+        CSVData = GameObject.Find("CSVLoad");
+        CsvData = CSVData.GetComponent<CsvLoad>();
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
     }
@@ -67,21 +80,19 @@ public class StageSelect : MonoBehaviour
         StageSelectMove();          //ステージの移動をする
         SelectStage();              //ステージの決定かタイトルに戻るよう
         Transitions();              //遷移
-
     }
 
     public void ChangeMapOpen()         //マップに切り替え
     {
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
-        if (!TargetFlag)
+        
+        if (Decision < -DefaultKey)
         {
-            if (Decision < -DefaultKey)
-            {
-                PassStageID.GetStageID(StageID);
-                Map.enabled = true;
-                this.enabled = false;
-            }
+       
+            Map.enabled = true;
+            PassStageID.GetStageID(StageID);
+            this.enabled = false;
         }
     }
     public void StageSelectMoveFlag()   //左スティックでステージの移動
@@ -91,17 +102,19 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < StageNum)
+            if (StageID < 32)
             { 
 
                 if (Decision > DefaultKey && !TargetFlag)
                 {
+                    fadeImage.SetMaterialAlpha(0);
                     StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
                     LeftMoveFlag = true;
                 }
             }
             if (Decision < -DefaultKey && !TargetFlag)
             {
+                fadeImage.SetMaterialAlpha(0);
                 StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
                 RightMoveFlag = true;
             }
@@ -143,6 +156,7 @@ public class StageSelect : MonoBehaviour
                 RB.isKinematic = true;
                 LeftMoveFlag = false;
                 TargetFlag = false;
+                SetNowStagePrefab();
             }
         }
         if (RightMoveFlag)
@@ -165,7 +179,15 @@ public class StageSelect : MonoBehaviour
                 RB.isKinematic = true;
                 RightMoveFlag = false;
                 TargetFlag = false;
+                SetNowStagePrefab();
             }
+        }
+
+        if(!LeftMoveFlag && !RightMoveFlag && IsClearNowObj)
+        {
+            //Debug.Log("stop now");
+            //Debug.Log("now fading");
+            FadeImage();
         }
     }
     public void SelectStage()       //遊ぶステージの決定
@@ -191,11 +213,11 @@ public class StageSelect : MonoBehaviour
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
-            PassStageID.GetStageID(StageID);
-            PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
-            PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
+            PassStageID.GetStageID(StageID+1);
+            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
+            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
+            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID].UpperCunt);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)
@@ -204,5 +226,34 @@ public class StageSelect : MonoBehaviour
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
     }
- 
+
+    private void FadeImage()
+    {
+        fadeImage.Fade();
+    }
+
+    private void SetNowStagePrefab()
+    {
+        IsClearNowObj = (CsvData.StageDateList[StageID - 1].ClearFlag == 0) ? true : false;
+        NowObj = this.transform.Find("Stage" + CastStageId(StageID - 1) + "(Clone)").gameObject;
+        NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
+        fadeImage = NowObj.GetComponent<FadeImage>();
+        fadeImage.Init(NowObj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);
+    }
+
+    private string CastStageId(int stageid)
+    {
+        string str;
+
+        if (stageid >= 0 && stageid <= 9)
+        {
+            str = "0" + stageid;
+        }
+        else
+        {
+            str = stageid + "";
+        }
+
+        return str;
+    }
 }

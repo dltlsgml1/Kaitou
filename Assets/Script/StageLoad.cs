@@ -7,37 +7,41 @@ using System.IO;
 
 public class StageLoad : MonoBehaviour {
     
-
+    private static GameObject CSVData;
+    private static CsvLoad CsvData;
     public GameObject StagePrefab;
     private float Distance = 14.0f;             //オブジェクト間の距離
     public int StageID;
     PassStageID PassID;
+    ScreenShot ScreenShot;
+
     // Use this for initialization
     void Start()
     {
-        
-    }
-
-    private void Awake()
-    {
-
+        CSVData = GameObject.Find("CSVLoad");
+        CsvData = CSVData.GetComponent<CsvLoad>();
+        ScreenShot = GetComponent<ScreenShot>();
+        ScreenShot.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
         SetStagePrefab();
-        this.enabled = false;
     }
-
-    // Update is called once per frame
-    void Update () {
+	
+	// Update is called once per frame
+	void Update () {
 	}
 
     public void SetStagePrefab()
     {
         Transform parent = this.transform;
-        parent.position = new Vector3(0, 0, 0);
-        
-        for (int i = 0; i < 29; i++)
+        GameObject obj;
+        for (int i = 0; i < CsvLoad.height-1; i++)
         {
-            StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CSVData.StageDateList[i].StageName);
+            StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CsvData.StageDateList[i+1].StageName);
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
+
+            //obj = StagePrefab.transform.Find("ClearStageSS").gameObject;
+            //obj.GetComponent<FadeImage>().Init(obj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);
+
+            ScreenShot.SearchToSetClearImage(i);
         }
     }
 }
