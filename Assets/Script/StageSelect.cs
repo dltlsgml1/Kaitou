@@ -30,6 +30,12 @@ public class StageSelect : MonoBehaviour
     private static GameObject CSVData;
     private static CsvLoad CsvData;
 
+    public GameObject NowObj;
+    public bool IsClearNowObj;
+    private FadeImage fadeImage;
+    public float LookTime;
+    public float InvisibleTime;
+    public float FadeTime;
 
     // Use this for initialization
     void Start()
@@ -54,6 +60,8 @@ public class StageSelect : MonoBehaviour
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
+
+        SetNowStagePrefab();
     }
 
     private void OnEnable()
@@ -99,12 +107,14 @@ public class StageSelect : MonoBehaviour
 
                 if (Decision > DefaultKey && !TargetFlag)
                 {
+                    fadeImage.SetMaterialAlpha(0);
                     StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
                     LeftMoveFlag = true;
                 }
             }
             if (Decision < -DefaultKey && !TargetFlag)
             {
+                fadeImage.SetMaterialAlpha(0);
                 StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
                 RightMoveFlag = true;
             }
@@ -146,6 +156,7 @@ public class StageSelect : MonoBehaviour
                 RB.isKinematic = true;
                 LeftMoveFlag = false;
                 TargetFlag = false;
+                SetNowStagePrefab();
             }
         }
         if (RightMoveFlag)
@@ -168,7 +179,15 @@ public class StageSelect : MonoBehaviour
                 RB.isKinematic = true;
                 RightMoveFlag = false;
                 TargetFlag = false;
+                SetNowStagePrefab();
             }
+        }
+
+        if(!LeftMoveFlag && !RightMoveFlag && IsClearNowObj)
+        {
+            //Debug.Log("stop now");
+            //Debug.Log("now fading");
+            FadeImage();
         }
     }
     public void SelectStage()       //遊ぶステージの決定
@@ -206,5 +225,35 @@ public class StageSelect : MonoBehaviour
             BackTitleFlag = false;
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
+    }
+
+    private void FadeImage()
+    {
+        fadeImage.Fade();
+    }
+
+    private void SetNowStagePrefab()
+    {
+        IsClearNowObj = (CsvData.StageDateList[StageID - 1].ClearFlag == 0) ? true : false;
+        NowObj = this.transform.Find("Stage" + CastStageId(StageID - 1) + "(Clone)").gameObject;
+        NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
+        fadeImage = NowObj.GetComponent<FadeImage>();
+        fadeImage.Init(NowObj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);
+    }
+
+    private string CastStageId(int stageid)
+    {
+        string str;
+
+        if (stageid >= 0 && stageid <= 9)
+        {
+            str = "0" + stageid;
+        }
+        else
+        {
+            str = stageid + "";
+        }
+
+        return str;
     }
 }

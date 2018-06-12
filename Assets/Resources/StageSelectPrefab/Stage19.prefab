@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4540127438432592}
   - component: {fileID: 33212741013300514}
   - component: {fileID: 23933525160215896}
+  - component: {fileID: 114803138192680408}
   m_Layer: 0
   m_Name: ClearStageSS
   m_TagString: Untagged
@@ -399,3 +400,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1207280773831850}
   m_Mesh: {fileID: 4300000, guid: 47a4a56d27e54ba4d877c21e6b8c2e9a, type: 3}
+--- !u!114 &114803138192680408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165089477162786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f3671c80a7d254daff179f85490b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LookTime: 3
+  InvisibleTime: 5
+  FadeTime: 0.5

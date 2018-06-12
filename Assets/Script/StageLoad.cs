@@ -32,10 +32,15 @@ public class StageLoad : MonoBehaviour {
     public void SetStagePrefab()
     {
         Transform parent = this.transform;
+        GameObject obj;
         for (int i = 0; i < CsvLoad.height-1; i++)
         {
             StagePrefab = (GameObject)Resources.Load("StageSelectPrefab/"+CsvData.StageDateList[i+1].StageName);
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
+
+            //obj = StagePrefab.transform.Find("ClearStageSS").gameObject;
+            //obj.GetComponent<FadeImage>().Init(obj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);
+
             ScreenShot.SearchToSetClearImage(i);
         }
     }
