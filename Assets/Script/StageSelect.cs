@@ -19,7 +19,6 @@ public class StageSelect : MonoBehaviour
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
-   // public int StageNum = 31;                //ステージの数(仮置き)
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
     StageLoad StageLoad;
@@ -98,22 +97,48 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < 32)
-            { 
-
-                if (Decision > DefaultKey && !TargetFlag)
+           
+                if (StageID < 29)
                 {
-                    fadeImage.SetMaterialAlpha(0);
-                    StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
-                    LeftMoveFlag = true;
+
+                    if (Decision > DefaultKey && !TargetFlag)
+                    {
+                        fadeImage.SetMaterialAlpha(0);
+                        StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
+                        LeftMoveFlag = true;
+                        ContinuousMoveFlag = false;
+                    }
+                    if (Decision > DefaultKey && TargetFlag)
+                    {
+                        if (TargetPos.x + 7 > this.transform.position.x)
+                        {
+                            StageID += 1;
+                            ContinuousMoveFlag = true;
+                        }
+                    }
+
                 }
-            }
-            if (Decision < -DefaultKey && !TargetFlag)
-            {
-                fadeImage.SetMaterialAlpha(0);
-                StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
-                RightMoveFlag = true;
-            }
+                if (StageID != 0)
+                {
+
+                
+                if (Decision < -DefaultKey && !TargetFlag)
+                    {
+                        fadeImage.SetMaterialAlpha(0);
+                        StageID -= 1;                           //左入力でステージナンバーが下がるはずなので下げる
+                        RightMoveFlag = true;
+                    
+                    }
+                if (Decision < -DefaultKey && TargetFlag)
+                {
+                    if (TargetPos.x - 7 > this.transform.position.x)
+                    {
+                        StageID -= 1;
+                        ContinuousMoveFlag = true;
+                    }
+                }
+                }
+            
         }
     }
     public void StageSelectMove()   //ステージの移動
@@ -131,6 +156,16 @@ public class StageSelect : MonoBehaviour
             }
             TargetFlag = true;          //移動範囲の設定が何度も起こらないようにフラグをたてて移動中にここに来ないように
             RB.isKinematic = false;
+        }
+        if (ContinuousMoveFlag&&LeftMoveFlag)
+        {
+            TargetPos.x -= Distance;
+            ContinuousMoveFlag = false;
+        }
+        if (ContinuousMoveFlag && RightMoveFlag)
+        {
+            TargetPos.x += Distance;
+            ContinuousMoveFlag = false;
         }
 
         if (LeftMoveFlag)
@@ -220,7 +255,7 @@ public class StageSelect : MonoBehaviour
         if (BackTitleFlag)
         {
             BackTitleFlag = false;
-            SceneManager.LoadScene("Title", LoadSceneMode.Single);
+           // SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
     }
 
