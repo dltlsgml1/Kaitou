@@ -27,8 +27,7 @@ public class StageSelect : MonoBehaviour
     PassStageID PassID;
     GameObject MapObject;
     MapScript Map;
-    private static GameObject CSVData;
-    private static CsvLoad CsvData;
+
 
     public GameObject NowObj;
     public bool IsClearNowObj;
@@ -55,8 +54,7 @@ public class StageSelect : MonoBehaviour
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
 
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
+
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
@@ -66,10 +64,8 @@ public class StageSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        CSVData = GameObject.Find("CSVLoad");
-        CsvData = CSVData.GetComponent<CsvLoad>();
+
         StageID = PassStageID.PassStageId();
-        //this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
     }
 
     // Update is called once per frame
@@ -213,11 +209,12 @@ public class StageSelect : MonoBehaviour
         if (SelectStageFlag)
         {
             SelectStageFlag = false;
-            PassStageID.GetStageID(StageID+1);
-            PassStageID.GetStageName(CsvData.StageDateList[StageID].StageName);
-            PassStageID.GetPosition((float)CsvData.StageDateList[StageID].Pos_X, (float)CsvData.StageDateList[StageID].Pos_Y, (float)CsvData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CsvData.StageDateList[StageID].Rot_X, (float)CsvData.StageDateList[StageID].Rot_Y, (float)CsvData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CsvData.StageDateList[StageID].UpperCunt);
+            PassStageID.GetStageID(StageID);
+            PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
+            Debug.Log(CSVData.StageDateList[StageID].StageName);
+            PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
+            PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
+            PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
             SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
         }
         if (BackTitleFlag)
@@ -234,7 +231,7 @@ public class StageSelect : MonoBehaviour
 
     private void SetNowStagePrefab()
     {
-        IsClearNowObj = (CsvData.StageDateList[StageID].ClearFlag == 1) ? true : false;
+        IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag == 1) ? true : false;
         NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();
