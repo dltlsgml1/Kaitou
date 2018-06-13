@@ -12,6 +12,9 @@ public class StageSelect : MonoBehaviour
     public bool LeftMoveFlag = false;       //左に移動するフラグ
     public bool TargetFlag = false;         //移動範囲固定用フラグ
     public bool ContinuousMoveFlag = false; //連続して移動する時のフラグ
+    public bool FadeOutFlag = false;        //フェードアウトフラグ
+    public bool FadeInitOutFlag = false;
+    public bool TimeFlag = false;           //このフラグがtrueになったらzoomを止める
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
     public int StageID = 1;                     //ステージID
@@ -21,19 +24,24 @@ public class StageSelect : MonoBehaviour
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
     GameObject StageLoadObject;
+    public Camera ZoomIn;
     StageLoad StageLoad;
     Sound Sound;
     PassStageID PassID;
     GameObject MapObject;
     MapScript Map;
-
-
+    GameObject Fade;
+    StageSelectFade FadeFlag;
     public GameObject NowObj;
     public bool IsClearNowObj;
     private FadeImage fadeImage;
     public float LookTime;
     public float InvisibleTime;
     public float FadeTime;
+    float time = 0;                             //秒数計算用
+    float timeCount = 0;                        //秒数計算用
+    public int MaxTime = 1;                     //秒数
+    double Speed;
 
     // Use this for initialization
     void Start()
@@ -63,7 +71,9 @@ public class StageSelect : MonoBehaviour
 
     private void OnEnable()
     {
-
+        Speed = 1 / (MaxTime * 60);
+        Fade = GameObject.Find("Panel");
+        FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
     }
 
@@ -108,7 +118,7 @@ public class StageSelect : MonoBehaviour
                         LeftMoveFlag = true;
                         ContinuousMoveFlag = false;
                     }
-                    if (Decision > DefaultKey && TargetFlag)
+                    if (Decision > DefaultKey && TargetFlag&& LeftMoveFlag)
                     {
                         if (TargetPos.x + 7 > this.transform.position.x)
                         {
@@ -129,9 +139,9 @@ public class StageSelect : MonoBehaviour
                         RightMoveFlag = true;
                     
                     }
-                if (Decision < -DefaultKey && TargetFlag)
+                if (Decision < -DefaultKey && TargetFlag&& RightMoveFlag)
                 {
-                    if (TargetPos.x - 7 > this.transform.position.x)
+                    if (TargetPos.x - 7 < this.transform.position.x)
                     {
                         StageID -= 1;
                         ContinuousMoveFlag = true;
@@ -224,11 +234,14 @@ public class StageSelect : MonoBehaviour
     public void SelectStage()       //遊ぶステージの決定
     {
         float Decision;
-        if (Input.GetButtonDown("AButton") && !TargetFlag)
+        if (StageID != 0)
         {
-            Sound.PlaySe("StageIn", 1);
-            Sound.StopBgm();
-            SelectStageFlag = true;
+            if (Input.GetButtonDown("AButton") && !TargetFlag)
+            {
+                Sound.PlaySe("StageIn", 1);
+                Sound.StopBgm();
+                SelectStageFlag = true;
+            }
         }
         Decision = Input.GetAxisRaw("LeftStick X");
         if (Decision < -DefaultKey)
@@ -243,14 +256,32 @@ public class StageSelect : MonoBehaviour
     {
         if (SelectStageFlag)
         {
-            SelectStageFlag = false;
-            PassStageID.GetStageID(StageID);
-            PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
-            Debug.Log(CSVData.StageDateList[StageID].StageName);
-            PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
-            PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
-            PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
-            SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
+           
+            if (time < MaxTime - 0.1f)
+            {
+                if (!FadeInitOutFlag)
+                {
+                    FadeFlag.FadeOutFlag = true;
+                    FadeInitOutFlag = true;
+                }
+            }
+            else
+            {
+                time = Mathf.PingPong(timeCount, MaxTime + 0.1f);
+                ZoomIn.orthographicSize -= 0.01f;
+            }
+            
+            if (!FadeFlag.FadeOutFlag)
+            {
+                SelectStageFlag = false;
+                PassStageID.GetStageID(StageID);
+                PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
+                Debug.Log(CSVData.StageDateList[StageID].StageName);
+                PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
+                PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
+                PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
+                SceneManager.LoadScene("Gamemain", LoadSceneMode.Single);
+            }
         }
         if (BackTitleFlag)
         {
