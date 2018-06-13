@@ -25,7 +25,7 @@ public class Title : MonoBehaviour {
         }
         if (cs_failed.FadeInEnd)
         {
-            SceneManager.LoadScene("StageSelect_Temp", LoadSceneMode.Single);
+            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
         }
 
     }
