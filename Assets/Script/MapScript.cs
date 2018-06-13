@@ -9,7 +9,8 @@ public class MapScript : MonoBehaviour {
     StageSelect StageEnable;
     GameObject CameraData;
     GameObject Fade;
-    StageSelectFade FadeFlag; 
+    StageSelectFade FadeFlag;
+   public  GameObject spotlight;
     public bool InitFlag = true;
     bool CameraPositionFlag = false;
     bool StagePositionFlag = false;
@@ -46,7 +47,7 @@ public class MapScript : MonoBehaviour {
     float InitHeight = -0.8f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;
-    public int MaxStage = 29;
+    public int MaxStage = 30;
     public int Decision = 0;
     public int FingerPos;
 
@@ -56,6 +57,7 @@ public class MapScript : MonoBehaviour {
 
     private void OnEnable()
     {
+        spotlight.SetActive(true);
         Fade = GameObject.Find("Panel");
         FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
@@ -138,13 +140,14 @@ public class MapScript : MonoBehaviour {
     public void MapOpen()
     {
         rate += 0.05f;
-        EndPosition = new Vector3(0.39f, -8.92f, -2.78f);
+        EndPosition = new Vector3(0.39f, -8f, -4f);
         EndRotation = new Vector3(90f, 180, 0);
         if (!RotationFlag)
         {
+            rate2 += 0.05f;
             
-            this.transform.rotation = Quaternion.Euler(Vector3.Lerp(StartRotation, EndRotation, rate));
-            NowRotation = Vector3.Lerp(StartRotation, EndRotation, rate);
+            this.transform.rotation = Quaternion.Euler(Vector3.Lerp(StartRotation, EndRotation, rate2));
+            NowRotation = Vector3.Lerp(StartRotation, EndRotation, rate2);
             if (NowRotation == EndRotation)
             {
                 RotationFlag = true;
@@ -152,7 +155,7 @@ public class MapScript : MonoBehaviour {
         }
         if (!PositionFlag)
         {
-            this.transform.position=Vector3.Lerp(StartPosition, EndPosition, rate);
+            this.transform.position=Vector3.Lerp(StartPosition, EndPosition, rate2);
             if (this.transform.position == EndPosition)
             {
                 StartPosition.x = this.transform.rotation.x;
@@ -197,6 +200,7 @@ public class MapScript : MonoBehaviour {
             else
             {
                 rate = 0;
+                rate2 = 0;
                 InitFlag = false;
                 PositionFlag = false;
                 RotationFlag = false;
@@ -640,6 +644,7 @@ Rotation X 50 Y 0 Z 10
                 }
                 if (!FadeFlag.FadeOutFlag)
                 {
+                    spotlight.SetActive(false);
                     PassStageID.GetStageID(StageID);
                     
                     if (!FadeInInit)
@@ -708,6 +713,7 @@ Rotation X 50 Y 0 Z 10
                            InitFlag = true;
                             FadeInit = false;
                             SelectFlag = false;
+                            
                             FingerFlag = false;
                             StagePositionFlag = false;
                             PositionFlag = false;
