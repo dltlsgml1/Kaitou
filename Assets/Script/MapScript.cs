@@ -40,6 +40,7 @@ public class MapScript : MonoBehaviour {
     float Width = 2.15f;
     float Height = 1.35f;
     float rate = 0f;
+    float rate2 = 0f;
     float EvenNumber = -2.2f;
     float OddNumber = -2.6f;
     float InitHeight = -0.8f;
@@ -633,7 +634,7 @@ Rotation X 50 Y 0 Z 10
             {
                 if (!FadeInit)
                 {
-                    
+                    Sound.PlaySe("Move", 0);
                     FadeFlag.FadeOutFlag = true;
                     FadeInit = true;
                 }
@@ -643,6 +644,7 @@ Rotation X 50 Y 0 Z 10
                     
                     if (!FadeInInit)
                     {
+                        Sound.StopSe("Move", 0);
                         StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
                         FadeInInit = true;
                         FadeFlag.FadeInFlag = true;
@@ -672,26 +674,36 @@ Rotation X 50 Y 0 Z 10
                                 EndFinger = new Vector3(11, -10, 0);
                                 StartPosition = this.transform.position;
                                 EndPosition= new Vector3(-9.26f, -11.9f, -2.01f);
-                                StartRotation.x = this.transform.rotation.x;
-                                StartRotation.y = this.transform.rotation.y;
-                                StartRotation.z = this.transform.rotation.z;
-                                EndRotation = new Vector3(80.5f, 136f, -41f);
                             }
                         }
 
                         if (CameraPositionFlag && StagePositionFlag)
                         {
+                            rate2 += 0.05f;
+                            if (!PositionFlag)
+                            {
+                                this.transform.position = Vector3.Lerp(StartPosition, EndPosition, rate2);
+                                if (this.transform.position == EndPosition)
+                                {
+                                    PositionFlag = true;
+                                }
+                            }
+
                             Finger.transform.position = new Vector3(11, -10, 0);
-                            this.transform.position = new Vector3(-9.26f, -11.9f, -2.01f);
-                            this.transform.rotation = Quaternion.Euler(80.5f, 136f, -41f);
-                            PositionFlag = true;
-                            RotationFlag = true;
+                            if (PositionFlag)
+                            {
+                                this.transform.rotation = Quaternion.Euler(80.5f, 136f, -41f);
+                                RotationFlag = true;
+                            }
+                            
                         }
 
 
 
                         if (PositionFlag && RotationFlag && StagePositionFlag && CameraPositionFlag)
                         {
+                            rate = 0;
+                            rate2 = 0;
                             FadeInInit = false;
                            InitFlag = true;
                             FadeInit = false;
