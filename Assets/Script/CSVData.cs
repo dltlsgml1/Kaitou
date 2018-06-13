@@ -10,6 +10,7 @@ public class CSVData {
         public Nullable<int> StageID;       //CSVのステージID部分
         public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
+        public Nullable<int> MinCunt;      //CSVの最小Clear回数部分
         public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
         public Nullable<float> Pos_X;        //カメラのポジションX
         public Nullable<float> Pos_Y;        //カメラのポジションY

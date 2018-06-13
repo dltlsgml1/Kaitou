@@ -14,6 +14,7 @@ public class CsvLoad : MonoBehaviour {
 		public Nullable<int> StageID;       //CSVのステージID部分
 		public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
+        public Nullable<int> MinCunt;      //CSVの最小Clear回数部分
         public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
         public Nullable<float> Pos_X;        //カメラのポジションX
         public Nullable<float> Pos_Y;        //カメラのポジションY
@@ -92,7 +93,8 @@ public class CsvLoad : MonoBehaviour {
 					StageID = null,
 					StageName = null,
 					UpperCunt = null,
-					ClearFlag = null,
+                    MinCunt = null,
+                    ClearFlag = null,
                     Pos_X = null,
                     Pos_Y = null,
                     Pos_Z = null,
@@ -108,14 +110,15 @@ public class CsvLoad : MonoBehaviour {
                     StageID = int.Parse (arrays [i, 0]),
                     StageName = arrays [i, 1],
                     UpperCunt = int.Parse (arrays [i, 2]),
-                    ClearFlag = int.Parse (arrays [i, 3]),
-                    Pos_X = float.Parse(arrays[i, 4]),
-                    Pos_Y = float.Parse(arrays[i, 5]),
-                    Pos_Z = float.Parse(arrays[i, 6]),
-                    Rot_X = float.Parse(arrays[i, 7]),
-                    Rot_Y = float.Parse(arrays[i, 8]),
-                    Rot_Z = float.Parse(arrays[i, 9]),                  
-                    StageTitle = arrays[i, 10],
+                    MinCunt = int.Parse(arrays[i, 3]),
+                    ClearFlag = int.Parse (arrays [i, 4]),
+                    Pos_X = float.Parse(arrays[i, 5]),
+                    Pos_Y = float.Parse(arrays[i, 6]),
+                    Pos_Z = float.Parse(arrays[i, 7]),
+                    Rot_X = float.Parse(arrays[i, 8]),
+                    Rot_Y = float.Parse(arrays[i, 9]),
+                    Rot_Z = float.Parse(arrays[i, 10]),                  
+                    StageTitle = arrays[i, 11],
                     
 				});
                 CSVData.GetData().Add(new CSVData.StageDate()
@@ -123,32 +126,43 @@ public class CsvLoad : MonoBehaviour {
                     StageID = int.Parse(arrays[i, 0]),
                     StageName = arrays[i, 1],
                     UpperCunt = int.Parse(arrays[i, 2]),
-                    ClearFlag = int.Parse(arrays[i, 3]),
-                    Pos_X = float.Parse(arrays[i, 4]),
-                    Pos_Y = float.Parse(arrays[i, 5]),
-                    Pos_Z = float.Parse(arrays[i, 6]),
-                    Rot_X = float.Parse(arrays[i, 7]),
-                    Rot_Y = float.Parse(arrays[i, 8]),
-                    Rot_Z = float.Parse(arrays[i, 9]),
-                    StageTitle = arrays[i, 10],
+                    MinCunt = int.Parse(arrays[i, 3]),
+                    ClearFlag = int.Parse(arrays[i, 4]),
+                    Pos_X = float.Parse(arrays[i, 5]),
+                    Pos_Y = float.Parse(arrays[i, 6]),
+                    Pos_Z = float.Parse(arrays[i, 7]),
+                    Rot_X = float.Parse(arrays[i, 8]),
+                    Rot_Y = float.Parse(arrays[i, 9]),
+                    Rot_Z = float.Parse(arrays[i, 10]),
+                    StageTitle = arrays[i, 11],
+                    //ClearFlag = int.Parse(arrays[i, 3]),
+                    //Pos_X = float.Parse(arrays[i, 4]),
+                    //Pos_Y = float.Parse(arrays[i, 5]),
+                    //Pos_Z = float.Parse(arrays[i, 6]),
+                    //Rot_X = float.Parse(arrays[i, 7]),
+                    //Rot_Y = float.Parse(arrays[i, 8]),
+                    //Rot_Z = float.Parse(arrays[i, 9]),
+                    //StageTitle = arrays[i, 10],
                 });
             }
 		}
 
-		//デバッグログ確認
-		/*for (int i = 0; i < h; i++) {
-			Debug.Log(i + ":" + "StageID/" + StageDateList[i].StageID);        
-			Debug.Log(i + ":" + "StageName/" + StageDateList[i].StageName);
-			Debug.Log(i + ":" + "UpperCunt/" + StageDateList[i].UpperCunt);
-			Debug.Log(i + ":" + "Pos_X/" + StageDateList[i].Pos_X);
+        //デバッグログ確認
+        for (int i = 0; i < h; i++)
+        {
+            Debug.Log(i + ":" + "StageID/" + StageDateList[i].StageID);
+            Debug.Log(i + ":" + "StageName/" + StageDateList[i].StageName);
+            Debug.Log(i + ":" + "UpperCunt/" + StageDateList[i].UpperCunt);
+            Debug.Log(i + ":" + "MinCunt/" + StageDateList[i].MinCunt);
+            Debug.Log(i + ":" + "Pos_X/" + StageDateList[i].Pos_X);
             Debug.Log(i + ":" + "Pos_Y/" + StageDateList[i].Pos_Y);
             Debug.Log(i + ":" + "Pos_Z/" + StageDateList[i].Pos_Z);
             Debug.Log(i + ":" + "Rot_X/" + StageDateList[i].Rot_X);
             Debug.Log(i + ":" + "Rot_Y/" + StageDateList[i].Rot_Y);
             Debug.Log(i + ":" + "Rot_Z/" + StageDateList[i].Rot_Z);
             Debug.Log(i + ":" + "StageTitle/" + StageDateList[i].StageTitle);
-		}*/
-	}
+        }
+    }
     private void Awake()
     {
         csvLoad(StageDatePath, ref this.sData);
