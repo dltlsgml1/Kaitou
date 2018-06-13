@@ -69,17 +69,18 @@ public class StageSelect : MonoBehaviour
         CSVData = GameObject.Find("CSVLoad");
         CsvData = CSVData.GetComponent<CsvLoad>();
         StageID = PassStageID.PassStageId();
-        this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
+        //this.transform.position = new Vector3(-Distance * (StageID), 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChangeMapOpen();
-        StageSelectMoveFlag();      //ステージ移動フラグを立てる
-        StageSelectMove();          //ステージの移動をする
-        SelectStage();              //ステージの決定かタイトルに戻るよう
-        Transitions();              //遷移
+
+            ChangeMapOpen();
+            StageSelectMoveFlag();      //ステージ移動フラグを立てる
+            StageSelectMove();          //ステージの移動をする
+            SelectStage();              //ステージの決定かタイトルに戻るよう
+            Transitions();              //遷移
     }
 
     public void ChangeMapOpen()         //マップに切り替え
@@ -87,11 +88,10 @@ public class StageSelect : MonoBehaviour
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
         
-        if (Decision < -DefaultKey)
+        if (Decision < -DefaultKey && !TargetFlag)
         {
-       
-            Map.enabled = true;
             PassStageID.GetStageID(StageID);
+            Map.enabled = true;
             this.enabled = false;
         }
     }

@@ -14,6 +14,10 @@ public class MapScript : MonoBehaviour {
     bool CameraPositionFlag = false;
     bool StagePositionFlag = false;
     bool PositionFlag = false;
+    bool RotationFlag = false;
+    bool FingerFlag = false;
+    bool FadeInInit = false;
+    bool FadeOutIni = false;
     private bool SelectFlag = false;
     private bool FadeInit = false;
     private bool StartFade = false;
@@ -28,6 +32,11 @@ public class MapScript : MonoBehaviour {
     private Vector3 StartPosition;
     private Vector3 EndPosition;
     private Vector3 Rotation;
+    Vector3 NowRotation;
+    Vector3 StartRotation;
+    Vector3 EndRotation;
+    Vector3 StartFinger;
+    Vector3 EndFinger;
     float Width = 2.15f;
     float Height = 1.35f;
     float rate = 0f;
@@ -74,16 +83,21 @@ public class MapScript : MonoBehaviour {
         }
         if (EvenFlag)
         {
-            Finger.transform.position = new Vector3(EvenNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
+            EndFinger = new Vector3(EvenNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
         }
         else
         {
-            Finger.transform.position = new Vector3(OddNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
+            EndFinger = new Vector3(OddNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
         }
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable=StageSelectObject.GetComponent<StageSelect>();
         CameraData = GameObject.Find("CameraObejct");
         Ymoved = true;
+        StartPosition = this.transform.position;
+        StartRotation.x = this.transform.rotation.x;
+        StartRotation.y = this.transform.rotation.y;
+        StartRotation.z = this.transform.rotation.z;
+        StartFinger = Finger.transform.position;
     }
 
     // Update is called once per frame
@@ -122,25 +136,73 @@ public class MapScript : MonoBehaviour {
      */
     public void MapOpen()
     {
-        Vector3 GoalPosition = new Vector3(0.39f, -8.92f, -2.78f);
-        Vector3 GoalRotation = new Vector3(73.569f, 180f, 0);
+        rate += 0.05f;
+        EndPosition = new Vector3(0.39f, -8.92f, -2.78f);
+        EndRotation = new Vector3(90f, 180, 0);
+        if (!RotationFlag)
+        {
+            
+            this.transform.rotation = Quaternion.Euler(Vector3.Lerp(StartRotation, EndRotation, rate));
+            NowRotation = Vector3.Lerp(StartRotation, EndRotation, rate);
+            if (NowRotation == EndRotation)
+            {
+                RotationFlag = true;
+            }
+        }
         if (!PositionFlag)
         {
-            Rotation += new Vector3(0.1f, 0.1f, 0.1f);
-            this.transform.position += new Vector3(0.1f, 0.1f, 0.1f);
-            this.transform.rotation = Quaternion.Euler(Rotation);
+            this.transform.position=Vector3.Lerp(StartPosition, EndPosition, rate);
+            if (this.transform.position == EndPosition)
+            {
+                StartPosition.x = this.transform.rotation.x;
+                StartPosition.y = this.transform.rotation.y;
+                StartPosition.z = this.transform.rotation.z;
+                PositionFlag = true;
+            }
         }
-        StageSelectObject.transform.position = new Vector3(0, 4, 0);
-        CameraData.transform.position = new Vector3(0, -5, 0);
-        CameraData.transform.rotation= Quaternion.Euler(20, 0, 0);
 
-        this.transform.position = new Vector3(0.39f, -8.92f, -2.78f);
-        this.transform.rotation = Quaternion.Euler(73.569f, 180, 0);
+        if (!StagePositionFlag)
+        {
+            StageSelectObject.transform.position = Vector3.Lerp(new Vector3(0, 0, 0), new Vector3(0, 4, 0), rate);
+            if(StageSelectObject.transform.position==new Vector3(0, 4, 0))
+            {
+                StagePositionFlag = true;
+            }
+        }
 
-
-
-       // if(PositionFlag&&CameraPositionFlag&&StagePositionFlag)
-            InitFlag = false;
+        if(!CameraPositionFlag)
+        {
+            CameraData.transform.position = Vector3.Lerp(new Vector3(0, 0, 0), new Vector3(0, -5, 0), rate);
+            Vector3 CameraPos = Vector3.Lerp(new Vector3(0, 0, 0), new Vector3(20, 0, 0), rate);
+            CameraData.transform.rotation = Quaternion.Euler(CameraPos);
+            if (CameraData.transform.position==new Vector3(0,-5,0)&&CameraPos==new Vector3(20,0,0))
+            {
+                CameraPositionFlag = true;
+                rate = 0;
+            }
+        }
+        if (PositionFlag&&RotationFlag&&StagePositionFlag&&CameraPositionFlag)
+        {
+            
+            if (!FingerFlag)
+            {
+                rate += 0.01f;
+                Finger.transform.position = Vector3.Lerp(StartFinger, EndFinger, rate);
+                if (Finger.transform.position == EndFinger)
+                {
+                    FingerFlag = true;
+                }
+            }
+            else
+            {
+                rate = 0;
+                InitFlag = false;
+                PositionFlag = false;
+                RotationFlag = false;
+                StagePositionFlag = false;
+                CameraPositionFlag = false;
+            }
+        }
     }
 
     public void MapMove()
@@ -571,23 +633,78 @@ Rotation X 50 Y 0 Z 10
             {
                 if (!FadeInit)
                 {
+                    
                     FadeFlag.FadeOutFlag = true;
                     FadeInit = true;
                 }
                 if (!FadeFlag.FadeOutFlag)
                 {
                     PassStageID.GetStageID(StageID);
-                    StageEnable.enabled = true;
-                    CameraData.transform.position = new Vector3(0, 0, 0);
-                    CameraData.transform.rotation = Quaternion.Euler(0, 0, 0);
-                    Finger.transform.position = new Vector3(100, 100, 100);
-                    this.transform.position = new Vector3(-9.26f, -11.9f, -2.01f);
-                    this.transform.rotation = Quaternion.Euler(80.68201f, 135.925f, -41.118f);
-                    FadeFlag.FadeInFlag = true;
-                    InitFlag = true;
-                    FadeInit = false;
-                    SelectFlag = false;
-                    this.enabled = false;
+                    
+                    if (!FadeInInit)
+                    {
+                        StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
+                        FadeInInit = true;
+                        FadeFlag.FadeInFlag = true;
+                    }
+                    if (!FadeFlag.FadeInFlag)
+                    {
+                        rate += 0.05f;
+                        if (!StagePositionFlag)
+                        {
+                            StageSelectObject.transform.position = Vector3.Lerp(new Vector3(-14.0f * (StageID), 4, 0), new Vector3(-14.0f * (StageID), 0, 0), rate);
+                            if (StageSelectObject.transform.position == new Vector3(-14.0f * (StageID), 0, 0))
+                            {
+                                StagePositionFlag = true;
+                            }
+                        }
+
+                        if (!CameraPositionFlag)
+                        {
+                            CameraData.transform.position = Vector3.Lerp(new Vector3(0, -5, 0), new Vector3(0, 0, 0), rate);
+                            Vector3 CameraPos = Vector3.Lerp(new Vector3(20, 0, 0), new Vector3(0, 0, 0), rate);
+                            CameraData.transform.rotation = Quaternion.Euler(CameraPos);
+                            if (CameraData.transform.position == new Vector3(0, 0, 0) && CameraPos == new Vector3(0, 0, 0))
+                            {
+                                CameraPositionFlag = true;
+                                rate = 0;
+                                StartFinger = Finger.transform.position;
+                                EndFinger = new Vector3(11, -10, 0);
+                                StartPosition = this.transform.position;
+                                EndPosition= new Vector3(-9.26f, -11.9f, -2.01f);
+                                StartRotation.x = this.transform.rotation.x;
+                                StartRotation.y = this.transform.rotation.y;
+                                StartRotation.z = this.transform.rotation.z;
+                                EndRotation = new Vector3(80.5f, 136f, -41f);
+                            }
+                        }
+
+                        if (CameraPositionFlag && StagePositionFlag)
+                        {
+                            Finger.transform.position = new Vector3(11, -10, 0);
+                            this.transform.position = new Vector3(-9.26f, -11.9f, -2.01f);
+                            this.transform.rotation = Quaternion.Euler(80.5f, 136f, -41f);
+                            PositionFlag = true;
+                            RotationFlag = true;
+                        }
+
+
+
+                        if (PositionFlag && RotationFlag && StagePositionFlag && CameraPositionFlag)
+                        {
+                            FadeInInit = false;
+                           InitFlag = true;
+                            FadeInit = false;
+                            SelectFlag = false;
+                            FingerFlag = false;
+                            StagePositionFlag = false;
+                            PositionFlag = false;
+                            RotationFlag = false;
+                            CameraPositionFlag = false;
+                            StageEnable.enabled = true;
+                            this.enabled = false;
+                        }
+                    }
                 }
             }
 
