@@ -10,7 +10,8 @@ public class MapScript : MonoBehaviour {
     GameObject CameraData;
     GameObject Fade;
     StageSelectFade FadeFlag;
-   public  GameObject spotlight;
+    public  GameObject spotlight;
+    public GameObject Frame;
     public bool InitFlag = true;
     bool CameraPositionFlag = false;
     bool StagePositionFlag = false;
@@ -195,6 +196,9 @@ public class MapScript : MonoBehaviour {
                 if (Finger.transform.position == EndFinger)
                 {
                     FingerFlag = true;
+                    Frame.transform.position = EndPosition;
+                    Frame.transform.rotation = Quaternion.Euler(EndRotation);
+                    Frame.SetActive(true);
                 }
             }
             else
