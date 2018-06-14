@@ -39,13 +39,14 @@ public class StageLoad : MonoBehaviour {
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
 
             StageRank.CheckRank(i);
-            SetFrame(parent.Find("Stage" + CastStageId(i) + "(Clone)").gameObject, StageRank.GetRank());
+            SetClearFrame(parent.Find("Stage" + CastStageId(i) + "(Clone)").gameObject, StageRank.GetRank());
+            SetClearStarMaterial(parent.Find("Stage" + CastStageId(i) + "(Clone)/Star").gameObject, StageRank.GetRank());
 
             ScreenShot.SearchToSetClearImage(i);
         }
     }
 
-    private void SetFrame(GameObject obj, StageRank.RANK rank)
+    private void SetClearFrame(GameObject obj, StageRank.RANK rank)
     {
         switch (rank)
         {
@@ -79,6 +80,42 @@ public class StageLoad : MonoBehaviour {
 
         }
     }
+
+    private void SetClearStarMaterial(GameObject obj, StageRank.RANK rank)
+    {
+        switch (rank)
+        {
+            case StageRank.RANK.NORMAL:
+                obj.transform.Find("NormalFrame").gameObject.SetActive(true);
+                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
+                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
+                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                break;
+
+            case StageRank.RANK.BRONZE:
+                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
+                obj.transform.Find("BronzeFrame").gameObject.SetActive(true);
+                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
+                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                break;
+
+            case StageRank.RANK.SILVER:
+                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
+                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
+                obj.transform.Find("SilverFrame").gameObject.SetActive(true);
+                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                break;
+
+            case StageRank.RANK.GOLD:
+                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
+                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
+                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
+                obj.transform.Find("GoldFrame").gameObject.SetActive(true);
+                break;
+
+        }
+    }
+
 
     private string CastStageId(int stageid)
     {
