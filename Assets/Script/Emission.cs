@@ -36,6 +36,13 @@ public class Emission : MonoBehaviour
     {
         BurnEmisson();
         CanBurnEmission();
+
+        //if(S_blooks.BurnFlg)
+        //{
+        //    ChangeEmissionFlag = false;
+        //    UpCountFlag = true;
+        //    DownCountFlag = false;
+        //}
     }
 
     void BurnEmisson()
@@ -43,6 +50,8 @@ public class Emission : MonoBehaviour
         if (S_blooks.BurnFlg && UpCountFlag)
         {
             ChangeEmissionFlag = true;
+            //UpCountFlag = true;
+            //DownCountFlag = false;
         }
         else
         {
@@ -58,10 +67,10 @@ public class Emission : MonoBehaviour
             {
                 timeCount += (float)Speed;
             }
-            if (DownCountFlag)
-            {
-                timeCount -= (float)Speed;
-            }
+            //if (DownCountFlag)
+            //{
+            //    timeCount -= (float)Speed;
+            //}
 
 
             float val = time;
@@ -120,18 +129,25 @@ public class Emission : MonoBehaviour
         //{
         //    ChangeEmissionFlag = false;
         //}
+        //if(S_blooks.NormalNowcol)
+        //{
+        //    canBurnFlag = true;
+        //}
+        //else
+        //{
+        //    canBurnFlag = false;
+        //}
 
-        canBurnFlag = S_blooks.canburn;
 
 
+        //if (S_blooks.BurnFlg)
+        //{
 
-        if (S_blooks.BurnFlg)
-        {
-            canBurnFlag = false;
-        }
+        //    canBurnFlag = false;
+        //}
 
 
-        if (canBurnFlag)
+        if (S_blooks.NormalNowcol && !S_blooks.BurnFlg)
         {
             OneUCFlag = true;
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
@@ -193,7 +209,7 @@ public class Emission : MonoBehaviour
                 }
             }
         }
-        else if (!S_blooks.BurnFlg && OneUCFlag)
+        else if (!S_blooks.BurnFlg && OneUCFlag && !S_blooks.NormalNowcol)
         {
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
             if (UpCountFlag)
@@ -243,9 +259,17 @@ public class Emission : MonoBehaviour
                     UpCountFlag = true;
                     DownCountFlag = false;
                     ChangeEmissionFlag = false;
-                    OneUCFlag = false;
+                   // OneUCFlag = false;
                 }
             }
+        }
+        else if (S_blooks.BurnFlg && OneUCFlag)
+        {
+            UpCountFlag = true;
+            DownCountFlag = false;
+            ChangeEmissionFlag = false;
+            OneUCFlag = false;
+
         }
     }
 }
