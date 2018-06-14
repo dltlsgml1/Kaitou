@@ -8,6 +8,7 @@ public class StageSelectFade : MonoBehaviour {
     public float Speed = 0.01f;
     public bool FadeInFlag = true;
     public bool FadeOutFlag = false;
+    bool FadeInit = false;
     float alfa=0;
     float red, green, blue;
 
@@ -26,6 +27,7 @@ public class StageSelectFade : MonoBehaviour {
             if (alfa <= 0)
             {
                 FadeInFlag = false;
+                FadeInit = false;
             }
         }
 
@@ -35,18 +37,29 @@ public class StageSelectFade : MonoBehaviour {
             if (alfa >= 1)
             {
                 FadeOutFlag = false;
+                FadeInit = false;
             }
         }
     }
 
     public void FadeIn()
     {
+        if (!FadeInit)
+        {
+            alfa = 1;
+            FadeInit = true;
+        }
         GetComponent<Image>().color = new Color(red, green, blue, alfa);
         alfa -= Speed;      
     }
 
     public void FadeOut()
     {
+        if(!FadeInit)
+        {
+            alfa = 0;
+            FadeInit = true;
+        }
         GetComponent<Image>().color = new Color(red, green, blue, alfa);
         alfa += Speed;
     }
