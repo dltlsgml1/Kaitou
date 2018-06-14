@@ -293,7 +293,7 @@ public class StageSelect : MonoBehaviour
 
     private void SetNowStagePrefab()
     {
-        IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag == 1) ? true : false;
+        IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag != 0 && CSVData.StageDateList[StageID].ClearFlag >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
         NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();
