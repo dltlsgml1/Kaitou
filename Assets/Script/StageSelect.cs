@@ -46,6 +46,9 @@ public class StageSelect : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Fade = GameObject.Find("Panel");
+        FadeFlag = Fade.GetComponent<StageSelectFade>();
+        FadeFlag.FadeInFlag = true;
         MapObject = GameObject.Find("SS_StageList");
         Map = MapObject.GetComponent<MapScript>();
         Map.enabled = false;
@@ -60,20 +63,15 @@ public class StageSelect : MonoBehaviour
         Sound.SetVolumeSe("StageIn", Volume, 1);
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
-
-
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
-
         SetNowStagePrefab();
     }
 
     private void OnEnable()
     {
         Speed = 1 / (MaxTime * 60);
-        Fade = GameObject.Find("Panel");
-        FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
     }
 
@@ -107,31 +105,29 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-           
-                if (StageID < 29)
+            if (StageID < 29)
+            {
+                if (Decision > DefaultKey && !TargetFlag)
                 {
-
-                    if (Decision > DefaultKey && !TargetFlag)
-                    {
-                        fadeImage.SetMaterialAlpha(0);
-                        StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
-                        LeftMoveFlag = true;
-                        ContinuousMoveFlag = false;
+                    fadeImage.SetMaterialAlpha(0);
+                    StageID += 1;                           //左入力でステージナンバーが上がるはずなので上げる
+                    LeftMoveFlag = true;
+                    ContinuousMoveFlag = false;
                     }
                     if (Decision > DefaultKey && TargetFlag&& LeftMoveFlag)
                     {
                         if (TargetPos.x + 7 > this.transform.position.x)
                         {
-                            StageID += 1;
+                        fadeImage.SetMaterialAlpha(0);
+                        StageID += 1;
                             ContinuousMoveFlag = true;
                         }
                     }
 
                 }
-                if (StageID != 0)
-                {
 
-                
+            if (StageID != 0)
+            {
                 if (Decision < -DefaultKey && !TargetFlag)
                     {
                         fadeImage.SetMaterialAlpha(0);
@@ -143,12 +139,12 @@ public class StageSelect : MonoBehaviour
                 {
                     if (TargetPos.x - 7 < this.transform.position.x)
                     {
+                        fadeImage.SetMaterialAlpha(0);
                         StageID -= 1;
                         ContinuousMoveFlag = true;
                     }
                 }
-                }
-            
+             }          
         }
     }
     public void StageSelectMove()   //ステージの移動
