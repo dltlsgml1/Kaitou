@@ -39,13 +39,14 @@ public class StageLoad : MonoBehaviour {
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
 
             StageRank.CheckRank(i);
-            SetFrame(parent.Find("Stage" + CastStageId(i) + "(Clone)").gameObject, StageRank.GetRank());
+            SetClearFrame(parent.Find("Stage" + CastStageId(i) + "(Clone)").gameObject, StageRank.GetRank());
+            SetClearStarMaterial(parent.Find("Stage" + CastStageId(i) + "(Clone)/Star").gameObject, StageRank.GetRank());
 
             ScreenShot.SearchToSetClearImage(i);
         }
     }
 
-    private void SetFrame(GameObject obj, StageRank.RANK rank)
+    private void SetClearFrame(GameObject obj, StageRank.RANK rank)
     {
         switch (rank)
         {
@@ -79,6 +80,38 @@ public class StageLoad : MonoBehaviour {
 
         }
     }
+
+    private void SetClearStarMaterial(GameObject obj, StageRank.RANK rank)
+    {
+        switch (rank)
+        {
+            case StageRank.RANK.NORMAL:
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                break;
+
+            case StageRank.RANK.BRONZE:
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                break;
+
+            case StageRank.RANK.SILVER:
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                break;
+
+            case StageRank.RANK.GOLD:
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                break;
+
+        }
+    }
+
 
     private string CastStageId(int stageid)
     {
