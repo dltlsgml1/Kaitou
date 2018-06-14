@@ -129,10 +129,10 @@ public class Emission : MonoBehaviour
         //{
         //    ChangeEmissionFlag = false;
         //}
-        //if(S_blooks.NormalNowcol)
-        //{
-        //    canBurnFlag = true;
-        //}
+        if (S_blooks.NormalNowcol)
+        {
+            canBurnFlag = S_blooks.NormalNowcol;
+        }
         //else
         //{
         //    canBurnFlag = false;
@@ -140,14 +140,14 @@ public class Emission : MonoBehaviour
 
 
 
-        //if (S_blooks.BurnFlg)
-        //{
+        if (S_blooks.BurnFlg)
+        {
 
-        //    canBurnFlag = false;
-        //}
+            canBurnFlag = false;
+        }
 
 
-        if (S_blooks.NormalNowcol && !S_blooks.BurnFlg)
+        if (canBurnFlag)
         {
             OneUCFlag = true;
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
