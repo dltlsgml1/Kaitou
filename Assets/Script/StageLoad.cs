@@ -86,31 +86,27 @@ public class StageLoad : MonoBehaviour {
         switch (rank)
         {
             case StageRank.RANK.NORMAL:
-                obj.transform.Find("NormalFrame").gameObject.SetActive(true);
-                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
-                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
-                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
                 break;
 
             case StageRank.RANK.BRONZE:
-                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
-                obj.transform.Find("BronzeFrame").gameObject.SetActive(true);
-                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
-                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
                 break;
 
             case StageRank.RANK.SILVER:
-                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
-                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
-                obj.transform.Find("SilverFrame").gameObject.SetActive(true);
-                obj.transform.Find("GoldFrame").gameObject.SetActive(false);
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
                 break;
 
             case StageRank.RANK.GOLD:
-                obj.transform.Find("NormalFrame").gameObject.SetActive(false);
-                obj.transform.Find("BronzeFrame").gameObject.SetActive(false);
-                obj.transform.Find("SilverFrame").gameObject.SetActive(false);
-                obj.transform.Find("GoldFrame").gameObject.SetActive(true);
+                obj.transform.Find("LeftStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("CenterStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
+                obj.transform.Find("RightStar/Cone").GetComponent<Renderer>().material.color = new Color(1, 1, 0, 1);
                 break;
 
         }
