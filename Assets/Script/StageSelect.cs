@@ -23,6 +23,7 @@ public class StageSelect : MonoBehaviour
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
+    int StageNum = 30;
     GameObject StageLoadObject;
     public Camera ZoomIn;
     StageLoad StageLoad;
@@ -105,7 +106,7 @@ public class StageSelect : MonoBehaviour
         Decision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
         if (Decision != 0)
         {
-            if (StageID < 29)
+            if (StageID < StageNum)
             {
                 if (Decision > DefaultKey && !TargetFlag)
                 {
