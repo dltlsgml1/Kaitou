@@ -540,6 +540,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14d6615fd6dd184b9999514f5ec2359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &806434560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 806434562}
+  - component: {fileID: 806434561}
+  m_Layer: 0
+  m_Name: Spotight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!108 &806434561
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 806434560}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.5
+  m_Range: 123.744995
+  m_SpotAngle: 99.30367
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &806434562
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 806434560}
+  m_LocalRotation: {x: 0.5179826, y: 0.0067807576, z: -0.011644159, w: 0.85528517}
+  m_LocalPosition: {x: 0.3, y: 2.1, z: -10.9}
+  m_LocalScale: {x: 1.00124, y: 0.93544, z: 1.0930799}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 152.4, y: 0.03, z: -1.53}
 --- !u!1 &990310994
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,6 +825,11 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114870508966924734, guid: dcfd4c27cf789f3448048004458b5985,
+        type: 2}
+      propertyPath: spotlight
+      value: 
+      objectReference: {fileID: 806434560}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dcfd4c27cf789f3448048004458b5985, type: 2}
   m_IsPrefabParent: 0
@@ -1057,18 +1127,23 @@ MonoBehaviour:
   LeftMoveFlag: 0
   TargetFlag: 0
   ContinuousMoveFlag: 0
+  FadeOutFlag: 0
+  FadeInitOutFlag: 0
+  TimeFlag: 0
   Volume: 0.2
   TargetPos: {x: 0, y: 0, z: 0}
   StageID: 1
   DefaultKey: 0.5
   RB: {fileID: 0}
-  vector: {x: 30, y: 0, z: 0}
+  vector: {x: 10, y: 0, z: 0}
   SePlayFlag: 0
+  ZoomIn: {fileID: 551781101}
   NowObj: {fileID: 0}
   IsClearNowObj: 0
   LookTime: 0
   InvisibleTime: 0
   FadeTime: 0.5
+  MaxTime: 1
 --- !u!54 &1926030570
 Rigidbody:
   m_ObjectHideFlags: 0
