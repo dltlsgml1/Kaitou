@@ -45,7 +45,7 @@ public class GameMain : MonoBehaviour
     public bool Burned = false;
     public bool buttonup = false;
 
-    // スクショ用
+    // スクショ関係
     public bool ScreenshotFlg = false;
     private ScreenShot SS;
 
@@ -89,6 +89,7 @@ public class GameMain : MonoBehaviour
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
+
         SS = this.GetComponent<ScreenShot>();
         SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
     }
@@ -305,14 +306,13 @@ public class GameMain : MonoBehaviour
             
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-            
-            // スクショ撮影処理
+            //Todo: ここでスクショ撮影処理。
             if (!ScreenshotFlg)
             {
                 ScreenshotFlg = true;
                 GlobalCoroutine.Go(SS.CreateClearImage(PassStageID.StageID));
             }
-
+            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
             return true;
         }
         if (buttonup == true && Burned==true&&Nowcol == false) 
