@@ -90,6 +90,7 @@ public class GameMain : MonoBehaviour
         Sound.PlaySe("se_burn", 2);
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
         SS = this.GetComponent<ScreenShot>();
+        SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
     }
 
     public void SetStage(int NowStage)
