@@ -5,7 +5,7 @@ using UnityEngine;
 public class Emission : MonoBehaviour
 {
     public bool ChangeEmissionFlag = false;      //点滅し始めるフラグ
-    private Blocks S_blooks;
+    public Blocks S_blooks;
     float time = 0;                             //秒数計算用
     float timeCount = 0;                        //秒数計算用
     public float MiniEmission = 0.0f;
@@ -27,7 +27,6 @@ public class Emission : MonoBehaviour
         Speed = MaxEmission / (Maxtime * 60);
         canBurnSpeed = CanBurnMaxEmission / (CanBurnMaxTime * 60);
         Debug.Log(Speed);
-        S_blooks = GetComponent<Blocks>();
 
     }
 
