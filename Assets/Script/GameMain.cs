@@ -45,6 +45,10 @@ public class GameMain : MonoBehaviour
     public bool Burned = false;
     public bool buttonup = false;
 
+    // スクショ用
+    public bool ScreenshotFlg = false;
+    private ScreenShot SS;
+
     public void Restart()
     {
         for(int i=0;i<Blocks.Length;i++)
@@ -85,7 +89,7 @@ public class GameMain : MonoBehaviour
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
-
+        SS = this.GetComponent<ScreenShot>();
     }
 
     public void SetStage(int NowStage)
@@ -300,8 +304,14 @@ public class GameMain : MonoBehaviour
             
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-            //Todo: ここでスクショ撮影処理。
-            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
+            
+            // スクショ撮影処理
+            if (!ScreenshotFlg)
+            {
+                ScreenshotFlg = true;
+                GlobalCoroutine.Go(SS.CreateClearImage(PassStageID.StageID));
+            }
+
             return true;
         }
         if (buttonup == true && Burned==true&&Nowcol == false) 
