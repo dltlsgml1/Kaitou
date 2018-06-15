@@ -37,6 +37,7 @@ public class GameMain : MonoBehaviour
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
     public int ClearLimit = 0;
     public int FailLimitNum = 0;            //残りの上限回数
+    public bool TutorialFlg = false;
     public bool ClearFlg = false;           //ステージクリアフラグ
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
@@ -75,21 +76,24 @@ public class GameMain : MonoBehaviour
     void Start()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
-        Clear.gameObject.SetActive(false);
-        Fail.gameObject.SetActive(false);
+       
         Sound.LoadBgm("gm_bgm", "GM_Bgm");
         Sound.LoadBgm("gm_burn", "GM_Burn");
         Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
         Sound.LoadSe("se_burn", "GM_Burn");
         Sound.LoadSe("se_burnnow", "GM_BurnNow");
-        Sound.PlayBgm("gm_bgm");
-        Sound.PlaySe("se_burn", 2);
-        Limit = ClearedLimitNum = PassStageID.PassUpperCount();
-
-    }
-
-    public void SetStage(int NowStage)
-    {   
+        if(TutorialFlg==false)
+        {
+            Sound.PlayBgm("gm_bgm");
+            Sound.PlaySe("se_burn", 2);
+            Clear.gameObject.SetActive(false);
+            Fail.gameObject.SetActive(false);
+            Limit = ClearedLimitNum = PassStageID.PassUpperCount();
+        }
+        else
+        {
+            Limit = 1;
+        }
     }
 
     void Update()
@@ -147,20 +151,25 @@ public class GameMain : MonoBehaviour
             Restart();
             MoveCamera.ResetFlg = false;
         }
+        
         if (Atari() == true)
         {
-            if(Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton"))
+            if (TutorialFlg == false)
             {
-                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton"))
+                {
+                    SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                }
             }
+            
         }
     }
 
    
     bool Atari()
     {
-        
-        if (Limit == 0 && NormalCount != 0)
+
+        if (Limit == 0 && NormalCount != 0 && TutorialFlg == false)
         {
             if (Fail.gameObject.activeSelf == false)
             {
@@ -287,10 +296,10 @@ public class GameMain : MonoBehaviour
         {
             Collapsing = false;
         }
-        
-        
 
-        if (NormalCount == 0)
+
+
+        if (NormalCount == 0 && TutorialFlg == false)
         {
             if (Clear.gameObject.activeSelf == false)
             {
@@ -301,7 +310,7 @@ public class GameMain : MonoBehaviour
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
             //Todo: ここでスクショ撮影処理。
-            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
+            //注意：このif分中は毎フレーム入ります。よって毎回取ることになってしまうことに注意。
             return true;
         }
         if (buttonup == true && Burned==true&&Nowcol == false) 
