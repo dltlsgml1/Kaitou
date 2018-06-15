@@ -36,7 +36,6 @@ public class EndFade : MonoBehaviour
     
     public float MiniEmission = 0.0f;
     public float MaxEmission = 0.3f;
-    public float MaxTime = 0.5f;
 
     public double UpSpeed = 0.1f;
     public double DownSpeed = 0.1f;
@@ -48,6 +47,9 @@ public class EndFade : MonoBehaviour
 
     //Fadeアウトする
     public bool SceneChangeFlag = false;
+
+    //ゲームのClear判定
+    public GameMain MainScript;
 
 
 
@@ -62,6 +64,15 @@ public class EndFade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(MainScript.ClearFlg)
+        {
+            ClearStartFlag = MainScript.ClearFlg;
+        }
+        if(MainScript.FailFlg)
+        {
+            FailedStartFlag = MainScript.FailFlg;
+        }
+        
         if (ClearStartFlag)
         {
             // Debug.Log("クリアフラグたった");
@@ -117,12 +128,12 @@ public class EndFade : MonoBehaviour
             if (emissionUpFlag)
             {
                 timeCount += (float)UpSpeed;
-               // Debug.Log("Upなう /" + timeCount);
+               Debug.Log("Upなう /" + timeCount);
             }
             if (emissionDownFlag)
             {
                 timeCount -= (float)DownSpeed;
-               // Debug.Log("Downなう / " + timeCount);
+               Debug.Log("Downなう / " + timeCount);
             }
 
 
@@ -132,11 +143,11 @@ public class EndFade : MonoBehaviour
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
 
-           // Debug.Log("今のエミッション / " + color);
+           Debug.Log("今のエミッション / " + color);
 
 
             //光るか光らなくなるかを見てる
-            if (time < MaxEmission && !emissionDownFlag)
+            if (time <= MaxEmission && !emissionDownFlag)
             {
                 //  Debug.Log(num);
             }
@@ -153,7 +164,7 @@ public class EndFade : MonoBehaviour
                     emissionDownFlag = true;
                 }
             }
-            if (time > MiniEmission && !emissionUpFlag)
+            if (time >= MiniEmission && !emissionUpFlag)
             {
             }
             else
@@ -245,6 +256,8 @@ public class EndFade : MonoBehaviour
 
         if(SceneChangeFlag)
         {
+            //数値初期化する必要あるならここ！
+            
             //Sceneチェンジ
             Debug.Log("SceneChange");
         }
