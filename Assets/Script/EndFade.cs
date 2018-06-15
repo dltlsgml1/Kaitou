@@ -2,72 +2,253 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndFade : MonoBehaviour {
+public class EndFade : MonoBehaviour
+{
     public GameObject ClearObj;
     public GameObject FailedObj;
     public GameObject FogObj;
-    public bool StartFlag = false;
-    public bool alphaFlag = false;
+
+    public bool ClearStartFlag = false;
+    public bool FailedStartFlag = false;
+
+    public bool ClearEndFlag = false;
+    public bool FailedEndFlag = false;
+
+    public bool alphaFlag = true;
     public bool emissionUpFlag = false;
     public bool emissionDownFlag = false;
+
     public bool endFlag = false;
+
     public float FadeS = 0.2f;
-    public float FogEmissionFadeS = 0.25f;
+    public float FailedFadeS = 0.1f;
+    public float FogEmissionFadeUp = 0.3f;
+    public float FogEmissionFadeDown = 0.1f;
+
     private Color ClearFadeSpeed;
     private Color FogFadeSpeed;
     private Color FailedFadeSpeed;
-    private Color FogEmissionUp;
-    private Color FogEmissionDown;
+
+
+    public bool ChangeEmissionFlag = false;      //点滅し始めるフラグ
+    float time = 0;                             //秒数計算用
+    float timeCount = 0;                        //秒数計算用
+    
+    public float MiniEmission = 0.0f;
+    public float MaxEmission = 0.3f;
+    public float MaxTime = 0.5f;
+
+    public double UpSpeed = 0.1f;
+    public double DownSpeed = 0.1f;
+
+    //時間確認
+    public bool stopFlag = false;     //次のシーン行くまで待機的なフラグ
+    private float countTime = 0.0f;
+    public float endTime = 4.0f;
+
+    //Fadeアウトする
+    public bool SceneChangeFlag = false;
+
 
 
     // Use this for initialization
-    void Start () {
-        ClearFadeSpeed = new Color(ClearObj.GetComponent<Renderer>().material.color.r, ClearObj.GetComponent<Renderer>().material.color.g, ClearObj.GetComponent<Renderer>().material.color.b,FadeS);
+    void Start()
+    {
+        ClearFadeSpeed = new Color(ClearObj.GetComponent<Renderer>().material.color.r, ClearObj.GetComponent<Renderer>().material.color.g, ClearObj.GetComponent<Renderer>().material.color.b, FadeS);
         FogFadeSpeed = new Color(FogObj.GetComponent<Renderer>().material.color.r, FogObj.GetComponent<Renderer>().material.color.g, FogObj.GetComponent<Renderer>().material.color.b, FadeS);
         FailedFadeSpeed = new Color(FailedObj.GetComponent<Renderer>().material.color.r, FailedObj.GetComponent<Renderer>().material.color.g, FailedObj.GetComponent<Renderer>().material.color.b, FadeS);
-        FogEmissionUp = new Color(FailedObj.GetComponent<Renderer>().material.color.r, FailedObj.GetComponent<Renderer>().material.color.g, FailedObj.GetComponent<Renderer>().material.color.b, FadeS);
-        FogEmissionDown = new Color(FailedObj.GetComponent<Renderer>().material.color.r, FailedObj.GetComponent<Renderer>().material.color.g, FailedObj.GetComponent<Renderer>().material.color.b, FogEmissionFadeS);
-
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
+        if (ClearStartFlag)
+        {
+            // Debug.Log("クリアフラグたった");
+            ClearAnima();
+        }
+        if (FailedStartFlag)
+        {
+            // Debug.Log("失敗フラグたった！");
+            FailedAnima();
+        }
 
-		
-	}
-
+        if (ClearEndFlag || FailedEndFlag)
+        {
+            SceneChange();
+        }
+    }
 
     void ClearAnima()
     {
-        //オブジェクトをOnにする
-        ClearObj.SetActive(true);
-
-
         //alphaを上げる
-        if(alphaFlag)
+        if (alphaFlag)
         {
-            ClearObj.GetComponent<Renderer>().material.color += ClearFadeSpeed;
-            FogObj.GetComponent<Renderer>().material.color += FogFadeSpeed;
-            if(ClearObj.GetComponent<Renderer>().material.color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
+            //Debug.Log("alpha上げてる ClearAの値:" + ClearObj.GetComponent<Renderer>().material.color.a);
+            //Debug.Log("alpha上げてる FogAの値:" + FogObj.GetComponent<Renderer>().material.color.a);
+            ClearFadeSpeed.a += FadeS;
+            FogFadeSpeed.a += FadeS;
+
+            ClearObj.GetComponent<Renderer>().material.color = ClearFadeSpeed;
+            FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
+            if (ClearObj.GetComponent<Renderer>().material.color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
             {
+                //Debug.Log("alpha上がりきった");
                 alphaFlag = false;
+                ChangeEmissionFlag = true;
                 emissionUpFlag = true;
+               // Debug.Log("alphaフラグ" + alphaFlag);
+               // Debug.Log("emissionUpフラグ" + emissionUpFlag);
+               // Debug.Log("cahngeEmissionフラグ" + ChangeEmissionFlag);
+
+               // Debug.Log("ClearObjのColor" + ClearObj.GetComponent<Renderer>().material.color);
+               // Debug.Log("FogObjのColor" + FogObj.GetComponent<Renderer>().material.color);
+
             }
         }
-        //エミッションを上げる
-        if(emissionUpFlag)
-        {
-            FogEmissionUp = new Color(FailedObj.GetComponent<Renderer>().material.color.r, FailedObj.GetComponent<Renderer>().material.color.g, FailedObj.GetComponent<Renderer>().material.color.b, FadeS);
-            FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", FogEmissionUp);
 
-            //sif()
+        if (ChangeEmissionFlag)
+        {
+
+            //Debug.Log("changeEmiなう！");
+            time = Mathf.PingPong(timeCount, MaxEmission + 0.1f); //これでマックスエミッションまで行き来するようにして
+
+            //ここでスピード調整して行き来する。
+            if (emissionUpFlag)
+            {
+                timeCount += (float)UpSpeed;
+               // Debug.Log("Upなう /" + timeCount);
+            }
+            if (emissionDownFlag)
+            {
+                timeCount -= (float)DownSpeed;
+               // Debug.Log("Downなう / " + timeCount);
+            }
+
+
+            float val = time;
+            float num = val * val;
+            // Color color = new Color(val * val, val * val, val * val);
+            Color color = new Color(val, val, val); //エミッションの光度を変えてる。
+            FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
+
+           // Debug.Log("今のエミッション / " + color);
+
+
+            //光るか光らなくなるかを見てる
+            if (time < MaxEmission && !emissionDownFlag)
+            {
+                //  Debug.Log(num);
+            }
+            else
+            {
+                if (emissionDownFlag)
+                {
+
+                }
+                else
+                {
+                    // Debug.Log(Time.time);
+                    emissionUpFlag = false;
+                    emissionDownFlag = true;
+                }
+            }
+            if (time > MiniEmission && !emissionUpFlag)
+            {
+            }
+            else
+            {
+                if (emissionUpFlag)
+                {
+
+                }
+                else
+                {
+                    emissionUpFlag = true;
+                    emissionDownFlag = false;
+                    ChangeEmissionFlag = false;
+                    ClearEndFlag = true;
+                }
+            }
         }
+    }
 
-        //エミッションを下げる
-        if (emissionDownFlag)
+    void FailedAnima()
+    {
+        //alphaを上げる
+        if (alphaFlag)
         {
+            //Debug.Log("alpha上げてる Failedの値:" + FailedObj.GetComponent<Renderer>().material.color.a);
+            FailedFadeSpeed.a += FailedFadeS;
 
+            FailedObj.GetComponent<Renderer>().material.color = FailedFadeSpeed;
+            if (FailedObj.GetComponent<Renderer>().material.color.a >= 1.0f)
+            {
+               // Debug.Log("alpha上がりきった");
+                alphaFlag = false;
+               // Debug.Log("alphaフラグ" + alphaFlag);
+
+               // Debug.Log("FailedObjのColor" + FailedObj.GetComponent<Renderer>().material.color);
+
+                FailedEndFlag = true;
+
+            }
+        }
+    }
+
+    void FailedOuntAnima()
+    {
+        FailedFadeSpeed.a -= FailedFadeS;
+        FailedObj.GetComponent<Renderer>().material.color = FailedFadeSpeed;
+
+        if (FailedObj.GetComponent<Renderer>().material.color.a <= 0.0f)
+        {
+            SceneChangeFlag = true;
         }
 
     }
+
+    void ClearOuntAnima()
+    {
+        ClearFadeSpeed.a -= FadeS;
+        FogFadeSpeed.a -= FadeS;
+
+        ClearObj.GetComponent<Renderer>().material.color = ClearFadeSpeed;
+        FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
+
+
+
+        if (ClearObj.GetComponent<Renderer>().material.color.a <= 0.0f && FogObj.GetComponent<Renderer>().material.color.a <= 0.0f)
+        {
+            SceneChangeFlag = true;
+        }
+
+    }
+
+    void SceneChange()
+    {
+        countTime += Time.deltaTime;
+        if(endTime <= countTime)
+        {
+            stopFlag = false;
+
+            if(ClearEndFlag)
+            {
+                ClearOuntAnima();
+            }
+            if (FailedEndFlag)
+            {
+                FailedOuntAnima();
+            }
+            
+        }
+
+        if(SceneChangeFlag)
+        {
+            //Sceneチェンジ
+            Debug.Log("SceneChange");
+        }
+
+    }
+
 }
