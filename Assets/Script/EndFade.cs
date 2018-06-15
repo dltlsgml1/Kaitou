@@ -44,12 +44,17 @@ public class EndFade : MonoBehaviour
     public bool stopFlag = false;     //次のシーン行くまで待機的なフラグ
     private float countTime = 0.0f;
     public float endTime = 4.0f;
+    public float ClearFadeTime = 4.0f;
+    public float FailedFadeTime = 2.0f;
+    bool endChake = false;
 
     //Fadeアウトする
     public bool SceneChangeFlag = false;
 
     //ゲームのClear判定
     public GameMain MainScript;
+    public failed ClearFade;
+    public failed FailedFade;
 
 
 
@@ -64,15 +69,40 @@ public class EndFade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(MainScript.ClearFlg)
+        if(MainScript.ClearFlg && !endChake)
+        {
+            countTime += Time.deltaTime;
+            if (ClearFadeTime <= countTime && !ClearFade.In)
+            {
+                countTime = 0.0f;
+                endChake = true;
+                ClearFade.FadeIn_On();
+            }
+        }
+        if (MainScript.FailFlg && !endChake)
+        {
+            countTime += Time.deltaTime;
+            if (FailedFadeTime <= countTime && !FailedFade.In)
+            {
+                countTime = 0.0f;
+                endChake = true;
+                FailedFade.FadeIn_On();
+            }
+        }
+
+        if (MainScript.ClearFlg && ClearFade.FadeInEnd)
         {
             ClearStartFlag = MainScript.ClearFlg;
+
         }
-        if(MainScript.FailFlg)
+        if (MainScript.FailFlg && FailedFade.FadeInEnd)
         {
             FailedStartFlag = MainScript.FailFlg;
+
         }
-        
+
+        Debug.Log("フラグチェック：Clear/" + MainScript.ClearFlg + "・" + ClearStartFlag);
+        Debug.Log("フラグチェック：Failed/" + MainScript.FailFlg + "・" + FailedStartFlag);
         if (ClearStartFlag)
         {
             // Debug.Log("クリアフラグたった");
