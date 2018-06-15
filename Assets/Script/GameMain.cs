@@ -80,25 +80,12 @@ public class GameMain : MonoBehaviour
     void Start()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
-        Clear.gameObject.SetActive(false);
-        Fail.gameObject.SetActive(false);
         Sound.LoadBgm("gm_bgm", "GM_Bgm");
         Sound.LoadBgm("gm_burn", "GM_Burn");
         Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
         Sound.LoadSe("se_burn", "GM_Burn");
         Sound.LoadSe("se_burnnow", "GM_BurnNow");
-        Sound.PlayBgm("gm_bgm");
-        Sound.PlaySe("se_burn", 2);
-        Limit = ClearedLimitNum = PassStageID.PassUpperCount();
-
-        SS = this.GetComponent<ScreenShot>();
-        SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
-    }
-
-    public void SetStage(int NowStage)
-    {   
-=======
-        if(TutorialFlg==false)
+        if (TutorialFlg == false)
         {
             Sound.PlayBgm("gm_bgm");
             Sound.PlaySe("se_burn", 2);
@@ -110,8 +97,10 @@ public class GameMain : MonoBehaviour
         {
             Limit = 1;
         }
->>>>>>> Leeshinhee
+        SS = this.GetComponent<ScreenShot>();
+        SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
     }
+    
 
     void Update()
     {
