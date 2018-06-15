@@ -30,38 +30,38 @@ public class EndFade : MonoBehaviour {
 	}
 
 
-    void ClearAnima()
-    {
-        //オブジェクトをOnにする
-        ClearObj.SetActive(true);
+    //void ClearAnima()
+    //{
+    //    //オブジェクトをOnにする
+    //    ClearObj.SetActive(true);
 
 
-        //alphaを上げる
-        if(alphaFlag && !emssionUpFlag && !emissionDownFlag)
-        {
-            ClearObj.GetComponent<Renderer>().material.color += ClearFadeSpeed;
-            FogObj.GetComponent<Renderer>().material.color += FogFadeSpeed;
-            if(ClearObj.GetComponent<Renderer>().material.color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
-            {
-                alphaFlag = false;
-                emissionUpFlag
-            }
-        }
+    //    //alphaを上げる
+    //    if(alphaFlag && !emssionUpFlag && !emissionDownFlag)
+    //    {
+    //        ClearObj.GetComponent<Renderer>().material.color += ClearFadeSpeed;
+    //        FogObj.GetComponent<Renderer>().material.color += FogFadeSpeed;
+    //        if(ClearObj.GetComponent<Renderer>().material.color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
+    //        {
+    //            alphaFlag = false;
+    //            emissionUpFlag
+    //        }
+    //    }
 
-        //エミッションを上げる
+    //    //エミッションを上げる
 
-        //エミッションを下げる
+    //    //エミッションを下げる
 
 
-        FadeImage.enabled = true;
-        Alpha += FadeSpeed;
-        SetColor();
-        if (Alpha >= 1)
-        {
-            In = false;
-            FadeInEnd = true;
-            FadeOutEnd = false;
-        }
+    //    FadeImage.enabled = true;
+    //    Alpha += FadeSpeed;
+    //    SetColor();
+    //    if (Alpha >= 1)
+    //    {
+    //        In = false;
+    //        FadeInEnd = true;
+    //        FadeOutEnd = false;
+    //    }
 
-    }
+    //}
 }

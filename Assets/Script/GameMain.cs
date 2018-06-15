@@ -300,7 +300,8 @@ public class GameMain : MonoBehaviour
             
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-
+            //Todo: ここでスクショ撮影処理。
+            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
             return true;
         }
         if (buttonup == true && Burned==true&&Nowcol == false) 
