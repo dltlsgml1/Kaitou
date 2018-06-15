@@ -71,10 +71,7 @@ public class Blocks : MonoBehaviour {
 
     public void SetBurn()
     {
-        SetFire.gameObject.SetActive(true);
-        SetFire.gameObject.transform.position = new Vector3(this.transform.position.x,
-                                                            this.transform.position.y + 0.5f,
-                                                            this.transform.position.z);
+ 
     }
 
 

@@ -690,6 +690,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1943471921406692, guid: af6edcbab7da81c479745695848e0a79, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af6edcbab7da81c479745695848e0a79, type: 2}
   m_IsPrefabParent: 0
@@ -2769,16 +2773,19 @@ MonoBehaviour:
   Fail: {fileID: 896091285}
   BlocksCount: 0
   CollapsCount: 0
+  OldCollapsCount: 0
   NormalCount: 0
-  IsVisibleBlock: 0
-  IsVisibleCollaps: 0
-  PlaneCollaps: 0
-  seigen: 0
-  minusseigen: 0
+  Limit: 0
+  ClearedLimitNum: 0
+  ClearLimit: 0
+  FailLimitNum: 0
   ClearFlg: 0
-  keka: 0
-  rensya: 0
-  unrensya: 0
+  FailFlg: 0
+  Collapsing: 0
+  UnsetCollapsing: 0
+  Nowcol: 0
+  burned: 0
+  buttonup: 0
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0

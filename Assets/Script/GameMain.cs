@@ -6,12 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
 {
-    public Camera MainCamera;
-    public GameObject Clear;
-    public GameObject Fail;
     
-
-
+    //以下、ブロックに関する情報
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] CollapsBlocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] NormalBlocks = new GameObject[DefineScript.NUM_BLOCKS];
@@ -27,19 +23,28 @@ public class GameMain : MonoBehaviour
 
     Ray ray;
 
-    public int BlocksCount = 0;
-    public int CollapsCount = 0;
-    public int NormalCount = 0;
-    public bool IsVisibleBlock = false;
-    public bool IsVisibleCollaps = false;
-    public bool PlaneCollaps = false;
-    public int seigen;
-    public bool minusseigen = false;
-    public bool ClearFlg = false;
-    public bool keka = false;
-    public bool rensya = false;
-    public bool unrensya = false;
-  
+
+    public Camera MainCamera;               //カメラオブジェクト
+    public GameObject Clear;                //クリアのときのオブジェクト
+    public GameObject Fail;                 //失敗のときのオブジェクト
+
+
+    public int BlocksCount = 0;             //現在ブロックの数
+    public int CollapsCount = 0;            //現在燃やすブロックの数
+    public int OldCollapsCount = 0;         //上限回数をへらすときに使う
+    public int NormalCount = 0;             //現在普通ブロックの数
+    public int Limit;                       //現在の上限回数
+    public int ClearedLimitNum = 0;         //クリアしたときの上限回数
+    public int ClearLimit = 0;
+    public int FailLimitNum = 0;            //残りの上限回数
+    public bool ClearFlg = false;           //ステージクリアフラグ
+    public bool FailFlg = false;            //ステージ失敗フラグ
+    public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
+    public bool UnsetCollapsing = false;    //上のフラグを解除するときに使うフラグ
+    public bool Nowcol = false;
+    public bool Burned = false;
+    public bool buttonup = false;
+
     public void Restart()
     {
         for(int i=0;i<Blocks.Length;i++)
@@ -48,7 +53,7 @@ public class GameMain : MonoBehaviour
             {
                 Blocks[i].GetComponent<Blocks>().BurnFlg = false;
                 Blocks[i].GetComponent<MeshRenderer>().material = LoadResources.Mat_Normal;
-                Blocks[i].GetComponent<Blocks>().SetFire.gameObject.SetActive(false);
+
                 Blocks[i].GetComponent<Blocks>().StartFlg();
 
 
@@ -56,9 +61,10 @@ public class GameMain : MonoBehaviour
         }
         Clear.gameObject.SetActive(false);
         Fail.gameObject.SetActive(false);
-        keka = false;
+        FailFlg = false;
         ClearFlg = false;
-        seigen = PassStageID.PassUpperCount();
+        Limit  = ClearedLimitNum = PassStageID.PassUpperCount();
+        
 
         MoveCamera mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         mvcamera.Position = PassStageID.PassPosition();
@@ -78,8 +84,8 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("se_burnnow", "GM_BurnNow");
         Sound.PlayBgm("gm_bgm");
         Sound.PlaySe("se_burn", 2);
-        seigen = PassStageID.PassUpperCount();
-      
+        Limit = ClearedLimitNum = PassStageID.PassUpperCount();
+
     }
 
     public void SetStage(int NowStage)
@@ -91,8 +97,8 @@ public class GameMain : MonoBehaviour
         BlocksCount = 0;
         NormalCount = 0;
         CollapsCount = 0;
-        unrensya = true;
-
+        UnsetCollapsing = true;
+        Nowcol = false;
 
         for (int i = 0; i < Blocks.Length; i++)
         {
@@ -134,6 +140,7 @@ public class GameMain : MonoBehaviour
             }
 
         }
+        
 
         if (MoveCamera.ResetFlg ==true)
         {
@@ -153,17 +160,19 @@ public class GameMain : MonoBehaviour
     bool Atari()
     {
         
-        if (seigen == 0 && NormalCount != 0)
+        if (Limit == 0 && NormalCount != 0)
         {
             if (Fail.gameObject.activeSelf == false)
             {
                 Fail.gameObject.SetActive(true);
+                
+                FailFlg = true;
             }
             return true;
         }
 
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
-        Blocks col = CollapsBlocks[0].GetComponent<Blocks>();
+
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
         {
             Mesh CollapsMesh = CollapsBlocks[CollapsNow].GetComponent<MeshFilter>().mesh;
@@ -214,14 +223,16 @@ public class GameMain : MonoBehaviour
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
-                        rensya = true;
-                        unrensya = false;
+                        Collapsing = true;
+                        UnsetCollapsing = false;
+                        Burned = true;
                         
                     }
+                    Nowcol = true;
                    
                 }
                 else
@@ -233,23 +244,22 @@ public class GameMain : MonoBehaviour
             
         }
         if(Input.GetButtonUp("AButton"))
-        { 
-            seigen--;
+        {
+            buttonup = true;
         }
         
 
-        if (rensya == true)
+        if (Collapsing == true)
         {
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
-                    unrensya = false;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BURNNIGSPEED;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BURNNINGTIME)
+                    UnsetCollapsing = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
                     {
-                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
-                        
+                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;                       
                     }
 
                 }
@@ -268,16 +278,18 @@ public class GameMain : MonoBehaviour
                     NormalBlocks[i].GetComponent<Blocks>().SetBurn();
                     NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-
+                    Burned = true;
                 }
             }
         }
 
-        if(unrensya == true)
+        if(UnsetCollapsing == true )
         {
-            rensya = false;
+            Collapsing = false;
         }
         
+        
+
         if (NormalCount == 0)
         {
             if (Clear.gameObject.activeSelf == false)
@@ -285,7 +297,18 @@ public class GameMain : MonoBehaviour
                 Clear.gameObject.SetActive(true);
             }
             ClearFlg = true;
+            
+            ClearedLimitNum = Limit;
+            FailLimitNum = PassStageID.PassUpperCount() - Limit;
+
             return true;
+        }
+        if (buttonup == true && Burned==true&&Nowcol == false) 
+        {
+            Limit--;
+            Burned = false;
+            buttonup = false;
+            
         }
 
         return false;
