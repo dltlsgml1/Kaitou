@@ -47,7 +47,6 @@ public class MoveCamera : MonoBehaviour {
         {
             ParallelMove();
             RotationCamera();
-            ChangeSize();
             FormatDate();
             InputDate();
             BackStageSelect();
@@ -177,28 +176,6 @@ public class MoveCamera : MonoBehaviour {
             }
         }
 
-    }
-    void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
-    {
-        if (Input.GetButton("LButton"))
-        {
-            MoveFlag = true;
-            if (MainCamera.orthographicSize < 20)
-            {
-                
-                MainCamera.orthographicSize += 0.1f;
-                Background.orthographicSize += 0.1f;
-            }
-        }
-        if (Input.GetButton("RButton"))
-        {
-            MoveFlag = true;
-            if (MainCamera.orthographicSize > 1)
-            {
-                MainCamera.orthographicSize -= 0.1f;
-                Background.orthographicSize -= 0.1f;
-            }
-        }
     }
     public void FormatDate()        //初期化関数
     {
