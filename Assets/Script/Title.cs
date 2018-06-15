@@ -18,7 +18,7 @@ public class Title : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //マウスクリックで任意のシーン切り替え
-        if (Input.GetButtonDown("BButton"))
+        if (Input.GetButtonDown("AButton"))
         {
             cs_failed.FadeIn_On();
            
