@@ -19,7 +19,6 @@ public class MapScript : MonoBehaviour {
     bool RotationFlag = false;
     bool FingerFlag = false;
     bool FadeInInit = false;
-    bool FadeOutIni = false;
     private bool SelectFlag = false;
     private bool FadeInit = false;
     private bool StartFade = false;
@@ -63,6 +62,14 @@ public class MapScript : MonoBehaviour {
         Fade = GameObject.Find("Panel");
         FadeFlag = Fade.GetComponent<StageSelectFade>();
         StageID = PassStageID.PassStageId();
+        if (StageID == 0)
+        {
+            StageID = PassStageID.PassStageId();
+        }
+        else
+        {
+            StageID = PassStageID.PassStageId() - 1;
+        }
         Finger = GameObject.Find("Pause_Cursor");
         Decision = StageID / 6;
         FingerPos = StageID % 6;
@@ -121,8 +128,15 @@ public class MapScript : MonoBehaviour {
             }
             else
             {
-                StageSelect();
-                OutMap();
+                if (SelectFlag)
+                {
+                    OutMap();
+                }
+                else
+                {
+                    StageSelect();
+                }
+                
             }
         }
 
@@ -644,6 +658,7 @@ public class MapScript : MonoBehaviour {
         MoveFlag = true;
         if (Input.GetButtonDown("AButton"))
         {
+            Frame.SetActive(false);
             SelectFlag = true;
         }
 
@@ -706,7 +721,7 @@ Rotation X 50 Y 0 Z 10
                                 StartFinger = Finger.transform.position;
                                 EndFinger = new Vector3(11, -10, 0);
                                 StartPosition = this.transform.position;
-                                EndPosition= new Vector3(-9.26f, -11.9f, -2.01f);
+                                EndPosition= new Vector3(-13.9f, -15.7f, -2.7f);
                             }
                         }
 
@@ -757,4 +772,6 @@ Rotation X 50 Y 0 Z 10
 
         }
     }
+
+
 }

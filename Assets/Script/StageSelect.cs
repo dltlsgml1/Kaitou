@@ -24,11 +24,9 @@ public class StageSelect : MonoBehaviour
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
     int StageNum = 30;
-    GameObject StageLoadObject;
+
     public Camera ZoomIn;
-    StageLoad StageLoad;
-    Sound Sound;
-    PassStageID PassID;
+
     GameObject MapObject;
     MapScript Map;
     GameObject Fade;
@@ -42,7 +40,7 @@ public class StageSelect : MonoBehaviour
     float time = 0;                             //秒数計算用
     float timeCount = 0;                        //秒数計算用
     public int MaxTime = 1;                     //秒数
-    double Speed;
+
 
     // Use this for initialization
     void Start()
@@ -53,8 +51,6 @@ public class StageSelect : MonoBehaviour
         MapObject = GameObject.Find("SS_StageList");
         Map = MapObject.GetComponent<MapScript>();
         Map.enabled = false;
-        StageLoadObject = GameObject.Find("StagePrefab");
-        StageLoad = StageLoadObject.GetComponent<StageLoad>();
         RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
         Sound.LoadBgm("bgm", Sound.SearchFilename(Sound.eSoundFilename.SS_StageselectBgm)); //ステージセレクトのBGM
         Sound.LoadSe("Move", Sound.SearchFilename(Sound.eSoundFilename.SS_StageSelect)); //足音のSE
@@ -72,19 +68,20 @@ public class StageSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        Speed = 1 / (MaxTime * 60);
         StageID = PassStageID.PassStageId();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag)
+        {
             ChangeMapOpen();
             StageSelectMoveFlag();      //ステージ移動フラグを立てる
             StageSelectMove();          //ステージの移動をする
             SelectStage();              //ステージの決定かタイトルに戻るよう
             Transitions();              //遷移
+        }
     }
 
     public void ChangeMapOpen()         //マップに切り替え
@@ -181,14 +178,14 @@ public class StageSelect : MonoBehaviour
             {
                 if (!SePlayFlag)
                 {
-                    Sound.PlaySe("Move", 0);
+                    Sound.PlaySe("Move", 0);                //ToDo　音代わるかも
                     SePlayFlag = true;
                 }
                 RB.AddForce(-vector);     //右に移動
             }
             else
             {
-                Sound.StopSe("Move", 0);
+                Sound.StopSe("Move", 0);                    //ToDo 音代わるかも
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -203,7 +200,7 @@ public class StageSelect : MonoBehaviour
             {
                 if (!SePlayFlag)
                 {
-                    Sound.PlaySe("Move", 0);
+                    Sound.PlaySe("Move", 0);                    //ToDo　音代わるかも
                     SePlayFlag = true;
                 }
                 RB.AddForce(vector);        //左に移動
@@ -211,7 +208,7 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
-                Sound.StopSe("Move", 0);
+                Sound.StopSe("Move", 0);                        //ToDo 音代わるかも
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -235,8 +232,8 @@ public class StageSelect : MonoBehaviour
         {
             if (Input.GetButtonDown("AButton") && !TargetFlag)
             {
-                Sound.PlaySe("StageIn", 1);
-                Sound.StopBgm();
+                Sound.PlaySe("StageIn", 1);                     //ToDo 音代わるかも
+                Sound.StopBgm();                                //ToDo　音代わるかも
                 SelectStageFlag = true;
             }
         }
@@ -262,6 +259,7 @@ public class StageSelect : MonoBehaviour
                     FadeInitOutFlag = true;
                 }
             }
+
             else
             {
                 time = Mathf.PingPong(timeCount, MaxTime + 0.1f);

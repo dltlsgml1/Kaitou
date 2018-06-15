@@ -67,6 +67,7 @@ public class failed : MonoBehaviour {
             FadeOutEnd = true;
             FadeImage.enabled = false;
         }
+
     }
 
     void SetColor()
