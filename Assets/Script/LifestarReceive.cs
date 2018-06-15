@@ -16,6 +16,6 @@ public class LifestarReceive : MonoBehaviour
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        ReceiveLimitNum = Main.seigen;
+        ReceiveLimitNum = Main.Limit;
     }
 }
