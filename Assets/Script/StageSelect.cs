@@ -68,7 +68,9 @@ public class StageSelect : MonoBehaviour
 
     private void OnEnable()
     {
+
         StageID = PassStageID.PassStageId();
+        SetNowStagePrefab();
     }
 
     // Update is called once per frame
