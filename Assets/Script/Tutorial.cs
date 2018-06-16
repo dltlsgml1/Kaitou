@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial : MonoBehaviour {
+public class Tutorial : MonoBehaviour
+{
+    public GameObject ScriptObject;
+    // Use this for initialization
+    void Start()
+    {
+        ScriptObject.GetComponent<GameMain>().TutorialFlg = true;
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void OnDestroy()
+    {
+        ScriptObject.GetComponent<GameMain>().TutorialFlg = false;
+    }
 }
