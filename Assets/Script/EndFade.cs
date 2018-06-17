@@ -101,16 +101,12 @@ public class EndFade : MonoBehaviour
 
         }
 
-        Debug.Log("フラグチェック：Clear/" + MainScript.ClearFlg + "・" + ClearStartFlag);
-        Debug.Log("フラグチェック：Failed/" + MainScript.FailFlg + "・" + FailedStartFlag);
         if (ClearStartFlag)
         {
-            // Debug.Log("クリアフラグたった");
             ClearAnima();
         }
         if (FailedStartFlag)
         {
-            // Debug.Log("失敗フラグたった！");
             FailedAnima();
         }
 
@@ -125,8 +121,6 @@ public class EndFade : MonoBehaviour
         //alphaを上げる
         if (alphaFlag)
         {
-            //Debug.Log("alpha上げてる ClearAの値:" + ClearObj.GetComponent<Renderer>().material.color.a);
-            //Debug.Log("alpha上げてる FogAの値:" + FogObj.GetComponent<Renderer>().material.color.a);
             ClearFadeSpeed.a += FadeS;
             FogFadeSpeed.a += FadeS;
 
@@ -134,16 +128,9 @@ public class EndFade : MonoBehaviour
             FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
             if (ClearObj.GetComponent<Renderer>().material.color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
             {
-                //Debug.Log("alpha上がりきった");
                 alphaFlag = false;
                 ChangeEmissionFlag = true;
                 emissionUpFlag = true;
-               // Debug.Log("alphaフラグ" + alphaFlag);
-               // Debug.Log("emissionUpフラグ" + emissionUpFlag);
-               // Debug.Log("cahngeEmissionフラグ" + ChangeEmissionFlag);
-
-               // Debug.Log("ClearObjのColor" + ClearObj.GetComponent<Renderer>().material.color);
-               // Debug.Log("FogObjのColor" + FogObj.GetComponent<Renderer>().material.color);
 
             }
         }
@@ -151,19 +138,16 @@ public class EndFade : MonoBehaviour
         if (ChangeEmissionFlag)
         {
 
-            //Debug.Log("changeEmiなう！");
             time = Mathf.PingPong(timeCount, MaxEmission + 0.1f); //これでマックスエミッションまで行き来するようにして
 
             //ここでスピード調整して行き来する。
             if (emissionUpFlag)
             {
                 timeCount += (float)UpSpeed;
-               Debug.Log("Upなう /" + timeCount);
             }
             if (emissionDownFlag)
             {
                 timeCount -= (float)DownSpeed;
-               Debug.Log("Downなう / " + timeCount);
             }
 
 
@@ -173,13 +157,11 @@ public class EndFade : MonoBehaviour
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
 
-           Debug.Log("今のエミッション / " + color);
 
 
             //光るか光らなくなるかを見てる
             if (time <= MaxEmission && !emissionDownFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -189,7 +171,6 @@ public class EndFade : MonoBehaviour
                 }
                 else
                 {
-                    // Debug.Log(Time.time);
                     emissionUpFlag = false;
                     emissionDownFlag = true;
                 }
@@ -219,17 +200,12 @@ public class EndFade : MonoBehaviour
         //alphaを上げる
         if (alphaFlag)
         {
-            //Debug.Log("alpha上げてる Failedの値:" + FailedObj.GetComponent<Renderer>().material.color.a);
             FailedFadeSpeed.a += FailedFadeS;
 
             FailedObj.GetComponent<Renderer>().material.color = FailedFadeSpeed;
             if (FailedObj.GetComponent<Renderer>().material.color.a >= 1.0f)
             {
-               // Debug.Log("alpha上がりきった");
                 alphaFlag = false;
-               // Debug.Log("alphaフラグ" + alphaFlag);
-
-               // Debug.Log("FailedObjのColor" + FailedObj.GetComponent<Renderer>().material.color);
 
                 FailedEndFlag = true;
 
@@ -289,7 +265,6 @@ public class EndFade : MonoBehaviour
             //数値初期化する必要あるならここ！
             
             //Sceneチェンジ
-            Debug.Log("SceneChange");
         }
 
     }

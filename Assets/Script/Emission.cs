@@ -26,7 +26,6 @@ public class Emission : MonoBehaviour
     {
         Speed = MaxEmission / (Maxtime * 60);
         canBurnSpeed = CanBurnMaxEmission / (CanBurnMaxTime * 60);
-        Debug.Log(Speed);
 
     }
 
@@ -83,7 +82,6 @@ public class Emission : MonoBehaviour
             //光るか光らなくなるかを見てる
             if (time < MaxEmission - 0.1f && !DownCountFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -93,7 +91,6 @@ public class Emission : MonoBehaviour
                 }
                 else
                 {
-                    // Debug.Log(Time.time);
                     UpCountFlag = false;
                     DownCountFlag = true;
                     ChangeEmissionFlag = false;
@@ -150,7 +147,6 @@ public class Emission : MonoBehaviour
         {
             OneUCFlag = true;
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
-            Debug.Log("エミッションの数値 / " + time);
 
             //ここでスピード調整して行き来する。
             if (UpCountFlag)
@@ -174,7 +170,6 @@ public class Emission : MonoBehaviour
             //光るか光らなくなるかを見てる
             if (time < CanBurnMaxEmission && !DownCountFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -184,7 +179,6 @@ public class Emission : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Time.time);
                     UpCountFlag = false;
                     OneUCFlag = false;
                     DownCountFlag = true;
@@ -228,7 +222,6 @@ public class Emission : MonoBehaviour
                                                                                  //光るか光らなくなるかを見てる
             if (time < CanBurnMaxEmission && !DownCountFlag && OneUCFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -238,7 +231,6 @@ public class Emission : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Time.time);
                     UpCountFlag = false;
                     DownCountFlag = true;
                     ChangeEmissionFlag = false;

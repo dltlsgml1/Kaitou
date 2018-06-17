@@ -54,7 +54,10 @@ public class StageSelect : MonoBehaviour
         RB = GetComponent<Rigidbody>();      //このオブジェクトのRigidbodyを入れこむ
         Sound.LoadBgm("bgm", Sound.SearchFilename(Sound.eSoundFilename.SS_StageselectBgm)); //ステージセレクトのBGM
         Sound.LoadSe("Move", Sound.SearchFilename(Sound.eSoundFilename.SS_StageSelect)); //足音のSE
-        Sound.LoadSe("StageIn", Sound.SearchFilename(Sound.eSoundFilename.SS_StageIn));     //メインに遷移する時のSE
+        Sound.LoadSe("StageIn", Sound.SearchFilename(Sound.eSoundFilename.SS_StageIn));  //メインに遷移する時のSE
+        Sound.LoadSe("In", "StageSelect/SS_In");
+        Sound.LoadSe("MapSelect", "StageSelect/SS_Mapselect");
+        Sound.LoadSe("MoveEnd", "StageSelect/SS_Moveend");
         Sound.SetVolumeBgm("bgm", Volume);
         Sound.SetVolumeSe("Move", Volume, 0);
         Sound.SetVolumeSe("StageIn", Volume, 1);
@@ -188,6 +191,7 @@ public class StageSelect : MonoBehaviour
             else
             {
                 Sound.StopSe("Move", 0);                    //ToDo 音代わるかも
+                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -211,6 +215,7 @@ public class StageSelect : MonoBehaviour
             else
             {
                 Sound.StopSe("Move", 0);                        //ToDo 音代わるかも
+                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -222,8 +227,7 @@ public class StageSelect : MonoBehaviour
 
         if(!LeftMoveFlag && !RightMoveFlag && IsClearNowObj)
         {
-            //Debug.Log("stop now");
-            //Debug.Log("now fading");
+
             FadeImage();
         }
     }
@@ -273,7 +277,6 @@ public class StageSelect : MonoBehaviour
                 SelectStageFlag = false;
                 PassStageID.GetStageID(StageID);
                 PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
-                Debug.Log(CSVData.StageDateList[StageID].StageName);
                 PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
                 PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
                 PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
