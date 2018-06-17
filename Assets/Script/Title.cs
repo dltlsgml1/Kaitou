@@ -11,20 +11,22 @@ public class Title : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         cs_failed = tt_Faield.GetComponent<failed>();
-
-
+        Sound.LoadBgm("bgm_title", Sound.SearchFilename(Sound.eSoundFilename.TT_TitleBgm));
+        Sound.LoadSe("se_ttenter", Sound.SearchFilename(Sound.eSoundFilename.TT_Enter));
+        Sound.PlayBgm("bgm_title");
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //マウスクリックで任意のシーン切り替え
         if (Input.GetButtonDown("AButton"))
         {
             cs_failed.FadeIn_On();
-           
+            Sound.PlaySe("se_ttenter", 7);
+
         }
         if (cs_failed.FadeInEnd)
         {
+            Sound.StopBgm();     
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
         }
 

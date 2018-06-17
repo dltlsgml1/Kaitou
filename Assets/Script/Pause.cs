@@ -54,13 +54,13 @@ public class Pause : MonoBehaviour {
             MoveSelect();
         }
 
-        if(is_pause==true && Input.GetButtonDown("BButton"))//Input.GetKeyDown("w")
+        if(is_pause==true && Input.GetButtonDown("AButton"))//Input.GetKeyDown("w")
         {
             OffPause();
             is_pause = false;
         }
 
-        if (Input.GetButtonDown("AButton") && is_pause)
+        if (Input.GetButtonDown("BButton") && is_pause)
         {
             is_pause = false;
             switch (move)
@@ -232,16 +232,16 @@ public class Pause : MonoBehaviour {
         switch (move)//位置仮置き
         {
             case 0://バック位置
-                vec_Cursor.x = -7.7f;
-                vec_Cursor.y = 1.5f;
+                vec_Cursor.x = -7.17f;
+                vec_Cursor.y = 0.37f;
                 break;
             case 1://リスタート位置
-                vec_Cursor.x = -7.7f;
-                vec_Cursor.y = 0f;     
+                vec_Cursor.x = -7.17f;
+                vec_Cursor.y = -1.16f;     
                 break;
             case 2://ステセレ位置
-                vec_Cursor.x = -7.7f;
-                vec_Cursor.y = -1.0f;   
+                vec_Cursor.x = -7.17f;
+                vec_Cursor.y = -3f;   
                 break;
             //case 3://before位置
             //    vec_Cursor.x = -6.5f;
@@ -302,8 +302,8 @@ public class Pause : MonoBehaviour {
             fade_outflg = false;
             fade.GetComponent<failed>().Out = true;
             //カーソル位置初期化
-            vec_Cursor.x = -7.7f;
-            vec_Cursor.y = 1.5f;
+            vec_Cursor.x = -7.17f;
+            vec_Cursor.y = 0.37f;
             Cursor.transform.localPosition = vec_Cursor;
             move = 0;
         }
