@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StageSelectFade : MonoBehaviour {
 
-    public float Speed = 0.01f;
+    public float Speed = 0.001f;
     public bool FadeInFlag = true;
     public bool FadeOutFlag = false;
     bool FadeInit = false;
@@ -17,6 +17,7 @@ public class StageSelectFade : MonoBehaviour {
         red = GetComponent<Image>().color.r;
         green = GetComponent<Image>().color.g;
         blue = GetComponent<Image>().color.b;
+        Speed = 1f / 60f;
 	}
 	
 	// Update is called once per frame

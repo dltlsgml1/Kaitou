@@ -344,7 +344,6 @@ public class MapScript : MonoBehaviour {
 
                     }
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Debug.Log(EndPosition);
                 }
             }
             if (StageID > 0 && MoveFlag)
@@ -658,6 +657,7 @@ public class MapScript : MonoBehaviour {
         MoveFlag = true;
         if (Input.GetButtonDown("AButton"))
         {
+            Sound.PlaySe("MapSelect");
             Frame.SetActive(false);
             SelectFlag = true;
         }
@@ -680,7 +680,7 @@ Rotation X 50 Y 0 Z 10
             {
                 if (!FadeInit)
                 {
-                    Sound.PlaySe("Move", 0);
+                  //  Sound.PlaySe("Move", 0);
                     FadeFlag.FadeOutFlag = true;
                     FadeInit = true;
                 }
@@ -692,7 +692,7 @@ Rotation X 50 Y 0 Z 10
                     
                     if (!FadeInInit)
                     {
-                        Sound.StopSe("Move", 0);
+                        //Sound.StopSe("Move", 0);
                         StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
                         FadeInInit = true;
                         FadeFlag.FadeInFlag = true;
@@ -750,6 +750,7 @@ Rotation X 50 Y 0 Z 10
 
                         if (PositionFlag && RotationFlag && StagePositionFlag && CameraPositionFlag)
                         {
+                            Sound.PlaySe("MoveEnd");
                             rate = 0;
                             rate2 = 0;
                             FadeInInit = false;
