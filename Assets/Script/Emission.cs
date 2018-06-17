@@ -8,9 +8,9 @@ public class Emission : MonoBehaviour
     public Blocks S_blooks;
     float time = 0;                             //秒数計算用
     float timeCount = 0;                        //秒数計算用
-    public float MiniEmission = 0.0f;
-    public float MaxEmission = 1.0f;
-    public float Maxtime = 1;                       //現状の何秒で変わっていくか
+    private float MiniEmission = 0.0f;
+    private float MaxEmission = 0.8f;
+    private float Maxtime = 0.4f;                       //現状の何秒で変わっていくか
     private float CanBurnMiniEmission = 0.0f;
     private float CanBurnMaxEmission = 0.5f;
     private float CanBurnMaxTime = 0.15f;
