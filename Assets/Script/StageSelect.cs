@@ -70,7 +70,7 @@ public class StageSelect : MonoBehaviour
     {
 
         StageID = PassStageID.PassStageId();
-        SetNowStagePrefab();
+        //SetNowStagePrefab();
     }
 
     // Update is called once per frame
