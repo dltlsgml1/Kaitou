@@ -85,14 +85,15 @@ public class GameMain : MonoBehaviour
         {
             Sound.PlayBgm("gm_bgm");
             Sound.PlaySe("se_burn", 2);
+            SS = this.GetComponent<ScreenShot>();
+            SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
             Limit = ClearedLimitNum = PassStageID.PassUpperCount();
         }
         else
         {
             Limit = 1;
         }
-        SS = this.GetComponent<ScreenShot>();
-        SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
+        
         Limit = 5;
     }
     
@@ -303,7 +304,7 @@ public class GameMain : MonoBehaviour
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
             //Todo: ここでスクショ撮影処理。
-            if (!ScreenshotFlg)
+            if (!ScreenshotFlg && TutorialFlg == false)
             {
                 ScreenshotFlg = true;
                 GlobalCoroutine.Go(SS.CreateClearImage(PassStageID.StageID));
