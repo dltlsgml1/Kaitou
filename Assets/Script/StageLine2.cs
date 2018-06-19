@@ -32,7 +32,7 @@ public class StageLine2 : MonoBehaviour {
             if (i < GetLimitStarLine.ReceiveLimitNum)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);
-                Lcontainer[i].light = 0.7f;
+                Lcontainer[i].light = 1.0f;
 
             }
             else
@@ -70,7 +70,7 @@ public class StageLine2 : MonoBehaviour {
                         {
 
                             Lcontainer[i].light += 0.1f;
-                            if (Lcontainer[i].light > 1.5f)
+                            if (Lcontainer[i].light > 3.0f)
                             {
                                 Lcontainer[i].lightup = false;
                             }
