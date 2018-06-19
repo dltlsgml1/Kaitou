@@ -44,7 +44,7 @@ public class Tutorial : MonoBehaviour
         {
             case 0:
                 text.text = "このゲームはカメラを動かし、ブロックがくっついているようにし、燃え移すゲームです。";
-                if(Input.GetKeyDown(KeyCode.Alpha2))
+                if(Input.GetKeyDown(KeyCode.Alpha2))  //Todo
                     ExplainIndex++;
                 break;
             case 1:
@@ -57,9 +57,9 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))   //Todo
                     ExplainIndex--;
-                if (Input.GetKeyDown(KeyCode.Alpha2))
+                if (Input.GetKeyDown(KeyCode.Alpha2))   //Todo
                     ExplainIndex++;
                 break;
             case 2:
@@ -74,9 +74,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
                     Circles[(int)CircleIndex.LeftStick].SetActive(true);
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))   //Todo
                     ExplainIndex--;
-                if (Input.GetKeyDown(KeyCode.Alpha2))
+                if (Input.GetKeyDown(KeyCode.Alpha2))   //Todo
                     ExplainIndex++;
                 break;
             case 3:
@@ -91,9 +91,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
                     Circles[(int)CircleIndex.RightStick].SetActive(true);
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))       //Todo
                     ExplainIndex--;
-                if (Input.GetKeyDown(KeyCode.Alpha2))
+                if (Input.GetKeyDown(KeyCode.Alpha2))       //Todo
                     ExplainIndex++;
                 break;
             case 4:
@@ -108,9 +108,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.SlowButton].activeSelf == false)
                     Circles[(int)CircleIndex.SlowButton].SetActive(true);
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))       //Todo
                     ExplainIndex--;
-                if (Input.GetKeyDown(KeyCode.Alpha2))
+                if (Input.GetKeyDown(KeyCode.Alpha2))       //Todo
                     ExplainIndex++;
                 break;
             case 5:
@@ -123,7 +123,7 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))          //Todo
                     ExplainIndex--;
 
                 if(NormalBlock.GetComponent<Blocks>().NormalNowcol==true)
