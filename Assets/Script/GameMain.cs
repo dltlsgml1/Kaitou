@@ -42,6 +42,7 @@ public class GameMain : MonoBehaviour
     public bool Nowcol = false;
     public bool Burned = false;
     public bool buttonup = false;
+    public bool FadeEnd = false;
 
     // スクショ関係
     public bool ScreenshotFlg = false;
@@ -93,7 +94,7 @@ public class GameMain : MonoBehaviour
         }
         SS = this.GetComponent<ScreenShot>();
         SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
-        //Limit = 5;
+
     }
     
 
@@ -157,7 +158,7 @@ public class GameMain : MonoBehaviour
         {
             if (TutorialFlg == false)
             {
-                if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton"))
+                if (FadeEnd ==true)
                 {
                     SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                 }
