@@ -14,6 +14,7 @@ public class ScreenShot : MonoBehaviour
     private string fileName;        // スクリーンショットイメージの名前
     private bool isRunning;         // コルーチン用
 
+
     // 初期化
     public void Init(string prefabname, string childprefabname, string filename)
     {
@@ -50,16 +51,16 @@ public class ScreenShot : MonoBehaviour
         string fileId = IdToString(id);
 
         // ファイルがあるかどうか
-        if (System.IO.File.Exists(Application.dataPath + fileName + fileId + ".png") == true)
+        if (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
         {
             // ファイル削除
-            System.IO.File.Delete(Application.dataPath + fileName + fileId + ".png.meta");
-            while (System.IO.File.Exists(Application.dataPath + fileName + fileId + ".png.meta") == true)
+            System.IO.File.Delete(Application.dataPath + "/" + fileName + fileId + ".png.meta");
+            while (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png.meta") == true)
             {
                 yield return null;
             }
-            System.IO.File.Delete(Application.dataPath + fileName + fileId + ".png");
-            while (System.IO.File.Exists(Application.dataPath + fileName + fileId + ".png") == true)
+            System.IO.File.Delete(Application.dataPath + "/" + fileName + fileId + ".png");
+            while (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
             {
                 yield return null;
             }
@@ -91,10 +92,10 @@ public class ScreenShot : MonoBehaviour
         Color color;
         string path = "StagePrefab/" + prefabName + fileId + "(Clone)/" + childPrefabName;
 
-        if (System.IO.File.Exists(Application.dataPath + fileName + fileId + ".png") == true)
+        if (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
         {
             // ①．ファイル => バイナリ変換
-            byte[] image = System.IO.File.ReadAllBytes(Application.dataPath + fileName + fileId + ".png");
+            byte[] image = System.IO.File.ReadAllBytes(Application.dataPath + "/" + fileName + fileId + ".png");
 
             // ②．受け入れ用Texture2D作成
             Texture2D tex = new Texture2D(0, 0);
