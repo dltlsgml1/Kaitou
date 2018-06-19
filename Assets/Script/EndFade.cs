@@ -263,8 +263,9 @@ public class EndFade : MonoBehaviour
         if(SceneChangeFlag)
         {
             //数値初期化する必要あるならここ！
-            
+
             //Sceneチェンジ
+            MainScript.FadeEnd = true;
         }
 
     }
