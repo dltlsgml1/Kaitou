@@ -28,12 +28,8 @@ public class MoveCamera : MonoBehaviour {
     
     // Use this for initialization
     void Start() {
-        FormatPosition.x = 0;
-        FormatPosition.y = 0;
-        FormatPosition.z = 0;
-        FormatRotation.x = 0;
-        FormatRotation.y = 0;
-        FormatRotation.z = 0;
+        FormatPosition = PassStageID.PassPosition();
+        FormatRotation = PassStageID.PassRotation();
     }
 
     // Update is called once per frame
