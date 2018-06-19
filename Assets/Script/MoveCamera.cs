@@ -91,12 +91,13 @@ public class MoveCamera : MonoBehaviour {
         if (Key != 0)
         {
             MoveFlag = true;
-            if (Key < DefaultKey)
+            if (Key > -DefaultKey)
             {
 
                 ScreenPosition.y += MoveCameraSpeed;
             }
-            if (Key > -DefaultKey)
+            
+            if (Key < DefaultKey)
             {
                 ScreenPosition.y -= MoveCameraSpeed;
             }
