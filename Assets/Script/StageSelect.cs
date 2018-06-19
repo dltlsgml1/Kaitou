@@ -14,6 +14,7 @@ public class StageSelect : MonoBehaviour
     public bool ContinuousMoveFlag = false; //連続して移動する時のフラグ
     public bool FadeOutFlag = false;        //フェードアウトフラグ
     public bool FadeInitOutFlag = false;
+    bool SetNowStage = false;
     public bool TimeFlag = false;           //このフラグがtrueになったらzoomを止める
     public float Volume = 0.2f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
@@ -66,14 +67,23 @@ public class StageSelect : MonoBehaviour
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
-        SetNowStagePrefab();
+        if (!SetNowStage)
+        {
+            SetNowStagePrefab();
+            SetNowStage = true;
+        }
     }
 
     private void OnEnable()
     {
 
         StageID = PassStageID.PassStageId();
-        //SetNowStagePrefab();
+        if (SetNowStage)
+        {
+            Debug.Log("NowStage");
+            SetNowStagePrefab();
+        }
+
     }
 
     // Update is called once per frame
@@ -300,7 +310,7 @@ public class StageSelect : MonoBehaviour
         GameObject saveObj = GameObject.Find("SaveData").gameObject;
 
         //IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag != 0 && CSVData.StageDateList[StageID].ClearFlag >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
-        IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
+        IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) <= CSVData.StageDateList[StageID].UpperCunt) ? true : false;
         NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();

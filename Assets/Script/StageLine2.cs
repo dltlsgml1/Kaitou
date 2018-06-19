@@ -41,6 +41,7 @@ public class StageLine2 : MonoBehaviour {
                 Lcontainer[i].light = -0.5f;
             }
             Lcontainer[i].lightup = true;
+            lightmat[i].SetColor("_EmissionColor", new Color(Lcontainer[i].light, Lcontainer[i].light, 0));
         }
 
     }

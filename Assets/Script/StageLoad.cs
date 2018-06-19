@@ -22,7 +22,7 @@ public class StageLoad : MonoBehaviour {
         CsvData = CSVData.GetComponent<CsvLoad>();
         ScreenShot = GetComponent<ScreenShot>();
         StageRank = GetComponent<StageRank>();
-        ScreenShot.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
+        ScreenShot.Init("Stage", "ClearStageSS", "ClearImage");
         SetStagePrefab();
     }
 	
