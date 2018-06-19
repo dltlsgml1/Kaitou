@@ -14,6 +14,9 @@ public class Title : MonoBehaviour {
         Sound.LoadBgm("bgm_title", Sound.SearchFilename(Sound.eSoundFilename.TT_TitleBgm));
         Sound.LoadSe("se_ttenter", Sound.SearchFilename(Sound.eSoundFilename.TT_Enter));
         Sound.PlayBgm("bgm_title");
+
+        // セーブデータ初期化
+        GameObject.Find("SaveData").GetComponent<ExportCsvScript>().Init(31);
     }
 	
 	// Update is called once per frame
