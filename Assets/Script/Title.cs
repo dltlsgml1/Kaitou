@@ -30,7 +30,7 @@ public class Title : MonoBehaviour {
         if (cs_failed.FadeInEnd)
         {
             Sound.StopBgm();     
-            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
 
     }

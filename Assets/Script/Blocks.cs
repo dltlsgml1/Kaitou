@@ -48,8 +48,6 @@ public class Blocks : MonoBehaviour {
         if (StartBlockFlg == true)
         {
             BurnFlg = true;
-            SetBurn();
-            SetBurnMaterial();
         }
     }
 
@@ -58,21 +56,10 @@ public class Blocks : MonoBehaviour {
         if (StartBlockFlg == true)
         {
             BurnFlg = true;
-            SetBurn();
-            SetBurnMaterial();
         }
     }
 	
-	public void SetBurnMaterial()
-    {
-        this.GetComponent<MeshRenderer>().material = Mat_Collaps;
-    }
     
-
-    public void SetBurn()
-    {
- 
-    }
 
 
     public void UnsetCollapsFlag()

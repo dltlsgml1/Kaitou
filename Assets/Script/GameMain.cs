@@ -54,12 +54,11 @@ public class GameMain : MonoBehaviour
         {
             if(Blocks[i].GetComponent<Blocks>().BurnFlg==true)
             {
-                Blocks[i].GetComponent<Blocks>().BurnFlg = false;
-                Blocks[i].GetComponent<MeshRenderer>().material = LoadResources.Mat_Normal;
-
-                Blocks[i].GetComponent<Blocks>().StartFlg();
-
-
+                if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
+                {
+                    Blocks[i].GetComponent<Blocks>().BurnFlg = false;
+                    Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
+                }
             }
         }
 
@@ -281,8 +280,6 @@ public class GameMain : MonoBehaviour
                 if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
-                    NormalBlocks[i].GetComponent<Blocks>().SetBurn();
-                    NormalBlocks[i].GetComponent<Blocks>().SetBurnMaterial();
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     Burned = true;
                 }
@@ -456,6 +453,11 @@ public class GameMain : MonoBehaviour
         }
     }
     
+    public void SetBlock()
+    {
+        Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
+    }
+
     private void OnDestroy()
     {
         Sound.StopBgm();
