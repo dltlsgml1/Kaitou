@@ -13,6 +13,7 @@ public class Pause : MonoBehaviour {
     public GameObject Cursor;
     public GameObject fade;
     public GameObject movepause;
+    public GameObject MainScript;
     bool StickFlag = false;
     bool moved = false;
     int count = 0;
@@ -63,6 +64,11 @@ public class Pause : MonoBehaviour {
         if (Input.GetButtonDown("BButton") && is_pause)
         {
             is_pause = false;
+            if(MainScript.GetComponent<GameMain>().TutorialFlg==true)
+            {
+                OffPause();
+                return;
+            }
             switch (move)
             {
                 case 0:
