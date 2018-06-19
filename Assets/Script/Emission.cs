@@ -150,9 +150,9 @@ public class Emission : MonoBehaviour
         {
             Debug.Log("点滅中");
 
-            OneUCFlag = true;
+            
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
-            Debug.Log("エミッションの数値 / " + time);
+            
 
             //ここでスピード調整して行き来する。
             if (UpCountFlag)
