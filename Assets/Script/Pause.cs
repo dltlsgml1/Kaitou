@@ -54,13 +54,13 @@ public class Pause : MonoBehaviour {
             MoveSelect();
         }
 
-        if(is_pause==true && Input.GetButtonDown("AButton"))//Input.GetKeyDown("w")
+        if(is_pause==true && Input.GetButtonDown("BButton"))//Input.GetKeyDown("w")
         {
             OffPause();
             is_pause = false;
         }
 
-        if (Input.GetButtonDown("BButton") && is_pause)
+        if (Input.GetButtonDown("AButton") && is_pause)
         {
             is_pause = false;
             switch (move)
