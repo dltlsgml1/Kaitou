@@ -93,7 +93,7 @@ public class GameMain : MonoBehaviour
             Limit = 1;
         }
         SS = this.GetComponent<ScreenShot>();
-        SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
+        SS.Init("Stage", "ClearStageSS", "ClearImage");
 
     }
     

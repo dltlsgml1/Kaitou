@@ -300,7 +300,7 @@ public class StageSelect : MonoBehaviour
         GameObject saveObj = GameObject.Find("SaveData").gameObject;
 
         //IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag != 0 && CSVData.StageDateList[StageID].ClearFlag >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
-        IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
+        IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) <= CSVData.StageDateList[StageID].UpperCunt) ? true : false;
         NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();
