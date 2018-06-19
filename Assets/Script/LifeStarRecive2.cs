@@ -12,14 +12,14 @@ public class LifeStarRecive2 : MonoBehaviour {
 	void Start () {
         //GetMainObj = GameObject.Find("MainSceneScript");
         GetMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
+        //ReceiveLimitNum = PassStageID.PassUpperCount();
+        ReceiveLimitNum = GetMain.Limit;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         clearflg = GetMain.ClearFlg;
-        if (!clearflg)
-        {
-            ReceiveLimitNum = GetMain.NormalCount;
-        }
+        ReceiveLimitNum = GetMain.Limit;
+        //ReceiveLimitNum = GetMain.NormalCount;
 	}
 }
