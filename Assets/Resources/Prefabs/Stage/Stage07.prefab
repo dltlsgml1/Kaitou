@@ -1000,7 +1000,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1404336783663114
 GameObject:
   m_ObjectHideFlags: 1
@@ -1180,7 +1180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1471320806471290
 GameObject:
   m_ObjectHideFlags: 0
@@ -10728,12 +10728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114790682458501808}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10750,12 +10744,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114362357697384602}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10770,8 +10758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7c9ca25feb6fc4d850347a3a237156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollapsTop: 1
-  CollapsBottom: 0
+  CollapsTop: 0
+  CollapsBottom: 1
   CollapsFront: 1
   CollapsBack: 0
   CollapsLeft: 0
@@ -10803,12 +10791,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114934435725740830}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10825,12 +10807,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114682122619580188}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10847,12 +10823,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114036052302911170}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10868,9 +10838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollapsTop: 0
-  CollapsBottom: 0
+  CollapsBottom: 1
   CollapsFront: 1
-  CollapsBack: 1
+  CollapsBack: 0
   CollapsLeft: 0
   CollapsRight: 1
   IsTopCollapsed: 0
@@ -10931,12 +10901,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114015113739534594}
-  MiniEmission: 0.2
-  MaxEmission: 1
-  Maxtime: 1
-  CanBurnMiniEmission: 0
-  CanBurnMaxEmission: 0.3
-  CanBurnMaxTime: 0.5
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
