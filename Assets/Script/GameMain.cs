@@ -93,7 +93,7 @@ public class GameMain : MonoBehaviour
         }
         SS = this.GetComponent<ScreenShot>();
         SS.Init("Kaitou", "Stage", "ClearStageSS", "ClearImage");
-        //Limit = 5;
+        
     }
     
 
@@ -314,6 +314,7 @@ public class GameMain : MonoBehaviour
         if (buttonup == true && Burned==true&&Nowcol == false) 
         {
             Limit--;
+            ClearLimit++;
             Burned = false;
             buttonup = false;
             
@@ -329,43 +330,47 @@ public class GameMain : MonoBehaviour
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
                       < DefineScript.JUDGE_DISTANCE)
         {
-            if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
+            if (Vector2.Distance((Vector2)CollapsBlockPosition[CollapsNow], (Vector2)NormalBlockPosition[BlockNow]) > 12.0f)
             {
-                if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
+                if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
                 {
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                    temp = true;
-                }
-                else
-                {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow],NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                         temp = true;
                     }
-                }
-            }
-            else
-            {
-                if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
-                {
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                    temp = true;
+                    else
+                    {
+                        float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
+                        if (distance >= 4.5f || distance <= 5.5f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
                 }
                 else
                 {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                         temp = true;
                     }
+                    else
+                    {
+                        float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
+                        if (distance >= 4.5f || distance <= 5.5f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
                 }
+
             }
             
         }
