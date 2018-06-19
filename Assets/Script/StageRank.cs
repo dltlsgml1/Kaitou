@@ -17,7 +17,7 @@ public class StageRank : MonoBehaviour {
     {
         RANK sts;
 
-        int clearCnt = (int)CSVData.StageDateList[id].ClearFlag;
+        int clearCnt = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(id);
         int minCnt = (int)CSVData.StageDateList[id].MinCunt;
         int upperCnt = (int)CSVData.StageDateList[id].UpperCunt;
         float minTmp = clearCnt - minCnt;
