@@ -750,7 +750,6 @@ Rotation X 50 Y 0 Z 10
 
                         if (PositionFlag && RotationFlag && StagePositionFlag && CameraPositionFlag)
                         {
-                            Sound.PlaySe("MoveEnd");
                             rate = 0;
                             rate2 = 0;
                             FadeInInit = false;

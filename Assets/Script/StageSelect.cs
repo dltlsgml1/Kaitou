@@ -16,7 +16,7 @@ public class StageSelect : MonoBehaviour
     public bool FadeInitOutFlag = false;
     bool SetNowStage = false;
     public bool TimeFlag = false;           //このフラグがtrueになったらzoomを止める
-    public float Volume = 0.2f;             //サウンドのボリューム
+    private float Volume = 0.7f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
     public int StageID = 1;                     //ステージID
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
@@ -58,10 +58,7 @@ public class StageSelect : MonoBehaviour
         Sound.LoadSe("StageIn", Sound.SearchFilename(Sound.eSoundFilename.SS_StageIn));  //メインに遷移する時のSE
         Sound.LoadSe("In", "StageSelect/SS_In");
         Sound.LoadSe("MapSelect", "StageSelect/SS_Mapselect");
-        Sound.LoadSe("MoveEnd", "StageSelect/SS_Moveend");
-        Sound.SetVolumeBgm("bgm", Volume);
-        Sound.SetVolumeSe("Move", Volume, 0);
-        Sound.SetVolumeSe("StageIn", Volume, 1);
+        Sound.LoadSe("MapIn", "StageSelect/GM_SS_Paper");//マップ出すときの音
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
         this.transform.position = new Vector3(0, 0, 0);
@@ -105,6 +102,7 @@ public class StageSelect : MonoBehaviour
         
         if (Decision < -DefaultKey && !TargetFlag)
         {
+            Sound.PlaySe("MapIn");
             PassStageID.GetStageID(StageID);
             Map.enabled = true;
             this.enabled = false;
@@ -200,7 +198,6 @@ public class StageSelect : MonoBehaviour
             else
             {
                 Sound.StopSe("Move", 0);                    //ToDo 音代わるかも
-                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -224,7 +221,6 @@ public class StageSelect : MonoBehaviour
             else
             {
                 Sound.StopSe("Move", 0);                        //ToDo 音代わるかも
-                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -247,7 +243,7 @@ public class StageSelect : MonoBehaviour
         {
             if (Input.GetButtonDown("AButton") && !TargetFlag)
             {
-                Sound.PlaySe("StageIn", 1);                     //ToDo 音代わるかも
+                Sound.PlaySe("In", 1);                     //ToDo 音代わるかも
                 Sound.StopBgm();                                //ToDo　音代わるかも
                 SelectStageFlag = true;
             }
