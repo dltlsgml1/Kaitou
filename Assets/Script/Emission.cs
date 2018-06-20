@@ -13,7 +13,7 @@ public class Emission : MonoBehaviour
     private float Maxtime = 0.4f;                       //現状の何秒で変わっていくか
     private float CanBurnMiniEmission = 0.0f;
     private float CanBurnMaxEmission = 0.5f;
-    private float CanBurnMaxTime = 0.15f;
+    private float CanBurnMaxTime = 0.5f;                 //0.15f;
 
     double Speed;
     double canBurnSpeed;
@@ -149,6 +149,7 @@ public class Emission : MonoBehaviour
         if (canBurnFlag)
         {
             Debug.Log("点滅中");
+            OneUCFlag = true;
 
             
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
@@ -253,7 +254,7 @@ public class Emission : MonoBehaviour
                     ChangeEmissionFlag = false;
                 }
             }
-            if (time > CanBurnMiniEmission+0.06f && !UpCountFlag)
+            if (time > CanBurnMiniEmission+0.06f && !UpCountFlag&&OneUCFlag)
             {
                 Debug.Log("ダウン処理" + UpCountFlag);
                 //Debug.Log("UpTime" + time + "<" + CanBurnMiniEmission + "CanBurnMinEmission");
