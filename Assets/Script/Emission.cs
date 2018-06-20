@@ -26,7 +26,6 @@ public class Emission : MonoBehaviour
     {
         Speed = MaxEmission / (Maxtime * 60);
         canBurnSpeed = CanBurnMaxEmission / (CanBurnMaxTime * 60);
-        Debug.Log(Speed);
 
     }
 
@@ -83,7 +82,6 @@ public class Emission : MonoBehaviour
             //光るか光らなくなるかを見てる
             if (time < MaxEmission - 0.1f && !DownCountFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -93,7 +91,6 @@ public class Emission : MonoBehaviour
                 }
                 else
                 {
-                    // Debug.Log(Time.time);
                     UpCountFlag = false;
                     DownCountFlag = true;
                     ChangeEmissionFlag = false;
@@ -148,7 +145,6 @@ public class Emission : MonoBehaviour
 
         if (canBurnFlag)
         {
-            Debug.Log("点滅中");
             OneUCFlag = true;
 
             
@@ -177,7 +173,6 @@ public class Emission : MonoBehaviour
             //光るか光らなくなるかを見てる
             if (time < CanBurnMaxEmission && !DownCountFlag)
             {
-                //  Debug.Log(num);
             }
             else
             {
@@ -187,7 +182,6 @@ public class Emission : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Time.time);
                     UpCountFlag = false;
                     OneUCFlag = false;
                     DownCountFlag = true;
@@ -214,7 +208,6 @@ public class Emission : MonoBehaviour
         else if (S_blooks.BurnFlg == false && OneUCFlag && S_blooks.NormalNowcol == false)
         {
 
-            Debug.Log("エミッション点滅を終わらせる");
             time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
             if (UpCountFlag)
             {
@@ -231,18 +224,13 @@ public class Emission : MonoBehaviour
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
 
-            Debug.Log("Time" + time);
             //光るか光らなくなるかを見てる
             if (time < CanBurnMaxEmission-0.06f && !DownCountFlag && OneUCFlag)
             {
-                //  Debug.Log(num);
-                Debug.Log("Up処理" + DownCountFlag);
                 
-                //Debug.Log("DownTime" + time + "<" + CanBurnMaxEmission + "CanBurnMaxEmission");
             }
             else
             {
-                Debug.Log("Up処理2" + DownCountFlag);
                 if (DownCountFlag)
                 {
 
@@ -256,13 +244,10 @@ public class Emission : MonoBehaviour
             }
             if (time > CanBurnMiniEmission+0.06f && !UpCountFlag&&OneUCFlag)
             {
-                Debug.Log("ダウン処理" + UpCountFlag);
-                //Debug.Log("UpTime" + time + "<" + CanBurnMiniEmission + "CanBurnMinEmission");
 
             }
             else
             {
-                Debug.Log("ダウン処理2" + UpCountFlag);
                 if (UpCountFlag)
                 {
 
@@ -272,14 +257,12 @@ public class Emission : MonoBehaviour
                     UpCountFlag = true;
                     DownCountFlag = false;
                     ChangeEmissionFlag = false;
-                    Debug.Log("点滅終了処理終わりの手前でフラグ変更" + OneUCFlag);
                     OneUCFlag = false;
                 }
             }
         }
         else if ((S_blooks.BurnFlg && OneUCFlag))
         {
-            Debug.Log("点滅してないからフラグを整理中");
             UpCountFlag = true;
             DownCountFlag = false;
             ChangeEmissionFlag = false;
