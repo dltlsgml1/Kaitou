@@ -20,10 +20,11 @@ public class MoveCamera : MonoBehaviour {
     public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
     public bool MoveFlag;                       //カメラを移動させているか
-    public float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
-    public float ChangeSpeedFast = 3.0f;        //スピードチェンジ時の速さ(早い時)
-    public float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
-    public float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
+    public bool StopCamera = false;
+    private float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
+    private float ChangeSpeedFast = 1.0f;        //スピードチェンジ時の速さ(早い時)
+    private float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
+    private float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
     
     
     // Use this for initialization
@@ -38,15 +39,18 @@ public class MoveCamera : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
-        if (Pause.is_pause) { return; }
-        if (!Input.GetButton("AButton"))
+        if (!StopCamera)
         {
-            ParallelMove();
-            RotationCamera();
-            FormatDate();
-            InputDate();
-            BackStageSelect();
-            KeyDebug();
+            if (Pause.is_pause) { return; }
+            if (!Input.GetButton("AButton"))
+            {
+                ParallelMove();
+                RotationCamera();
+                FormatDate();
+                InputDate();
+                BackStageSelect();
+                KeyDebug();
+            }
         }
 	}
     public void ChangeSpeed()
@@ -203,5 +207,13 @@ public class MoveCamera : MonoBehaviour {
     {
 
     }
+    public void StopCameraOn()      //カメラを止める
+    {
+        StopCamera = true;
+    }
 
+    public void StopCameraOff()     //カメラを動かす
+    {
+        StopCamera = false;
+    }
 }

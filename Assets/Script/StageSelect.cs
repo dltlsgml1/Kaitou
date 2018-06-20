@@ -80,7 +80,6 @@ public class StageSelect : MonoBehaviour
         StageID = PassStageID.PassStageId();
         if (SetNowStage)
         {
-            Debug.Log("NowStage");
             SetNowStagePrefab();
         }
 
