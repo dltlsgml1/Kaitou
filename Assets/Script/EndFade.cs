@@ -43,7 +43,7 @@ public class EndFade : MonoBehaviour
     //時間確認
     public bool stopFlag = false;     //次のシーン行くまで待機的なフラグ
     private float countTime = 0.0f;
-    public float endTime = 4.0f;
+    private float endTime = 2.0f;
     public float ClearFadeTime = 4.0f;
     public float FailedFadeTime = 2.0f;
     bool endChake = false;
