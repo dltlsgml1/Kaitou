@@ -30,7 +30,7 @@ public class StageLine2 : MonoBehaviour {
 
                 else
                 {
-                    if (i < GetLimitStar.ReceiveLimitNum + 1)
+                    if (i < GetLimitStar.ReceiveLimitNum )
                     {
                         this.transform.GetChild(i).gameObject.SetActive(true);
                     }

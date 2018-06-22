@@ -29,10 +29,10 @@ public class StageStar2 : MonoBehaviour {
         for (int i = 0; i < this.transform.childCount; i++)
         {
             this.transform.GetChild(i).GetComponent<MeshRenderer>().material = lightmat[i];
-            if (i < GetLimitStarLine.ReceiveLimitNum+1)
+            if (i < GetLimitStarLine.ReceiveLimitNum)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);
-                Lcontainer[i].light = 1.0f;
+                Lcontainer[i].light = 1.5f;
 
             }
             else
@@ -64,7 +64,7 @@ public class StageStar2 : MonoBehaviour {
                         {
 
                             Lcontainer[i].light += 0.1f;
-                            if (Lcontainer[i].light > 1.5f)
+                            if (Lcontainer[i].light > 3.0f)
                             {
                                 Lcontainer[i].lightup = false;
                             }
@@ -88,7 +88,7 @@ public class StageStar2 : MonoBehaviour {
                     if (i < GetLimitStarLine.ReceiveLimitNum+1)
                     {
                         Lcontainer[i].lightup = true;
-                        Lcontainer[i].light = 1.0f;
+                        Lcontainer[i].light = 1.5f;
                         this.transform.GetChild(i).gameObject.SetActive(true);
 
                     }
