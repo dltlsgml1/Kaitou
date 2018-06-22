@@ -101,6 +101,7 @@ public class ExportCsvScript : MonoBehaviour
         int idx;
         string id, clear;
         int idData, clearData;
+        int cnt = 0;
 
         // 行がnullじゃない間(つまり次の行がある場合は)、処理をする
         while ((line = sr.ReadLine()) != null)
@@ -108,6 +109,11 @@ public class ExportCsvScript : MonoBehaviour
             idx = line.IndexOf(",");
             clear = line.Substring(idx + 1);
             id = line.Substring(5, 2);
+
+            // セーブデータがデータ最大数を超えた場合の例外処理
+            cnt++;
+            if (cnt > MaxData + 1)
+                break;
 
             if(clear != "クリア回数")
             {
@@ -123,6 +129,7 @@ public class ExportCsvScript : MonoBehaviour
                 SetClearData(idData, clearData);
                 
             }
+
         }
         // StreamReaderを閉じる
         sr.Close();
