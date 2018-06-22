@@ -57,6 +57,7 @@ public class MapScript : MonoBehaviour {
 
     private void OnEnable()
     {
+
         Sound.StopSe("Move", 0);
        
         StageSelectObject = GameObject.Find("StagePrefab");
@@ -94,6 +95,7 @@ public class MapScript : MonoBehaviour {
 
         if (InitFlag)
         {
+            Sound.PlaySe("MapIn", 4);
             MapOpen();
         }
         else
@@ -212,6 +214,7 @@ public class MapScript : MonoBehaviour {
 
     public void StageSelect()
     {
+
         float XDecision;                                 //左右を判定用
         float YDecision;
         XDecision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
