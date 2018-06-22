@@ -24,7 +24,7 @@ public class StageSelect : MonoBehaviour
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
-    int StageNum = 30;
+    int StageNum = 20;
 
     public Camera ZoomIn;
 
@@ -306,7 +306,7 @@ public class StageSelect : MonoBehaviour
 
         //IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag != 0 && CSVData.StageDateList[StageID].ClearFlag >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
         IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) <= CSVData.StageDateList[StageID].UpperCunt) ? true : false;
-        NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
+        NowObj = this.transform.Find(CSVData.StageDateList[StageID].StageName + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();
         fadeImage.Init(NowObj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);
