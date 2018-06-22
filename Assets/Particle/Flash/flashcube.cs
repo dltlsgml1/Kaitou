@@ -2,50 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class flashcube : MonoBehaviour {
+public class flashcube : MonoBehaviour
+{
 
     //GameObject Setblock;
     Blocks SetBlock;
     GameMain SetGameMain;
-    bool oneroot;
-	// Use this for initialization
-	void Start () {
-        oneroot = false;
+
+    ParticleSystem ppp;
+    private bool oneroot = true;
+
+
+    // Use this for initialization
+    void Start()
+    {
+
         SetBlock = GetComponentInParent<Blocks>();
         SetGameMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
         for (int i = 0; i < this.transform.childCount; i++)
         {
-            this.transform.GetChild(i).gameObject.SetActive(false);
+            //this.transform.GetChild(i).gameObject.SetActive(false);
+            ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
+            ppp.Stop();
 
         }
-        if (SetBlock.StartBlockFlg)
-        {
-                Destroy(GameObject.Find("FlashCubeParticle"));
-        }
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (!SetBlock.StartBlockFlg)
         {
-            if (oneroot)
+            //if (oneroot)
+            //{
+            //    Destroy(GameObject.Find("FlashCubeParticle"));
+            //}
+
+
+            if (SetBlock.BurnFlg && SetGameMain.buttonup && oneroot)
             {
-                Destroy(GameObject.Find("FlashCubeParticle"));
+                for (int i = 0; i < this.transform.childCount; i++)
+                {
+                    //this.transform.GetChild(i).gameObject.SetActive(true);
+                    ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
+                    ppp.Play();
+
+                }
+                oneroot = false;
             }
 
-
-            if (SetBlock.BurnFlg && SetGameMain.buttonup)
-            {
-                    for (int i = 0; i < this.transform.childCount; i++)
-                    {
-                        this.transform.GetChild(i).gameObject.SetActive(true);
-
-                    }
-                    oneroot = true;
-            }
-           
         }
 
-	}
+    }
 }
