@@ -53,7 +53,14 @@ public class Emission : MonoBehaviour
         }
         else
         {
+
             ChangeEmissionFlag = false;
+        }
+        if (!S_blooks.BurnFlg)
+        {
+            Color color = new Color(0, 0, 0); //エミッションの光度を変えてる。
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", color);　//ここで色を入れ込む。
+
         }
 
         if (ChangeEmissionFlag)
