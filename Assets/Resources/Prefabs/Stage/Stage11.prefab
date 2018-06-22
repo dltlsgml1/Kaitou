@@ -624,7 +624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1257513934414380
 GameObject:
   m_ObjectHideFlags: 1
@@ -676,7 +676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1263271939632964
 GameObject:
   m_ObjectHideFlags: 1
@@ -1030,7 +1030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1372234306130544
 GameObject:
   m_ObjectHideFlags: 1
@@ -1274,7 +1274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1523568051572404
 GameObject:
   m_ObjectHideFlags: 1
@@ -1865,7 +1865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1719571003610574
 GameObject:
   m_ObjectHideFlags: 1
@@ -9989,7 +9989,6 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
-  SetFire: {fileID: 1518986487483784}
   BurnFlg: 0
   StartBlockFlg: 1
   BurnCnt: 0
@@ -10008,6 +10007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114602885633003550}
+  LightEnd: 0
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10024,6 +10024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114600271755472288}
+  LightEnd: 0
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10051,6 +10052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114005579702515534}
+  LightEnd: 0
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10079,7 +10081,6 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
-  SetFire: {fileID: 1857759744649050}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
@@ -10098,6 +10099,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114313229604647970}
+  LightEnd: 0
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10137,7 +10139,6 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
-  SetFire: {fileID: 1064404114197936}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
@@ -10168,7 +10169,6 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
-  SetFire: {fileID: 1822389110191932}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
@@ -10187,6 +10187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChangeEmissionFlag: 0
   S_blooks: {fileID: 114902732622768154}
+  LightEnd: 0
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
@@ -10248,7 +10249,6 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
-  SetFire: {fileID: 1085209148442908}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
