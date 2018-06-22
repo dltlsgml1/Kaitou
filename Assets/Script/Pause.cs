@@ -23,17 +23,14 @@ public class Pause : MonoBehaviour {
     public int move_Max; //
     private int movepause_Oncount = 0;
     private int fade_count = 0;
-    public int fade_countMax;
     public static bool fade_outflg = false;
     public static bool BackStageSelect_flg = false;
-    public static bool Restart_flg = false;
-    Vector3 vec_Cursor;
+    Vector3 vec_Cursor;//= Cursor.transform.localPosition;  
 
     // Use this for initialization
     void Start () {
         move = 0;
         move_Max = 2;
-        fade_countMax = 20;
         Sound.LoadSe("se_cancel", Sound.SearchFilename(Sound.eSoundFilename.PS_Cancel));
         Sound.LoadSe("se_enter", Sound.SearchFilename(Sound.eSoundFilename.PS_Enter));
         Sound.LoadSe("se_paper", Sound.SearchFilename(Sound.eSoundFilename.PS_Paper));
@@ -72,9 +69,7 @@ public class Pause : MonoBehaviour {
                     OffPause();
                     break;
                 case 1:
-                    FedeIn();
-                    Restart_flg = true;
-                    //RestartLoad();
+                    RestartLoad();
                     break;
                 case 2:
                     FedeIn();
@@ -97,8 +92,7 @@ public class Pause : MonoBehaviour {
         //    fade_count++;
         //}
 
-        FedeOut();
-        RestartLoad();
+        FedeOut();  
         BackStageSelect();
         
         
@@ -109,20 +103,18 @@ public class Pause : MonoBehaviour {
     private void RestartLoad()//リスタート
     {
 
-        //FedeIn();
-        if (fade_outflg == true && fade_count > (fade_countMax / 3) && Restart_flg == true)
-        {
-            Restart_flg = false;
-            gameObject.GetComponent<GameMain>().Restart();
-            OffPause();
-        }
+        FedeIn();
+        gameObject.GetComponent<GameMain>().Restart();
+        OffPause();    
+        
     }
 
     private void BackStageSelect()
     {
+
         //FedeIn();
         
-        if (fade_outflg == true && fade_count > (fade_countMax* 2 /3) && BackStageSelect_flg == true)
+        if (fade_outflg == true && fade_count > 20 && BackStageSelect_flg == true)
         {
             BackStageSelect_flg = false;
             OffPause();
@@ -180,6 +172,7 @@ public class Pause : MonoBehaviour {
 
     private void MoveSelect()
     {
+        //ある座標に向かって移動アニメーション追加予定
         float Distance = Input.GetAxisRaw("LeftStick Y");
 
         //移動先
@@ -281,8 +274,7 @@ public class Pause : MonoBehaviour {
         //fade_count++;
         //return false;
 
-        //fade.GetComponent<failed>().In = true;
-        fade.GetComponent<failed>().FadeIn_On();
+        fade.GetComponent<failed>().In = true;
         fade_outflg = true;
         fade_count++;
     }
@@ -304,12 +296,11 @@ public class Pause : MonoBehaviour {
             fade_count++;
         }
 
-        if (fade_count > fade_countMax )
+        if (fade_count > 30)
         {
             fade_count = 0;
             fade_outflg = false;
-            //fade.GetComponent<failed>().Out = true;
-            fade.GetComponent<failed>().FadeOut_On();
+            fade.GetComponent<failed>().Out = true;
             //カーソル位置初期化
             vec_Cursor.x = -7.7f;
             vec_Cursor.y = 1.5f;
