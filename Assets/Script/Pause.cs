@@ -48,7 +48,7 @@ public class Pause : MonoBehaviour {
 
 
         ////ｑキーでゲームバック
-        if (Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
+        if (Input.GetKeyDown("q") || Input.GetButtonDown("StartButton") && MainScript.GetComponent<GameMain>().ClearFlg ==false)
         {
             is_pause = true;
         }
@@ -249,16 +249,16 @@ public class Pause : MonoBehaviour {
         switch (move)//位置仮置き
         {
             case 0://バック位置
-                vec_Cursor.x = -7.17f;
-                vec_Cursor.y = 0.37f;
+                vec_Cursor.x = -8.3f;
+                vec_Cursor.y = -2.1f;
                 break;
             case 1://リスタート位置
-                vec_Cursor.x = -7.17f;
-                vec_Cursor.y = -1.16f;     
+                vec_Cursor.x = -8.3f;
+                vec_Cursor.y = -3.1f;     
                 break;
             case 2://ステセレ位置
-                vec_Cursor.x = -7.17f;
-                vec_Cursor.y = -3f;   
+                vec_Cursor.x = -8.3f;
+                vec_Cursor.y = -4.1f;   
                 break;
             //case 3://before位置
             //    vec_Cursor.x = -6.5f;
@@ -319,8 +319,8 @@ public class Pause : MonoBehaviour {
             fade_outflg = false;
             fade.GetComponent<failed>().FadeOut_On();
             //カーソル位置初期化
-            vec_Cursor.x = -7.17f;
-            vec_Cursor.y = 0.37f;
+            vec_Cursor.x = -8.3f;
+            vec_Cursor.y = -2.1f;
             Cursor.transform.localPosition = vec_Cursor;
             move = 0;
         }
