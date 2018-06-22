@@ -61,6 +61,12 @@ public class StageSelect : MonoBehaviour
         Sound.LoadSe("MapIn", "StageSelect/GM_SS_Paper");//マップ出すときの音
         Sound.PlayBgm("bgm");
         Sound.SetLoopFlgSe("Move", true, 0);
+
+        Sound.SetVolumeSe("Move", Volume, 0);
+        Sound.SetVolumeSe("StageIn", Volume, 1);
+        Sound.SetVolumeSe("In", Volume, 2);
+        Sound.SetVolumeSe("MapSelect", Volume, 3);
+        Sound.SetVolumeSe("MapIn", Volume, 4);
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
@@ -102,7 +108,7 @@ public class StageSelect : MonoBehaviour
         
         if (Decision < -DefaultKey && !TargetFlag)
         {
-            Sound.PlaySe("MapIn");
+            Sound.PlaySe("MapIn",4);
             PassStageID.GetStageID(StageID);
             Map.enabled = true;
             this.enabled = false;
@@ -243,7 +249,7 @@ public class StageSelect : MonoBehaviour
         {
             if (Input.GetButtonDown("AButton") && !TargetFlag)
             {
-                Sound.PlaySe("In", 1);                     //ToDo 音代わるかも
+                Sound.PlaySe("In", 2);                     //ToDo 音代わるかも
                 Sound.StopBgm();                                //ToDo　音代わるかも
                 SelectStageFlag = true;
             }
