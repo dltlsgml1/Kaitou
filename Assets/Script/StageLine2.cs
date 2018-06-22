@@ -4,45 +4,12 @@ using UnityEngine;
 
 public class StageLine2 : MonoBehaviour {
 
-    public struct light_container
-    {
-        public float light;
-        public bool lightup;
-    }
-    public Material[] lightmat = new Material[9];
-    //public GameObject SetStarlineObj;
-    LifeStarRecive2 GetLimitStarLine;
-    light_container[] Lcontainer = new light_container[9];
-   
-
-
+    //public GameObject SetStarObj;
+    LifeStarRecive2 GetLimitStar;
     // Use this for initialization
     void Start()
     {
-
-        GetLimitStarLine = GetComponentInParent<LifeStarRecive2>();
-        for (int i = 0; i < this.transform.childCount; i++)
-        {
-            Lcontainer[i].light = 0.0f;
-            Lcontainer[i].lightup = false;
-        }
-        for (int i = 0; i < this.transform.childCount; i++)
-        {
-            this.transform.GetChild(i).GetComponent<SpriteRenderer>().material = lightmat[i];
-            if (i < GetLimitStarLine.ReceiveLimitNum)
-            {
-                this.transform.GetChild(i).gameObject.SetActive(true);
-                Lcontainer[i].light = 1.0f;
-
-            }
-            else
-            {
-                this.transform.GetChild(i).gameObject.SetActive(false);
-                Lcontainer[i].light = -0.5f;
-            }
-            Lcontainer[i].lightup = true;
-            lightmat[i].SetColor("_EmissionColor", new Color(Lcontainer[i].light, Lcontainer[i].light, 0));
-        }
+        GetLimitStar = GetComponentInParent<LifeStarRecive2>();
 
     }
 
@@ -50,56 +17,39 @@ public class StageLine2 : MonoBehaviour {
     void Update()
     {
 
-        if (GetLimitStarLine.clearflg != true)
+        if (GetLimitStar.clearflg != true)
         {
-
 
             for (int i = 0; i < this.transform.childCount; i++)
             {
-                if (i < GetLimitStarLine.ReceiveLimitNum)
-                {
-                    Lcontainer[i].lightup = true;
-                    Lcontainer[i].light = 1.0f;
-                    this.transform.GetChild(i).gameObject.SetActive(true);
 
+                if (GetLimitStar.ReceiveLimitNum <= 0)
+                {
+                    this.transform.GetChild(i).gameObject.SetActive(false);
                 }
+
                 else
                 {
-                    if (this.transform.GetChild(i).gameObject.activeSelf)
+                    if (i < GetLimitStar.ReceiveLimitNum )
                     {
-                        if (Lcontainer[i].lightup)
-                        {
-
-                            Lcontainer[i].light += 0.1f;
-                            if (Lcontainer[i].light > 3.0f)
-                            {
-                                Lcontainer[i].lightup = false;
-                            }
-                        }
-                        else
-                        {
-                            Lcontainer[i].light -= 0.1f;
-                            if (Lcontainer[i].light < -0.5f)
-                            {
-                                Lcontainer[i].lightup = true;
-                                this.transform.GetChild(i).gameObject.SetActive(false);
-                            }
-                        }
-                       
-
+                        this.transform.GetChild(i).gameObject.SetActive(true);
                     }
-
+                    else
+                    {
+                        this.transform.GetChild(i).gameObject.SetActive(false);
+                    }
                 }
-
-                
-                lightmat[i].SetColor("_EmissionColor", new Color(Lcontainer[i].light, Lcontainer[i].light, 0));
-           
-
             }
         }
 
 
 
 
+
+
     }
+
+
+    //
+    
 }
