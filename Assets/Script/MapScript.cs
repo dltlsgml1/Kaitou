@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapScript : MonoBehaviour {
 
     GameObject StageSelectObject;
-    GameObject Finger;
+    public GameObject Finger;
     StageSelect StageEnable;
     GameObject CameraData;
     GameObject Fade;
@@ -48,7 +48,7 @@ public class MapScript : MonoBehaviour {
     float InitHeight = -0.8f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;
-    public int MaxStage = 30;
+    private int MaxStage = 19;
     public int Decision = 0;
     public int FingerPos;
 
@@ -70,39 +70,10 @@ public class MapScript : MonoBehaviour {
         {
             StageID = PassStageID.PassStageId() - 1;
         }
-        Finger = GameObject.Find("Pause_Cursor");
-        Decision = StageID / 6;
-        FingerPos = StageID % 6;
-        switch (Decision)
-        {
-            case 0:
-                EvenFlag = true;
-                break;
-            case 1:
-                EvenFlag = false;
-                break;
-            case 2:
-                EvenFlag = true;
-                break;
-            case 3:
-                EvenFlag = false;
-                break;
-            case 4:
-                EvenFlag = true;
-                break;
-            default:
-                break;
-        }
-        if (EvenFlag)
-        {
-            EndFinger = new Vector3(EvenNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
-            FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-        }
-        else
-        {
-            EndFinger = new Vector3(OddNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
-            FramePosition = new Vector3(-5.28f + ((FingerPos) * 2.12f), 0 + (-Decision * 1.3f), -10);
-        }
+        Decision = StageID / 5;
+        FingerPos = StageID % 5;
+        EndFinger = new Vector3(EvenNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
+        FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable=StageSelectObject.GetComponent<StageSelect>();
         CameraData = GameObject.Find("CameraObejct");
@@ -257,8 +228,8 @@ public class MapScript : MonoBehaviour {
                     Frame.SetActive(false);
                     MoveFlag = false;
                     StageID = MaxStage;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -284,17 +255,10 @@ public class MapScript : MonoBehaviour {
                     FingerMoveFlag = true;
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
+                   
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
 
-                    }
                     EndPosition.y = InitHeight + (-Decision * Height);
                 }
             }
@@ -306,8 +270,8 @@ public class MapScript : MonoBehaviour {
                     Frame.SetActive(false);
                     MoveFlag = false;
                     StageID = 0;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -332,17 +296,9 @@ public class MapScript : MonoBehaviour {
                     FingerMoveFlag = true;
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
-                        EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
+                    EndPosition.x = EvenNumber + ((FingerPos) * Width);
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
 
-                    }
                     EndPosition.y = InitHeight + (-Decision * Height);
                 }
             }
@@ -353,8 +309,8 @@ public class MapScript : MonoBehaviour {
                     Frame.SetActive(false);
                     MoveFlag = false;
                     StageID -= 1;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -380,17 +336,8 @@ public class MapScript : MonoBehaviour {
                     FingerMoveFlag = true;
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y=InitHeight+(-Decision*Height);
                 }
             }
@@ -402,8 +349,8 @@ public class MapScript : MonoBehaviour {
                     Frame.SetActive(false);
                     MoveFlag = false;
                     StageID += 1;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -428,17 +375,8 @@ public class MapScript : MonoBehaviour {
                     FingerMoveFlag = true;
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
                 }
             }
@@ -460,7 +398,7 @@ public class MapScript : MonoBehaviour {
             }
 
             
-            if (StageID <= MaxStage-6&&MoveFlag)
+            if (StageID <= MaxStage-5&&MoveFlag)
             {
                 if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
                 {
@@ -468,9 +406,9 @@ public class MapScript : MonoBehaviour {
                     MoveFlag = false;
                     Ymoved = true;
                     FingerMoveFlag = true;
-                    StageID += 6;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    StageID += 5;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -493,31 +431,22 @@ public class MapScript : MonoBehaviour {
                     }
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
                    
                     
                 }
             }
-            if (StageID > 5 && MoveFlag)
+            if (StageID > 4 && MoveFlag)
             {
                 if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     Frame.SetActive(false);
                     MoveFlag = false;
-                    StageID -= 6;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    StageID -= 5;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -540,31 +469,22 @@ public class MapScript : MonoBehaviour {
                     }
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
                 }
             }
-            if (StageID <= 5 && MoveFlag)
+            if (StageID <= 4 && MoveFlag)
             {
                 if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     Frame.SetActive(false);
                     MoveFlag = false;
-                    StageID = StageID + 24;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    StageID = StageID + 15;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -587,31 +507,22 @@ public class MapScript : MonoBehaviour {
                     }
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
                 }
             }
-            if (StageID > MaxStage - 6 && MoveFlag)
+            if (StageID > MaxStage - 5 && MoveFlag)
             {
                 if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     Frame.SetActive(false);
                     MoveFlag = false;
-                    StageID = StageID - 24;
-                    Decision = StageID / 6;
-                    FingerPos = StageID % 6;
+                    StageID = StageID - 15;
+                    Decision = StageID / 5;
+                    FingerPos = StageID % 5;
                     switch (Decision)
                     {
                         case 0:
@@ -634,17 +545,8 @@ public class MapScript : MonoBehaviour {
                     }
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
-                    if (EvenFlag)
-                    {
                         EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-4.7f + ((FingerPos) * 2.12f), 0.04f + (-Decision * 1.32f), -10);
-                    }
-                    else
-                    {
-                        EndPosition.x = OddNumber + ((FingerPos) * Width);
-                        FramePosition = new Vector3(-5.27f + ((FingerPos) * 2.1f), 0.04f + (-Decision * 1.3f), -10);
-
-                    }
+                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.3f), 0.04f + (-Decision * 1.586f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
