@@ -56,6 +56,7 @@ public class EndFade : MonoBehaviour
     public failed ClearFade;
     public failed FailedFade;
 
+    bool PlayedSE = false;
 
 
     // Use this for initialization
@@ -103,10 +104,22 @@ public class EndFade : MonoBehaviour
 
         if (ClearStartFlag)
         {
+            Sound.StopBgm();
+            if(PlayedSE==false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_CLEAR");
+            }
             ClearAnima();
         }
         if (FailedStartFlag)
         {
+            Sound.StopBgm();
+            if (PlayedSE == false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_FAIL");
+            }
             FailedAnima();
         }
 
@@ -131,7 +144,6 @@ public class EndFade : MonoBehaviour
                 alphaFlag = false;
                 ChangeEmissionFlag = true;
                 emissionUpFlag = true;
-
             }
         }
 

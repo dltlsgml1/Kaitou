@@ -36,6 +36,9 @@ public class Tutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+            SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+
         switch (TutorialIndex)
         {
             case 0:
@@ -211,37 +214,12 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                //if (Input.GetButtonDown("LButton"))          //Todo
-                //    ExplainIndex = 0;
-                if (Input.GetButtonDown("RButton"))          //Todo
-                    ExplainIndex++;
-                break;
-            case 9:
-                if (ExplainBlock.activeSelf == true)
-                    ExplainBlock.SetActive(false);
-                text.text = "移したあと、移されたブロックは更に他のブロックに\n光をを移すことができます。\n" +
-                              "このことを用いて、連続で移すことができます。\n\n" +
-                              "ブロックの中では、面が黒く塗られてあるものがあります。\n" +
-                              "これは、その面からは移すことはできないことを表します。\n\n";
-   
-
                 if (Input.GetButtonDown("LButton"))          //Todo
-                    ExplainIndex--;
+                    ExplainIndex = 0;
                 if (Input.GetButtonDown("RButton"))          //Todo
-                    ExplainIndex++;
+                    TutorialIndex++;
                 break;
-            case 10:
-                text.text = "背景に星と星をつなぐ星座があります。（黄色い線）\n" +
-                              "星座の線は１回ブロックを移すと、１個ずつ減り、\n" +
-                              "すべてなくなるとゲームオーバーとなります。\n\n" +
-                              "それでは、次ボタンを押してゲームを始めます！";
-                if (Input.GetButtonDown("LButton"))          //Todo
-                    ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))          //Todo
-                    SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
-                break;
-
-        }
+              }
         
     }
     void Control()
@@ -254,7 +232,7 @@ public class Tutorial : MonoBehaviour
                     ExplainBlock.gameObject.SetActive(false);
                 if (ControlBlock1.gameObject.activeSelf == false)
                     ControlBlock1.gameObject.SetActive(true);
-                text.text = "Control1";
+                text.text = "次は、応用操作をやってみましょう。\n";
                 break;
             case 1:
                 break;

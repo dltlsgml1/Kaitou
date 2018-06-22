@@ -34,7 +34,7 @@ public class GameMain : MonoBehaviour
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
     public int ClearLimit = 0;
     public int FailLimitNum = 0;            //残りの上限回数
-    public bool TutorialFlg = false;
+    public bool TutorialFlg = true;
     public bool ClearFlg = false;           //ステージクリアフラグ
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
@@ -43,6 +43,10 @@ public class GameMain : MonoBehaviour
     public bool Burned = false;
     public bool buttonup = false;
     public bool FadeEnd = false;
+    public bool PlayedSE = false;
+    public bool PlayedSE2 = false;
+    public bool NowCol2 = false;
+
 
     // スクショ関係
     public bool ScreenshotFlg = false;
@@ -76,21 +80,18 @@ public class GameMain : MonoBehaviour
     void Start()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
-        Sound.LoadBgm("gm_bgm", "GM_Bgm");
-        Sound.LoadBgm("gm_burn", "GM_Burn");
-        Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
-        Sound.LoadSe("se_burn", "GM_Burn");
-        Sound.LoadSe("se_burnnow", "GM_BurnNow");
+        Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
+        Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
+        Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
+        Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
+        Sound.PlayBgm("GM_BGM");
+        Sound.SetLoopFlgSe("SE_INFO", true, 4);
         if (TutorialFlg == false)
         {
-            Sound.PlayBgm("gm_bgm");
-            Sound.PlaySe("se_burn", 2);
             Limit = ClearedLimitNum = PassStageID.PassUpperCount();
         }
-        else
-        {
-            Limit = 1;
-        }
+       
         SS = this.GetComponent<ScreenShot>();
         SS.Init("Stage", "ClearStageSS", "ClearImage");
 
@@ -104,7 +105,9 @@ public class GameMain : MonoBehaviour
         CollapsCount = 0;
         UnsetCollapsing = true;
         Nowcol = false;
-
+        NowCol2 = false;
+        if (TutorialFlg == true)
+            Limit = 3;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -166,13 +169,18 @@ public class GameMain : MonoBehaviour
         }
     }
 
-   
+
     bool Atari()
     {
 
         if (Limit == 0 && NormalCount != 0 && TutorialFlg == false)
         {
             FailFlg = true;
+            if (PlayedSE == false)
+            {
+                Sound.PlaySe("SE_FAIL", 1);
+                PlayedSE = true;
+            }
             return true;
         }
 
@@ -188,12 +196,12 @@ public class GameMain : MonoBehaviour
                 if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBottom == true)
                 {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
-                }              
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
+                }
                 if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsTop == true)
                 {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
                 }
                 if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsRight == true)
@@ -201,7 +209,7 @@ public class GameMain : MonoBehaviour
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
 
                 }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true && 
+                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsLeft == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
@@ -212,15 +220,33 @@ public class GameMain : MonoBehaviour
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
                 }
-                    
+
                 if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBack == true)
                 {
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
                 }
+
+                if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
+                {
+                    NowCol2 = true;
+                }
+            }
+
+        }
+        if (NowCol2 == true)
+        {
+            if (PlayedSE2 == false)
+            {
+                Sound.PlaySe("SE_INFO", 4);
+                PlayedSE2 = true;
             }
         }
-
+        else
+        {
+            Sound.StopSe("SE_INFO", 4);
+            PlayedSE2 = false;
+        }
         
         if (Input.GetButton("AButton"))
         {
@@ -295,8 +321,8 @@ public class GameMain : MonoBehaviour
 
         if (NormalCount == 0 && TutorialFlg == false)
         {
-
             ClearFlg = true;
+            
             
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
@@ -312,8 +338,10 @@ public class GameMain : MonoBehaviour
         if (buttonup == true && Burned==true&&Nowcol == false) 
         {
             Limit--;
+            ClearLimit++;
             Burned = false;
             buttonup = false;
+            Sound.PlaySe("SE_STAR", 3);
             
         }
 
@@ -368,7 +396,7 @@ public class GameMain : MonoBehaviour
             
         }
         if(temp==true)
-        {
+        {            
             switch (CollapsPlain)
             {
                 case (int)DefineScript.CollisionIndex.Top:
@@ -398,6 +426,7 @@ public class GameMain : MonoBehaviour
 
             }
         }
+        
         
     }
 
@@ -458,9 +487,5 @@ public class GameMain : MonoBehaviour
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
     }
 
-    private void OnDestroy()
-    {
-        Sound.StopBgm();
-        Sound.StopSe("se_burn", 2);
-    }
+
 }
