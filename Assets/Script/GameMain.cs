@@ -44,10 +44,6 @@ public class GameMain : MonoBehaviour
     public bool buttonup = false;
     public bool FadeEnd = false;
 
-    // スクショ関係
-    public bool ScreenshotFlg = false;
-    private ScreenShot SS;
-
     public void Restart()
     {
         for(int i=0;i<Blocks.Length;i++)
@@ -91,9 +87,6 @@ public class GameMain : MonoBehaviour
         {
             Limit = 1;
         }
-        SS = this.GetComponent<ScreenShot>();
-        SS.Init("Stage", "ClearStageSS", "ClearImage");
-
     }
     
 
@@ -300,13 +293,7 @@ public class GameMain : MonoBehaviour
             
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-            //Todo: ここでスクショ撮影処理。
-            if (!ScreenshotFlg)
-            {
-                ScreenshotFlg = true;
-                GlobalCoroutine.Go(SS.CreateClearImage(PassStageID.StageID));
-            }
-            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
+
             return true;
         }
         if (buttonup == true && Burned==true&&Nowcol == false) 

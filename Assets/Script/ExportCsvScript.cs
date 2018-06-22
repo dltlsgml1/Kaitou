@@ -13,6 +13,8 @@ public class ExportCsvScript : MonoBehaviour
     private string FileName = "SaveData.csv";   // セーブデータのファイル名
     private bool CreateFileFlg = false;
 
+    private int NowStageId;     // 現在のステージ番号
+
     // 初期化
     public void Init(int max)
     {
@@ -26,11 +28,28 @@ public class ExportCsvScript : MonoBehaviour
         ReadFile();
     }
 
+    // 現在の利用しているステージID
+    public void SetStageId(int id)
+    {
+        NowStageId = id;
+    }
+
+    public int GetNowStageId()
+    {
+        return NowStageId;
+    }
+
     // クリア手数のセット
-    public void SetClearData(int id, int clearnum = 0)
+    public void SetClearData(int clearnum = 0)
+    {
+        ClearNum[NowStageId] = clearnum;
+    }
+
+    private void SetClearData(int id, int clearnum = 0)
     {
         ClearNum[id] = clearnum;
     }
+
 
     // クリア手数の取得
     public int GetClearData(int id)
