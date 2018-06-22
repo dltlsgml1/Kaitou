@@ -48,7 +48,9 @@ public class Pause : MonoBehaviour {
 
 
         ////ｑキーでゲームバック
-        if (Input.GetKeyDown("q") || Input.GetButtonDown("StartButton") && MainScript.GetComponent<GameMain>().ClearFlg ==false)
+        if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton")) 
+            && MainScript.GetComponent<GameMain>().ClearFlg ==false && fade_outflg == false 
+            && MainScript.GetComponent<GameMain>().TutorialFlg == false)
         {
             is_pause = true;
         }
@@ -59,16 +61,18 @@ public class Pause : MonoBehaviour {
             MoveSelect();
         }
 
-        if(is_pause==true && Input.GetButtonDown("BButton"))//Input.GetKeyDown("w")
+        if(is_pause==true && (Input.GetButtonDown("BButton") || Input.GetButtonDown("StartButton")))//Input.GetKeyDown("w")
         {
             OffPause();
             is_pause = false;
+            Sound.PlaySe("se_paper", 5);
         }
 
         if (Input.GetButtonDown("AButton") && is_pause)
         {
             is_pause = false;
-            if(MainScript.GetComponent<GameMain>().TutorialFlg==true)
+            Sound.PlaySe("se_enter", 8);
+            if (MainScript.GetComponent<GameMain>().TutorialFlg==true)
             {
                 OffPause();
                 return;
@@ -77,6 +81,7 @@ public class Pause : MonoBehaviour {
             {
                 case 0:
                     OffPause();
+                    Sound.PlaySe("se_paper", 5);
                     break;
                 case 1:
                     FedeIn();
@@ -96,14 +101,7 @@ public class Pause : MonoBehaviour {
 
 
         BackStageSelect();
-        //if (BackStageSelect_flg == true)
-        //{
-        //    FedeOut();
-        //}
         RestartLoad();
-
-        //gameObject.SetActive(false); //非活性化
-
     }
 
     private void RestartLoad()//リスタート
@@ -146,8 +144,8 @@ public class Pause : MonoBehaviour {
         if (pauseUI.gameObject.activeSelf == false) 
         {
             pauseUI.SetActive(true);
-            Sound.PlaySe("se_paper", 7);
             movepause_Oncount = 0;
+            Sound.PlaySe("se_paper", 7);
         }
         //アニメーションカウント
         if (movepause_Oncount < (1 / movepause.GetComponent<MovePose>().SlideSpeed))
@@ -162,7 +160,7 @@ public class Pause : MonoBehaviour {
 
     void OffPause()
     {
-        Sound.PlaySe("se_cancel", 5);
+        //Sound.PlaySe("se_cancel", 5);
         if (BackStageSelect_flg == false)
         {
             //アニメーションカウント
@@ -178,7 +176,7 @@ public class Pause : MonoBehaviour {
         }
 
         //ポーズ画面非アクティブ化
-        if (pauseUI.gameObject.activeSelf==true&& movepause_Oncount == (1 / movepause.GetComponent<MovePose>().SlideSpeed))
+        if (pauseUI.gameObject.activeSelf==true&& movepause_Oncount >= (1 / movepause.GetComponent<MovePose>().SlideSpeed))
         {
             pauseUI.SetActive(false);            
         }
@@ -209,15 +207,16 @@ public class Pause : MonoBehaviour {
             {
                 move += 1;             
                 moved = true;
+                Sound.PlaySe("se_select", 6);
             }
 
             if (StickFlag == true && moved == false && Distance > 0.5f || Input.GetKeyDown("up"))
             {
                 move -= 1;              
                 moved = true;
+                Sound.PlaySe("se_select", 6);
             }
-
-            Sound.PlaySe("se_select", 6);
+         
         }
 
 
@@ -250,27 +249,17 @@ public class Pause : MonoBehaviour {
         {
             case 0://バック位置
                 vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -2.1f;
+                vec_Cursor.y = -2.53f;
                 break;
             case 1://リスタート位置
                 vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -3.1f;     
+                vec_Cursor.y = -3.54f;     
                 break;
             case 2://ステセレ位置
                 vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -4.1f;   
+                vec_Cursor.y = -4.59f;   
                 break;
-            //case 3://before位置
-            //    vec_Cursor.x = -6.5f;
-            //    vec_Cursor.y = -4.5f;     
-            //    break;
-            //case 4://next位置
-            //    vec_Cursor.x = 2.0f;
-            //    vec_Cursor.y = -4.5f;
-            //    break;
         }
-
-
         Cursor.transform.localPosition = vec_Cursor;        
     }
 
@@ -281,16 +270,6 @@ public class Pause : MonoBehaviour {
 
     public void FedeIn()
     {
-        //fade.GetComponent<failed>().In = true;
-        //if (fade_count >= (1 / fade.GetComponent<failed>().FadeSpeed))
-        //{
-        //    //fade_count = 0;
-        //    fade_outflg = true;
-        //    return true;
-        //}
-        //fade_count++;
-        //return false;
-
         fade.GetComponent<failed>().FadeIn_On();
         fade_outflg = true;
         fade_count++;
@@ -298,15 +277,6 @@ public class Pause : MonoBehaviour {
 
     public void FedeOut()
     {
-        //fade.GetComponent<failed>().Out = true;
-        //if (fade_count > (1 / fade.GetComponent<failed>().FadeSpeed))
-        //{
-        //    fade_count = 0;
-        //    fade_outflg = false;
-        //    return true;
-        //}
-        //fade_count++;
-        //return false;
 
         if (fade_outflg == true)
         {
@@ -320,7 +290,7 @@ public class Pause : MonoBehaviour {
             fade.GetComponent<failed>().FadeOut_On();
             //カーソル位置初期化
             vec_Cursor.x = -8.3f;
-            vec_Cursor.y = -2.1f;
+            vec_Cursor.y = -2.53f;
             Cursor.transform.localPosition = vec_Cursor;
             move = 0;
         }

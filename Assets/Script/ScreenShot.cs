@@ -113,7 +113,6 @@ public class ScreenShot : MonoBehaviour
 
             return true;
         }
-
         renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
         renderer.materials[0].mainTexture = null;
 
