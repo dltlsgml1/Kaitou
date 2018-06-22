@@ -14,6 +14,7 @@ public class Emission : MonoBehaviour
     private float CanBurnMiniEmission = 0.0f;
     private float CanBurnMaxEmission = 0.5f;
     private float CanBurnMaxTime = 0.5f;                 //0.15f;
+    public bool LightEnd = false;
 
     double Speed;
     double canBurnSpeed;
@@ -100,6 +101,7 @@ public class Emission : MonoBehaviour
                 {
                     UpCountFlag = false;
                     DownCountFlag = true;
+                    LightEnd = true;
                     ChangeEmissionFlag = false;
                 }
             }
