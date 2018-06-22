@@ -57,6 +57,8 @@ public class MapScript : MonoBehaviour {
 
     private void OnEnable()
     {
+        Sound.StopSe("Move", 0);
+       
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable = StageSelectObject.GetComponent<StageSelect>();
         spotlight.SetActive(true);
