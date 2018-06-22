@@ -10,6 +10,7 @@ public class flashcube : MonoBehaviour
     GameMain SetGameMain;
 
     ParticleSystem ppp;
+	GameObject pppobj;
     private bool oneroot = true;
 
 
@@ -23,7 +24,7 @@ public class flashcube : MonoBehaviour
         {
             //this.transform.GetChild(i).gameObject.SetActive(false);
             ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
-            ppp.Stop();
+			ppp.Stop();
 
         }
 
@@ -41,12 +42,13 @@ public class flashcube : MonoBehaviour
             //}
 
 
-            if (SetBlock.BurnFlg && SetGameMain.buttonup && oneroot)
+            if (SetBlock.BurnFlg && oneroot)
             {
                 for (int i = 0; i < this.transform.childCount; i++)
                 {
                     //this.transform.GetChild(i).gameObject.SetActive(true);
                     ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
+					Debug.Log ("Particle再生" + ppp);
                     ppp.Play();
 
                 }
