@@ -1479,7 +1479,9 @@ MonoBehaviour:
   Burned: 0
   buttonup: 0
   FadeEnd: 0
-  ScreenshotFlg: 0
+  PlayedSE: 0
+  PlayedSE2: 0
+  NowCol2: 0
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0
@@ -1511,6 +1513,7 @@ MonoBehaviour:
   MainScript: {fileID: 1180727676}
   move: 0
   move_Max: 2
+  fade_countMax: 0
 --- !u!114 &1180727680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,6 +1527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainScript: {fileID: 1180727676}
   text: {fileID: 451839843}
+  textleft: {fileID: 0}
+  textright: {fileID: 0}
   ExplainBlock: {fileID: 1767717352}
   CollapsBlock: {fileID: 1959176746}
   NormalBlock: {fileID: 1413711135}
@@ -1875,10 +1880,7 @@ MonoBehaviour:
   HiSpeedChangeFlag: 0
   LowSpeedChangeFlag: 0
   MoveFlag: 0
-  ChangeSpeedLow: 0.5
-  ChangeSpeedFast: 5
-  MoveCameraSpeed: 0.1
-  RotationCameraSpeed: 3
+  StopCamera: 0
 --- !u!4 &1569801944
 Transform:
   m_ObjectHideFlags: 0
@@ -2459,6 +2461,7 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114060537032763792, guid: 2c067bb7b1420a3448fafe86ad5ad5f8, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2c067bb7b1420a3448fafe86ad5ad5f8, type: 2}
   m_IsPrefabParent: 0

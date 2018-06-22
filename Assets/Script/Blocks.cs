@@ -23,7 +23,6 @@ public class Blocks : MonoBehaviour {
     public bool CollapsNowcol = false;
 
     public static bool nowplayingse = false;
-    public GameObject SetFire;
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt = 0.0f;
@@ -31,18 +30,6 @@ public class Blocks : MonoBehaviour {
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;
     
-
-
-    Material Mat_Normal;
-    Material Mat_Collaps;
-
-    private void Awake()
-    {
-        Mat_Normal = Resources.Load("GameMain/Materials/GameMain_BlockNomal_01") as Material;
-        Mat_Collaps = Resources.Load("GameMain/Materials/GameMain_BlockNomal_02") as Material;
-       
-    }
-
     void Start ()
     {      
         if (StartBlockFlg == true)
@@ -59,8 +46,6 @@ public class Blocks : MonoBehaviour {
         }
     }
 	
-    
-
 
     public void UnsetCollapsFlag()
     {
