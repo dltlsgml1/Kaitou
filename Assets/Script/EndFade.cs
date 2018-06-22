@@ -61,6 +61,9 @@ public class EndFade : MonoBehaviour
     private bool ScreenshotFlg = false;
     GameObject saveObj;
 
+    //クリア・失敗のときのSEフラグ
+    bool PlayedSE = false;
+
     // Use this for initialization
     void Start()
     {
@@ -115,13 +118,24 @@ public class EndFade : MonoBehaviour
             FailedStartFlag = MainScript.FailFlg;
 
         }
-
         if (ClearStartFlag)
         {
+            Sound.StopBgm();
+            if (PlayedSE == false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_CLEAR");
+            }
             ClearAnima();
         }
         if (FailedStartFlag)
         {
+            Sound.StopBgm();
+            if (PlayedSE == false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_FAIL");
+            }
             FailedAnima();
         }
 
