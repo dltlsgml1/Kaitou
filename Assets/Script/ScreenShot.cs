@@ -7,19 +7,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Screenshot : MonoBehaviour
+public class ScreenShot : MonoBehaviour
 {
-    private string projectName;     // プロジェクトの名前(読み込み参照用)
     private string prefabName;      // プレハブオブジェクト名(ベース名)
     private string childPrefabName; // クリアイメージのオブジェクト名
     private string fileName;        // スクリーンショットイメージの名前
     private bool isRunning;         // コルーチン用
 
-    // 初期化
-    public void Init(string projectname, string prefabname, string childprefabname, string filename)
-    {
-        projectName = projectname;
 
+    // 初期化
+    public void Init(string prefabname, string childprefabname, string filename)
+    {
         prefabName = prefabname;
 
         childPrefabName = childprefabname;
@@ -53,16 +51,16 @@ public class Screenshot : MonoBehaviour
         string fileId = IdToString(id);
 
         // ファイルがあるかどうか
-        if (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
+        if (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
         {
             // ファイル削除
-            System.IO.File.Delete(projectName + "_Data/" + fileName + fileId + ".png.meta");
-            while (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png.meta") == true)
+            System.IO.File.Delete(Application.dataPath + "/" + fileName + fileId + ".png.meta");
+            while (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png.meta") == true)
             {
                 yield return null;
             }
-            System.IO.File.Delete(projectName + "_Data/" + fileName + fileId + ".png");
-            while (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
+            System.IO.File.Delete(Application.dataPath + "/" + fileName + fileId + ".png");
+            while (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
             {
                 yield return null;
             }
@@ -91,11 +89,13 @@ public class Screenshot : MonoBehaviour
     {
         string fileId = IdToString(id);
         MeshRenderer renderer;
+        Color color;
+        string path = "StagePrefab/" + prefabName + fileId + "(Clone)/" + childPrefabName;
 
-        if (System.IO.File.Exists(projectName + "_Data/" + fileName + fileId + ".png") == true)
+        if (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
         {
             // ①．ファイル => バイナリ変換
-            byte[] image = System.IO.File.ReadAllBytes(projectName + "_Data/" + fileName + fileId + ".png");
+            byte[] image = System.IO.File.ReadAllBytes(Application.dataPath + "/" + fileName + fileId + ".png");
 
             // ②．受け入れ用Texture2D作成
             Texture2D tex = new Texture2D(0, 0);
@@ -105,18 +105,24 @@ public class Screenshot : MonoBehaviour
 
             // ④．Texture2Dをマテリアルに指定
             //MeshRenderer renderer = GameObject.Find(prefabName + fileId).GetComponent<MeshRenderer>();
-            renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
+            renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
             renderer.materials[0].mainTexture = tex;
+
+            color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+            renderer.material.color = color;
 
             return true;
         }
 
-        renderer = GameObject.Find(prefabName + fileId + "/" + childPrefabName).GetComponent<MeshRenderer>();
+        renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
         renderer.materials[0].mainTexture = null;
+
+        color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+        renderer.material.color = color;
         
         return false;
     }
-
+    
     // IDの「0」付与対応用
     private string IdToString(int id)
     {

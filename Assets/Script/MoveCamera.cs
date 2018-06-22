@@ -20,20 +20,17 @@ public class MoveCamera : MonoBehaviour {
     public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
     public bool MoveFlag;                       //カメラを移動させているか
-    public float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
-    public float ChangeSpeedFast = 3.0f;        //スピードチェンジ時の速さ(早い時)
-    public float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
-    public float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
+    public bool StopCamera = false;
+    private float ChangeSpeedLow = 0.1f;         //スピードチェンジ時の速さ(遅い時)
+    private float ChangeSpeedFast = 1.0f;        //スピードチェンジ時の速さ(早い時)
+    private float MoveCameraSpeed = 0.5f;        //平行移動時のスピード
+    private float RotationCameraSpeed = 0.5f;    //カメラ回転のスピード
     
     
     // Use this for initialization
     void Start() {
-        FormatPosition.x = 0;
-        FormatPosition.y = 0;
-        FormatPosition.z = 0;
-        FormatRotation.x = 0;
-        FormatRotation.y = 0;
-        FormatRotation.z = 0;
+        FormatPosition = PassStageID.PassPosition();
+        FormatRotation = PassStageID.PassRotation();
     }
 
     // Update is called once per frame
@@ -42,15 +39,19 @@ public class MoveCamera : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
-        if (Pause.is_pause) { return; }
-        ParallelMove();
-        RotationCamera();
-        ChangeSize();
-        FormatDate();
-        InputDate();
-        BackStageSelect();
-        KeyDebug();
-        
+        if (!StopCamera)
+        {
+            if (Pause.is_pause) { return; }
+            if (!Input.GetButton("AButton"))
+            {
+                ParallelMove();
+                RotationCamera();
+                FormatDate();
+                InputDate();
+                BackStageSelect();
+                KeyDebug();
+            }
+        }
 	}
     public void ChangeSpeed()
     {
@@ -94,12 +95,13 @@ public class MoveCamera : MonoBehaviour {
         if (Key != 0)
         {
             MoveFlag = true;
-            if (Key < DefaultKey)
+            if (Key > -DefaultKey)
             {
 
                 ScreenPosition.y += MoveCameraSpeed;
             }
-            if (Key > -DefaultKey)
+            
+            if (Key < DefaultKey)
             {
                 ScreenPosition.y -= MoveCameraSpeed;
             }
@@ -176,28 +178,6 @@ public class MoveCamera : MonoBehaviour {
         }
 
     }
-    void ChangeSize() //カメラサイズを変更してズームインズームアウトを表現
-    {
-        if (Input.GetButton("LButton"))
-        {
-            MoveFlag = true;
-            if (MainCamera.orthographicSize < 20)
-            {
-                
-                MainCamera.orthographicSize += 0.1f;
-                Background.orthographicSize += 0.1f;
-            }
-        }
-        if (Input.GetButton("RButton"))
-        {
-            MoveFlag = true;
-            if (MainCamera.orthographicSize > 1)
-            {
-                MainCamera.orthographicSize -= 0.1f;
-                Background.orthographicSize -= 0.1f;
-            }
-        }
-    }
     public void FormatDate()        //初期化関数
     {
         if (Input.GetButton("SelectButton"))
@@ -227,5 +207,13 @@ public class MoveCamera : MonoBehaviour {
     {
 
     }
+    public void StopCameraOn()      //カメラを止める
+    {
+        StopCamera = true;
+    }
 
+    public void StopCameraOff()     //カメラを動かす
+    {
+        StopCamera = false;
+    }
 }

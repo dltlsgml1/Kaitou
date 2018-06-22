@@ -7,7 +7,8 @@ public class failed : MonoBehaviour {
     //float Alpha;
     private float Red, Gleen, Blue, Alpha;
     public float FadeSpeed=0.2f;
-
+    public bool FadeInEnd = false;
+    public bool FadeOutEnd = true;
     public bool Out = false;
     public bool In = false;
 
@@ -48,6 +49,8 @@ public class failed : MonoBehaviour {
         if (Alpha >= 1)
         {
             In = false;
+            FadeInEnd = true;
+            FadeOutEnd = false;
         }
        
     }
@@ -60,8 +63,11 @@ public class failed : MonoBehaviour {
         if (Alpha <= 0)
         {
             Out = false;
+            FadeInEnd = false;
+            FadeOutEnd = true;
             FadeImage.enabled = false;
         }
+
     }
 
     void SetColor()

@@ -20,7 +20,8 @@ public class DefineScript
     public static int NUM_BACKGROUND = 1;
     public static int NUM_BLOCKS = 30;
 
-    public static float JUDGE_BURNNINGTIME = 5.0f;
-    public static float JUDGE_DISTANCE = 60.0f;
-    public static float JUDGE_BURNNIGSPEED = 0.05f;
+    public static float JUDGE_BNTIME = 5.0f;
+    public static float JUDGE_DISTANCE = 10.0f;
+    public static float JUDGE_BNSPEED_BUTTON = 0.1f;
+    public static float JUDGE_BNSPEED_NONBUTTON = 0.25f;
 }
