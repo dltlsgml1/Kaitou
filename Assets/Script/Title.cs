@@ -16,7 +16,7 @@ public class Title : MonoBehaviour {
         Sound.PlayBgm("bgm_title");
 
         // セーブデータ初期化
-        GameObject.Find("SaveData").GetComponent<ExportCsvScript>().Init(31);
+        GameObject.Find("SaveData").GetComponent<ExportCsvScript>().Init(DefineScript.MAX_STAGE);
     }
 	
 	// Update is called once per frame
