@@ -81,6 +81,12 @@ public class EndFade : MonoBehaviour
         if(MainScript.ClearFlg && !endChake)
         {
             countTime += Time.deltaTime;
+
+            if(ClearFadeTime / 2 <= countTime)
+            {
+                SaveAndScreenshot();
+            }
+
             if (ClearFadeTime <= countTime && !ClearFade.In)
             {
                 countTime = 0.0f;
@@ -269,16 +275,6 @@ public class EndFade : MonoBehaviour
             
         }
 
-        // スクショ作成とセーブデータ更新
-        if(endTime / 2 <= countTime && !ScreenshotFlg)
-        {
-            GlobalCoroutine.Go(SS.CreateClearImage(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()));
-            saveObj.GetComponent<ExportCsvScript>().SetClearData(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit);
-            saveObj.GetComponent<ExportCsvScript>().WriteFile();
-
-            ScreenshotFlg = true;
-        }
-
         if(SceneChangeFlag)
         {
             //数値初期化する必要あるならここ！
@@ -289,4 +285,17 @@ public class EndFade : MonoBehaviour
 
     }
 
+    void SaveAndScreenshot()
+    {
+        // スクショ作成とセーブデータ更新
+        if (!ScreenshotFlg)
+        {
+            GlobalCoroutine.Go(SS.CreateClearImage(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()));
+            saveObj.GetComponent<ExportCsvScript>().SetClearData(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit);
+            saveObj.GetComponent<ExportCsvScript>().WriteFile();
+
+            ScreenshotFlg = true;
+        }
+
+    }
 }
