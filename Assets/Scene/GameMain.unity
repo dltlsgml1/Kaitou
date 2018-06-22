@@ -3183,6 +3183,7 @@ MonoBehaviour:
   MainScript: {fileID: 1180727676}
   move: 0
   move_Max: 2
+  fade_countMax: 0
 --- !u!114 &1180727680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3666,7 +3667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b08b4d0608468a40add4c0ba68a40b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReceiveLimitNum: 10
+  ReceiveLimitNum: 0
   clearflg: 0
 --- !u!114 &1569380500
 MonoBehaviour:
