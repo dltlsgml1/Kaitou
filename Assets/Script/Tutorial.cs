@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Tutorial : MonoBehaviour
 {
     public static int CircleMax = 10;
+    public int Limit = 5;
     public enum CircleIndex {RightStick=0,LeftStick,BButton,SlowButton,FastButton,ResetButton,PauseButton};
     public GameObject MainScript;
     public Text text;
@@ -15,10 +16,10 @@ public class Tutorial : MonoBehaviour
     public GameObject ExplainBlock;
     public GameObject CollapsBlock;
     public GameObject NormalBlock;
-
     public GameObject ControlBlock1;
     public GameObject ControlBlock2;
     public GameObject ControlBlock3;
+    public GameObject LifeStar;
 
     public GameObject[] Circles = new GameObject[CircleMax];
 
@@ -27,13 +28,11 @@ public class Tutorial : MonoBehaviour
     public int ExplainIndex = 0;
     public int ControlIndex = 0;
     
-    // Use this for initialization
     void Start()
     {
         MainScript.GetComponent<GameMain>().TutorialFlg = true;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -61,7 +60,7 @@ public class Tutorial : MonoBehaviour
                 NormalBlock.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 NormalBlock.GetComponent<Blocks>().BurnFlg = false;
                 NormalBlock.GetComponent<Blocks>().canburn = false;
-                if(Input.GetButtonDown("RButton"))  //Todo
+                if(Input.GetButtonDown("RButton"))  
                     ExplainIndex++;
                 break;
             case 1:
@@ -74,9 +73,9 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetButtonDown("LButton"))   //Todo
+                if (Input.GetButtonDown("LButton"))   
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))   //Todo
+                if (Input.GetButtonDown("RButton"))   
                     ExplainIndex++;
                 break;
             case 2:
@@ -91,9 +90,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
                     Circles[(int)CircleIndex.LeftStick].SetActive(true);
-                if (Input.GetButtonDown("LButton"))   //Todo
+                if (Input.GetButtonDown("LButton"))  
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))   //Todo
+                if (Input.GetButtonDown("RButton"))   
                     ExplainIndex++;
                 break;
             case 3:
@@ -109,9 +108,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
                     Circles[(int)CircleIndex.RightStick].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 4:
@@ -129,9 +128,9 @@ public class Tutorial : MonoBehaviour
                     Circles[(int)CircleIndex.SlowButton].SetActive(true);
                 if (Circles[(int)CircleIndex.FastButton].activeSelf == false)
                     Circles[(int)CircleIndex.FastButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))       
                     ExplainIndex++;
                 break;
             case 5:
@@ -147,9 +146,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.PauseButton].activeSelf == false)
                     Circles[(int)CircleIndex.PauseButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))      
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 6:
@@ -164,9 +163,9 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.ResetButton].activeSelf == false)
                     Circles[(int)CircleIndex.ResetButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 7:
@@ -184,7 +183,7 @@ public class Tutorial : MonoBehaviour
                 if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
                     Circles[(int)CircleIndex.RightStick].SetActive(true);
 
-                if (Input.GetButtonDown("LButton"))          //Todo
+                if (Input.GetButtonDown("LButton"))         
                     ExplainIndex--;
 
                 if(NormalBlock.GetComponent<Blocks>().NormalNowcol==true)
@@ -214,9 +213,9 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetButtonDown("LButton"))          //Todo
+                if (Input.GetButtonDown("LButton"))         
                     ExplainIndex = 0;
-                if (Input.GetButtonDown("RButton"))          //Todo
+                if (Input.GetButtonDown("RButton"))          
                     TutorialIndex++;
                 break;
               }
@@ -224,6 +223,7 @@ public class Tutorial : MonoBehaviour
     }
     void Control()
     {
+        MainScript.GetComponent<GameMain>().SetBlock();
         switch (ControlIndex)
         {
             case 0:
@@ -233,17 +233,104 @@ public class Tutorial : MonoBehaviour
                 if (ControlBlock1.gameObject.activeSelf == false)
                     ControlBlock1.gameObject.SetActive(true);
                 text.text = "次は、応用操作をやってみましょう。\n";
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
                 break;
             case 1:
+                text.text = "移したブロックは、更に他のブロックを移すことができ、\n連続で移すことができます。";
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
                 break;
             case 2:
+                text.text = "それでは移してみましょう。";
+                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
+                {
+                    text.text = "よくできました！\nこれを用いて最短回数クリアーを目指しましょう！";
+                    if (Input.GetButtonDown("RButton"))
+                        ControlIndex++;
+                }
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
                 break;
             case 3:
+                if (ControlBlock1.gameObject.activeSelf == true)
+                    ControlBlock1.gameObject.SetActive(false);
+                if (ControlBlock2.gameObject.activeSelf == false)
+                    ControlBlock2.gameObject.SetActive(true);
+                if (LifeStar.gameObject.activeSelf == false)
+                {
+                    LifeStar.gameObject.SetActive(true);
+                    MainScript.GetComponent<GameMain>().Limit = 5;
+                }
+                    
+
+                text.text = "次は、上限回数についてです";
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 4:
+                text.text = "背景を見ると、星座があります。\n星座の線１個が、残り回数１回を表します。";
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 5:
+                text.text = "それでは、実際にやってみましょう。\nブロックを移してください。";
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
+                {
+                    text.text = "移したあと、星座の線が１個消えました。\nこの星座がすべてなくなると、ステージに失敗します。";
+                    if (Input.GetButtonDown("RButton"))
+                        ControlIndex++;
+                }
+                break;
+            case 6:
+                if (LifeStar.activeSelf == true)
+                    LifeStar.SetActive(false);
+                if (ControlBlock2.activeSelf == true)
+                    ControlBlock2.SetActive(false);
+                if (ControlBlock3.activeSelf == false)
+                    ControlBlock3.SetActive(true);
+                text.text = "最後に、ブロックの面に対する説明です。";
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 7:
+                text.text = "ブロックの中では、特定の面が黒いブロックがあります。そのブロックは、その面からは移されることはできません。";
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 8:
+                text.text = "それではやってみましょう。\n移れる面を探して、移してください！";
+                if(MainScript.GetComponent<GameMain>().NormalCount==0)
+                {
+                    text.text = "よくできました！\n黒くなっていない面でしか移すことはできません。";
+                    if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                }
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                break;
+            case 9:
+                if (ControlBlock3.activeSelf == true)
+                    ControlBlock3.SetActive(false);
+                text.text = "以上ですべてのチュートリアルが終わりました。\n前へを押すとチュートリアルをもう一度できます。\n次へを押すとゲーム本編が始まります。";
+                if (Input.GetButtonDown("LButton"))
+                    SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+                if (Input.GetButtonDown("RButton"))
+                    SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                 break;
         }
 
     }
-
+    //제한횟수
+    //면단위 제한
     private void OnDestroy()
     {
         MainScript.GetComponent<GameMain>().TutorialFlg = false;
