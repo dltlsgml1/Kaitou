@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System;
 
 public class StageLoad : MonoBehaviour {
     
@@ -44,7 +43,8 @@ public class StageLoad : MonoBehaviour {
             SetClearStarMaterial(parent.Find(CsvData.StageDateList[i + 1].StageName + "(Clone)/Star").gameObject, StageRank.GetRank());
 
             string stagename = CsvData.StageDateList[i + 1].StageName;
-            ScreenShot.SearchToSetClearImage(Int32.Parse(stagename.Substring(5)));
+            int stageId = (int)CsvData.StageDateList[i + 1].StageID;
+            ScreenShot.SearchToSetClearImage(stageId, Int32.Parse(stagename.Substring(5)));
         }
     }
 
