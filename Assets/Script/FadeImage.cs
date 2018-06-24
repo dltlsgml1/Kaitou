@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class FadeImage : MonoBehaviour {
 
+    // フェード処理状態
     enum STATUS{
-        LOOK = 0,
-        INVISIBLE,
-        FADEIN,
-        FADEOUT,
+        LOOK = 0,       // 表示中
+        INVISIBLE,      // 非表示中
+        FADEIN,         // フェードイン中
+        FADEOUT,        // フェードアウト中
     }
 
     private float LookTime;          // クリアイメージが見える時間
@@ -19,7 +20,6 @@ public class FadeImage : MonoBehaviour {
     private bool TimeGetFlg;        // 現在の時刻のリセット用
     private float NowTime;          // 現在の時間(alpha計算用)
     private float alpha;            // alpha計算用
-    private float RGBARatio;        // 変化割合計算用
 
     private Renderer renderer;
     
@@ -64,23 +64,28 @@ public class FadeImage : MonoBehaviour {
         renderer = rend;
     }
 
+    // マテリアルのアルファ値セット
     public void SetMaterialAlpha(float alpha)
     {
         renderer.materials[0].color = new Color(1, 1, 1, alpha);
     }
 
+    // フェード処理
     public void Fade()
     {
         switch (status)
         {
             case STATUS.LOOK:       // クリアイメージ表示中
+
+                // タイムの初期化
                 if (!TimeGetFlg)
                 {
                     TimeGetFlg = true;
                     NowTime = 0;
-                    //renderer.materials[0].color = new Color(1, 1, 1, 1);
                     SetMaterialAlpha(1);
                 }
+
+                // 表示時間超過したらフェードアウト開始
                 if (NowTime > LookTime)
                 {
                     status = STATUS.FADEOUT;
@@ -94,13 +99,16 @@ public class FadeImage : MonoBehaviour {
                 break;
 
             case STATUS.INVISIBLE:  // ステージイメージ表示中
+
+                // タイムの初期化
                 if (!TimeGetFlg)
                 {
                     TimeGetFlg = true;
                     NowTime = 0;
-                    //renderer.materials[0].color = new Color(1, 1, 1, 0);
                     SetMaterialAlpha(0);
                 }
+
+                // 非表示時間超過したらフェードイン開始
                 if (NowTime > InvisibleTime)
                 {
                     status = STATUS.FADEIN;
@@ -114,17 +122,17 @@ public class FadeImage : MonoBehaviour {
                 break;
 
             case STATUS.FADEIN:     // フェードイン
+
+                // タイムの初期化
                 if (!TimeGetFlg)
                 {
                     TimeGetFlg = true;
                     NowTime = 0;
                     alpha = 0.0f;
-                    //renderer.materials[0].color = new Color(1, 1, 1, alpha);
                     SetMaterialAlpha(alpha);
-
-                    RGBARatio = FadeTime * 255.0f;
-
                 }
+
+                // フェードイン終了
                 if (NowTime > FadeTime)
                 {
                     status = STATUS.LOOK;
@@ -134,25 +142,25 @@ public class FadeImage : MonoBehaviour {
                 {
                     NowTime += Time.deltaTime;
 
+                    // 現在の時間からアルファ値の割合計算
                     alpha = NowTime / FadeTime;
-                    //renderer.materials[0].color = new Color(1, 1, 1, alpha);
                     SetMaterialAlpha(alpha);
                 }
 
                 break;
 
             case STATUS.FADEOUT:    // フェードアウト
+
+                // タイムの初期化
                 if (!TimeGetFlg)
                 {
                     TimeGetFlg = true;
                     NowTime = 0;
                     alpha = 1.0f;
-                    //renderer.materials[0].color = new Color(1, 1, 1, alpha);
                     SetMaterialAlpha(alpha);
-
-                    RGBARatio = FadeTime * 255.0f;
-
                 }
+
+                // フェードアウト終了
                 if (NowTime > FadeTime)
                 {
                     status = STATUS.INVISIBLE;
@@ -162,8 +170,8 @@ public class FadeImage : MonoBehaviour {
                 {
                     NowTime += Time.deltaTime;
 
+                    // 現在の時間からアルファ値の割合計算
                     alpha = 1.0f - NowTime / FadeTime;
-                    //renderer.materials[0].color = new Color(1, 1, 1, alpha);
                     SetMaterialAlpha(alpha);
                 }
 

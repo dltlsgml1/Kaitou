@@ -362,12 +362,12 @@ public class Sound
 
         // フェードのインかアウトかを決める
         bool fadeInFlg = false, fadeOutFlg = false;
-        if(startVol == endVol)
+        if (startVol == endVol)
         {
             isFadingBgm = false;
             yield break;
         }
-        else if(startVol > endVol)
+        else if (startVol > endVol)
         {
             fadeOutFlg = true;
         }
@@ -380,7 +380,7 @@ public class Sound
         source.volume = startVol;
 
         // 再生されていない場合再生
-        if (source.isPlaying)
+        if (!source.isPlaying)
         {
             source.Play();
         }
@@ -388,18 +388,17 @@ public class Sound
         // フェードの処理
         float nowTime = 0.0f;           // 割合計算用 時間
         float nowVolume = startVol;     // フェードの割合で計算した大きさ
-        float volumeRatio = 0.0f;       // 全体の割合
 
         // フェードイン処理
         if (fadeInFlg)
         {
             nowTime = 0.0f;
-            volumeRatio = startVol;
-            while(nowTime >= fadeTime)
+            while (nowTime <= fadeTime)
             {
                 nowTime += Time.deltaTime;
-                nowVolume = (nowTime / startVol) * volumeRatio;
+                nowVolume = nowTime / fadeTime * endVol;
                 source.volume = nowVolume;
+                yield return true;
             }
             source.volume = endVol;
         }
@@ -407,15 +406,17 @@ public class Sound
         else if (fadeOutFlg)
         {
             nowTime = fadeTime;
-            volumeRatio = endVol;
-            while (nowTime <= 0)
+            while (nowTime >= 0)
             {
                 nowTime -= Time.deltaTime;
-                nowVolume = (nowTime / endVol) * volumeRatio;
+                nowVolume = nowTime / fadeTime * startVol;
                 source.volume = nowVolume;
+                yield return true;
             }
             source.volume = endVol;
-            if(source.volume == 0.0f)
+
+            // 再生する意味がないので停止
+            if (source.volume == 0.0f)
             {
                 source.Stop();
             }
