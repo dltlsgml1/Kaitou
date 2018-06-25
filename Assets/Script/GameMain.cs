@@ -168,17 +168,7 @@ public class GameMain : MonoBehaviour
     bool Atari()
     {
 
-        if (Limit == 0 && NormalCount != 0 && TutorialFlg == false)
-        {
-            FailFlg = true;
-            if (PlayedSE == false)
-            {
-                Sound.PlaySe("SE_FAIL", 1);
-                PlayedSE = true;
-            }
-            return true;
-        }
-
+       
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
@@ -318,6 +308,17 @@ public class GameMain : MonoBehaviour
 
 
 
+        
+        if (buttonup == true && Burned == true && Nowcol == false)
+        {
+            Limit--;
+            ClearLimit++;
+            Burned = false;
+            buttonup = false;
+            Sound.PlaySe("SE_STAR", 3);
+
+        }
+        
         if (NormalCount == 0 && TutorialFlg == false)
         {
             ClearFlg = true;
@@ -328,16 +329,16 @@ public class GameMain : MonoBehaviour
 
             return true;
         }
-        if (buttonup == true && Burned == true && Nowcol == false)
+        if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)
         {
-            Limit--;
-            ClearLimit++;
-            Burned = false;
-            buttonup = false;
-            Sound.PlaySe("SE_STAR", 3);
-
+            FailFlg = true;
+            if (PlayedSE == false)
+            {
+                Sound.PlaySe("SE_FAIL", 1);
+                PlayedSE = true;
+            }
+            return true;
         }
-
         return false;
     }
 
