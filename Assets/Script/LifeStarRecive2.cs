@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class LifeStarRecive2 : MonoBehaviour {
     public int ReceiveLimitNum;
+    public int GoldLimit;
+    public int SilverLimit;
     public bool clearflg;
+
     GameMain GetMain;
     //GameObject GetMainObj;
     
