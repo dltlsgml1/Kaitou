@@ -8,7 +8,7 @@ public class MovePose : MonoBehaviour {
     const float TimeEnd = 1;
 
     private bool On;
-    private bool LinearInterpolation;
+    // private bool LinearInterpolation;  使わない変数はとりあえずコメント化　--6/25 李--
     private float NowTime;
 
     public Vector3  StocDisplayOn;
