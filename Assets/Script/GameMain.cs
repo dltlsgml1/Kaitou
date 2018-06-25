@@ -143,13 +143,7 @@ public class GameMain : MonoBehaviour
 
         }
 
-
-        if (MoveCamera.ResetFlg == true)
-        {
-            Restart();
-            MoveCamera.ResetFlg = false;
-        }
-
+        
         if (Atari() == true)
         {
             MainCamera.GetComponentInParent<MoveCamera>().StopCameraOn();
