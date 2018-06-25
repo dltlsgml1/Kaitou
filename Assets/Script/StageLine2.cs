@@ -56,17 +56,17 @@ public class StageLine2 : MonoBehaviour {
     {
         if (materialcount > goldline)
         {
-            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, Lcontainer[materialcount].lightpower, 0));
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower,0, 0));
             return;
         }
         else if (materialcount > silverline)
         {
-            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, 0, 0));
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, Lcontainer[materialcount].lightpower, 0));
             return;
         }
         else
         {
-            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower,0, 0));
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, Lcontainer[materialcount].lightpower, 0));
             return;
         }
 
