@@ -1791,7 +1791,6 @@ MonoBehaviour:
   MainCamera: {fileID: 551781101}
   BlocksCount: 0
   CollapsCount: 0
-  OldCollapsCount: 0
   NormalCount: 0
   Limit: 0
   ClearedLimitNum: 0
@@ -2147,6 +2146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReceiveLimitNum: 0
+  GoldLimit: 2
+  SilverLimit: 3
   clearflg: 0
 --- !u!114 &1569380500
 MonoBehaviour:
