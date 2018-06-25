@@ -36,14 +36,14 @@ public class Tutorial : MonoBehaviour
         for(int i=0;i<30;i++)
         {
             TutorialSprite[i] = Resources.Load<Sprite>("Tutorial/Explain/tutorial" + (i+1));
-            Debug.Log(TutorialSprite[i]);
+
         }
         
     }
     
     void Update()
     {
-        if (Input.GetButtonDown("StartButton")) 
+        if (Input.GetButtonDown("StartButton")||Input.GetKeyDown(KeyCode.Space)) 
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
         switch (TutorialIndex)
