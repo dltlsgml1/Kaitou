@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class Pause : MonoBehaviour {
 
@@ -29,7 +29,7 @@ public class Pause : MonoBehaviour {
     public static bool BackStageSelect_flg = false;
     public static bool Restart_flg = false;
     Vector3 vec_Cursor;
-
+    //RectTransform rectTransform;
     // Use this for initialization
     void Start () {
         move = 0;
@@ -52,7 +52,7 @@ public class Pause : MonoBehaviour {
             && MainScript.GetComponent<GameMain>().ClearFlg ==false && fade_outflg == false 
             && MainScript.GetComponent<GameMain>().TutorialFlg == false)
         {
-            is_pause = true;
+            is_pause = !is_pause;
         }
 
         if (is_pause==true)
@@ -220,18 +220,6 @@ public class Pause : MonoBehaviour {
         }
 
 
-        /*if (Input.GetKeyDown("up"))
-        {
-            move -= 1;
-            //SE追加
-            Sound.PlaySe("se_select", 6);
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            move += 1;
-            //SE追加
-            Sound.PlaySe("se_select", 6);
-        }*/
         //Pause選択数分超えないようにループ
         if (move > move_Max)
         {
@@ -241,15 +229,17 @@ public class Pause : MonoBehaviour {
         {
             move = move_Max;
         }
-        
+
 
         vec_Cursor = Cursor.transform.localPosition;
+        //rectTransform = Cursor.GetComponent<RectTransform>();
         //Pause画面セレクト指移動
         switch (move)//位置仮置き
         {
             case 0://バック位置
                 vec_Cursor.x = -8.3f;
                 vec_Cursor.y = -2.53f;
+                //rectTransform.localPosition = new Vector3(-8.3f, -2.53f, 1.1f);
                 break;
             case 1://リスタート位置
                 vec_Cursor.x = -8.3f;
@@ -260,7 +250,8 @@ public class Pause : MonoBehaviour {
                 vec_Cursor.y = -4.59f;   
                 break;
         }
-        Cursor.transform.localPosition = vec_Cursor;        
+        Cursor.transform.localPosition = vec_Cursor;   
+        
     }
 
 
