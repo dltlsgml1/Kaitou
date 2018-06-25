@@ -188,6 +188,7 @@ public class GameMain : MonoBehaviour
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
+
                 if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
                 {
                     if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
