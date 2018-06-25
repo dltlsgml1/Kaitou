@@ -197,7 +197,7 @@ public class MoveCamera : MonoBehaviour {
         {
             Position = FormatPosition;
             Rotation = FormatRotation;
-            ResetFlg = true;
+
         }
     }
     public void InputDate()         //データの入れ込み
