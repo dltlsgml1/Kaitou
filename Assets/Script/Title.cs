@@ -15,6 +15,12 @@ public class Title : MonoBehaviour {
         Sound.LoadSe("se_ttenter", Sound.SearchFilename(Sound.eSoundFilename.TT_Enter));
         Sound.PlayBgm("bgm_title");
 
+        // デバッグ用　セーブファイル削除
+        if (Debug.isDebugBuild)
+        {
+            GameObject.Find("SaveData").GetComponent<ExportCsvScript>().DeleteFile();
+        }
+
         // セーブデータ初期化
         GameObject.Find("SaveData").GetComponent<ExportCsvScript>().Init(DefineScript.MAX_STAGE);
     }

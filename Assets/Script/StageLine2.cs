@@ -9,14 +9,22 @@ public class StageLine2 : MonoBehaviour {
         public float lightpower;
         public bool lightswitch;
     }
+    int goldline;
+    int silverline;
+
     public Material[] lightmat = new Material[9];
     LifeStarRecive2 GetLimitStarLine;
     light_container[] Lcontainer = new light_container[9];
+
+
+
 
     // Use this for initialization
     void Start()
     {
         GetLimitStarLine = GetComponentInParent<LifeStarRecive2>();
+        goldline = GetLimitStarLine.ReceiveLimitNum - (GetLimitStarLine.GoldLimit+1);
+        silverline = GetLimitStarLine.ReceiveLimitNum - (GetLimitStarLine.SilverLimit+1);
         LightLineInit();
     }
 
@@ -36,11 +44,34 @@ public class StageLine2 : MonoBehaviour {
                 {
                     Light_Delete(i);
                 }
-                lightmat[i].SetColor("_EmissionColor", new Color(Lcontainer[i].lightpower, Lcontainer[i].lightpower, 0));
+                Limit_Color(i);
+                //lightmat[i].SetColor("_EmissionColor", new Color(Lcontainer[i].lightpower, Lcontainer[i].lightpower, 0));
             }
         }
 
     }
+
+
+    void Limit_Color(int materialcount)
+    {
+        if (materialcount > goldline)
+        {
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, Lcontainer[materialcount].lightpower, 0));
+            return;
+        }
+        else if (materialcount > silverline)
+        {
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower, 0, 0));
+            return;
+        }
+        else
+        {
+            lightmat[materialcount].SetColor("_EmissionColor", new Color(Lcontainer[materialcount].lightpower,0, 0));
+            return;
+        }
+
+    }
+
 
 
     void LightLineInit()

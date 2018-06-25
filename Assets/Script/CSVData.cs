@@ -11,6 +11,9 @@ public class CSVData {
         public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
         public Nullable<int> MinCunt;      //CSVの最小Clear回数部分
+		public Nullable<int> GoldCunt;      //CSVの金評価Clear回数部分
+		public Nullable<int> SilverCunt;      //CSVの銀評価Clear回数部分
+		public Nullable<int> BronzeCunt;      //CSVの同評価Clear回数部分
         public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
         public Nullable<float> Pos_X;        //カメラのポジションX
         public Nullable<float> Pos_Y;        //カメラのポジションY
@@ -18,7 +21,6 @@ public class CSVData {
         public Nullable<float> Rot_X;        //カメラの角度X
         public Nullable<float> Rot_Y;        //カメラの角度Y
         public Nullable<float> Rot_Z;        //カメラの角度Z
-        public string StageTitle;             //CSVのTitle部分
     }
     public static List<StageDate> StageDateList = new List<StageDate>();
 
