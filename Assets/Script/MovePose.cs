@@ -28,7 +28,7 @@ public class MovePose : MonoBehaviour {
         On = false;
         NowTime = 0;
         SlideOn_Off = false;
-        LinearInterpolation = false;
+       // LinearInterpolation = false;
 	}
 	
 	// Update is called once per frame

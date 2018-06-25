@@ -48,7 +48,8 @@ public class flashcube : MonoBehaviour
                 {
                     //this.transform.GetChild(i).gameObject.SetActive(true);
                     ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
-					Debug.Log ("Particle再生" + ppp);
+
+
                     ppp.Play();
 
                 }

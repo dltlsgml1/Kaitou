@@ -23,7 +23,7 @@ public class FadeImage : MonoBehaviour
     private float NowTime;          // 現在の時間(alpha計算用)
     private float alpha;            // alpha計算用
 
-    private Renderer renderer;
+    private Renderer Render;
 
     private bool isFadingIN;
     private bool isFadingOut;
@@ -37,7 +37,7 @@ public class FadeImage : MonoBehaviour
         alpha = 0.0f;
 
         // 変更するオブジェクトのレンダラをセット
-        renderer = rend;
+        Render = rend;
 
         // 各タイムの初期化
         LookTime = looktime;
@@ -54,7 +54,7 @@ public class FadeImage : MonoBehaviour
         alpha = 0.0f;
 
         // 変更するオブジェクトのレンダラをセット
-        renderer = this.GetComponent<Renderer>();
+        Render = this.GetComponent<Renderer>();
     }
 
     public void Init(Renderer rend)
@@ -66,13 +66,13 @@ public class FadeImage : MonoBehaviour
         alpha = 0.0f;
 
         // 変更するオブジェクトのレンダラをセット
-        renderer = rend;
+        Render = rend;
     }
 
     // マテリアルのアルファ値セット
     public void SetMaterialAlpha(float alpha)
     {
-        renderer.materials[0].color = new Color(1, 1, 1, alpha);
+        Render.materials[0].color = new Color(1, 1, 1, alpha);
     }
 
     // フェード処理
