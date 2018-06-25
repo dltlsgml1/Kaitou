@@ -205,20 +205,20 @@ public class MoveCamera : MonoBehaviour {
         this.transform.position = Position;
         if (this.transform.position == OldPosition)
         {
-            MoveFlag = true;
+            MoveFlag = false;
         }
         else
         {
-            MoveFlag = false;
+            MoveFlag = true;
         }
         this.transform.rotation = Quaternion.Euler(Rotation);
         if (this.transform.rotation == OldQuaternion)
         {
-            MoveFlag = true;
+            MoveFlag = false;
         }
         else
         {
-            MoveFlag = false;
+            MoveFlag = true;
         }
     }
     public void BackStageSelect()
