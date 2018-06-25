@@ -47,7 +47,7 @@ public class MoveCamera : MonoBehaviour {
             if (Pause.is_pause) { return; }
             if (!Input.GetButton("AButton"))
             {
-                ParallelMove();
+             //   ParallelMove();
                 RotationCamera();
                 FormatDate();
                 InputDate();
