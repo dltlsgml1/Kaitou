@@ -28,6 +28,7 @@ public class Pause : MonoBehaviour {
     public static bool fade_outflg = false;
     public static bool BackStageSelect_flg = false;
     public static bool Restart_flg = false;
+    public static bool cancel_flg = false;
     Vector3 vec_Cursor;
 
     // Use this for initialization
@@ -49,10 +50,17 @@ public class Pause : MonoBehaviour {
 
         ////ｑキーでゲームバック
         if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton")) 
-            && MainScript.GetComponent<GameMain>().ClearFlg ==false && fade_outflg == false 
-            && MainScript.GetComponent<GameMain>().TutorialFlg == false)
+            && MainScript.GetComponent<GameMain>().ClearFlg ==false && fade_outflg == false //クリア、フェード中オフ
+            && MainScript.GetComponent<GameMain>().TutorialFlg == false //チュートリアル中オフ
+            && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
-            is_pause = true;
+            is_pause = !is_pause;
+            Debug.Log("is_pause" + is_pause);
+            if (is_pause==false)
+            {
+                cancel_flg = true;
+            }
+            Debug.Log("cancel_flg" + cancel_flg);
         }
 
         if (is_pause==true)
@@ -61,11 +69,14 @@ public class Pause : MonoBehaviour {
             MoveSelect();
         }
 
-        if(is_pause==true && (Input.GetButtonDown("BButton") || Input.GetButtonDown("StartButton")))//Input.GetKeyDown("w")
+
+        if((is_pause==true &&(Input.GetButtonDown("BButton"))|| cancel_flg==true))//cancel_flg = true 
         {
             OffPause();
             is_pause = false;
+            cancel_flg = false;
             Sound.PlaySe("se_paper", 5);
+            //CursorReset();
         }
 
         if (Input.GetButtonDown("AButton") && is_pause)
@@ -99,6 +110,12 @@ public class Pause : MonoBehaviour {
             }
         }
 
+
+
+        if (movepause.GetComponent<MovePose>().SlideOn_Off == false && is_pause==false)
+        {
+            CursorReset();
+        }
 
         BackStageSelect();
         RestartLoad();
@@ -220,18 +237,6 @@ public class Pause : MonoBehaviour {
         }
 
 
-        /*if (Input.GetKeyDown("up"))
-        {
-            move -= 1;
-            //SE追加
-            Sound.PlaySe("se_select", 6);
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            move += 1;
-            //SE追加
-            Sound.PlaySe("se_select", 6);
-        }*/
         //Pause選択数分超えないようにループ
         if (move > move_Max)
         {
@@ -250,6 +255,7 @@ public class Pause : MonoBehaviour {
             case 0://バック位置
                 vec_Cursor.x = -8.3f;
                 vec_Cursor.y = -2.53f;
+                //CursorReset();
                 break;
             case 1://リスタート位置
                 vec_Cursor.x = -8.3f;
@@ -288,14 +294,18 @@ public class Pause : MonoBehaviour {
             fade_count = 0;
             fade_outflg = false;
             fade.GetComponent<failed>().FadeOut_On();
-            //カーソル位置初期化
-            vec_Cursor.x = -8.3f;
-            vec_Cursor.y = -2.53f;
-            Cursor.transform.localPosition = vec_Cursor;
-            move = 0;
+            CursorReset();
         }
     }
 
+    public void CursorReset()
+    {
+        //カーソル位置初期化
+        vec_Cursor.x = -8.3f;
+        vec_Cursor.y = -2.53f;
+        Cursor.transform.localPosition = vec_Cursor;
+        move = 0;
+    } 
 
 }
 
