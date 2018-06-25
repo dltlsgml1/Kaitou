@@ -8,7 +8,8 @@ public class MoveCamera : MonoBehaviour {
     public Camera MainCamera;
     public Camera Background;
     public static bool  ResetFlg = false;
-
+    Vector3 OldPosition;                        //Moveフラグをどうにかするためのポジション
+    Quaternion OldQuaternion;                   //Moveフラグ用の旧ポジション
     Vector3 FormatPosition;                     //位置の初期化用
     Vector3 FormatRotation;                     //回転の初期化用
     public Vector3 Position;                           //位置のデータ
@@ -39,6 +40,8 @@ public class MoveCamera : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
+        OldPosition = this.transform.position;
+        OldQuaternion = this.transform.rotation;
         if (!StopCamera)
         {
             if (Pause.is_pause) { return; }
@@ -72,7 +75,6 @@ public class MoveCamera : MonoBehaviour {
     }
     public void ParallelMove()      //平行移動関数
     {
-        MoveFlag = false;
         ScreenPosition = transform.InverseTransformPoint(Position); //ワールド座標をスクリーン座標に変換
        
 
@@ -80,29 +82,34 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("RightStick X");
         if (Key != 0)
         {
-            MoveFlag = true;
+           
             if (Key < DefaultKey)
             {
-
+                MoveFlag = true;
                 ScreenPosition.x += MoveCameraSpeed;
             }
             if (Key > -DefaultKey)
             {
+                MoveFlag = true;
                 ScreenPosition.x -= MoveCameraSpeed;
             }
         }
         Key = Input.GetAxisRaw("RightStick Y");
         if (Key != 0)
         {
-            MoveFlag = true;
             if (Key > -DefaultKey)
             {
-
+                MoveFlag = true;
                 ScreenPosition.y += MoveCameraSpeed;
             }
-            
+            else
+            {
+
+            }
+
             if (Key < DefaultKey)
             {
+                MoveFlag = true;
                 ScreenPosition.y -= MoveCameraSpeed;
             }
         }
@@ -116,10 +123,10 @@ public class MoveCamera : MonoBehaviour {
         Key = Input.GetAxisRaw("LeftStick Y");
         if (Key != 0)
         {
-            MoveFlag = true;
             if (Key < DefaultKey)
             {
-                if(Rotation.x < 85)
+                //if(Rotation.x < 85)
+                if(Rotation.x < 90)
                 {
                     if (HiSpeedChangeFlag)
                         Rotation.x += ChangeSpeedFast;
@@ -130,11 +137,16 @@ public class MoveCamera : MonoBehaviour {
                     if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
                         Rotation.x += RotationCameraSpeed;
                 }
-               
+                else
+                {
+
+                }
+
             }
             if(Key > -DefaultKey)
             {
-                if (Rotation.x > -60)
+               // if (Rotation.x > -60)
+                if (Rotation.x > -90)
                 {
                     if (HiSpeedChangeFlag)
                         Rotation.x -= ChangeSpeedFast;
@@ -145,13 +157,13 @@ public class MoveCamera : MonoBehaviour {
                     if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
                         Rotation.x -= RotationCameraSpeed;
                 }
+
             }
         }
 
         Key = Input.GetAxisRaw("LeftStick X");
         if (Key != 0)
         {
-            MoveFlag = true;
             if (Key > -DefaultKey)
             {
                 if (HiSpeedChangeFlag)
@@ -163,9 +175,9 @@ public class MoveCamera : MonoBehaviour {
                 if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
                     Rotation.y += RotationCameraSpeed;
             }
+
             if (Key < DefaultKey)
             {
-
                 if (HiSpeedChangeFlag)
                     Rotation.y -= ChangeSpeedFast;
 
@@ -175,6 +187,7 @@ public class MoveCamera : MonoBehaviour {
                 if (!LowSpeedChangeFlag && !HiSpeedChangeFlag)
                     Rotation.y -= RotationCameraSpeed;
             }
+
         }
 
     }
@@ -190,7 +203,23 @@ public class MoveCamera : MonoBehaviour {
     public void InputDate()         //データの入れ込み
     {
         this.transform.position = Position;
+        if (this.transform.position == OldPosition)
+        {
+            MoveFlag = false;
+        }
+        else
+        {
+            MoveFlag = true;
+        }
         this.transform.rotation = Quaternion.Euler(Rotation);
+        if (this.transform.rotation == OldQuaternion)
+        {
+            MoveFlag = false;
+        }
+        else
+        {
+            MoveFlag = true;
+        }
     }
     public void BackStageSelect()
     {
