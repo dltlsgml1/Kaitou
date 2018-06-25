@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FadeImage : MonoBehaviour {
+public class FadeImage : MonoBehaviour
+{
 
     // フェード処理状態
-    enum STATUS{
+    enum STATUS
+    {
         LOOK = 0,       // 表示中
         INVISIBLE,      // 非表示中
         FADEIN,         // フェードイン中
@@ -22,7 +24,10 @@ public class FadeImage : MonoBehaviour {
     private float alpha;            // alpha計算用
 
     private Renderer renderer;
-    
+
+    private bool isFadingIN;
+    private bool isFadingOut;
+
     public void Init(Renderer rend, float looktime, float invisibletime, float fadetime)
     {
         // 変数初期化
@@ -95,7 +100,7 @@ public class FadeImage : MonoBehaviour {
                 {
                     NowTime += Time.deltaTime;
                 }
-                
+
                 break;
 
             case STATUS.INVISIBLE:  // ステージイメージ表示中
@@ -178,5 +183,70 @@ public class FadeImage : MonoBehaviour {
                 break;
 
         }
+    }
+
+    // フェードイン
+    public IEnumerator FadeIn(Renderer rend, float fadeTime)
+    {
+        // 排他制御
+        if (isFadingIN)
+        {
+            yield break;
+        }
+
+        isFadingIN = true;
+        rend.materials[0].color = new Color(1, 1, 1, 0);
+
+        float nowTime = 0.0f;
+        float a = 0;
+
+        while (NowTime > fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = nowTime / fadeTime;
+            rend.materials[0].color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        rend.materials[0].color = new Color(1, 1, 1, 1);
+
+        isFadingIN = false;
+
+    }
+
+    // フェードアウト
+    public IEnumerator FadeOut(Renderer rend, float fadeTime)
+    {
+        // 排他制御
+        if (isFadingOut)
+        {
+            yield break;
+        }
+
+        isFadingOut = true;
+        rend.materials[0].color = new Color(1, 1, 1, 1);
+
+        float nowTime = 0.0f;
+        float a = 1;
+
+        while (NowTime > fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = 1.0f - nowTime / fadeTime;
+            rend.materials[0].color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        rend.materials[0].color = new Color(1, 1, 1, 0);
+
+        isFadingOut = false;
     }
 }
