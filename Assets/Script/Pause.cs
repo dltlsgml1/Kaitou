@@ -16,7 +16,7 @@ public class Pause : MonoBehaviour {
     public GameObject MainScript;
     bool StickFlag = false;
     bool moved = false;
-    int count = 0;
+    // int count = 0;  使わない変数はとりあえずコメント化　--6/25 李--
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;

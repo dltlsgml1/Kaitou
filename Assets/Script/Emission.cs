@@ -80,7 +80,7 @@ public class Emission : MonoBehaviour
 
 
             float val = time;
-            float num = val * val;
+            //float num = val * val;  使わない変数はとりあえずコメント化　--6/25 李--
             // Color color = new Color(val * val, val * val, val * val);
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color);　//ここで色を入れ込む。
@@ -172,7 +172,7 @@ public class Emission : MonoBehaviour
 
 
             float val = time;
-            float num = val * val;
+           // float num = val * val;
             // Color color = new Color(val * val, val * val, val * val);
             Color color = new Color(val/2, val, 0); //エミッションの光度を変えてる。
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color);　//ここで色を入れ込む。
@@ -228,7 +228,7 @@ public class Emission : MonoBehaviour
             }
 
             float val = time;
-            float num = val * val;
+            // float num = val * val; 使わない変数はとりあえずコメント化　--6/25 李--
             // Color color = new Color(val * val, val * val, val * val);
             Color color = new Color(val/2, val, 0); //エミッションの光度を変えてる。
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。

@@ -252,7 +252,7 @@ public class StageSelect : MonoBehaviour
     }
     public void SelectStage()       //遊ぶステージの決定
     {
-        float Decision;
+        // float Decision;  使わない変数はとりあえずコメント化　--6/25 李--
         if (StageID != 0)
         {
             if (Input.GetButtonDown("AButton") && !TargetFlag)

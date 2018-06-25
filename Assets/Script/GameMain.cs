@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using System;
 public class GameMain : MonoBehaviour
 {
 
@@ -23,7 +23,7 @@ public class GameMain : MonoBehaviour
 
     Ray ray;
 
-
+    MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
     public int BlocksCount = 0;             //現在ブロックの数
@@ -45,6 +45,7 @@ public class GameMain : MonoBehaviour
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
     public bool NowCol2 = false;
+    public bool ZHantei = true;
 
     public void Restart()
     {
@@ -65,7 +66,7 @@ public class GameMain : MonoBehaviour
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
 
 
-        MoveCamera mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
+        
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
@@ -73,6 +74,7 @@ public class GameMain : MonoBehaviour
 
     void Start()
     {
+        mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
         Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
         Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
@@ -96,12 +98,14 @@ public class GameMain : MonoBehaviour
 
     void Update()
     {
+        
         BlocksCount = 0;
         NormalCount = 0;
         CollapsCount = 0;
         UnsetCollapsing = true;
         Nowcol = false;
         NowCol2 = false;
+        ZHantei = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -338,6 +342,10 @@ public class GameMain : MonoBehaviour
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
     {
+
+       
+        float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
+       
         bool temp = false;
         if (Vector2.Distance(NormalPlaneVector[BlockNow, Blockplain],
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
@@ -350,15 +358,20 @@ public class GameMain : MonoBehaviour
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                     temp = true;
+
                 }
                 else
                 {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if (Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
+                     Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f)
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 -10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
                     }
                 }
             }
@@ -372,17 +385,22 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if (Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
+                      Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f)
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
                     }
+
                 }
             }
-
         }
+
         if (temp == true)
         {
             switch (CollapsPlain)

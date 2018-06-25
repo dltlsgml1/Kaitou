@@ -181,7 +181,7 @@ public class EndFade : MonoBehaviour
 
 
             float val = time;
-            float num = val * val;
+            //float num = val * val;  使わない変数はとりあえずコメント化　--6/25 李--
             // Color color = new Color(val * val, val * val, val * val);
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。

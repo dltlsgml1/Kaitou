@@ -54,7 +54,7 @@ public class CsvLoad : MonoBehaviour {
         
         //行に分ける
         string [ ] lines = strStream.Split(new char [ ] { '\r', '\n' }, option);
-		Debug.Log (lines.Length);
+
         // 行数設定
         int h = lines.Length;
         //int h = 32;
