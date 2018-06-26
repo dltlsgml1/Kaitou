@@ -19,15 +19,58 @@ public class StageRank : MonoBehaviour {
 
         int clearCnt = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(id);
         int minCnt = (int)CSVData.StageDateList[id].MinCunt;
-        int upperCnt = (int)CSVData.StageDateList[id].UpperCunt;
-        float minTmp = clearCnt - minCnt;
-        float limTmp = (upperCnt - minCnt) / 2;
-        
-        if(minTmp < 0)
+
+        int goldRank = (int)CSVData.StageDateList[id].GoldCunt;
+        int silverRank = (int)CSVData.StageDateList[id].SilverCunt;
+        int bronzeRank = (int)CSVData.StageDateList[id].BronzeCunt;
+
+
+
+        if (minCnt < clearCnt)
         {
             sts = RANK.NORMAL;
         }
-        else if(minTmp == 0)
+        else if (clearCnt <= goldRank)
+        {
+            sts = RANK.GOLD;
+        }
+        else if (clearCnt <= silverRank)
+        {
+            sts = RANK.SILVER;
+        }
+        else
+        {
+            sts = RANK.BRONZE;
+        }
+
+        SetRank(sts);     
+    }
+
+    private void SetRank(RANK rank)
+    {
+        Rank = rank;
+    }
+
+    public RANK GetRank()
+    {
+        return Rank;
+    }
+
+    public RANK CheckRank_old(int id)
+    {
+        RANK sts;
+
+        int clearCnt = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(id);
+        int minCnt = (int)CSVData.StageDateList[id].MinCunt;
+        int upperCnt = (int)CSVData.StageDateList[id].UpperCunt;
+        float minTmp = clearCnt - minCnt;
+        float limTmp = (upperCnt - minCnt) / 2;
+
+        if (minTmp < 0)
+        {
+            sts = RANK.NORMAL;
+        }
+        else if (minTmp == 0)
         {
             sts = RANK.GOLD;
         }
@@ -40,17 +83,6 @@ public class StageRank : MonoBehaviour {
             sts = RANK.BRONZE;
         }
 
-        SetRank(sts);
-        
-    }
-
-    private void SetRank(RANK rank)
-    {
-        Rank = rank;
-    }
-
-    public RANK GetRank()
-    {
-        return Rank;
+        return sts;
     }
 }
