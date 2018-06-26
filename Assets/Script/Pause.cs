@@ -55,12 +55,17 @@ public class Pause : MonoBehaviour {
             && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
             is_pause = !is_pause;
-            Debug.Log("is_pause" + is_pause);
+            //Debug.Log("is_pause" + is_pause);
             if (is_pause==false)
             {
                 cancel_flg = true;
             }
-            Debug.Log("cancel_flg" + cancel_flg);
+            //Debug.Log("cancel_flg" + cancel_flg);
+            if (is_pause ==true)
+            {
+                CursorReset();
+            }
+
         }
 
         if (is_pause==true)
@@ -114,7 +119,7 @@ public class Pause : MonoBehaviour {
 
         if (movepause.GetComponent<MovePose>().SlideOn_Off == false && is_pause==false)
         {
-            CursorReset();
+            //CursorReset();
         }
 
         BackStageSelect();
