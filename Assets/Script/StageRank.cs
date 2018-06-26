@@ -26,7 +26,7 @@ public class StageRank : MonoBehaviour {
 
 
 
-        if (minCnt < clearCnt)
+        if (clearCnt < minCnt)
         {
             sts = RANK.NORMAL;
         }
