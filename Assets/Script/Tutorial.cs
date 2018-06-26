@@ -34,6 +34,8 @@ public class Tutorial : MonoBehaviour
     public FadeImage fadeImage;
     public float fadeTime = 0.2f;
 
+    public bool ResetCamera = false;
+
     //TutorialText.GetComponent<MeshRenderer>().materials[0].mainTexture = 
     void Start()
     {
@@ -74,6 +76,7 @@ public class Tutorial : MonoBehaviour
         switch (ExplainIndex)
         {
             case 0:
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
                 //TutorialRenderer.sprite = TutorialSprite[0];
                 if(!isChangedTutorialText && !fadeImage.GetIsFadingIn() && !fadeImage.GetIsFadingOut())
                 {
@@ -326,6 +329,8 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 7:
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+
                 //TutorialRenderer.sprite = TutorialSprite[7];
                 if (!isChangedTutorialText && !fadeImage.GetIsFadingIn() && !fadeImage.GetIsFadingOut())
                 {
@@ -349,6 +354,7 @@ public class Tutorial : MonoBehaviour
 
                 if(NormalBlock.GetComponent<Blocks>().NormalNowcol==true)
                 {
+                    MainScript.GetComponent<GameMain>().mvcamera.StopCameraOn();
                     for (int i = 0; i < Circles.Length; i++)
                     {
                         if (Circles[i] != null)
@@ -365,12 +371,6 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!fadeImage.GetIsFadingIn() && !fadeImage.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(fadeImage.SpriteFadeOut(fadeTime));
-                        isChangedTutorialText = false;
-                    }
                     if (NormalBlock.GetComponent<Blocks>().BurnFlg == true)
                     {
                         ExplainIndex++;
@@ -382,6 +382,7 @@ public class Tutorial : MonoBehaviour
                 break;
             case 8:
                 //TutorialRenderer.sprite = TutorialSprite[9];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
                 if (!isChangedTutorialText && !fadeImage.GetIsFadingIn() && !fadeImage.GetIsFadingOut())
                 {
                     fadeImage.SetSprite(TutorialSprite[9]);
@@ -643,6 +644,7 @@ public class Tutorial : MonoBehaviour
                     fadeImage.SetSprite(TutorialSprite[18]);
                     GlobalCoroutine.Go(fadeImage.SpriteFadeIn(fadeTime));
                     isChangedTutorialText = true;
+                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
                 }
 
                 if (LifeStar.activeSelf == true)

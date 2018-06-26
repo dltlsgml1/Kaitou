@@ -23,7 +23,7 @@ public class GameMain : MonoBehaviour
 
     Ray ray;
 
-    MoveCamera mvcamera;
+    public MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
     public int BlocksCount = 0;             //現在ブロックの数
@@ -45,7 +45,8 @@ public class GameMain : MonoBehaviour
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
     public bool NowCol2 = false;
-    public bool ZHantei = true;
+    public bool TutorialAtari = false;
+
 
     public void Restart()
     {
@@ -105,7 +106,7 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         Nowcol = false;
         NowCol2 = false;
-        ZHantei = false;
+
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -176,7 +177,8 @@ public class GameMain : MonoBehaviour
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-
+                if (TutorialAtari == true)
+                    continue;
                 if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
                 {
                     if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
