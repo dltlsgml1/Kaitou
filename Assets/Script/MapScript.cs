@@ -43,7 +43,7 @@ public class MapScript : MonoBehaviour {
     float rate = 0f;
     float rate2 = 0f;
     float EvenNumber = -2.2f;
-    float OddNumber = -2.6f;
+    // float OddNumber = -2.6f; 使わない変数はとりあえずコメント化　--6/25 李--
     float InitHeight = -0.8f;
     public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
     public int StageID;

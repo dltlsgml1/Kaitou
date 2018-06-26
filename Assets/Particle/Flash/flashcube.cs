@@ -7,7 +7,7 @@ public class flashcube : MonoBehaviour
 
     //GameObject Setblock;
     Blocks SetBlock;
-    GameMain SetGameMain;
+    //GameMain SetGameMain;    使わない変数はとりあえずコメント化　--6/25 李--
 
     ParticleSystem ppp;
 	GameObject pppobj;
@@ -19,7 +19,7 @@ public class flashcube : MonoBehaviour
     {
 
         SetBlock = GetComponentInParent<Blocks>();
-        SetGameMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
+        //SetGameMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
         for (int i = 0; i < this.transform.childCount; i++)
         {
             //this.transform.GetChild(i).gameObject.SetActive(false);
@@ -48,7 +48,8 @@ public class flashcube : MonoBehaviour
                 {
                     //this.transform.GetChild(i).gameObject.SetActive(true);
                     ppp = this.transform.GetChild(i).GetComponent<ParticleSystem>();
-					Debug.Log ("Particle再生" + ppp);
+
+
                     ppp.Play();
 
                 }

@@ -1577,6 +1577,7 @@ GameObject:
   - component: {fileID: 1180727677}
   - component: {fileID: 1180727679}
   - component: {fileID: 1180727680}
+  - component: {fileID: 1180727681}
   m_Layer: 0
   m_Name: MainSceneScript
   m_TagString: Untagged
@@ -1615,6 +1616,7 @@ MonoBehaviour:
   PlayedSE: 0
   PlayedSE2: 0
   NowCol2: 0
+  ZHantei: 1
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0
@@ -1716,6 +1718,21 @@ MonoBehaviour:
   TutorialIndex: 0
   ExplainIndex: 0
   ControlIndex: 0
+  isChangedTutorialText: 0
+  isNext: 0
+  fadeImage: {fileID: 0}
+  fadeTime: 0.2
+--- !u!114 &1180727681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1180727676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f3671c80a7d254daff179f85490b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1200851510
 Prefab:
   m_ObjectHideFlags: 0
