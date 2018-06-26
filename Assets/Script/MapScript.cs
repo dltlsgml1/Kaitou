@@ -92,7 +92,7 @@ public class MapScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        if (Pause.is_pause) { return; }
         if (InitFlag)
         {
             Sound.PlaySe("MapIn", 4);

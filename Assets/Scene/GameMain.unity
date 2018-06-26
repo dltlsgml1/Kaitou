@@ -1808,6 +1808,7 @@ MonoBehaviour:
   PlayedSE: 0
   PlayedSE2: 0
   NowCol2: 0
+  ZHantei: 1
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0
@@ -1840,6 +1841,10 @@ MonoBehaviour:
   move: 0
   move_Max: 2
   fade_countMax: 0
+  LineObj: {fileID: 0}
+  AnimTime: 1
+  AnimeStatoTime: 0.5
+  isLineAnim: 0
 --- !u!114 &1180727680
 MonoBehaviour:
   m_ObjectHideFlags: 0
