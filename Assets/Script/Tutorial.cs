@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Tutorial : MonoBehaviour
 {
     public static int CircleMax = 10;
+    public int Limit = 5;
     public enum CircleIndex {RightStick=0,LeftStick,BButton,SlowButton,FastButton,ResetButton,PauseButton};
     public GameObject MainScript;
     public Text text;
@@ -15,28 +16,34 @@ public class Tutorial : MonoBehaviour
     public GameObject ExplainBlock;
     public GameObject CollapsBlock;
     public GameObject NormalBlock;
-
     public GameObject ControlBlock1;
     public GameObject ControlBlock2;
     public GameObject ControlBlock3;
+    public GameObject LifeStar;
 
     public GameObject[] Circles = new GameObject[CircleMax];
-
+    public Sprite[] TutorialSprite = new Sprite[30];
+    public SpriteRenderer TutorialRenderer;
 
     public int TutorialIndex = 0;
     public int ExplainIndex = 0;
     public int ControlIndex = 0;
-    
-    // Use this for initialization
+    //TutorialText.GetComponent<MeshRenderer>().materials[0].mainTexture = 
     void Start()
     {
+        
         MainScript.GetComponent<GameMain>().TutorialFlg = true;
-    }
+        for(int i=0;i<30;i++)
+        {
+            TutorialSprite[i] = Resources.Load<Sprite>("Tutorial/Explain/tutorial" + (i+1));
 
-    // Update is called once per frame
+        }
+        
+    }
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("StartButton")||Input.GetKeyDown(KeyCode.Space)) 
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
         switch (TutorialIndex)
@@ -57,15 +64,15 @@ public class Tutorial : MonoBehaviour
         switch (ExplainIndex)
         {
             case 0:
-                text.text = "このゲームはカメラを動かし、ブロックを画面上で繋げて光を移すパズルです。";
+                TutorialRenderer.sprite = TutorialSprite[0];
                 NormalBlock.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 NormalBlock.GetComponent<Blocks>().BurnFlg = false;
                 NormalBlock.GetComponent<Blocks>().canburn = false;
-                if(Input.GetButtonDown("RButton"))  //Todo
+                if(Input.GetButtonDown("RButton"))  
                     ExplainIndex++;
                 break;
             case 1:
-                text.text = "すべてのブロックが規定回数内に\n移され光るとクリアです。";
+                TutorialRenderer.sprite = TutorialSprite[1];
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -74,13 +81,13 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetButtonDown("LButton"))   //Todo
+                if (Input.GetButtonDown("LButton"))   
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))   //Todo
+                if (Input.GetButtonDown("RButton"))   
                     ExplainIndex++;
                 break;
             case 2:
-                text.text = "コントローラの左スティックでカメラを移動します。";
+                TutorialRenderer.sprite = TutorialSprite[2];
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if(Circles[i] != null)
@@ -91,14 +98,14 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
                     Circles[(int)CircleIndex.LeftStick].SetActive(true);
-                if (Input.GetButtonDown("LButton"))   //Todo
+                if (Input.GetButtonDown("LButton"))  
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))   //Todo
+                if (Input.GetButtonDown("RButton"))   
                     ExplainIndex++;
                 break;
             case 3:
+                TutorialRenderer.sprite = TutorialSprite[3];
                 text.fontSize = 70;
-                text.text = "コントローラの右スティックでカメラを回転します。";
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -109,14 +116,14 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
                     Circles[(int)CircleIndex.RightStick].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 4:
+                TutorialRenderer.sprite = TutorialSprite[4];
                 text.fontSize = 60;
-                text.text = "ゆっくりと動かしたいときは、L2トリガーを押しながら操作します。\n早く動かしたいときは、R2トリガーを押しながら操作します。";
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -129,14 +136,14 @@ public class Tutorial : MonoBehaviour
                     Circles[(int)CircleIndex.SlowButton].SetActive(true);
                 if (Circles[(int)CircleIndex.FastButton].activeSelf == false)
                     Circles[(int)CircleIndex.FastButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))       
                     ExplainIndex++;
                 break;
             case 5:
+                TutorialRenderer.sprite = TutorialSprite[5];
                 text.fontSize = 70;
-                text.text = "スタートボタンで、ゲームをポーズすることができます。\nチュートリアルではバックメニューのみ機能します。";
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -147,13 +154,13 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.PauseButton].activeSelf == false)
                     Circles[(int)CircleIndex.PauseButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))      
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 6:
-                text.text = "バックボタンで、カメラの位置、角度を\n初期位置にリセットすることができます。";
+                TutorialRenderer.sprite = TutorialSprite[6];
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -164,13 +171,13 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.ResetButton].activeSelf == false)
                     Circles[(int)CircleIndex.ResetButton].SetActive(true);
-                if (Input.GetButtonDown("LButton"))       //Todo
+                if (Input.GetButtonDown("LButton"))       
                     ExplainIndex--;
-                if (Input.GetButtonDown("RButton"))       //Todo
+                if (Input.GetButtonDown("RButton"))      
                     ExplainIndex++;
                 break;
             case 7:
-                text.text = "それでは、ブロックを動かし、繋げてみましょう";
+                TutorialRenderer.sprite = TutorialSprite[7];
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -184,7 +191,7 @@ public class Tutorial : MonoBehaviour
                 if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
                     Circles[(int)CircleIndex.RightStick].SetActive(true);
 
-                if (Input.GetButtonDown("LButton"))          //Todo
+                if (Input.GetButtonDown("LButton"))         
                     ExplainIndex--;
 
                 if(NormalBlock.GetComponent<Blocks>().NormalNowcol==true)
@@ -197,7 +204,7 @@ public class Tutorial : MonoBehaviour
                                 Circles[i].SetActive(false);
                         }
                     }
-                    text.text = "ブロックがくっつきました！そのままAボタンを押し続けてください。";
+                    TutorialRenderer.sprite = TutorialSprite[8];
                     if (Circles[(int)CircleIndex.BButton].activeSelf == false)
                         Circles[(int)CircleIndex.BButton].SetActive(true);
                 }
@@ -205,7 +212,7 @@ public class Tutorial : MonoBehaviour
                     ExplainIndex++;
                 break;
             case 8:
-                text.text = "よくできました！ブロックが燃え移りました。\nこれでクリアとなります。";
+                TutorialRenderer.sprite = TutorialSprite[9];
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -214,9 +221,9 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Input.GetButtonDown("LButton"))          //Todo
+                if (Input.GetButtonDown("LButton"))         
                     ExplainIndex = 0;
-                if (Input.GetButtonDown("RButton"))          //Todo
+                if (Input.GetButtonDown("RButton"))          
                     TutorialIndex++;
                 break;
               }
@@ -224,6 +231,7 @@ public class Tutorial : MonoBehaviour
     }
     void Control()
     {
+        MainScript.GetComponent<GameMain>().SetBlock();
         switch (ControlIndex)
         {
             case 0:
@@ -232,18 +240,104 @@ public class Tutorial : MonoBehaviour
                     ExplainBlock.gameObject.SetActive(false);
                 if (ControlBlock1.gameObject.activeSelf == false)
                     ControlBlock1.gameObject.SetActive(true);
-                text.text = "次は、応用操作をやってみましょう。\n";
+                TutorialRenderer.sprite = TutorialSprite[10];
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
                 break;
             case 1:
+                TutorialRenderer.sprite = TutorialSprite[11];
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
                 break;
             case 2:
+                TutorialRenderer.sprite = TutorialSprite[12];
+                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
+                {
+                    TutorialRenderer.sprite = TutorialSprite[13];
+                    if (Input.GetButtonDown("RButton"))
+                        ControlIndex++;
+                }
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
                 break;
             case 3:
+                if (ControlBlock1.gameObject.activeSelf == true)
+                    ControlBlock1.gameObject.SetActive(false);
+                if (ControlBlock2.gameObject.activeSelf == false)
+                    ControlBlock2.gameObject.SetActive(true);
+                if (LifeStar.gameObject.activeSelf == false)
+                {
+                    LifeStar.gameObject.SetActive(true);
+                    MainScript.GetComponent<GameMain>().Limit = 5;
+                }
+
+                TutorialRenderer.sprite = TutorialSprite[14];
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 4:
+                TutorialRenderer.sprite = TutorialSprite[15];
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 5:
+                TutorialRenderer.sprite = TutorialSprite[16];
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
+                {
+                    TutorialRenderer.sprite = TutorialSprite[17];
+                    if (Input.GetButtonDown("RButton"))
+                        ControlIndex++;
+                }
+                break;
+            case 6:
+                if (LifeStar.activeSelf == true)
+                    LifeStar.SetActive(false);
+                if (ControlBlock2.activeSelf == true)
+                    ControlBlock2.SetActive(false);
+                if (ControlBlock3.activeSelf == false)
+                    ControlBlock3.SetActive(true);
+                TutorialRenderer.sprite = TutorialSprite[18];
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 7:
+                TutorialRenderer.sprite = TutorialSprite[19];
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                break;
+            case 8:
+                TutorialRenderer.sprite = TutorialSprite[20];
+                if(MainScript.GetComponent<GameMain>().NormalCount==0)
+                {
+                    TutorialRenderer.sprite = TutorialSprite[21];
+                    if (Input.GetButtonDown("RButton"))
+                    ControlIndex++;
+                }
+                if (Input.GetButtonDown("LButton"))
+                    ControlIndex--;
+                break;
+            case 9:
+                if (ControlBlock3.activeSelf == true)
+                    ControlBlock3.SetActive(false);
+                TutorialRenderer.sprite = TutorialSprite[22];
+                if (Input.GetButtonDown("LButton"))
+                    SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+                if (Input.GetButtonDown("RButton"))
+                    SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                 break;
         }
 
     }
-
+    //제한횟수
+    //면단위 제한
     private void OnDestroy()
     {
         MainScript.GetComponent<GameMain>().TutorialFlg = false;

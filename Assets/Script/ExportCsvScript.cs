@@ -159,6 +159,16 @@ public class ExportCsvScript : MonoBehaviour
 
     }
 
+    // ファイル削除
+    public void DeleteFile()
+    {
+        string path = Application.dataPath + "/" + FileName;
+        if (System.IO.File.Exists(path) == true)
+        {
+            System.IO.File.Delete(path);
+        }
+    }
+
     private string IdToString(int id)
     {
         string str;

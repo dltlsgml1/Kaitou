@@ -76,6 +76,9 @@ public class Sound
     // SEにアクセスするためのテーブル 
     Dictionary<string, _Data> _poolSe = new Dictionary<string, _Data>();
 
+    // BGMのフェードフラグ(多重化防止)
+    bool isFadingBgm = false;
+
     /// 保持するデータ
     class _Data
     {
@@ -328,6 +331,99 @@ public class Sound
         }
 
         return true;
+    }
+
+    // BGMのフェード
+    public static IEnumerator FadeBgm(string key, float startVol, float endVol, float fadeTime)
+    {
+        return GetInstance()._FadeBgm(key, startVol, endVol, fadeTime);
+    }
+    IEnumerator _FadeBgm(string key, float startVol, float endVol, float fadeTime)
+    {
+        if (isFadingBgm)
+        {
+            yield break;
+        }
+
+        isFadingBgm = true;
+
+        if (_poolBgm.ContainsKey(key) == false)
+        {
+            // 対応するキーがない
+            isFadingBgm = false;
+            yield break;
+        }
+
+        // リソースの取得
+        var _data = _poolBgm[key];
+
+        // 一時停止
+        var source = _GetAudioSource(eType.Bgm);
+
+        // フェードのインかアウトかを決める
+        bool fadeInFlg = false, fadeOutFlg = false;
+        if (startVol == endVol)
+        {
+            isFadingBgm = false;
+            yield break;
+        }
+        else if (startVol > endVol)
+        {
+            fadeOutFlg = true;
+        }
+        else
+        {
+            fadeInFlg = true;
+        }
+
+        // 再生開始時のボリュームセット
+        source.volume = startVol;
+
+        // 再生されていない場合再生
+        if (!source.isPlaying)
+        {
+            source.Play();
+        }
+
+        // フェードの処理
+        float nowTime = 0.0f;           // 割合計算用 時間
+        float nowVolume = startVol;     // フェードの割合で計算した大きさ
+
+        // フェードイン処理
+        if (fadeInFlg)
+        {
+            nowTime = 0.0f;
+            while (nowTime <= fadeTime)
+            {
+                nowTime += Time.deltaTime;
+                nowVolume = nowTime / fadeTime * endVol;
+                source.volume = nowVolume;
+                yield return true;
+            }
+            source.volume = endVol;
+        }
+        // フェードアウト処理
+        else if (fadeOutFlg)
+        {
+            nowTime = fadeTime;
+            while (nowTime >= 0)
+            {
+                nowTime -= Time.deltaTime;
+                nowVolume = nowTime / fadeTime * startVol;
+                source.volume = nowVolume;
+                yield return true;
+            }
+            source.volume = endVol;
+
+            // 再生する意味がないので停止
+            if (source.volume == 0.0f)
+            {
+                source.Stop();
+            }
+        }
+
+        isFadingBgm = false;
+
     }
 
     // BGMの一時停止

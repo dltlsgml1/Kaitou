@@ -19,12 +19,13 @@ public class StageSelect : MonoBehaviour
     private float Volume = 0.7f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
     public int StageID = 1;                     //ステージID
-    public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
+    public float DefaultKey = 0.8f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
     int StageNum = 20;
+    bool MoveFlag = false;
 
     public Camera ZoomIn;
 
@@ -95,11 +96,12 @@ public class StageSelect : MonoBehaviour
     {
         if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag)
         {
-            ChangeMapOpen();
+         
             StageSelectMoveFlag();      //ステージ移動フラグを立てる
             StageSelectMove();          //ステージの移動をする
             SelectStage();              //ステージの決定かタイトルに戻るよう
             Transitions();              //遷移
+            ChangeMapOpen();
         }
     }
 
@@ -108,7 +110,7 @@ public class StageSelect : MonoBehaviour
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
         
-        if (Decision < -DefaultKey && !TargetFlag)
+        if (Decision < -DefaultKey && !MoveFlag)
         {
 
             PassStageID.GetStageID(StageID);
@@ -196,6 +198,7 @@ public class StageSelect : MonoBehaviour
         {
             if (this.transform.position.x > TargetPos.x)
             {
+                MoveFlag = true;
                 if (!SePlayFlag)
                 {
                     Sound.PlaySe("Move", 0);                //ToDo　音代わるかも
@@ -205,6 +208,7 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
+                MoveFlag = false;
                 Sound.StopSe("Move", 0);                    //ToDo 音代わるかも
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
@@ -218,6 +222,7 @@ public class StageSelect : MonoBehaviour
         {
             if (this.transform.position.x < TargetPos.x)
             {
+                MoveFlag = true;
                 if (!SePlayFlag)
                 {
                     Sound.PlaySe("Move", 0);                    //ToDo　音代わるかも
@@ -228,6 +233,7 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
+                MoveFlag = false;
                 Sound.StopSe("Move", 0);                        //ToDo 音代わるかも
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
@@ -254,14 +260,6 @@ public class StageSelect : MonoBehaviour
                 Sound.PlaySe("In", 2);                     //ToDo 音代わるかも
                 Sound.StopBgm();                                //ToDo　音代わるかも
                 SelectStageFlag = true;
-            }
-        }
-        Decision = Input.GetAxisRaw("LeftStick X");
-        if (Decision < -DefaultKey)
-        {
-            if (this.transform.position.x >= 0)
-            {
-                BackTitleFlag = true;
             }
         }
     }

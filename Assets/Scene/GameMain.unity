@@ -160,7 +160,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: da708f00e9cd3b6498e44348466ba560, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -461,7 +461,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e5f813ec9ed910b48841d635cdb96f17, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -725,7 +725,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 60c86985505ba7a45b394fc093b05d65, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1007,7 +1007,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 19248b675ae836646b060cf1d13fb570, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1083,7 +1083,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 412e4d8f9bd41b849946d7a9e0ff6690, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1352,7 +1352,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 338262751d4b65e40a7770a076830419, type: 2}
+  - {fileID: 2100000, guid: 56cf7916e5f7dd64792d17cb0d494067, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1791,7 +1791,6 @@ MonoBehaviour:
   MainCamera: {fileID: 551781101}
   BlocksCount: 0
   CollapsCount: 0
-  OldCollapsCount: 0
   NormalCount: 0
   Limit: 0
   ClearedLimitNum: 0
@@ -1898,7 +1897,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 18b21bd9ce8584f4d99c0b072714eae7, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2146,7 +2145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b08b4d0608468a40add4c0ba68a40b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReceiveLimitNum: 3
+  ReceiveLimitNum: 0
+  GoldLimit: 1
+  SilverLimit: 2
   clearflg: 0
 --- !u!114 &1569380500
 MonoBehaviour:
@@ -2399,7 +2400,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0900933687231ee44a0615a563006bec, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2750,7 +2751,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 3dc5c5db073a3ab4e8556776416e6cc1, type: 2}
+  - {fileID: 2100000, guid: 3d1cfe9005561b040be34d0d83c3785c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2874,6 +2875,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e0542230ede1a4db3046b283e70240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightmat:
+  - {fileID: 2100000, guid: 56cf7916e5f7dd64792d17cb0d494067, type: 2}
+  - {fileID: 2100000, guid: 42ea78565f19bd346a81b9f5ac41b337, type: 2}
+  - {fileID: 2100000, guid: 66467036e5f61274b9b514fe9804d550, type: 2}
+  - {fileID: 2100000, guid: ab05f43269d39484aac99e72a80068ee, type: 2}
+  - {fileID: 2100000, guid: 299e5a9fc2e2d1d47b79cb180eda164c, type: 2}
+  - {fileID: 2100000, guid: 631420e001114064fa8e9ba63113e39d, type: 2}
+  - {fileID: 2100000, guid: 738b1b032d153644fb9fa30ff3e712e9, type: 2}
+  - {fileID: 2100000, guid: dd409632e2f16194293d84a522e7cc1e, type: 2}
+  - {fileID: 2100000, guid: 060ca69122e2b2e459bdbc6d2176045e, type: 2}
 --- !u!1 &2144876517
 GameObject:
   m_ObjectHideFlags: 0

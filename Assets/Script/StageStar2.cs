@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class StageStar2 : MonoBehaviour {
 
-    public struct light_container
+    struct light_container
     {
         public float light;
         public bool lightup;
     }
     public Material[] lightmat = new Material[10];
     //public GameObject SetStarlineObj;
-    LifeStarRecive2 GetLimitStarLine;
+    LifeStarRecive2 GetLimitStar;
     light_container[] Lcontainer = new light_container[10];
 
 
@@ -20,7 +20,7 @@ public class StageStar2 : MonoBehaviour {
     void Start()
     {
 
-        GetLimitStarLine = GetComponentInParent<LifeStarRecive2>();
+        GetLimitStar = GetComponentInParent<LifeStarRecive2>();
         for (int i = 0; i < this.transform.childCount; i++)
         {
             Lcontainer[i].light = 0.0f;
@@ -29,10 +29,10 @@ public class StageStar2 : MonoBehaviour {
         for (int i = 0; i < this.transform.childCount; i++)
         {
             this.transform.GetChild(i).GetComponent<MeshRenderer>().material = lightmat[i];
-            if (i < GetLimitStarLine.ReceiveLimitNum)
+            if (i < GetLimitStar.ReceiveLimitNum)
             {
                 this.transform.GetChild(i).gameObject.SetActive(true);
-                Lcontainer[i].light = 1.5f;
+                Lcontainer[i].light = 2.0f;
 
             }
             else
@@ -50,13 +50,13 @@ public class StageStar2 : MonoBehaviour {
     void Update()
     {
 
-        if (GetLimitStarLine.clearflg != true)
+        if (GetLimitStar.clearflg != true)
         {
 
 
             for (int i = 0; i < this.transform.childCount; i++)
             {
-                if (GetLimitStarLine.ReceiveLimitNum == 0)
+                if (GetLimitStar.ReceiveLimitNum == 0)
                 {
                     if (this.transform.GetChild(i).gameObject.activeSelf)
                     {
@@ -85,10 +85,10 @@ public class StageStar2 : MonoBehaviour {
 
 
 
-                    if (i < GetLimitStarLine.ReceiveLimitNum+1)
+                    if (i < GetLimitStar.ReceiveLimitNum+1)
                     {
                         Lcontainer[i].lightup = true;
-                        Lcontainer[i].light = 1.5f;
+                        Lcontainer[i].light = 2.0f;
                         this.transform.GetChild(i).gameObject.SetActive(true);
 
                     }

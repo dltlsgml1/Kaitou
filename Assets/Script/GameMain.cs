@@ -28,7 +28,6 @@ public class GameMain : MonoBehaviour
 
     public int BlocksCount = 0;             //現在ブロックの数
     public int CollapsCount = 0;            //現在燃やすブロックの数
-    public int OldCollapsCount = 0;         //上限回数をへらすときに使う
     public int NormalCount = 0;             //現在普通ブロックの数
     public int Limit;                       //現在の上限回数
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
@@ -87,6 +86,10 @@ public class GameMain : MonoBehaviour
         {
             Limit = ClearedLimitNum = PassStageID.PassUpperCount();
         }
+        else
+        {
+            Limit = 5;
+        }
 
     }
 
@@ -99,8 +102,6 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         Nowcol = false;
         NowCol2 = false;
-        if (TutorialFlg == true)
-            Limit = 3;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -142,13 +143,7 @@ public class GameMain : MonoBehaviour
 
         }
 
-
-        if (MoveCamera.ResetFlg == true)
-        {
-            Restart();
-            MoveCamera.ResetFlg = false;
-        }
-
+        
         if (Atari() == true)
         {
             MainCamera.GetComponentInParent<MoveCamera>().StopCameraOn();
@@ -167,17 +162,7 @@ public class GameMain : MonoBehaviour
     bool Atari()
     {
 
-        if (Limit == 0 && NormalCount != 0 && TutorialFlg == false)
-        {
-            FailFlg = true;
-            if (PlayedSE == false)
-            {
-                Sound.PlaySe("SE_FAIL", 1);
-                PlayedSE = true;
-            }
-            return true;
-        }
-
+       
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
@@ -187,6 +172,7 @@ public class GameMain : MonoBehaviour
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
+
                 if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
                 {
                     if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
@@ -316,6 +302,17 @@ public class GameMain : MonoBehaviour
 
 
 
+        
+        if (buttonup == true && Burned == true && Nowcol == false)
+        {
+            Limit--;
+            ClearLimit++;
+            Burned = false;
+            buttonup = false;
+            Sound.PlaySe("SE_STAR", 3);
+
+        }
+        
         if (NormalCount == 0 && TutorialFlg == false)
         {
             ClearFlg = true;
@@ -326,16 +323,16 @@ public class GameMain : MonoBehaviour
 
             return true;
         }
-        if (buttonup == true && Burned == true && Nowcol == false)
+        if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)
         {
-            Limit--;
-            ClearLimit++;
-            Burned = false;
-            buttonup = false;
-            Sound.PlaySe("SE_STAR", 3);
-
+            FailFlg = true;
+            if (PlayedSE == false)
+            {
+                Sound.PlaySe("SE_FAIL", 1);
+                PlayedSE = true;
+            }
+            return true;
         }
-
         return false;
     }
 
