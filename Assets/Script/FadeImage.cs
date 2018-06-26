@@ -24,9 +24,11 @@ public class FadeImage : MonoBehaviour
     private float alpha;            // alpha計算用
 
     private Renderer renderer;
+    private SpriteRenderer spRenderer;
 
-    private bool isFadingIN;
+    private bool isFadingIn;
     private bool isFadingOut;
+    private bool isFading = false;
 
     public void Init(Renderer rend, float looktime, float invisibletime, float fadetime)
     {
@@ -186,21 +188,21 @@ public class FadeImage : MonoBehaviour
     }
 
     // フェードイン
-    public IEnumerator FadeIn(Renderer rend, float fadeTime)
+    public IEnumerator MaterialFadeIn(Renderer rend, float fadeTime)
     {
         // 排他制御
-        if (isFadingIN)
+        if (isFadingIn)
         {
             yield break;
         }
 
-        isFadingIN = true;
+        isFadingIn = true;
         rend.materials[0].color = new Color(1, 1, 1, 0);
 
         float nowTime = 0.0f;
         float a = 0;
 
-        while (NowTime > fadeTime)
+        while (nowTime < fadeTime)
         {
             nowTime += Time.deltaTime;
 
@@ -214,12 +216,77 @@ public class FadeImage : MonoBehaviour
 
         rend.materials[0].color = new Color(1, 1, 1, 1);
 
-        isFadingIN = false;
+        isFadingIn = false;
 
     }
 
+    public IEnumerator SpriteFadeIn(SpriteRenderer spRend, float fadeTime)
+    {
+        // 排他制御
+        if (isFadingIn)
+        {
+            yield break;
+        }
+
+        isFadingIn = true;
+        spRend.color = new Color(1, 1, 1, 0);
+
+        float nowTime = 0.0f;
+        float a = 0;
+
+        while (nowTime < fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = nowTime / fadeTime;
+            spRend.color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        spRend.color = new Color(1, 1, 1, 1);
+
+        isFadingIn = false;
+
+    }
+
+    public IEnumerator SpriteFadeIn(float fadeTime)
+    {
+        // 排他制御
+        if (isFadingIn)
+        {
+            yield break;
+        }
+
+        isFadingIn = true;
+        spRenderer.color = new Color(1, 1, 1, 0);
+
+        float nowTime = 0.0f;
+        float a = 0;
+
+        while (nowTime < fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = nowTime / fadeTime;
+            spRenderer.color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        spRenderer.color = new Color(1, 1, 1, 1);
+
+        isFadingIn = false;
+
+    }
+
+
     // フェードアウト
-    public IEnumerator FadeOut(Renderer rend, float fadeTime)
+    public IEnumerator MaterialFadeOut(Renderer rend, float fadeTime)
     {
         // 排他制御
         if (isFadingOut)
@@ -233,7 +300,7 @@ public class FadeImage : MonoBehaviour
         float nowTime = 0.0f;
         float a = 1;
 
-        while (NowTime > fadeTime)
+        while (nowTime < fadeTime)
         {
             nowTime += Time.deltaTime;
 
@@ -248,5 +315,112 @@ public class FadeImage : MonoBehaviour
         rend.materials[0].color = new Color(1, 1, 1, 0);
 
         isFadingOut = false;
+    }
+
+    public IEnumerator SpriteFadeOut(SpriteRenderer spRend, float fadeTime)
+    {
+        // 排他制御
+        if (isFadingOut)
+        {
+            yield break;
+        }
+
+        isFadingOut = true;
+        spRend.color = new Color(1, 1, 1, 1);
+
+        float nowTime = 0.0f;
+        float a = 1;
+
+        while (nowTime < fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = 1.0f - nowTime / fadeTime;
+            spRend.color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        spRend.color = new Color(1, 1, 1, 0);
+
+        isFadingOut = false;
+    }
+
+    public IEnumerator SpriteFadeOut(float fadeTime)
+    {
+        // 排他制御
+        if (isFadingOut)
+        {
+            yield break;
+        }
+
+        isFadingOut = true;
+        spRenderer.color = new Color(1, 1, 1, 1);
+
+        float nowTime = 0.0f;
+        float a = 1;
+
+        while (nowTime < fadeTime)
+        {
+            nowTime += Time.deltaTime;
+
+            // 現在の時間からアルファ値の割合計算
+            a = 1.0f - nowTime / fadeTime;
+            spRenderer.color = new Color(1, 1, 1, a);
+
+            yield return true;
+
+        }
+
+        spRenderer.color = new Color(1, 1, 1, 0);
+
+        isFadingOut = false;
+    }
+
+
+    public IEnumerator FadeInToOutChangeSprite(SpriteRenderer spRend, Sprite changeSp, float fadeTime)
+    {
+        if (isFading)
+        {
+            yield break;
+        }
+
+        isFading = true;
+
+
+        yield return StartCoroutine(SpriteFadeIn(spRend, fadeTime));
+
+        spRend.sprite = changeSp;
+
+        yield return StartCoroutine(SpriteFadeOut(spRend, fadeTime));
+
+        isFading = false;
+    }
+
+    public bool GetIsFading()
+    {
+        return isFading;
+    }
+
+    public bool GetIsFadingIn()
+    {
+        return isFadingIn;
+    }
+
+    public bool GetIsFadingOut()
+    {
+        return isFadingOut;
+    }
+
+    public void SetSpriteRenderer(SpriteRenderer spRend)
+    {
+        spRenderer = spRend;
+    }
+
+    public void SetSprite(Sprite sp)
+    {
+        spRenderer.sprite = sp;
     }
 }
