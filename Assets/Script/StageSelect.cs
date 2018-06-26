@@ -110,9 +110,8 @@ public class StageSelect : MonoBehaviour
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
         
-        if (Decision < -DefaultKey && !MoveFlag)
+        if (Input.GetButtonDown("SelectButton"))
         {
-
             PassStageID.GetStageID(StageID);
             Map.enabled = true;
             this.enabled = false;
