@@ -561,7 +561,7 @@ public class Pause : MonoBehaviour
     private void InitLineAnimaton()
     {
         LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
-        LineObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        LineObj.transform.localScale = new Vector3(0.0f, 0.1f, 0.1f);
 
         tmpTime = 0.0f;
         tmpScale = 0.0f;
