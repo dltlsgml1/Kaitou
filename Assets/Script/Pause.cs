@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class Pause : MonoBehaviour {
+public class Pause : MonoBehaviour
+{
 
     public static bool is_pause = false;
     //　ポーズした時に表示するUI
@@ -20,7 +21,7 @@ public class Pause : MonoBehaviour {
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
-    public int move;    
+    public int move;
     public int move_Max; //
     private int movepause_Oncount = 0;
     private int fade_count = 0;
@@ -31,8 +32,20 @@ public class Pause : MonoBehaviour {
     public static bool cancel_flg = false;
     Vector3 vec_Cursor;
 
+    // カーソルアニメーション
+    public GameObject LineObj;
+    public float AnimTime = 0.2f;
+    public bool isLineAnim = false;
+
+    private float tmpTime = 0.0f;
+    private float tmpScale = 0.0f;
+    private float basePos;
+    private Transform tmpTrans;
+    private bool isInit = false;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         move = 0;
         move_Max = 2;
         fade_countMax = 20;
@@ -42,40 +55,57 @@ public class Pause : MonoBehaviour {
         Sound.LoadSe("se_paper", Sound.SearchFilename(Sound.eSoundFilename.PS_Paper));
         Sound.LoadSe("se_select", Sound.SearchFilename(Sound.eSoundFilename.PS_Select));
 
+        //lineObj = GameObject.Find("GameObject/Pause/Pause_Cursor/Poseline").gameObject;
+        LineObj = GameObject.Find("Poseline").gameObject;
+        //LineObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //LineObj.transform.localPosition = new Vector3(1.25f, 0.9f, 1.1f);
+        //StartCoroutine(LineAnimation(4.7f, AnimTime));
     }
-	
-	// Update is called once per frame
-	void Update () {
 
+    // Update is called once per frame
+    void Update()
+    {
+
+        // todo : これが初期化　アニメーション前にかならず行う。
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            InitLineAnimaton();
+            isLineAnim = true;
+        }
+
+        if (isLineAnim)
+        {
+            LineAnimation(4.7f, AnimTime);
+        }
 
         ////ｑキーでゲームバック
-        if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton")) 
-            && MainScript.GetComponent<GameMain>().ClearFlg ==false && fade_outflg == false //クリア、フェード中オフ
+        if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
+            && MainScript.GetComponent<GameMain>().ClearFlg == false && fade_outflg == false //クリア、フェード中オフ
             && MainScript.GetComponent<GameMain>().TutorialFlg == false //チュートリアル中オフ
             && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
             is_pause = !is_pause;
             //Debug.Log("is_pause" + is_pause);
-            if (is_pause==false)
+            if (is_pause == false)
             {
                 cancel_flg = true;
             }
             //Debug.Log("cancel_flg" + cancel_flg);
-            if (is_pause ==true)
+            if (is_pause == true)
             {
                 CursorReset();
             }
 
         }
 
-        if (is_pause==true)
-        {            
+        if (is_pause == true)
+        {
             SetPause();
             MoveSelect();
         }
 
 
-        if((is_pause==true &&(Input.GetButtonDown("BButton"))|| cancel_flg==true))//cancel_flg = true 
+        if ((is_pause == true && (Input.GetButtonDown("BButton")) || cancel_flg == true))//cancel_flg = true 
         {
             OffPause();
             is_pause = false;
@@ -88,7 +118,7 @@ public class Pause : MonoBehaviour {
         {
             is_pause = false;
             Sound.PlaySe("se_enter", 8);
-            if (MainScript.GetComponent<GameMain>().TutorialFlg==true)
+            if (MainScript.GetComponent<GameMain>().TutorialFlg == true)
             {
                 OffPause();
                 return;
@@ -117,7 +147,7 @@ public class Pause : MonoBehaviour {
 
 
 
-        if (movepause.GetComponent<MovePose>().SlideOn_Off == false && is_pause==false)
+        if (movepause.GetComponent<MovePose>().SlideOn_Off == false && is_pause == false)
         {
             //CursorReset();
         }
@@ -146,7 +176,7 @@ public class Pause : MonoBehaviour {
 
         //FedeIn();
 
-        if (fade_outflg == true && fade_count > (fade_countMax  / 3) && BackStageSelect_flg == true)
+        if (fade_outflg == true && fade_count > (fade_countMax / 3) && BackStageSelect_flg == true)
         {
             OffPause();
             BackStageSelect_flg = false;
@@ -162,8 +192,8 @@ public class Pause : MonoBehaviour {
     {
         //アニメーション追加予定
         //　ポーズUIのアクティブ、非アクティブを切り替え
-        
-        if (pauseUI.gameObject.activeSelf == false) 
+
+        if (pauseUI.gameObject.activeSelf == false)
         {
             pauseUI.SetActive(true);
             movepause_Oncount = 0;
@@ -198,9 +228,9 @@ public class Pause : MonoBehaviour {
         }
 
         //ポーズ画面非アクティブ化
-        if (pauseUI.gameObject.activeSelf==true&& movepause_Oncount >= (1 / movepause.GetComponent<MovePose>().SlideSpeed))
+        if (pauseUI.gameObject.activeSelf == true && movepause_Oncount >= (1 / movepause.GetComponent<MovePose>().SlideSpeed))
         {
-            pauseUI.SetActive(false);            
+            pauseUI.SetActive(false);
         }
 
         is_pause = false;
@@ -213,10 +243,11 @@ public class Pause : MonoBehaviour {
         float Distance = Input.GetAxisRaw("LeftStick Y");
 
         //移動先
-        if (Distance != 0) {
+        if (Distance != 0)
+        {
 
             if (Distance < -0.5f || Distance > 0.5f)
-            {          
+            {
                 StickFlag = true;
             }
             else
@@ -225,20 +256,20 @@ public class Pause : MonoBehaviour {
                 moved = false;
             }
 
-            if(StickFlag == true && moved == false && Distance < -0.5f || Input.GetKeyDown("down"))
+            if (StickFlag == true && moved == false && Distance < -0.5f || Input.GetKeyDown("down"))
             {
-                move += 1;             
+                move += 1;
                 moved = true;
                 Sound.PlaySe("se_select", 6);
             }
 
             if (StickFlag == true && moved == false && Distance > 0.5f || Input.GetKeyDown("up"))
             {
-                move -= 1;              
+                move -= 1;
                 moved = true;
                 Sound.PlaySe("se_select", 6);
             }
-         
+
         }
 
 
@@ -251,7 +282,7 @@ public class Pause : MonoBehaviour {
         {
             move = move_Max;
         }
-        
+
 
         vec_Cursor = Cursor.transform.localPosition;
         //Pause画面セレクト指移動
@@ -264,14 +295,20 @@ public class Pause : MonoBehaviour {
                 break;
             case 1://リスタート位置
                 vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -3.54f;     
+                vec_Cursor.y = -3.54f;
                 break;
             case 2://ステセレ位置
                 vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -4.59f;   
+                vec_Cursor.y = -4.59f;
                 break;
         }
-        Cursor.transform.localPosition = vec_Cursor;        
+        Cursor.transform.localPosition = vec_Cursor;
+
+        // 動いた先の座標で線のアニメーション座標を初期化
+        if (moved)
+        {
+            InitLineAnimaton();
+        }
     }
 
 
@@ -310,8 +347,111 @@ public class Pause : MonoBehaviour {
         vec_Cursor.y = -2.53f;
         Cursor.transform.localPosition = vec_Cursor;
         move = 0;
-    } 
+    }
 
+    //private IEnumerator LineAnimation(float endScale, float animTime)
+    //{
+    //    // 排他制御
+    //    if (isLineAnim)
+    //    {
+    //        yield break;
+    //    }
+
+    //    isLineAnim = true;
+
+    //    LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+    //    LineObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+    //    float time = 0.0f;
+    //    float tmp = 0.0f;
+    //    float basePos;
+    //    Transform tmpTrans;
+    //    tmpTrans = LineObj.transform;
+    //    basePos = tmpTrans.transform.localPosition.x;
+
+    //    while(time < animTime)
+    //    {
+
+    //        time += Time.deltaTime;
+
+    //        // 時間当たりの割合
+    //        tmp = (time / animTime) * endScale;
+
+    //        // 範囲外の値を反映させない用
+    //        if (tmp > endScale)
+    //        {
+    //            break;
+    //        }
+
+    //        LineObj.transform.localScale = new Vector3(tmp, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
+    //        LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+    //        LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+
+    //        yield return false;
+    //    }
+
+    //    // 補正処理
+    //    LineObj.transform.localScale = new Vector3(endScale, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
+    //    LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+    //    LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+
+    //    isLineAnim = false;
+    //    yield return true;
+    //}
+
+    private void LineAnimation(float endScale, float animTime)
+    {
+        //if (!isInit)
+        //{
+        //    InitLineAnimaton();
+        //    isInit = true;
+        //}
+
+        if (tmpTime < animTime)
+        {
+            // todo : ここをタイム関係とは別の変数で計算してほしい。
+            tmpTime += Time.deltaTime;
+
+            // 時間当たりの割合
+            tmpScale = (tmpTime / animTime) * endScale;
+
+            // 範囲外の値を反映させない用
+            if (tmpScale > endScale)
+            {
+
+            }
+            else
+            {
+                LineObj.transform.localScale = new Vector3(tmpScale, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
+                LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+                LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+            }
+
+        }
+
+        if (tmpTime > AnimTime)
+        {
+            // 補正処理
+            LineObj.transform.localScale = new Vector3(endScale, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
+            LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+            LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+            //isInit = false;
+            isLineAnim = false;
+        }
+
+    }
+
+    private void InitLineAnimaton()
+    {
+        LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+        LineObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        tmpTime = 0.0f;
+        tmpScale = 0.0f;
+        tmpTrans = LineObj.transform;
+        basePos = tmpTrans.transform.localPosition.x;
+
+    }
 }
 
 
