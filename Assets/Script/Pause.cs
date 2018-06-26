@@ -34,7 +34,8 @@ public class Pause : MonoBehaviour
 
     // カーソルアニメーション
     public GameObject LineObj;
-    public float AnimTime = 0.2f;
+    public float AnimTime = 1.0f;
+    public float AnimeStatoTime = 0.5f;
     public bool isLineAnim = false;
 
     private float tmpTime = 0.0f;
@@ -70,7 +71,6 @@ public class Pause : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             InitLineAnimaton();
-            isLineAnim = true;
         }
 
         if (isLineAnim)
@@ -410,7 +410,7 @@ public class Pause : MonoBehaviour
         if (tmpTime < animTime)
         {
             // todo : ここをタイム関係とは別の変数で計算してほしい。
-            tmpTime += Time.deltaTime;
+            tmpTime += AnimeStatoTime;//Time.deltaTime;
 
             // 時間当たりの割合
             tmpScale = (tmpTime / animTime) * endScale;
@@ -450,6 +450,7 @@ public class Pause : MonoBehaviour
         tmpScale = 0.0f;
         tmpTrans = LineObj.transform;
         basePos = tmpTrans.transform.localPosition.x;
+        isLineAnim = true;
 
     }
 }
