@@ -20,7 +20,7 @@ public class ExportCsvScript : MonoBehaviour
     {
         ClearNum = new int[max];
         MaxData = max;
-        
+        Cursor.visible = false;
         // ファイルがなければ作る
         CreateSaveFile();
 
