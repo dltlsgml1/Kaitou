@@ -19,6 +19,7 @@ public class MapScript : MonoBehaviour {
     bool RotationFlag = false;
     bool FingerFlag = false;
     bool FadeInInit = false;
+    public static bool Is_Map = false;
     private bool SelectFlag = false;
     private bool FadeInit = false;
     private bool StartFade = false;
@@ -57,7 +58,7 @@ public class MapScript : MonoBehaviour {
 
     private void OnEnable()
     {
-
+        Is_Map = true;
         Sound.StopSe("Move", 0);
        
         StageSelectObject = GameObject.Find("StagePrefab");
@@ -525,6 +526,7 @@ public class MapScript : MonoBehaviour {
                             StagePositionFlag = false;
                             PositionFlag = false;
                             RotationFlag = false;
+                            Is_Map = false;
                             CameraPositionFlag = false;
                             StageEnable.enabled = true;
                             this.enabled = false;

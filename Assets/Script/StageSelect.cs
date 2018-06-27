@@ -28,7 +28,8 @@ public class StageSelect : MonoBehaviour
     bool MoveFlag = false;
 
     public Camera ZoomIn;
-
+    public GameObject pause;
+    Pause is_pause;
     GameObject MapObject;
     MapScript Map;
     GameObject Fade;
@@ -47,6 +48,7 @@ public class StageSelect : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        is_pause = pause.GetComponent<Pause>();
         Fade = GameObject.Find("Panel");
         FadeFlag = Fade.GetComponent<StageSelectFade>();
         FadeFlag.FadeInFlag = true;
@@ -94,7 +96,7 @@ public class StageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag)
+        if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag&&!Pause.is_pause)
         {
          
             StageSelectMoveFlag();      //ステージ移動フラグを立てる
