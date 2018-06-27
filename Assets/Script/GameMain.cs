@@ -341,6 +341,8 @@ public class GameMain : MonoBehaviour
         }
         return false;
     }
+   // Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
+  //                   Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
     {
@@ -353,8 +355,11 @@ public class GameMain : MonoBehaviour
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
                       < DefineScript.JUDGE_DISTANCE)
         {
+            
+
             if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
             {
+                
                 if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                 {
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
@@ -364,11 +369,11 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
-                     Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f)
+                    if (MainCamera.GetComponentInParent<MoveCamera>().Rotation.x > -1.0f &&
+                    MainCamera.GetComponentInParent<MoveCamera>().Rotation.x < 1.0f 
+                 )
                     {
-
-                        if (distance >= DefineScript.JUDGE_DISTANCE3 -10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 -5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
                         {
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
@@ -387,11 +392,11 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
-                      Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f)
+                    if (MainCamera.GetComponentInParent<MoveCamera>().Rotation.x > -1.0f &&
+                    MainCamera.GetComponentInParent<MoveCamera>().Rotation.x < 1.0f 
+                    )
                     {
-
-                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
                         {
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
