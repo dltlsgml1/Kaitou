@@ -18,6 +18,7 @@ public class Pause : MonoBehaviour
     public MapScript mapScript;
     public StageSelect StageSelectScript;
     public TitleFade TitleFadeScript;
+    //public StageSelectFade StageSelectFadeFlg;
     bool StickFlag = false;
     bool KeyUpFlag = false;
     bool KeyDownFlag = false;
@@ -139,7 +140,7 @@ public class Pause : MonoBehaviour
             }
             else//GameScene以外
             {
-                if (StageSelectScript.GetComponent<StageSelect>().SelectStageFlag == false)
+                if (StageSelectScript.GetComponent<StageSelect>().SelectStageFlag == false) //ステージ決定中オフ
                 {
                     is_pause = !is_pause;
                     if (is_pause == false)
@@ -172,7 +173,7 @@ public class Pause : MonoBehaviour
             //CursorReset();
         }
 
-        if ((Input.GetKeyDown("y") ||Input.GetButtonDown("AButton")) && is_pause == true)
+        if (Input.GetButtonDown("AButton") && is_pause == true)
         {
             is_pause = false;
             Sound.PlaySe("se_enter", 8);
@@ -192,7 +193,7 @@ public class Pause : MonoBehaviour
                     }
                     else
                     {
-                        fade.GetComponent<StageSelectFade>().FadeInFlag = true;
+                        fade.GetComponent<StageSelectFade>().FadeOutFlag= true;
                         BackTitle_flg = true;
                     }
                     break;
@@ -205,7 +206,7 @@ public class Pause : MonoBehaviour
                     }
                     else
                     {
-                        fade.GetComponent<StageSelectFade>().FadeInFlag = true;
+                        fade.GetComponent<StageSelectFade>().FadeOutFlag = true;
                         ExeEnd_flg = true;
                     }
                     break;
@@ -282,11 +283,10 @@ public class Pause : MonoBehaviour
 
     private void BackTitle()
     {
-        //Debug.Log("BackTitle_flg" + fade.GetComponent<StageSelectFade>().FadeInFlag);
-        if (BackTitle_flg == true)// Todo フェード処理なし機能版
+        if (BackTitle_flg == true
+             && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
-            //Debug.Log("title");
-            OffPause();
+            //OffPause();
             BackTitle_flg = false;
             fade_outflg = false;
             movepause.GetComponent<MovePose>().SlideOn_Off = false;
@@ -295,42 +295,20 @@ public class Pause : MonoBehaviour
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
 
-        // Todo　フェード処理追加する
-        if (BackTitle_flg == true
-            && fade.GetComponent<StageSelectFade>().FadeInFlag == false)
-           // && fade_count > (fade_countMax / 3))
-        {
-            //Debug.Log("title");
-            OffPause();
-            BackTitle_flg = false;
-            pauseUI.SetActive(false);
-            //タイトルへ遷移処理
-            SceneManager.LoadScene("Title", LoadSceneMode.Single);
-        }
     }
 
     private void ExeEnd()
     {
-        //Debug.Log("ExeEnd_flg" + fade.GetComponent<StageSelectFade>().FadeInFlag);
-        if (ExeEnd_flg == true)// Todo フェード処理なし機能版
+  
+        if (ExeEnd_flg == true
+             && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
-            //Debug.Log("end");
             //終了処理
             Application.Quit();
             //exe以外ならタイトルへ処理
             ExeEnd_flg = false;
             PassStageID.GetStageID(0);//ステージ位置初期化
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
-        }
-
-        // Todo　フェード処理追加する
-        if (ExeEnd_flg == true
-            && fade.GetComponent<StageSelectFade>().FadeInFlag == false)
-            //&& fade_count > (fade_countMax / 3))
-        {
-            //Debug.Log("end");
-            //終了処理
-            Application.Quit();
         }
     }
 
