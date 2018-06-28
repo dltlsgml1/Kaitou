@@ -1788,6 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7a000ba58b37b4c9eeb9d6fa026c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mvcamera: {fileID: 0}
   MainCamera: {fileID: 551781101}
   BlocksCount: 0
   CollapsCount: 0
@@ -1808,7 +1809,7 @@ MonoBehaviour:
   PlayedSE: 0
   PlayedSE2: 0
   NowCol2: 0
-  ZHantei: 1
+  TutorialAtari: 0
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0
@@ -1838,11 +1839,14 @@ MonoBehaviour:
   fade: {fileID: 243639716}
   movepause: {fileID: 345355163}
   MainScript: {fileID: 1180727676}
+  mapScript: {fileID: 0}
+  StageSelectScript: {fileID: 0}
+  TitleFadeScript: {fileID: 1281713419}
   move: 0
   move_Max: 2
   fade_countMax: 0
   LineObj: {fileID: 0}
-  AnimTime: 1
+  AnimTime: 5
   AnimeStatoTime: 0.5
   isLineAnim: 0
 --- !u!114 &1180727680

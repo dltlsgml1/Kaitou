@@ -16,6 +16,8 @@ public class Pause : MonoBehaviour
     public GameObject movepause;
     public GameObject MainScript;
     public MapScript mapScript;
+    public StageSelect StageSelectScript;
+    public TitleFade TitleFadeScript;
     bool StickFlag = false;
     bool KeyUpFlag = false;
     bool KeyDownFlag = false;
@@ -25,10 +27,10 @@ public class Pause : MonoBehaviour
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
     private string currentScene;
-    public int move;
-    public int move_Max; //
     private int movepause_Oncount = 0;
     private int fade_count = 0;
+    public int move;
+    public int move_Max; //
     public int fade_countMax;
     public static bool fade_outflg = false;
     public static bool BackStageSelect_flg = false;
@@ -82,29 +84,29 @@ public class Pause : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().name;
    
         // todo : これが初期化　アニメーション前にかならず行う。
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            InitLineAnimaton();
-        }
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    InitLineAnimaton();
+        //}
 
         if (isLineAnim)
         {
             LineAnimation(4.7f, AnimTime);
         }
 
-        if ((Input.GetKeyDown("0")))
-        {
-            is_pause = !is_pause;
-            if (is_pause == false)
-            {
-                cancel_flg = true;
-            }
-            if (is_pause == true)
-            {
-                CursorReset();
-            }
+        //if ((Input.GetKeyDown("0")))
+        //{
+        //    is_pause = !is_pause;
+        //    if (is_pause == false)
+        //    {
+        //        cancel_flg = true;
+        //    }
+        //    if (is_pause == true)
+        //    {
+        //        CursorReset();
+        //    }
 
-        }
+        //}
         //Debug.Log("fade_outflg" + fade_outflg);
         //Debug.Log("SlideOn_Off" + movepause.GetComponent<MovePose>().SlideOn_Off);
 
@@ -117,7 +119,27 @@ public class Pause : MonoBehaviour
             if (currentScene == "GameMain" || currentScene == "Tutorial")
             {
                 if(MainScript.GetComponent<GameMain>().ClearFlg == false//クリア中オフ
-                && MainScript.GetComponent<GameMain>().TutorialFlg == false) //チュートリアル中オフ){
+                    && MainScript.GetComponent<GameMain>().FailFlg == false //失敗中オフ
+                    && MainScript.GetComponent<GameMain>().TutorialFlg == false) //チュートリアル中オフ){
+                {
+                    if (TitleFadeScript.GetComponent<TitleFade>().SceneChangeFlag == true) //タイトル表示中オフ 
+                    {
+
+                        is_pause = !is_pause;
+                        if (is_pause == false)
+                        {
+                            cancel_flg = true;
+                        }
+                        if (is_pause == true)
+                        {
+                            CursorReset();
+                        }
+                    }
+                }
+            }
+            else//GameScene以外
+            {
+                if (StageSelectScript.GetComponent<StageSelect>().SelectStageFlag == false)
                 {
                     is_pause = !is_pause;
                     if (is_pause == false)
@@ -129,18 +151,7 @@ public class Pause : MonoBehaviour
                         CursorReset();
                     }
                 }
-            }
-            else//GameScene以外
-            {
-                is_pause = !is_pause;
-                if (is_pause == false)
-                {
-                    cancel_flg = true;
-                }
-                if (is_pause == true)
-                {
-                    CursorReset();
-                }
+
             }
         }
 
@@ -279,6 +290,7 @@ public class Pause : MonoBehaviour
             BackTitle_flg = false;
             fade_outflg = false;
             movepause.GetComponent<MovePose>().SlideOn_Off = false;
+            PassStageID.GetStageID(0);//ステージ位置初期化
             //タイトルへ遷移処理
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
@@ -307,6 +319,7 @@ public class Pause : MonoBehaviour
             Application.Quit();
             //exe以外ならタイトルへ処理
             ExeEnd_flg = false;
+            PassStageID.GetStageID(0);//ステージ位置初期化
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
 
