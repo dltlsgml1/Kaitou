@@ -341,22 +341,17 @@ public class GameMain : MonoBehaviour
         }
         return false;
     }
-   // Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].x) - Math.Abs(CollapsBlockPosition[CollapsNow].x)) < 5.0f ||
-  //                   Math.Abs(Math.Abs(NormalBlockPosition[BlockNow].y) - Math.Abs(CollapsBlockPosition[CollapsNow].y)) < 5.0f
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
     {
 
        
-        float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
-       
+        float distance = Vector2.Distance((Vector2)CollapsBlockPosition[CollapsNow], (Vector2)NormalBlockPosition[BlockNow]);
         bool temp = false;
         if (Vector2.Distance(NormalPlaneVector[BlockNow, Blockplain],
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
                       < DefineScript.JUDGE_DISTANCE)
         {
-            Debug.Log(distance);
-
             if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
             {
                 
@@ -368,13 +363,14 @@ public class GameMain : MonoBehaviour
 
                 }
                 else
-                {
-                        if (distance >= DefineScript.JUDGE_DISTANCE3 -5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
-                        {
-                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                            temp = true;
-                        }
+                {  
+                    if((mvcamera.Rotation.x<1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f))||
+                        (mvcamera.Rotation.y < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)))
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                        temp = true;
+                    }
                 }
             }
             else
@@ -387,7 +383,8 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (distance >= DefineScript.JUDGE_DISTANCE3 - 5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
+                    if ((mvcamera.Rotation.x < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)) ||
+                        (mvcamera.Rotation.y < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)))
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
@@ -395,6 +392,7 @@ public class GameMain : MonoBehaviour
                     }
                 }
             }
+
         }
 
         if (temp == true)
