@@ -107,13 +107,14 @@ public class MapScript : MonoBehaviour {
             }
             else
             {
-                if (SelectFlag)
+                if (SelectFlag&&!FrameFade.FadeOutFlag)
                 {
                     OutMap();
                 }
                 else
                 {
-                    StageSelect();
+                    if(!FrameFade.FadeOutFlag)
+                      StageSelect();
                 }
                 
             }
@@ -192,25 +193,30 @@ public class MapScript : MonoBehaviour {
                 StagePositionFlag = false;
                 CameraPositionFlag = false;
                 Frame.transform.position = FramePosition;
-                Frame.SetActive(true);
+                 
+                FrameFade.FadeOutFlag = true;
             }
         }
     }
 
     public void MapMove()
     {
-        Finger.transform.position = Vector3.Lerp(StartPosition, EndPosition, rate);
-        rate += 0.1f;
-        //if (Finger.transform.position.x >= EndPosition.x)
-        if(Finger.transform.position==EndPosition)
-            {
-                rate = 0f;
+
+        if (FingerMoveFlag && !FrameFade.FadeOutFlag && !FrameFade.FadeInFlag && rate == 0)
+        {
+            rate = 1;
+            Debug.Log("入ってる");
+            FrameFade.FadeInFlag = true;
+        }
+        if (!FrameFade.FadeInFlag)
+        {
+            
+            rate = 0f;
             Frame.transform.position = FramePosition;
-            Frame.SetActive(true);
+            FrameFade.FadeOutFlag = true;
             FingerMoveFlag = false;
-            }
+        }
         
-       
     }
 
     public void StageSelect()
@@ -234,7 +240,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (XStickFlag == true && Xmoved == false && XDecision < -0.5f || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID = MaxStage;
                     Decision = StageID / 5;
@@ -258,7 +264,7 @@ public class MapScript : MonoBehaviour {
                 if (XStickFlag == true && Xmoved == false && XDecision > 0.5f || Input.GetKeyDown(KeyCode.RightArrow
                     ))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID = 0;
                     Decision = StageID / 5;
@@ -279,7 +285,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (XStickFlag == true && Xmoved == false && XDecision < -0.5f || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID -= 1;
                     Decision = StageID / 5;
@@ -301,7 +307,7 @@ public class MapScript : MonoBehaviour {
                 if (XStickFlag == true && Xmoved == false && XDecision > 0.5f || Input.GetKeyDown(KeyCode.RightArrow
                     ))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID += 1;
                     Decision = StageID / 5;
@@ -339,7 +345,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     Ymoved = true;
                     FingerMoveFlag = true;
@@ -360,7 +366,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID -= 5;
                     Decision = StageID / 5;
@@ -380,7 +386,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (YStickFlag == true && Ymoved == false && YDecision > 0.5f || Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID = StageID + 15;
                     Decision = StageID / 5;
@@ -400,7 +406,7 @@ public class MapScript : MonoBehaviour {
             {
                 if (YStickFlag == true && Ymoved == false && YDecision < -0.5f || Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    Frame.SetActive(false);
+                     
                     MoveFlag = false;
                     StageID = StageID - 15;
                     Decision = StageID / 5;
@@ -424,7 +430,7 @@ public class MapScript : MonoBehaviour {
         if (Input.GetButtonDown("AButton"))
         {
             Sound.PlaySe("MapSelect",3);
-            Frame.SetActive(false);
+             
             SelectFlag = true;
         }
 
