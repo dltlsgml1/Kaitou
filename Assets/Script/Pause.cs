@@ -373,62 +373,70 @@ public class Pause : MonoBehaviour
     private void MoveSelect()
     {
         float Distance = Input.GetAxisRaw("LeftStick Y");
-        //コントローラ移動判定
-        if (Distance != 0)
-        {
-            if (Distance < -0.5f || Distance > 0.5f)
-            {
-                StickFlag = true;
-                if (Distance < -0.5f)
-                {
-                    KeyDownFlag = true;
-                }
-                if (Distance > 0.5f)
-                {
-                    KeyUpFlag = true;
-                }
-            }
-            else
-            {
-                StickFlag = false;
-                moved = false;
-                //Debug.Log("KeyOFF");
-            }
 
-            //if (KeyDownFlag == true)
-            //{
-            //    CursorUP();
-            //}
-            //if (KeyDownFlag == true) 
-            //{
-            //    CursorDown();
-            //}
 
-        }
         //キー移動判定
         if (Input.GetKeyDown("up"))
         {
             KeyUpFlag = true;
             moved = false;
             CursorUP();
-            //Debug.Log("KeyUPON");
+
         }
-        //else
-        //{
-        //    KeyUpFlag = false;
-        //}
 
         if (Input.GetKeyDown("down"))
         {
             KeyDownFlag = true;
             moved = false;
             CursorDown();
+
             //Debug.Log("KeyDownON");
         }
-        //else
-        //{
-        //    KeyDownFlag = false;
-        //}
+
+        if (KeyUpFlag == false || KeyUpFlag == false)
+        {
+
+            //コントローラ移動判定
+            if (Distance != 0)
+            {
+                if (Distance < -0.5f || Distance > 0.5f)
+                {
+                    StickFlag = true;
+                    //if (Distance < -0.5f)
+                    //{
+                    //    KeyDownFlag = true;
+                    //}
+                    //if (Distance > 0.5f)
+                    //{
+                    //    KeyUpFlag = true;
+                    //}
+                }
+                else
+                {
+                    StickFlag = false;
+                    moved = false;
+                    //Debug.Log("KeyOFF");
+                }
+
+                if (moved == false && StickFlag == true && Distance > 0.5f)
+                {
+                    CursorUP();
+                    //CursorDown();
+                }
+                if (moved == false && StickFlag == true && Distance < -0.5f)
+                {
+                    CursorDown();
+                    //CursorUP();
+                }
+
+            }
+        }
+        else
+        {
+            KeyDownFlag = false;
+            KeyUpFlag = false;
+        }
+
 
         //else
         //{
@@ -588,8 +596,8 @@ public class Pause : MonoBehaviour
     {
         move -= 1;
         moved = true;
-        KeyUpFlag = false;
-        KeyDownFlag = false;
+        //KeyUpFlag = false;
+        //KeyDownFlag = false;
         InitLineAnimaton();     //アニメーション初期化
         Sound.PlaySe("se_select", 6);
         //Debug.Log("KeyUpMove");
@@ -599,8 +607,8 @@ public class Pause : MonoBehaviour
     {
         move += 1;
         moved = true;
-        KeyUpFlag = false;
-        KeyDownFlag = false;
+        //KeyUpFlag = false;
+        //KeyDownFlag = false;
         InitLineAnimaton();     //アニメーション初期化
         Sound.PlaySe("se_select", 6);
         //Debug.Log("KeyDownMovw");
