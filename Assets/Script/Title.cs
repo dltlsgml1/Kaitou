@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour {
     public GameObject tt_Faield;
-    private failed cs_failed;
+    private StageSelectFade cs_failed;
+
+    public bool EnterFlg = false;
 
 	// Use this for initialization
 	void Start () {
-        cs_failed = tt_Faield.GetComponent<failed>();
+        EnterFlg = false;
+        cs_failed = tt_Faield.GetComponent<StageSelectFade>();
         Sound.LoadBgm("bgm_title", Sound.SearchFilename(Sound.eSoundFilename.TT_TitleBgm));
         Sound.LoadSe("se_ttenter", Sound.SearchFilename(Sound.eSoundFilename.TT_Enter));
         Sound.PlayBgm("bgm_title");
@@ -29,15 +32,19 @@ public class Title : MonoBehaviour {
 	void Update () {
         if (Input.GetButtonDown("AButton"))
         {
-            cs_failed.FadeIn_On();
-            Sound.PlaySe("se_ttenter", 7);
-
+            if (EnterFlg == false)
+            {
+                EnterFlg = true;
+                cs_failed.FadeOutFlag = true;
+                Sound.PlaySe("se_ttenter", 7);
+            }
         }
-        if (cs_failed.FadeInEnd)
+        if (cs_failed.FadeOutFlag == false && EnterFlg)
         {
             Sound.StopBgm();     
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
+
 
     }
 }
