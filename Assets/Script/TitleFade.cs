@@ -56,7 +56,7 @@ public class TitleFade : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		TitleFadeSpeed = new Color(TitleObj.GetComponent<Image>().color.r, TitleObj.GetComponent<Image>().color.g, TitleObj.GetComponent<Image>().color.b, FadeS);
+		TitleFadeSpeed = new Color(TitleObj.GetComponent<SpriteRenderer>().color.r, TitleObj.GetComponent<SpriteRenderer>().color.g, TitleObj.GetComponent<SpriteRenderer>().color.b, FadeS);
 		FogFadeSpeed = new Color(FogObj.GetComponent<Renderer>().material.color.r, FogObj.GetComponent<Renderer>().material.color.g, FogObj.GetComponent<Renderer>().material.color.b, FadeS);
 
 		//カメラ操作を止める
@@ -96,13 +96,13 @@ public class TitleFade : MonoBehaviour
 			FogFadeSpeed.a += FadeS;
 
 			//オブジェクトにカラーを適用する。
-			TitleObj.GetComponent<Image>().color = TitleFadeSpeed;
+			TitleObj.GetComponent<SpriteRenderer>().color = TitleFadeSpeed;
 			FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
 
 			Debug.Log ("fog"+FogObj.GetComponent<Renderer>().material.color);
 
 			//alphaが1.0f以下いなったら入る。
-			if (TitleObj.GetComponent<Image>().color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
+			if (TitleObj.GetComponent<SpriteRenderer>().color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
 			{
 				//alphaフラグを止める。→減少ストップ
 				alphaFlag = false;
@@ -184,12 +184,12 @@ public class TitleFade : MonoBehaviour
 		FogFadeSpeed.a -= FadeS;
 
 		//数値お適用する
-		TitleObj.GetComponent<Image>().color = TitleFadeSpeed;
+		TitleObj.GetComponent<SpriteRenderer>().color = TitleFadeSpeed;
 		FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
 
 
 		//フェードアウトしたらチェンジフラグを入れる。
-		if (TitleObj.GetComponent<Image>().color.a <= 0.0f && FogObj.GetComponent<Renderer>().material.color.a <= 0.0f)
+		if (TitleObj.GetComponent<SpriteRenderer>().color.a <= 0.0f && FogObj.GetComponent<Renderer>().material.color.a <= 0.0f)
 		{
 			//シーンのチェンジ用のフラグを立てる。
 			SceneChangeFlag = true;

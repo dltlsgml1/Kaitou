@@ -1948,6 +1948,7 @@ GameObject:
   - component: {fileID: 1235596601}
   - component: {fileID: 1235596602}
   - component: {fileID: 1235596603}
+  - component: {fileID: 1235596600}
   m_Layer: 0
   m_Name: TitleTex
   m_TagString: Untagged
@@ -1973,6 +1974,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.28000045}
   m_SizeDelta: {x: 10.24, y: 10.24}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1235596600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1235596598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6936643b5dd1a4b8c8e57ea15c7ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  test: {fileID: 0}
 --- !u!114 &1235596601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3158,6 +3171,10 @@ Prefab:
       propertyPath: MainScript
       value: 
       objectReference: {fileID: 1180727677}
+    - target: {fileID: 1120945320317802, guid: 5a77fc5ac1ce45a43a7f88948e8301b8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a77fc5ac1ce45a43a7f88948e8301b8, type: 2}
   m_IsPrefabParent: 0
