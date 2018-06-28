@@ -92,7 +92,7 @@ public class Pause : MonoBehaviour
 
         if (isLineAnim)
         {
-            LineAnimation(4.7f, AnimTime);
+            LineAnimation(1.0f, AnimTime);
         }
 
         //if ((Input.GetKeyDown("0")))
@@ -679,7 +679,7 @@ public class Pause : MonoBehaviour
             else
             {
                 LineObj.transform.localScale = new Vector3(tmpScale, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
-                LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+                LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x * 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
                 LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
             }
 
@@ -689,7 +689,7 @@ public class Pause : MonoBehaviour
         {
             // 補正処理
             LineObj.transform.localScale = new Vector3(endScale, LineObj.transform.localScale.y, LineObj.transform.localScale.z);
-            LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+            LineObj.transform.localPosition = new Vector3(LineObj.transform.localScale.x * 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
             LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x + basePos, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
             //isInit = false;
             isLineAnim = false;
@@ -699,8 +699,8 @@ public class Pause : MonoBehaviour
 
     private void InitLineAnimaton()
     {
-        LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x / 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
-        LineObj.transform.localScale = new Vector3(0.0f, 0.1f, 0.1f);
+        LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x * 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
+        LineObj.transform.localScale = new Vector3(0.0f,1.0f, 0.1f);
 
         tmpTime = 0.0f;
         tmpScale = 0.0f;
