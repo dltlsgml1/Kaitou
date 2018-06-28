@@ -15,6 +15,7 @@ public class StageSelect : MonoBehaviour
     public bool FadeOutFlag = false;        //フェードアウトフラグ
     public bool FadeInitOutFlag = false;
     bool SetNowStage = false;
+    bool TutorialFlag = false;
     public bool TimeFlag = false;           //このフラグがtrueになったらzoomを止める
     private float Volume = 0.7f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
@@ -104,6 +105,7 @@ public class StageSelect : MonoBehaviour
             SelectStage();              //ステージの決定かタイトルに戻るよう
             Transitions();              //遷移
             ChangeMapOpen();
+            TutorialTransition();
         }
     }
 
@@ -264,6 +266,15 @@ public class StageSelect : MonoBehaviour
                 SelectStageFlag = true;
             }
         }
+        if (StageID == 0)
+        {
+            if (Input.GetButtonDown("AButton") && !TargetFlag)
+            {
+                Sound.PlaySe("In", 2);                     //ToDo 音代わるかも
+                Sound.StopBgm();                                //ToDo　音代わるかも
+                TutorialFlag = true;
+            }
+        }
     }
     public void Transitions()       //遷移
     {
@@ -302,6 +313,45 @@ public class StageSelect : MonoBehaviour
            // SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
     }
+
+    public void TutorialTransition()       //遷移
+    {
+        if (TutorialFlag)
+        {
+
+            if (time < MaxTime - 0.1f)
+            {
+                if (!FadeInitOutFlag)
+                {
+                    FadeFlag.FadeOutFlag = true;
+                    FadeInitOutFlag = true;
+                }
+            }
+
+            else
+            {
+                time = Mathf.PingPong(timeCount, MaxTime + 0.1f);
+                ZoomIn.orthographicSize -= 0.01f;
+            }
+
+            if (!FadeFlag.FadeOutFlag)
+            {
+                SelectStageFlag = false;
+                PassStageID.GetStageID(StageID);
+                PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
+                PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
+                PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
+                PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
+                SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            }
+        }
+        if (BackTitleFlag)
+        {
+            BackTitleFlag = false;
+            // SceneManager.LoadScene("Title", LoadSceneMode.Single);
+        }
+    }
+
 
     private void FadeImage()
     {
