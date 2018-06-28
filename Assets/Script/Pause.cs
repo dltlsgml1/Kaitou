@@ -15,12 +15,16 @@ public class Pause : MonoBehaviour
     public GameObject fade;
     public GameObject movepause;
     public GameObject MainScript;
+    public MapScript mapScript;
     bool StickFlag = false;
+    bool KeyUpFlag = false;
+    bool KeyDownFlag = false;
     bool moved = false;
     // int count = 0;  使わない変数はとりあえずコメント化　--6/25 李--
 
     //public enum PouseState { Back, Restart, Stageselect };
     //PouseState state;
+    private string currentScene;
     public int move;
     public int move_Max; //
     private int movepause_Oncount = 0;
@@ -69,8 +73,13 @@ public class Pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (MapScript.Is_Map == true)
+        {
+            return;
+        }
+
         // 現在読み込んでいるシーンの名前を取得
-        string currentScene = SceneManager.GetActiveScene().name;
+        currentScene = SceneManager.GetActiveScene().name;
    
         // todo : これが初期化　アニメーション前にかならず行う。
         if (Input.GetKeyDown(KeyCode.U))
@@ -96,8 +105,8 @@ public class Pause : MonoBehaviour
             }
 
         }
-        Debug.Log("fade_outflg" + fade_outflg);
-        Debug.Log("SlideOn_Off" + movepause.GetComponent<MovePose>().SlideOn_Off);
+        //Debug.Log("fade_outflg" + fade_outflg);
+        //Debug.Log("SlideOn_Off" + movepause.GetComponent<MovePose>().SlideOn_Off);
 
         ////ｑキーでゲームバック
         if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
@@ -164,8 +173,17 @@ public class Pause : MonoBehaviour
             switch (move)
             {
                 case 0:
-                    OffPause();
-                    Sound.PlaySe("se_paper", 5);
+
+                    if (currentScene == "GameMain")//GameScene特別な処理
+                    {
+                        OffPause();
+                        Sound.PlaySe("se_paper", 5);
+                    }
+                    else
+                    {
+                        fade.GetComponent<StageSelectFade>().FadeInFlag = true;
+                        BackTitle_flg = true;
+                    }
                     break;
                 case 1:
                     if (currentScene == "GameMain")//GameScene特別な処理
@@ -177,7 +195,7 @@ public class Pause : MonoBehaviour
                     else
                     {
                         fade.GetComponent<StageSelectFade>().FadeInFlag = true;
-                         BackTitle_flg = true;
+                        ExeEnd_flg = true;
                     }
                     break;
                 case 2:
@@ -189,8 +207,6 @@ public class Pause : MonoBehaviour
                     }
                     else
                     {
-                        fade.GetComponent<StageSelectFade>().FadeInFlag = true;
-                        ExeEnd_flg = true;
                     }
    
                     break;
@@ -256,9 +272,9 @@ public class Pause : MonoBehaviour
     private void BackTitle()
     {
         //Debug.Log("BackTitle_flg" + fade.GetComponent<StageSelectFade>().FadeInFlag);
-        if (BackTitle_flg == true)// Todo
+        if (BackTitle_flg == true)// Todo フェード処理なし機能版
         {
-            Debug.Log("title");
+            //Debug.Log("title");
             OffPause();
             BackTitle_flg = false;
             fade_outflg = false;
@@ -267,11 +283,12 @@ public class Pause : MonoBehaviour
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
 
+        // Todo　フェード処理追加する
         if (BackTitle_flg == true
             && fade.GetComponent<StageSelectFade>().FadeInFlag == false)
            // && fade_count > (fade_countMax / 3))
         {
-            Debug.Log("title");
+            //Debug.Log("title");
             OffPause();
             BackTitle_flg = false;
             pauseUI.SetActive(false);
@@ -283,9 +300,9 @@ public class Pause : MonoBehaviour
     private void ExeEnd()
     {
         //Debug.Log("ExeEnd_flg" + fade.GetComponent<StageSelectFade>().FadeInFlag);
-        if (ExeEnd_flg == true)// Todo
+        if (ExeEnd_flg == true)// Todo フェード処理なし機能版
         {
-            Debug.Log("end");
+            //Debug.Log("end");
             //終了処理
             Application.Quit();
             //exe以外ならタイトルへ処理
@@ -293,11 +310,12 @@ public class Pause : MonoBehaviour
             SceneManager.LoadScene("Title", LoadSceneMode.Single);
         }
 
+        // Todo　フェード処理追加する
         if (ExeEnd_flg == true
             && fade.GetComponent<StageSelectFade>().FadeInFlag == false)
             //&& fade_count > (fade_countMax / 3))
         {
-            Debug.Log("end");
+            //Debug.Log("end");
             //終了処理
             Application.Quit();
         }
@@ -354,49 +372,149 @@ public class Pause : MonoBehaviour
 
     private void MoveSelect()
     {
-        //ある座標に向かって移動アニメーション追加予定
         float Distance = Input.GetAxisRaw("LeftStick Y");
-
-        //移動先
+        //コントローラ移動判定
         if (Distance != 0)
         {
-
             if (Distance < -0.5f || Distance > 0.5f)
             {
                 StickFlag = true;
+                if (Distance < -0.5f)
+                {
+                    KeyDownFlag = true;
+                }
+                if (Distance > 0.5f)
+                {
+                    KeyUpFlag = true;
+                }
             }
             else
             {
                 StickFlag = false;
                 moved = false;
+                //Debug.Log("KeyOFF");
             }
 
-            if (moved == false && ((StickFlag == true && Distance < -0.5f) || Input.GetKeyDown("down")))
-            {
-                move += 1;
-                moved = true;
-                Sound.PlaySe("se_select", 6);
-            }
-
-            if (moved == false && ((StickFlag == true && Distance > 0.5f) || Input.GetKeyDown("up")))
-            {
-                move -= 1;
-                moved = true;
-                Sound.PlaySe("se_select", 6);
-            }
+            //if (KeyDownFlag == true)
+            //{
+            //    CursorUP();
+            //}
+            //if (KeyDownFlag == true) 
+            //{
+            //    CursorDown();
+            //}
 
         }
+        //キー移動判定
+        if (Input.GetKeyDown("up"))
+        {
+            KeyUpFlag = true;
+            moved = false;
+            CursorUP();
+            //Debug.Log("KeyUPON");
+        }
+        //else
+        //{
+        //    KeyUpFlag = false;
+        //}
 
+        if (Input.GetKeyDown("down"))
+        {
+            KeyDownFlag = true;
+            moved = false;
+            CursorDown();
+            //Debug.Log("KeyDownON");
+        }
+        //else
+        //{
+        //    KeyDownFlag = false;
+        //}
+
+        //else
+        //{
+        //    KeyFlag = false;
+        //    moved = false;
+        //    Debug.Log("KeyOFF");
+        //}
+        //Debug.Log("KeyUpFlag " + KeyUpFlag);
+        //Debug.Log("KeyDownFlag " + KeyDownFlag);
+
+        /*
+        //移動判定
+        //if (moved == false && ((StickFlag == true && Distance < -0.5f) || KeyUpFlag == true))
+        //{
+        //    move -= 1;
+        //    moved = true;
+        //    KeyUpFlag = false;
+        //    KeyDownFlag = false;
+        //    InitLineAnimaton();     //アニメーション初期化
+        //    Sound.PlaySe("se_select", 6);
+        //    Debug.Log("KeyUpMove");
+        //}
+        //if (moved == false && KeyUpFlag == true)
+        //{
+        //    move -= 1;
+        //    moved = true;
+        //    KeyUpFlag = false;
+        //    KeyDownFlag = false;
+        //    InitLineAnimaton();     //アニメーション初期化
+        //    Sound.PlaySe("se_select", 6);
+        //    Debug.Log("KeyUpMove");
+        //}
+        //if (moved == false && ((StickFlag == true && Distance > 0.5f) || KeyDownFlag == true))
+        //{
+        //    move += 1;
+        //    moved = true;
+        //    KeyUpFlag = false;
+        //    KeyDownFlag = false;
+        //    InitLineAnimaton();     //アニメーション初期化
+        //    Sound.PlaySe("se_select", 6);
+        //    //Debug.Log("KeyDownMovw");
+        //}
+        //if (moved == false &&  KeyDownFlag == true)
+        //{
+        //    move += 1;
+        //    moved = true;
+        //    KeyUpFlag = false;
+        //    KeyDownFlag = false;
+        //    InitLineAnimaton();     //アニメーション初期化
+        //    Sound.PlaySe("se_select", 6);
+        //    //Debug.Log("KeyDownMovw");
+        //}
+        //if (moved == false && KeyUpFlag == true)
+        //{
+        //    CursorUP();
+        //}
+        //if (moved == false && KeyDownFlag == true)
+        //{
+        //    CursorDown();
+        //}
+        */
 
         //Pause選択数分超えないようにループ
-        if (move > move_Max)
+        if (currentScene == "GameMain")
         {
-            move = 0;
+            if (move > move_Max)
+            {
+                move = 0;
+            }
+            if (move < 0)
+            {
+                move = move_Max;
+            }
         }
-        if (move < 0)
+        else
         {
-            move = move_Max;
+            if (move > (move_Max-1))
+            {
+                move = 0;
+            }
+            if (move < 0)
+            {
+                move = move_Max-1;
+            }
         }
+ 
 
 
         vec_Cursor = Cursor.transform.localPosition;
@@ -422,8 +540,9 @@ public class Pause : MonoBehaviour
         // 動いた先の座標で線のアニメーション座標を初期化
         if (moved)
         {
-            InitLineAnimaton();
+            //InitLineAnimaton();
         }
+        //Debug.Log("move" + move);
     }
 
 
@@ -462,9 +581,30 @@ public class Pause : MonoBehaviour
         vec_Cursor.y = -2.53f;
         Cursor.transform.localPosition = vec_Cursor;
         move = 0;
+        moved = false;
     }
 
+    private void CursorUP()
+    {
+        move -= 1;
+        moved = true;
+        KeyUpFlag = false;
+        KeyDownFlag = false;
+        InitLineAnimaton();     //アニメーション初期化
+        Sound.PlaySe("se_select", 6);
+        //Debug.Log("KeyUpMove");
+    }
 
+    private void CursorDown()
+    {
+        move += 1;
+        moved = true;
+        KeyUpFlag = false;
+        KeyDownFlag = false;
+        InitLineAnimaton();     //アニメーション初期化
+        Sound.PlaySe("se_select", 6);
+        //Debug.Log("KeyDownMovw");
+    }
 
     //private IEnumerator LineAnimation(float endScale, float animTime)
     //{
@@ -535,7 +675,7 @@ public class Pause : MonoBehaviour
             // 範囲外の値を反映させない用
             if (tmpScale > endScale)
             {
-
+                //moved = false;
             }
             else
             {
@@ -568,7 +708,7 @@ public class Pause : MonoBehaviour
         tmpTrans = LineObj.transform;
         basePos = tmpTrans.transform.localPosition.x;
         isLineAnim = true;
-
+        //moved = false;
     }
 }
 
