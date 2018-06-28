@@ -355,7 +355,7 @@ public class GameMain : MonoBehaviour
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
                       < DefineScript.JUDGE_DISTANCE)
         {
-            
+            Debug.Log(distance);
 
             if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
             {
@@ -369,17 +369,12 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (MainCamera.GetComponentInParent<MoveCamera>().Rotation.x > -1.0f &&
-                    MainCamera.GetComponentInParent<MoveCamera>().Rotation.x < 1.0f 
-                 )
-                    {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 -5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
                         {
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                             temp = true;
                         }
-                    }
                 }
             }
             else
@@ -392,18 +387,12 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (MainCamera.GetComponentInParent<MoveCamera>().Rotation.x > -1.0f &&
-                    MainCamera.GetComponentInParent<MoveCamera>().Rotation.x < 1.0f 
-                    )
+                    if (distance >= DefineScript.JUDGE_DISTANCE3 - 5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
                     {
-                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 5.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 5.0f)
-                        {
-                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                            temp = true;
-                        }
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                        temp = true;
                     }
-
                 }
             }
         }
