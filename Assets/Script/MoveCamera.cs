@@ -44,7 +44,7 @@ public class MoveCamera : MonoBehaviour {
         OldQuaternion = this.transform.rotation;
         if (!StopCamera)
         {
-            //if (Pause.is_pause) { return; }
+            if (Pause.is_pause) { return; }
             if (!Input.GetButton("AButton"))
             {
              //   ParallelMove();
