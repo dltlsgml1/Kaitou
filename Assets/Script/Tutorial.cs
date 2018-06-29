@@ -12,9 +12,9 @@ public class Tutorial : MonoBehaviour
         num_values
     }
 
-    public static int CircleMax = 10;
+    public static int CircleMax = 4;
     public int Limit = 5;
-    public enum CircleIndex { RightStick = 0, LeftStick, BButton, SlowButton, FastButton, ResetButton, PauseButton };
+    public enum CircleIndex { LeftStick = 0, AButton, SlowButton, FastButton };
     public GameObject MainScript;
     public GameObject ExplainBlock;
     public GameObject CollapsBlock;
@@ -23,7 +23,6 @@ public class Tutorial : MonoBehaviour
     public GameObject ControlBlock2;
     public GameObject ControlBlock3;
     public GameObject LifeStar;
-    public GameObject ControllerImage;
 
     public GameObject[] Circles = new GameObject[CircleMax];
     public Sprite[] TutorialSprite = new Sprite[(int)TUTORIAL_SPRITE.num_values];
@@ -50,6 +49,18 @@ public class Tutorial : MonoBehaviour
     public bool TextNextFlg = false;
     public bool isFadeStartTextBack = false;
     public bool isFadeStartTextNext = false;
+
+    public bool FadeControllerFlg = false;
+    public FadeImage FadeController;
+    public SpriteRenderer ControllerRenderer;
+
+    public bool FadeControllerInfoFlg = false;
+    public FadeImage FadeControllerInfo;
+    public SpriteRenderer ControllerInfoRenderer;
+
+    public bool FadeControllerInfoFrameFlg = false;
+    public FadeImage FadeControllerInfoFrame;
+    public SpriteRenderer ControllerInfoFrameRenderer;
 
 
     //MainScript.GetComponent<GameMain>().TutorialAtari = true;     // 判定きかない 判定OFF
@@ -89,6 +100,9 @@ public class Tutorial : MonoBehaviour
         isFadeStartTextBack = false;
         isFadeStartTextNext = false;
 
+        FadeControllerFlg = false;
+        FadeControllerInfoFlg = false;
+        FadeControllerInfoFrameFlg = false;
 
         // スプライト初期化
         InitSprite();
@@ -109,6 +123,22 @@ public class Tutorial : MonoBehaviour
         TextNextFade.SetSpriteRenderer(TextNextRenderer);
         TextNextRenderer.color = new Color(1, 1, 1, 0);
 
+        FadeController = GameObject.Find("Controller").GetComponent<FadeImage>();
+        ControllerRenderer = GameObject.Find("Controller").GetComponent<SpriteRenderer>();
+        FadeController.SetSpriteRenderer(ControllerRenderer);
+        ControllerRenderer.color = new Color(1, 1, 1, 0);
+
+        FadeControllerInfo = GameObject.Find("Controller_info_Image").GetComponent<FadeImage>();
+        ControllerInfoRenderer = GameObject.Find("Controller_info_Image").GetComponent<SpriteRenderer>();
+        FadeControllerInfo.SetSpriteRenderer(ControllerInfoRenderer);
+        ControllerInfoRenderer.color = new Color(1, 1, 1, 0);
+
+        FadeControllerInfoFrame = GameObject.Find("Controller_info_Frame").GetComponent<FadeImage>();
+        ControllerInfoFrameRenderer = GameObject.Find("Controller_info_Frame").GetComponent<SpriteRenderer>();
+        FadeControllerInfoFrame.SetSpriteRenderer(ControllerInfoFrameRenderer);
+        ControllerInfoFrameRenderer.color = new Color(1, 1, 1, 0);
+
+
         // チュートリアルテキスト読み込み
         for (int i = 0; i < (int)TUTORIAL_SPRITE.TEXT_INDEX; i++)
         {
@@ -125,12 +155,10 @@ public class Tutorial : MonoBehaviour
         switch (TutorialIndex)
         {
             case 0:
-                //Explain();
-                Explain2();
+                Explain();
                 break;
             case 1:
-                //Control();
-                Control2();
+                Control();
                 break;
             case 2:
                 break;
@@ -150,12 +178,14 @@ public class Tutorial : MonoBehaviour
             if (TextBackFlg)
             {
                 isFadeStartTextBack = false;
-                GlobalCoroutine.Go(TextBackFade.SpriteFadeIn(FadeTime));
+                //GlobalCoroutine.Go(TextBackFade.SpriteFadeIn(FadeTime));
+                GlobalCoroutine.Go(TextBackFade.SpriteFadeIn(FadeTime), "FadeBackText");
             }
             else
             {
                 isFadeStartTextBack = false;
-                GlobalCoroutine.Go(TextBackFade.SpriteFadeOut(FadeTime));
+                //GlobalCoroutine.Go(TextBackFade.SpriteFadeOut(FadeTime));
+                GlobalCoroutine.Go(TextBackFade.SpriteFadeOut(FadeTime), "FadeBackText");
             }
         }
     }
@@ -168,12 +198,14 @@ public class Tutorial : MonoBehaviour
             if (TextNextFlg)
             {
                 isFadeStartTextNext = false;
-                GlobalCoroutine.Go(TextNextFade.SpriteFadeIn(FadeTime));
+                //GlobalCoroutine.Go(TextNextFade.SpriteFadeIn(FadeTime));
+                GlobalCoroutine.Go(TextNextFade.SpriteFadeIn(FadeTime), "FadeNextText");
             }
             else
             {
                 isFadeStartTextNext = false;
-                GlobalCoroutine.Go(TextNextFade.SpriteFadeOut(FadeTime));
+                //GlobalCoroutine.Go(TextNextFade.SpriteFadeOut(FadeTime));
+                GlobalCoroutine.Go(TextNextFade.SpriteFadeOut(FadeTime), "FadeNextText");
             }
         }
     }
@@ -217,8 +249,14 @@ public class Tutorial : MonoBehaviour
         {
             case 0:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[0];
+                if (!FadeControllerFlg)
+                {
+                    FadeControllerFlg = true;
+                    GlobalCoroutine.Go(FadeController.SpriteFadeIn(FadeTime));
+                }
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[0]);
@@ -243,48 +281,12 @@ public class Tutorial : MonoBehaviour
                 }
                 break;
             case 1:
-                //TutorialRenderer.sprite = TutorialSprite[1];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[1]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                    SetInfoFlg(true, true);
-                }
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                        SetInfoFlg(false, false);
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                        SetInfoFlg(false, false);
-                    }
-                }
-
-                break;
-            case 2:
-                //TutorialRenderer.sprite = TutorialSprite[2];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[2]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
                     SetInfoFlg(true, true);
@@ -320,15 +322,17 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
-            case 3:
-                //TutorialRenderer.sprite = TutorialSprite[3];
+            case 2:
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    TutorialText.SetSprite(TutorialSprite[3]);
+                    TutorialText.SetSprite(TutorialSprite[2]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetInfoFlg(true, true);
                 }
-
                 for (int i = 0; i < Circles.Length; i++)
                 {
                     if (Circles[i] != null)
@@ -337,320 +341,10 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
-                    Circles[(int)CircleIndex.RightStick].SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 4:
-                //TutorialRenderer.sprite = TutorialSprite[4];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[4]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-                if (Circles[(int)CircleIndex.SlowButton].activeSelf == false)
-                    Circles[(int)CircleIndex.SlowButton].SetActive(true);
                 if (Circles[(int)CircleIndex.FastButton].activeSelf == false)
                     Circles[(int)CircleIndex.FastButton].SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 5:
-                //TutorialRenderer.sprite = TutorialSprite[5];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[5]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-                if (Circles[(int)CircleIndex.PauseButton].activeSelf == false)
-                    Circles[(int)CircleIndex.PauseButton].SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 6:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-
-                //TutorialRenderer.sprite = TutorialSprite[6];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[6]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-                if (Circles[(int)CircleIndex.ResetButton].activeSelf == false)
-                    Circles[(int)CircleIndex.ResetButton].SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 7:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
-
-                //TutorialRenderer.sprite = TutorialSprite[7];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[7]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-                if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
-                    Circles[(int)CircleIndex.LeftStick].SetActive(true);
-                if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
-                    Circles[(int)CircleIndex.RightStick].SetActive(true);
-
-                if (NormalBlock.GetComponent<Blocks>().NormalNowcol == true)
-                {
-                    MainScript.GetComponent<GameMain>().mvcamera.StopCameraOn();
-                    for (int i = 0; i < Circles.Length; i++)
-                    {
-                        if (Circles[i] != null)
-                        {
-                            if (Circles[i].activeSelf == true)
-                                Circles[i].SetActive(false);
-                        }
-                    }
-                    TutorialRenderer.sprite = TutorialSprite[8];
-                    if (Circles[(int)CircleIndex.BButton].activeSelf == false)
-                        Circles[(int)CircleIndex.BButton].SetActive(true);
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (NormalBlock.GetComponent<Blocks>().BurnFlg == true)
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 8:
-                //TutorialRenderer.sprite = TutorialSprite[9];
-                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[9]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (NormalBlock.GetComponent<Blocks>().BurnFlg == true && Input.GetButtonDown("RButton"))
-                    {
-                        TutorialIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-        }
-
-    }
-
-    void Explain2()
-    {
-        switch (ExplainIndex)
-        {
-            case 0:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-
-                //TutorialRenderer.sprite = TutorialSprite[0];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[0]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                    SetNextTextFlg(true);
-                }
-                NormalBlock.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
-                NormalBlock.GetComponent<Blocks>().BurnFlg = false;
-                NormalBlock.GetComponent<Blocks>().canburn = false;
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                        SetNextTextFlg(false);
-                    }
-                }
-                break;
-            case 1:
-                //TutorialRenderer.sprite = TutorialSprite[1];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[1]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                    SetInfoFlg(true, true);
-                }
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ExplainIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                        SetInfoFlg(false, false);
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ExplainIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                        SetInfoFlg(false, false);
-                    }
-                }
-
-                break;
-            case 2:
-                //TutorialRenderer.sprite = TutorialSprite[2];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[2]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                    SetInfoFlg(true, true);
-                }
-                for (int i = 0; i < Circles.Length; i++)
-                {
-                    if (Circles[i] != null)
-                    {
-                        if (Circles[i].activeSelf == true)
-                            Circles[i].SetActive(false);
-                    }
-                }
-                if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
-                    Circles[(int)CircleIndex.LeftStick].SetActive(true);
+                if (Circles[(int)CircleIndex.SlowButton].activeSelf == false)
+                    Circles[(int)CircleIndex.SlowButton].SetActive(true);
 
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
@@ -675,8 +369,8 @@ public class Tutorial : MonoBehaviour
 
             case 3:
                 MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[7];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
                     TutorialText.SetSprite(TutorialSprite[3]);
@@ -708,8 +402,6 @@ public class Tutorial : MonoBehaviour
                 }
                 if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
                     Circles[(int)CircleIndex.LeftStick].SetActive(true);
-                if (Circles[(int)CircleIndex.RightStick].activeSelf == false)
-                    Circles[(int)CircleIndex.RightStick].SetActive(true);
 
                 if (NormalBlock.GetComponent<Blocks>().NormalNowcol == true)
                 {
@@ -731,7 +423,6 @@ public class Tutorial : MonoBehaviour
                         }
                     }
                     // todo: フェード入れる
-                    //TutorialRenderer.sprite = TutorialSprite[4];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && isNext)
                     {
                         TutorialText.SetSprite(TutorialSprite[4]);
@@ -739,8 +430,8 @@ public class Tutorial : MonoBehaviour
                         isChangedTutorialText = true;
                     }
 
-                    if (Circles[(int)CircleIndex.BButton].activeSelf == false)
-                        Circles[(int)CircleIndex.BButton].SetActive(true);
+                    if (Circles[(int)CircleIndex.AButton].activeSelf == false)
+                        Circles[(int)CircleIndex.AButton].SetActive(true);
                 }
 
                 // フェード中かどうか
@@ -757,8 +448,9 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 4:
-                //TutorialRenderer.sprite = TutorialSprite[9];
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[5]);
@@ -785,13 +477,28 @@ public class Tutorial : MonoBehaviour
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
+                        if (FadeControllerFlg)
+                        {
+                            FadeControllerFlg = false;
+                            GlobalCoroutine.Go(FadeController.SpriteFadeOut(FadeTime));
+                        }
                     }
                 }
 
                 break;
 
             case 5:
-                //TutorialRenderer.sprite = TutorialSprite[2];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
+                if(!FadeControllerInfoFlg && !FadeControllerInfoFrameFlg)
+                {
+                    FadeControllerInfoFlg = true;
+                    FadeControllerInfoFrameFlg = true;
+                    GlobalCoroutine.Go(FadeControllerInfo.SpriteFadeIn(FadeTime));
+                    GlobalCoroutine.Go(FadeControllerInfoFrame.SpriteFadeIn(FadeTime));
+                }
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[6]);
@@ -807,8 +514,6 @@ public class Tutorial : MonoBehaviour
                             Circles[i].SetActive(false);
                     }
                 }
-                if (Circles[(int)CircleIndex.LeftStick].activeSelf == false)
-                    Circles[(int)CircleIndex.LeftStick].SetActive(true);
 
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
@@ -819,6 +524,15 @@ public class Tutorial : MonoBehaviour
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
+
+                        if (FadeControllerInfoFlg && FadeControllerInfoFrameFlg)
+                        {
+                            FadeControllerInfoFlg = false;
+                            FadeControllerInfoFrameFlg = false;
+                            GlobalCoroutine.Go(FadeControllerInfo.SpriteFadeOut(FadeTime));
+                            GlobalCoroutine.Go(FadeControllerInfoFrame.SpriteFadeOut(FadeTime));
+                        }
+
                     }
                 }
 
@@ -835,380 +549,9 @@ public class Tutorial : MonoBehaviour
         switch (ControlIndex)
         {
             case 0:
-                if (ControllerImage.activeSelf == true)
-                    ControllerImage.SetActive(false);
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[10];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[10]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                MainScript.GetComponent<GameMain>().SetBlock();
-                if (ExplainBlock.gameObject.activeSelf == true)
-                    ExplainBlock.gameObject.SetActive(false);
-                if (ControlBlock1.gameObject.activeSelf == false)
-                    ControlBlock1.gameObject.SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 1:
-                //TutorialRenderer.sprite = TutorialSprite[11];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[11]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 2:
                 MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[12];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[12]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                if (MainScript.GetComponent<GameMain>().NormalCount == 0)       // todo 判定つくってやる
-                {
-                    if (!isNext)
-                    {
-                        isChangedTutorialText = false;
-                        isNext = true;
-                    }
-
-                    //TutorialRenderer.sprite = TutorialSprite[13];
-                    if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        TutorialText.SetSprite(TutorialSprite[13]);
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                        isChangedTutorialText = true;
-                    }
-
-                    // フェード中かどうか
-                    if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        if (Input.GetButtonDown("RButton"))
-                        {
-                            ControlIndex++;
-                            GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                            isChangedTutorialText = false;
-                            isNext = false;
-                        }
-                    }
-
-                }
-
-                break;
-            case 3:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[14];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[14]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                if (ControlBlock1.gameObject.activeSelf == true)
-                    ControlBlock1.gameObject.SetActive(false);
-                if (ControlBlock2.gameObject.activeSelf == false)
-                    ControlBlock2.gameObject.SetActive(true);
-                if (LifeStar.gameObject.activeSelf == false)
-                {
-                    LifeStar.gameObject.SetActive(true);
-                    MainScript.GetComponent<GameMain>().Limit = 5;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 4:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[15];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[15]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-
-                break;
-            case 5:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[16];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[16]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
-                {
-                    if (!isNext)
-                    {
-                        isChangedTutorialText = false;
-                        isNext = true;
-                    }
-
-                    //TutorialRenderer.sprite = TutorialSprite[17];
-                    if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        TutorialText.SetSprite(TutorialSprite[17]);
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                        isChangedTutorialText = true;
-                    }
-
-                    // フェード中かどうか
-                    if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        if (Input.GetButtonDown("RButton"))
-                        {
-                            ControlIndex++;
-                            GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                            isChangedTutorialText = false;
-                            isNext = false;
-                        }
-                    }
-                }
-                break;
-            case 6:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-
-                //TutorialRenderer.sprite = TutorialSprite[18];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[18]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
-                }
-
-                if (LifeStar.activeSelf == true)
-                    LifeStar.SetActive(false);
-                if (ControlBlock2.activeSelf == true)
-                    ControlBlock2.SetActive(false);
-                if (ControlBlock3.activeSelf == false)
-                    ControlBlock3.SetActive(true);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 7:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[19];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[19]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        ControlIndex++;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-                break;
-            case 8:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
-
-                //TutorialRenderer.sprite = TutorialSprite[20];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[20]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
-                }
-
-
-                if (MainScript.GetComponent<GameMain>().NormalCount == 0)
-                {
-                    if (!isNext)
-                    {
-                        isChangedTutorialText = false;
-                        isNext = true;
-                    }
-
-                    //TutorialRenderer.sprite = TutorialSprite[21];
-                    if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        TutorialText.SetSprite(TutorialSprite[21]);
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                        isChangedTutorialText = true;
-                    }
-
-                    // フェード中かどうか
-                    if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                    {
-                        if (Input.GetButtonDown("RButton"))
-                        {
-                            ControlIndex++;
-                            GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                            isChangedTutorialText = false;
-                            isNext = false;
-                        }
-                    }
-                }
-
-                break;
-            case 9:
-                //TutorialRenderer.sprite = TutorialSprite[22];
-                if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    TutorialText.SetSprite(TutorialSprite[22]);
-                    GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
-                    isChangedTutorialText = true;
-                }
-
-                if (ControlBlock3.activeSelf == true)
-                    ControlBlock3.SetActive(false);
-
-                // フェード中かどうか
-                if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
-                {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        isChangedTutorialText = false;
-                        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-                    }
-                    if (Input.GetButtonDown("RButton"))
-                    {
-                        isChangedTutorialText = false;
-                        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
-                    }
-                }
-
-                break;
-        }
-
-    }
-
-    void Control2()
-    {
-        MainScript.GetComponent<GameMain>().SetBlock();
-        switch (ControlIndex)
-        {
-            case 0:
-                if (ControllerImage.activeSelf == true)
-                    ControllerImage.SetActive(false);
-
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[12];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
                     TutorialText.SetSprite(TutorialSprite[7]);
@@ -1223,18 +566,6 @@ public class Tutorial : MonoBehaviour
                 if (ControlBlock1.gameObject.activeSelf == false)
                     ControlBlock1.gameObject.SetActive(true);
 
-
-                //// フェード中かどうか
-                //if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
-                //{
-                //    if (Input.GetButtonDown("LButton"))
-                //    {
-                //        ControlIndex--;
-                //        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                //        isChangedTutorialText = false;
-                //    }
-                //}
-
                 if (MainScript.GetComponent<GameMain>().NormalCount == 0)       // todo 判定つくってやる
                 {
                     if (isNext)
@@ -1243,7 +574,6 @@ public class Tutorial : MonoBehaviour
                         isNext = false;
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[13];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                     {
                         TutorialText.SetSprite(TutorialSprite[8]);
@@ -1268,9 +598,11 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
+
             case 1:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[14];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[9]);
@@ -1302,9 +634,11 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
+
             case 2:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[15];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[10]);
@@ -1336,7 +670,8 @@ public class Tutorial : MonoBehaviour
                 break;
             case 3:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[15];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[11]);
@@ -1369,7 +704,8 @@ public class Tutorial : MonoBehaviour
 
             case 4:
                 MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[16];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[12]);
@@ -1399,7 +735,6 @@ public class Tutorial : MonoBehaviour
                         SetBackTextFlg(false);
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[17];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
                         TutorialText.SetSprite(TutorialSprite[13]);
@@ -1423,9 +758,9 @@ public class Tutorial : MonoBehaviour
                 }
                 break;
             case 5:
-
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[18];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[14]);
@@ -1449,12 +784,14 @@ public class Tutorial : MonoBehaviour
                 break;
             case 6:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!ResetCamera)
                 {
                     MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
                     ResetCamera = true;
                 }
-                //TutorialRenderer.sprite = TutorialSprite[19];
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[15]);
@@ -1485,7 +822,8 @@ public class Tutorial : MonoBehaviour
                 break;
             case 7:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[19];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[16]);
@@ -1516,8 +854,9 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 8:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[19];
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[17]);
@@ -1548,9 +887,9 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 9:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[20];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[18]);
@@ -1581,7 +920,6 @@ public class Tutorial : MonoBehaviour
                         SetBackTextFlg(false);
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[21];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
                         TutorialText.SetSprite(TutorialSprite[19]);
@@ -1606,7 +944,9 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 10:
-                //TutorialRenderer.sprite = TutorialSprite[22];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[20]);
