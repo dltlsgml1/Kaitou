@@ -3297,7 +3297,7 @@ Prefab:
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fe995eaabd10b3c4bafcfa704b530748,
+      objectReference: {fileID: 21300000, guid: bed33ec59c298fb45b524c758d19127c,
         type: 3}
     - target: {fileID: 212087312203410498, guid: 2c067bb7b1420a3448fafe86ad5ad5f8,
         type: 2}
@@ -3308,6 +3308,11 @@ Prefab:
         type: 2}
       propertyPath: SlideSpeed
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 212087312203410498, guid: 2c067bb7b1420a3448fafe86ad5ad5f8,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c067bb7b1420a3448fafe86ad5ad5f8, type: 2}
