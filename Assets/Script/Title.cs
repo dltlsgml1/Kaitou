@@ -30,15 +30,21 @@ public class Title : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("AButton"))
+
+        if (cs_failed.FadeInFlag == false)
         {
-            if (EnterFlg == false)
+            if (Input.GetButtonDown("AButton"))
             {
-                EnterFlg = true;
-                cs_failed.FadeOutFlag = true;
-                Sound.PlaySe("se_ttenter", 7);
+                if (EnterFlg == false)
+                {
+                    EnterFlg = true;
+                    cs_failed.FadeOutFlag = true;
+                    Sound.PlaySe("se_ttenter", 7);
+                }
             }
         }
+
+
         if (cs_failed.FadeOutFlag == false && EnterFlg)
         {
             Sound.StopBgm();     
