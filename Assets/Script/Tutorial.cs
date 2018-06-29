@@ -257,6 +257,12 @@ public class Tutorial : MonoBehaviour
                     GlobalCoroutine.Go(FadeController.SpriteFadeIn(FadeTime));
                 }
 
+                if (!ResetCamera)
+                {
+                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(15.0f, -25.0f, 0.0f);
+                    ResetCamera = true;
+                }
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[0]);
@@ -524,6 +530,7 @@ public class Tutorial : MonoBehaviour
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
+                        ResetCamera = false;
 
                         if (FadeControllerInfoFlg && FadeControllerInfoFrameFlg)
                         {
@@ -559,6 +566,13 @@ public class Tutorial : MonoBehaviour
                     isChangedTutorialText = true;
                     isNext = true;
                 }
+
+                if (!ResetCamera)
+                {
+                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(20.0f, 40.0f, 0.0f);
+                    ResetCamera = true;
+                }
+
 
                 MainScript.GetComponent<GameMain>().SetBlock();
                 if (ExplainBlock.gameObject.activeSelf == true)
@@ -778,6 +792,7 @@ public class Tutorial : MonoBehaviour
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
+                        ResetCamera = false;
                     }
                 }
 
@@ -788,7 +803,7 @@ public class Tutorial : MonoBehaviour
 
                 if (!ResetCamera)
                 {
-                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
+                    MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(30.0f, 115.0f, 0.0f);
                     ResetCamera = true;
                 }
 
