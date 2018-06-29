@@ -339,6 +339,7 @@ public class GameMain : MonoBehaviour
             }
             return true;
         }
+        Debug.Log(mvcamera.Rotation);
         return false;
     }
 
@@ -364,13 +365,23 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {  
-                    if((mvcamera.Rotation.x<1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f))||
-                        (mvcamera.Rotation.y < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)))
+                    if(mvcamera.Rotation.x >=-DefineScript.JUDGE_ANGLE&&mvcamera.Rotation.x<=DefineScript.JUDGE_ANGLE)
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+                        if(distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)
+                        {
+                                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                                NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                                temp = true;
+                        }
                     }
+
+                    //if((mvcamera.Rotation.x<1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f))||
+                    //    (mvcamera.Rotation.y < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)))
+                    //{
+                    //    CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                    //    NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                    //    temp = true;
+                    //}
                 }
             }
             else
@@ -383,12 +394,14 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if ((mvcamera.Rotation.x < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)) ||
-                        (mvcamera.Rotation.y < 1.5f && (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)))
+                    if (mvcamera.Rotation.y >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.y <= DefineScript.JUDGE_ANGLE)
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
                     }
                 }
             }
