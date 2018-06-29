@@ -214,6 +214,28 @@ public class GameMain : MonoBehaviour
                     {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
                     }
+                    //Todo
+                    if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
+                    {
+                       for(int l=0;l<NormalCount;l++)
+                        {                      
+                            if (NormalBlocks[l].GetComponent<Blocks>().NormalNowcol==false)
+                            {
+                                Debug.Log(Vector2.Distance(NormalBlockPosition[BlockNow], NormalBlockPosition[l]));
+                                if (Vector2.Distance(NormalBlockPosition[BlockNow], NormalBlockPosition[l]) < 140.0f)
+                                {
+                                    if (NormalBlockPosition[BlockNow].z > NormalBlockPosition[l].z)
+                                    {
+                                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = false;
+                                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = false;
+                                    }
+                                }
+                            }
+                        
+                        }
+                    }
+
+
 
                     if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
                     {
@@ -339,7 +361,7 @@ public class GameMain : MonoBehaviour
             }
             return true;
         }
-        Debug.Log(mvcamera.Rotation);
+
         return false;
     }
 
