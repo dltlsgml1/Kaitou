@@ -73,13 +73,13 @@ public class MapScript : MonoBehaviour
         if (StageID == 0)
         {
             StageID = PassStageID.PassStageId();
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
+            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
 
         }
         else
         {
             StageID = PassStageID.PassStageId() - 1;
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
+            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID+1), 4, 0);
         }
         Decision = StageID / 5;
         FingerPos = StageID % 5;
