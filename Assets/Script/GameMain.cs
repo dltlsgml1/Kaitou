@@ -364,8 +364,9 @@ public class GameMain : MonoBehaviour
 
                 }
                 else
-                {  
-                    if(mvcamera.Rotation.x >=-DefineScript.JUDGE_ANGLE&&mvcamera.Rotation.x<=DefineScript.JUDGE_ANGLE)
+                {
+                    if ((mvcamera.Rotation.x >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.x <= DefineScript.JUDGE_ANGLE)||
+                        (mvcamera.Rotation.x >= DefineScript.JUDGE_ANGLE2 && mvcamera.Rotation.x <= -DefineScript.JUDGE_ANGLE2))
                     {
                         if(distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)
                         {
@@ -394,7 +395,8 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    if (mvcamera.Rotation.y >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.y <= DefineScript.JUDGE_ANGLE)
+                    if ((mvcamera.Rotation.x >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.x <= DefineScript.JUDGE_ANGLE) ||
+                        (mvcamera.Rotation.x >= DefineScript.JUDGE_ANGLE2 && mvcamera.Rotation.x <= -DefineScript.JUDGE_ANGLE2))
                     {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 3.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 3.0f)
                         {
