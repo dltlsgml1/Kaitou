@@ -60,13 +60,38 @@ public class Tutorial : MonoBehaviour
 
 
     //TutorialText.GetComponent<MeshRenderer>().materials[0].mainTexture = 
-    void Awake()
+    void Start()
     {
 
         MainScript.GetComponent<GameMain>().TutorialFlg = true;
 
-        InitSprite();
+        Init();
 
+    }
+
+    void Init()
+    {
+        // 各変数初期化
+        Limit = 5;
+
+        TutorialIndex = 0;
+        ExplainIndex = 0;
+        ControlIndex = 0;
+
+        isChangedTutorialText = false;
+        isNext = false;
+
+        FadeTime = 0.2f;
+
+        ResetCamera = false;
+        TextBackFlg = false;
+        TextNextFlg = false;
+        isFadeStartTextBack = false;
+        isFadeStartTextNext = false;
+
+
+        // スプライト初期化
+        InitSprite();
     }
 
     void InitSprite()
@@ -77,10 +102,12 @@ public class Tutorial : MonoBehaviour
         TextBackFade = GameObject.Find("TutorialBack").GetComponent<FadeImage>();
         TextBackRenderer = GameObject.Find("TutorialBack").GetComponent<SpriteRenderer>();
         TextBackFade.SetSpriteRenderer(TextBackRenderer);
+        TextBackRenderer.color = new Color(1, 1, 1, 0);
 
         TextNextFade = GameObject.Find("TutorialNext").GetComponent<FadeImage>();
         TextNextRenderer = GameObject.Find("TutorialNext").GetComponent<SpriteRenderer>();
         TextNextFade.SetSpriteRenderer(TextNextRenderer);
+        TextNextRenderer.color = new Color(1, 1, 1, 0);
 
         // チュートリアルテキスト読み込み
         for (int i = 0; i < (int)TUTORIAL_SPRITE.TEXT_INDEX; i++)
@@ -1213,15 +1240,17 @@ public class Tutorial : MonoBehaviour
                     if (isNext)
                     {
                         isChangedTutorialText = false;
+                        isNext = false;
                     }
 
                     //TutorialRenderer.sprite = TutorialSprite[13];
-                    if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && isNext)
+                    if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                     {
                         TutorialText.SetSprite(TutorialSprite[8]);
                         GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                         isChangedTutorialText = true;
                         isNext = false;
+                        SetNextTextFlg(true);
                     }
 
                     // フェード中かどうか
@@ -1232,6 +1261,7 @@ public class Tutorial : MonoBehaviour
                             ControlIndex++;
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                             isChangedTutorialText = false;
+                            SetNextTextFlg(false);
                         }
                     }
 
@@ -1246,6 +1276,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[9]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetNextTextFlg(true);
                 }
 
                 if (ControlBlock1.gameObject.activeSelf == true)
@@ -1266,6 +1297,7 @@ public class Tutorial : MonoBehaviour
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetNextTextFlg(false);
                     }
                 }
 
@@ -1278,6 +1310,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[10]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetInfoFlg(true, true);
                 }
 
                 // フェード中かどうか
@@ -1288,12 +1321,14 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                 }
 
@@ -1307,6 +1342,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[11]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetInfoFlg(true, true);
                 }
 
                 // フェード中かどうか
@@ -1317,12 +1353,14 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                 }
 
@@ -1337,6 +1375,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[12]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetBackTextFlg(true);
                 }
 
                 // フェード中かどうか
@@ -1347,6 +1386,7 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetBackTextFlg(false);
                     }
                 }
 
@@ -1356,6 +1396,7 @@ public class Tutorial : MonoBehaviour
                     {
                         isChangedTutorialText = false;
                         isNext = true;
+                        SetBackTextFlg(false);
                     }
 
                     //TutorialRenderer.sprite = TutorialSprite[17];
@@ -1364,6 +1405,7 @@ public class Tutorial : MonoBehaviour
                         TutorialText.SetSprite(TutorialSprite[13]);
                         GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                         isChangedTutorialText = true;
+                        SetNextTextFlg(true);
                     }
 
                     // フェード中かどうか
@@ -1375,6 +1417,7 @@ public class Tutorial : MonoBehaviour
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                             isChangedTutorialText = false;
                             isNext = false;
+                            SetNextTextFlg(false);
                         }
                     }
                 }
@@ -1388,6 +1431,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[14]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetNextTextFlg(true);
                 }
 
                 // フェード中かどうか
@@ -1398,6 +1442,7 @@ public class Tutorial : MonoBehaviour
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetNextTextFlg(false);
                     }
                 }
 
@@ -1415,6 +1460,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[15]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetNextTextFlg(true);
                 }
 
                 if (LifeStar.activeSelf == true)
@@ -1427,17 +1473,12 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
-                    {
-                        ControlIndex--;
-                        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                        isChangedTutorialText = false;
-                    }
                     if (Input.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetNextTextFlg(false);
                     }
                 }
 
@@ -1450,6 +1491,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[16]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetInfoFlg(true, true);
                 }
 
                 // フェード中かどうか
@@ -1460,12 +1502,14 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                 }
 
@@ -1479,6 +1523,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[17]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetInfoFlg(true, true);
                 }
 
                 // フェード中かどうか
@@ -1489,12 +1534,14 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetInfoFlg(false, false);
                     }
                 }
 
@@ -1509,6 +1556,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[18]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetBackTextFlg(true);
                 }
 
                 // フェード中かどうか
@@ -1519,6 +1567,7 @@ public class Tutorial : MonoBehaviour
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
+                        SetBackTextFlg(false);
                     }
                 }
 
@@ -1529,6 +1578,7 @@ public class Tutorial : MonoBehaviour
                     {
                         isChangedTutorialText = false;
                         isNext = true;
+                        SetBackTextFlg(false);
                     }
 
                     //TutorialRenderer.sprite = TutorialSprite[21];
@@ -1537,6 +1587,7 @@ public class Tutorial : MonoBehaviour
                         TutorialText.SetSprite(TutorialSprite[19]);
                         GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                         isChangedTutorialText = true;
+                        SetNextTextFlg(true);
                     }
 
                     // フェード中かどうか
@@ -1548,6 +1599,7 @@ public class Tutorial : MonoBehaviour
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                             isChangedTutorialText = false;
                             isNext = false;
+                            SetNextTextFlg(false);
                         }
                     }
                 }
@@ -1560,6 +1612,7 @@ public class Tutorial : MonoBehaviour
                     TutorialText.SetSprite(TutorialSprite[20]);
                     GlobalCoroutine.Go(TutorialText.SpriteFadeIn(FadeTime));
                     isChangedTutorialText = true;
+                    SetNextTextFlg(true);
                 }
 
                 if (ControlBlock3.activeSelf == true)
