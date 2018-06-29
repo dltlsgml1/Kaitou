@@ -304,7 +304,7 @@ public class Pause : MonoBehaviour
         if (BackTitle_flg == true
              && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
-            //OffPause();
+            OffPause();
             is_pause = false;
             BackTitle_flg = false;
             fade_outflg = false;
