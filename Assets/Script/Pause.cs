@@ -53,13 +53,19 @@ public class Pause : MonoBehaviour
     private Transform tmpTrans;
     private bool isInit = false;
 
+    //private void Awake()
+    //{
+    //    is_pause = false;
+
+    //}
+
     // Use this for initialization
     void Start()
     {
         move = 0;
         move_Max = 2;
         fade_countMax = 20;
-
+        is_pause = false;
         //BackStageSelect_flg = false;
         Sound.LoadSe("se_cancel", Sound.SearchFilename(Sound.eSoundFilename.PS_Cancel));
         Sound.LoadSe("se_enter", Sound.SearchFilename(Sound.eSoundFilename.PS_Enter));
@@ -76,10 +82,13 @@ public class Pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+  
         if (MapScript.Is_Map == true)
         {
             return;
         }
+
+        
 
         // 現在読み込んでいるシーンの名前を取得
         currentScene = SceneManager.GetActiveScene().name;
@@ -117,7 +126,7 @@ public class Pause : MonoBehaviour
             && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
             //GameScene特別な処理
-            if (currentScene == "GameMain" || currentScene == "Tutorial")
+            if (currentScene == "GameMain")
             {
                 if(MainScript.GetComponent<GameMain>().ClearFlg == false//クリア中オフ
                     && MainScript.GetComponent<GameMain>().FailFlg == false //失敗中オフ
@@ -125,7 +134,7 @@ public class Pause : MonoBehaviour
                 {
                     if (TitleFadeScript.GetComponent<TitleFade>().SceneChangeFlag == true) //タイトル表示中オフ 
                     {
-
+                        Sound.PlaySe("se_paper", 5);
                         is_pause = !is_pause;
                         if (is_pause == false)
                         {
@@ -138,10 +147,13 @@ public class Pause : MonoBehaviour
                     }
                 }
             }
-            else//GameScene以外
+            
+            if(currentScene == "StageSelect")
             {
-                if (StageSelectScript.GetComponent<StageSelect>().SelectStageFlag == false) //ステージ決定中オフ
+                if (StageSelectScript.GetComponent<StageSelect>().SelectStageFlag == false //ステージ決定中オフ
+                    && fade.GetComponent<StageSelectFade>().FadeInFlag == false)
                 {
+                    Sound.PlaySe("se_paper", 7);
                     is_pause = !is_pause;
                     if (is_pause == false)
                     {
@@ -169,14 +181,14 @@ public class Pause : MonoBehaviour
             OffPause();
             is_pause = false;
             cancel_flg = false;
-            Sound.PlaySe("se_paper", 5);
+            //Sound.PlaySe("se_paper", 5);
             //CursorReset();
         }
 
         if (Input.GetButtonDown("AButton") && is_pause == true)
         {
             is_pause = false;
-            Sound.PlaySe("se_enter", 8);
+            //Sound.PlaySe("se_enter", 8);
             //if (MainScript.GetComponent<GameMain>().TutorialFlg == true)
             //{
             //    OffPause();
@@ -193,26 +205,32 @@ public class Pause : MonoBehaviour
                     }
                     else
                     {
+                        Sound.PlaySe("se_enter", 8);
                         fade.GetComponent<StageSelectFade>().FadeOutFlag= true;
                         BackTitle_flg = true;
                     }
                     break;
                 case 1:
+                    //Sound.PlaySe("se_enter", 8);
                     if (currentScene == "GameMain")//GameScene特別な処理
                     {
+                        Sound.PlaySe("se_enter", 8);
                         FedeIn();
                         Restart_flg = true;
                         //RestartLoad();
                     }
                     else
                     {
+                        Sound.PlaySe("se_enter", 8);
                         fade.GetComponent<StageSelectFade>().FadeOutFlag = true;
                         ExeEnd_flg = true;
                     }
                     break;
                 case 2:
+                    //Sound.PlaySe("se_enter", 8);
                     if (currentScene == "GameMain")//GameScene特別な処理
                     {
+                        Sound.PlaySe("se_enter", 8);
                         FedeIn();
                         BackStageSelect_flg = true;
                         //BackStageSelect();
@@ -287,6 +305,7 @@ public class Pause : MonoBehaviour
              && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
             //OffPause();
+            is_pause = false;
             BackTitle_flg = false;
             fade_outflg = false;
             movepause.GetComponent<MovePose>().SlideOn_Off = false;
@@ -303,6 +322,7 @@ public class Pause : MonoBehaviour
         if (ExeEnd_flg == true
              && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
+            is_pause = false;
             //終了処理
             Application.Quit();
             //exe以外ならタイトルへ処理
@@ -321,7 +341,7 @@ public class Pause : MonoBehaviour
         {
             pauseUI.SetActive(true);
             movepause_Oncount = 0;
-            Sound.PlaySe("se_paper", 7);
+            //Sound.PlaySe("se_paper", 7);
         }
         //アニメーションカウント
         if (movepause_Oncount < (1 / movepause.GetComponent<MovePose>().SlideSpeed))
