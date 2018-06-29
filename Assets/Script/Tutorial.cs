@@ -219,8 +219,8 @@ public class Tutorial : MonoBehaviour
         {
             case 0:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[0];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[0]);
@@ -245,7 +245,9 @@ public class Tutorial : MonoBehaviour
                 }
                 break;
             case 1:
-                //TutorialRenderer.sprite = TutorialSprite[1];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[1]);
@@ -283,7 +285,9 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 2:
-                //TutorialRenderer.sprite = TutorialSprite[2];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[2]);
@@ -325,8 +329,8 @@ public class Tutorial : MonoBehaviour
 
             case 3:
                 MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[7];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
                     TutorialText.SetSprite(TutorialSprite[3]);
@@ -381,7 +385,6 @@ public class Tutorial : MonoBehaviour
                         }
                     }
                     // todo: フェード入れる
-                    //TutorialRenderer.sprite = TutorialSprite[4];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && isNext)
                     {
                         TutorialText.SetSprite(TutorialSprite[4]);
@@ -407,8 +410,11 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 4:
-                //TutorialRenderer.sprite = TutorialSprite[9];
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[5]);
@@ -441,7 +447,9 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 5:
-                //TutorialRenderer.sprite = TutorialSprite[2];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[6]);
@@ -485,11 +493,12 @@ public class Tutorial : MonoBehaviour
         switch (ControlIndex)
         {
             case 0:
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (ControllerImage.activeSelf == true)
                     ControllerImage.SetActive(false);
 
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[12];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
                     TutorialText.SetSprite(TutorialSprite[7]);
@@ -504,18 +513,6 @@ public class Tutorial : MonoBehaviour
                 if (ControlBlock1.gameObject.activeSelf == false)
                     ControlBlock1.gameObject.SetActive(true);
 
-
-                //// フェード中かどうか
-                //if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
-                //{
-                //    if (Input.GetButtonDown("LButton"))
-                //    {
-                //        ControlIndex--;
-                //        GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
-                //        isChangedTutorialText = false;
-                //    }
-                //}
-
                 if (MainScript.GetComponent<GameMain>().NormalCount == 0)       // todo 判定つくってやる
                 {
                     if (isNext)
@@ -524,7 +521,6 @@ public class Tutorial : MonoBehaviour
                         isNext = false;
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[13];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                     {
                         TutorialText.SetSprite(TutorialSprite[8]);
@@ -549,9 +545,11 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
+
             case 1:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[14];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[9]);
@@ -583,9 +581,11 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
+
             case 2:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[15];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[10]);
@@ -617,7 +617,8 @@ public class Tutorial : MonoBehaviour
                 break;
             case 3:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[15];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[11]);
@@ -650,7 +651,8 @@ public class Tutorial : MonoBehaviour
 
             case 4:
                 MainScript.GetComponent<GameMain>().TutorialAtari = false;
-                //TutorialRenderer.sprite = TutorialSprite[16];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[12]);
@@ -680,7 +682,6 @@ public class Tutorial : MonoBehaviour
                         SetBackTextFlg(false);
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[17];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
                         TutorialText.SetSprite(TutorialSprite[13]);
@@ -704,9 +705,9 @@ public class Tutorial : MonoBehaviour
                 }
                 break;
             case 5:
-
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[18];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[14]);
@@ -730,12 +731,14 @@ public class Tutorial : MonoBehaviour
                 break;
             case 6:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!ResetCamera)
                 {
                     MainScript.GetComponent<GameMain>().mvcamera.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
                     ResetCamera = true;
                 }
-                //TutorialRenderer.sprite = TutorialSprite[19];
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[15]);
@@ -766,7 +769,8 @@ public class Tutorial : MonoBehaviour
                 break;
             case 7:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[19];
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[16]);
@@ -797,8 +801,9 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 8:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
-                //TutorialRenderer.sprite = TutorialSprite[19];
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[17]);
@@ -829,9 +834,9 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 9:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                //TutorialRenderer.sprite = TutorialSprite[20];
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[18]);
@@ -862,7 +867,6 @@ public class Tutorial : MonoBehaviour
                         SetBackTextFlg(false);
                     }
 
-                    //TutorialRenderer.sprite = TutorialSprite[21];
                     if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
                         TutorialText.SetSprite(TutorialSprite[19]);
@@ -887,7 +891,9 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 10:
-                //TutorialRenderer.sprite = TutorialSprite[22];
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
+
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
                     TutorialText.SetSprite(TutorialSprite[20]);
