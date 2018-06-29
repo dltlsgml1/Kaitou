@@ -73,13 +73,13 @@ public class MapScript : MonoBehaviour
         if (StageID == 0)
         {
             StageID = PassStageID.PassStageId();
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
+            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
 
         }
         else
         {
             StageID = PassStageID.PassStageId() - 1;
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
+            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID+1), 4, 0);
         }
         Decision = StageID / 5;
         FingerPos = StageID % 5;
@@ -562,8 +562,8 @@ public class MapScript : MonoBehaviour
             rate += 0.05f;
             if (!StagePositionFlag)
             {
-                StageSelectObject.transform.position = Vector3.Lerp(new Vector3(-14.0f * (StageID), 4, 0), new Vector3(-14.0f * (StageID), 0, 0), rate);
-                if (StageSelectObject.transform.position == new Vector3(-14.0f * (StageID), 0, 0))
+                StageSelectObject.transform.position = Vector3.Lerp(new Vector3(-14.0f * (PassStageID.PassStageId()), 4, 0), new Vector3(-14.0f * (PassStageID.PassStageId()), 0, 0), rate);
+                if (StageSelectObject.transform.position == new Vector3(-14.0f * (PassStageID.PassStageId()), 0, 0))
                 {
                     StagePositionFlag = true;
                 }
