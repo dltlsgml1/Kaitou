@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Sound
 {
     /// SEチャンネル数
-    const int SE_CHANNEL = 8;
+    const int SE_CHANNEL = 12;
 
     /// サウンド種別
     enum eType
