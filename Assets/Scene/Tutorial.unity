@@ -536,7 +536,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d87fc49ed1827f4e9dbdf23e58fab08, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 981a172ee2dcf424ab2d321c0725600d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -1512,7 +1512,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1022304514}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -140, y: 330, z: -8637}
+  m_LocalPosition: {x: -160, y: 330, z: -8637}
   m_LocalScale: {x: 90, y: 90, z: 90}
   m_Children: []
   m_Father: {fileID: 2078501507}
@@ -1779,6 +1779,7 @@ MonoBehaviour:
   PlayedSE2: 0
   NowCol2: 0
   TutorialAtari: 0
+  limitminus: 0
 --- !u!4 &1180727678
 Transform:
   m_ObjectHideFlags: 0
@@ -2603,7 +2604,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1603916990}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 140, y: 330, z: -8637}
+  m_LocalPosition: {x: 160, y: 330, z: -8637}
   m_LocalScale: {x: 90, y: 90, z: 90}
   m_Children: []
   m_Father: {fileID: 2078501507}

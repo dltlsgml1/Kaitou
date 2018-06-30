@@ -253,14 +253,12 @@ public class GameMain : MonoBehaviour
                     if (Collapsing == false)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
-
                     }
                     if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME )
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
 
                         Collapsing = true;
-
                         UnsetCollapsing = false;
                         limitminus = true;
                         NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
@@ -275,10 +273,6 @@ public class GameMain : MonoBehaviour
                 }
             }
 
-        }
-        if (Input.GetButtonUp("AButton"))
-        {
-            buttonup = true;
         }
 
 
@@ -326,12 +320,11 @@ public class GameMain : MonoBehaviour
 
 
         
-        if (NowCol2==true && limitminus==false)
+        if (NowCol2==true && limitminus==true)
         {
             Limit--;
             ClearLimit++;
-            buttonup = false;
-            limitminus = true;
+            limitminus = false;
             Sound.PlaySe("SE_STAR", 3);
 
         }
