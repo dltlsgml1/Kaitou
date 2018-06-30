@@ -47,6 +47,9 @@ public class GameMain : MonoBehaviour
     public bool NowCol2 = false;
     public bool TutorialAtari = false;
 
+    float angle90 = 90.0f;
+    float angle180 = 180.0f;
+    float angle270 = 270.0f;
 
     public void Restart()
     {
@@ -166,7 +169,11 @@ public class GameMain : MonoBehaviour
 
     bool Atari()
     {
-
+        if (mvcamera.Rotation.y > 360.0f)
+            mvcamera.Rotation.y = 0.0f;
+        if (mvcamera.Rotation.y < -360.0f)
+            mvcamera.Rotation.y = 0.0f;
+        Debug.Log(mvcamera.Rotation);
        
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
@@ -376,7 +383,25 @@ public class GameMain : MonoBehaviour
                         }
                     }
 
-                    
+                    if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
+                        (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle180 - 2.0f && mvcamera.Rotation.y <= angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle270 - 2.0f && mvcamera.Rotation.y <= angle270 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle90 - 2.0f && mvcamera.Rotation.y <= -angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle180 - 2.0f && mvcamera.Rotation.y <= -angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle270 - 2.0f && mvcamera.Rotation.y <= -angle270 + 2.0f) ||
+                        mvcamera.Rotation.y >= 358.0f ||
+                        mvcamera.Rotation.y <= -358.0f)
+                    {
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
+
+
                 }
             }
             else
@@ -391,6 +416,24 @@ public class GameMain : MonoBehaviour
                 {
                     if ((mvcamera.Rotation.x >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.x <= DefineScript.JUDGE_ANGLE) ||
                         (mvcamera.Rotation.x >= DefineScript.JUDGE_ANGLE2 && mvcamera.Rotation.x <= -DefineScript.JUDGE_ANGLE2))
+                    {
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
+
+                    if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
+                        (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle180 - 2.0f && mvcamera.Rotation.y <= angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle270 - 2.0f && mvcamera.Rotation.y <= angle270 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle90 - 2.0f && mvcamera.Rotation.y <= -angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle180 - 2.0f && mvcamera.Rotation.y <= -angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle270 - 2.0f && mvcamera.Rotation.y <= -angle270 + 2.0f) ||
+                        mvcamera.Rotation.y >= 358.0f ||
+                        mvcamera.Rotation.y <= -358.0f)
                     {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
                         {
