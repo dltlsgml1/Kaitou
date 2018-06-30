@@ -40,12 +40,12 @@ public class ExportCsvScript : MonoBehaviour
     }
 
     // クリア手数のセット
-    public void SetClearData(int clearnum = 0)
+    public void SetClearData(int clearnum = 100)
     {
         ClearNum[NowStageId] = clearnum;
     }
 
-    private void SetClearData(int id, int clearnum = 0)
+    private void SetClearData(int id, int clearnum = 100)
     {
         ClearNum[id] = clearnum;
     }
