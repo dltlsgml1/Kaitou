@@ -304,9 +304,12 @@ public class EndFade : MonoBehaviour
         // スクショ作成とセーブデータ更新
         if (!ScreenshotFlg)
         {
-            GlobalCoroutine.Go(SS.CreateClearImage(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()));
-            saveObj.GetComponent<ExportCsvScript>().SetClearData(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit);
-            saveObj.GetComponent<ExportCsvScript>().WriteFile();
+            if(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit <= saveObj.GetComponent<ExportCsvScript>().GetClearData(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()))
+            {
+                GlobalCoroutine.Go(SS.CreateClearImage(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()));
+                saveObj.GetComponent<ExportCsvScript>().SetClearData(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit);
+                saveObj.GetComponent<ExportCsvScript>().WriteFile();
+            }
 
             ScreenshotFlg = true;
         }

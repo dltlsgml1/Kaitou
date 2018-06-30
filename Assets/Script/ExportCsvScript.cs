@@ -40,12 +40,12 @@ public class ExportCsvScript : MonoBehaviour
     }
 
     // クリア手数のセット
-    public void SetClearData(int clearnum = 0)
+    public void SetClearData(int clearnum = 100)
     {
         ClearNum[NowStageId] = clearnum;
     }
 
-    private void SetClearData(int id, int clearnum = 0)
+    private void SetClearData(int id, int clearnum = 100)
     {
         ClearNum[id] = clearnum;
     }
@@ -79,7 +79,7 @@ public class ExportCsvScript : MonoBehaviour
             // データ出力
             for (int i = 0; i < MaxData; i++)
             {
-                string[] str = { "Stage" + IdToString(i), "" + 0 };
+                string[] str = { "Stage" + IdToString(i), "" + 100 };
                 string str2 = string.Join(",", str);
                 sw.WriteLine(str2);
             }
