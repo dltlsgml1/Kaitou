@@ -22,7 +22,6 @@ public class GameMain : MonoBehaviour
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
     Ray ray;
-
     public MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
@@ -55,6 +54,7 @@ public class GameMain : MonoBehaviour
     {
         for (int i = 0; i < Blocks.Length; i++)
         {
+            Blocks[i].transform.Find("FlashCubeParticle").GetComponent<flashcube>().oneroot = false;
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
@@ -63,8 +63,9 @@ public class GameMain : MonoBehaviour
                     Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
+            
+           
         }
-
         FailFlg = false;
         ClearFlg = false;
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();

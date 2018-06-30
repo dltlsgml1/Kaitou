@@ -11,7 +11,7 @@ public class flashcube : MonoBehaviour
 
     ParticleSystem ppp;
 	GameObject pppobj;
-    private bool oneroot = true;
+    public bool oneroot = true;
 
 
     // Use this for initialization
