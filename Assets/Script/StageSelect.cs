@@ -30,7 +30,7 @@ public class StageSelect : MonoBehaviour
 
     public Camera ZoomIn;
     public GameObject pause;
-    Pause is_pause;
+
     GameObject MapObject;
     MapScript Map;
     GameObject Fade;
@@ -49,7 +49,6 @@ public class StageSelect : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        is_pause = pause.GetComponent<Pause>();
         Fade = GameObject.Find("Panel");
         FadeFlag = Fade.GetComponent<StageSelectFade>();
         FadeFlag.FadeInFlag = true;

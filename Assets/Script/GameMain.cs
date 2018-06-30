@@ -159,7 +159,7 @@ public class GameMain : MonoBehaviour
                     SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                 }
             }
-
+            
         }
     }
 

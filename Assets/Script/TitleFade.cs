@@ -40,7 +40,6 @@ public class TitleFade : MonoBehaviour
 	private float countTime = 0.0f;
 	private float endTime = 2.0f;
 	public float TitleFadeTime = 4.0f;
-	bool endChake = false;
 
 	//Fadeアウトする
 	public bool SceneChangeFlag = false;
@@ -99,8 +98,6 @@ public class TitleFade : MonoBehaviour
 			TitleObj.GetComponent<SpriteRenderer>().color = TitleFadeSpeed;
 			FogObj.GetComponent<Renderer>().material.color = FogFadeSpeed;
 
-			Debug.Log ("fog"+FogObj.GetComponent<Renderer>().material.color);
-
 			//alphaが1.0f以下いなったら入る。
 			if (TitleObj.GetComponent<SpriteRenderer>().color.a >= 1.0f && FogObj.GetComponent<Renderer>().material.color.a >= 1.0f)
 			{
@@ -131,7 +128,6 @@ public class TitleFade : MonoBehaviour
 
 
 			float val = time;
-			float num = val * val;
 			// Color color = new Color(val * val, val * val, val * val);
 			Color color = new Color(val, val, val); //エミッションの光度を変えてる。
 			FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
@@ -178,7 +174,6 @@ public class TitleFade : MonoBehaviour
 	//表示が終わったら
 	void TitleOutAnima()
 	{
-		Debug.Log ("タイトル消してるなう");
 		//alphaを下げてフェードアウトさせる
 		TitleFadeSpeed.a -= FadeS;
 		FogFadeSpeed.a -= FadeS;

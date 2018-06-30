@@ -49,7 +49,6 @@ public class FrameFade : MonoBehaviour {
     {
         if (!FadeInit)
         {
-            Debug.Log("アウト");
             alfa = 1;
             FadeInit = true;
         }
@@ -61,7 +60,6 @@ public class FrameFade : MonoBehaviour {
     {
         if (!FadeInit)
         {
-            Debug.Log("イン");
             alfa = 0;
             FadeInit = true;
         }

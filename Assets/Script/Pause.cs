@@ -51,13 +51,8 @@ public class Pause : MonoBehaviour
     private float tmpScale = 0.0f;
     private float basePos;
     private Transform tmpTrans;
-    private bool isInit = false;
 
-    //private void Awake()
-    //{
-    //    is_pause = false;
-
-    //}
+  
 
     // Use this for initialization
     void Start()
