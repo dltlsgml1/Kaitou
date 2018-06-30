@@ -151,7 +151,7 @@ public class GameMain : MonoBehaviour
         
         if (Atari() == true)
         {
-            MainCamera.GetComponentInParent<MoveCamera>().StopCameraOn();
+            mvcamera.StopCameraOn();
             if (TutorialFlg == false)
             {
                 if (FadeEnd == true)
@@ -325,7 +325,7 @@ public class GameMain : MonoBehaviour
 
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-
+           
             return true;
         }
         if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)

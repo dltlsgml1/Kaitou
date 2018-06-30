@@ -222,6 +222,7 @@ public class TitleFade : MonoBehaviour
 			TitleObj.SetActive (false);
 			FogObj.SetActive (false);
 			countTime = 0.0f;
+            SceneChangeFlag = false;
 		}
 
 	}
