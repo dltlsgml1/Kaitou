@@ -869,7 +869,7 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 8:
-                MainScript.GetComponent<GameMain>().TutorialAtari = false;
+                MainScript.GetComponent<GameMain>().TutorialAtari = true;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
@@ -902,7 +902,7 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 9:
-                MainScript.GetComponent<GameMain>().TutorialAtari = true;
+                MainScript.GetComponent<GameMain>().TutorialAtari = false;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
                 if (!isChangedTutorialText && !TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
