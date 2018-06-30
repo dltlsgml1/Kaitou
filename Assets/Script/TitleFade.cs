@@ -41,6 +41,7 @@ public class TitleFade : MonoBehaviour
 	private float endTime = 2.0f;
 	public float TitleFadeTime = 4.0f;
 
+
 	//Fadeアウトする
 	public bool SceneChangeFlag = false;
 
@@ -51,6 +52,8 @@ public class TitleFade : MonoBehaviour
 
 	//クリア・失敗のときのSEフラグ
 	bool PlayedSE = false;
+
+    bool CameraOffed = false;
 
 	// Use this for initialization
 	void Start()
@@ -213,11 +216,14 @@ public class TitleFade : MonoBehaviour
 			//ここでフェードインさせる。
 			titleFade.FadeOut_On();
 			//カメラ操作をOnにする
-			moveCamera.StopCameraOff();
+            if(CameraOffed==false)
+            {
+                CameraOffed = true;
+                moveCamera.StopCameraOff();
+            }
 			TitleObj.SetActive (false);
 			FogObj.SetActive (false);
 			countTime = 0.0f;
-            SceneChangeFlag = false;
 		}
 
 	}
