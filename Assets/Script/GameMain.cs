@@ -54,7 +54,7 @@ public class GameMain : MonoBehaviour
     {
         for (int i = 0; i < Blocks.Length; i++)
         {
-            Blocks[i].transform.Find("FlashCubeParticle").GetComponent<flashcube>().oneroot = false;
+            Blocks[i].transform.Find("FlashCubeParticle").GetComponent<flashcube>().oneroot = true;
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
