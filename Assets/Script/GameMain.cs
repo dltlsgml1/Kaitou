@@ -214,39 +214,6 @@ public class GameMain : MonoBehaviour
                     {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
                     }
-                    //Todo
-                    float dis1;
-                    float dis2;
-                    float dis3;
-                    if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
-                    {
-                       for(int l=0;l<NormalCount;l++)
-                        {                      
-                            if (NormalBlocks[l].GetComponent<Blocks>().NormalNowcol==false)
-                            {
-                               
-                                if (Vector2.Distance(NormalBlockPosition[BlockNow], NormalBlockPosition[l]) < 140.0f)
-                                {
-                                    if (NormalBlockPosition[BlockNow].z > NormalBlockPosition[l].z)
-                                    {
-                                        if((NormalBlockPosition[l].x <= NormalBlockPosition[BlockNow].x&&
-                                            NormalBlockPosition[l].x >= CollapsBlockPosition[CollapsNow].x)||
-                                            (NormalBlockPosition[l].x >= NormalBlockPosition[BlockNow].x &&
-                                            NormalBlockPosition[l].x <= CollapsBlockPosition[CollapsNow].x))
-                                        {
-                                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = false;
-                                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = false;
-                                        }
-                                     
-                                    }
-                                }
-                            }
-                        
-                        }
-                    }
-
-
-
                     if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
                     {
                         NowCol2 = true;
