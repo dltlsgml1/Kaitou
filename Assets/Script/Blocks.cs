@@ -27,6 +27,7 @@ public class Blocks : MonoBehaviour {
     public bool StartBlockFlg;
     public float BurnCnt = 0.0f;
     public int CollapsNum = 0;
+    public float BurnCnt2 = 0.0f;
     public static int NowCollapsingBlock = 0;
     public bool canburn = false;
     

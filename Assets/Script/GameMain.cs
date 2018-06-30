@@ -45,6 +45,7 @@ public class GameMain : MonoBehaviour
     public bool PlayedSE2 = false;
     public bool NowCol2 = false;
     public bool TutorialAtari = false;
+    public bool limitminus = false;
 
     float angle90 = 90.0f;
     float angle180 = 180.0f;
@@ -110,7 +111,6 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         Nowcol = false;
         NowCol2 = false;
-
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -174,8 +174,7 @@ public class GameMain : MonoBehaviour
             mvcamera.Rotation.y = 0.0f;
         if (mvcamera.Rotation.y < -360.0f)
             mvcamera.Rotation.y = 0.0f;
-        Debug.Log(mvcamera.Rotation);
-       
+        mvcamera.StopCameraOff();
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
@@ -251,14 +250,20 @@ public class GameMain : MonoBehaviour
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
+                    if (Collapsing == false)
+                    {
+                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
+
+                    }
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME )
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
-                        Collapsing = true;
-                        UnsetCollapsing = false;
-                        Burned = true;
 
+                        Collapsing = true;
+
+                        UnsetCollapsing = false;
+                        limitminus = true;
+                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     }
                     Nowcol = true;
 
@@ -279,13 +284,14 @@ public class GameMain : MonoBehaviour
 
         if (Collapsing == true)
         {
+            mvcamera.StopCameraOn();
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
                     UnsetCollapsing = false;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 += DefineScript.JUDGE_BNSPEED_NONBUTTON;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 >= DefineScript.JUDGE_BNTIME)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
                     }
@@ -295,6 +301,7 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().canburn = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
                 }
             }
 
@@ -304,7 +311,8 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-                    Burned = true;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
+                    
                 }
             }
         }
@@ -312,17 +320,18 @@ public class GameMain : MonoBehaviour
         if (UnsetCollapsing == true)
         {
             Collapsing = false;
+            Burned = false;
         }
 
 
 
         
-        if (buttonup == true && Burned == true && Nowcol == false)
+        if (NowCol2==true && limitminus==false)
         {
             Limit--;
             ClearLimit++;
-            Burned = false;
             buttonup = false;
+            limitminus = true;
             Sound.PlaySe("SE_STAR", 3);
 
         }
@@ -347,7 +356,7 @@ public class GameMain : MonoBehaviour
             }
             return true;
         }
-
+        
         return false;
     }
 
