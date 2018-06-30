@@ -58,7 +58,8 @@ public class TitleFade : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		TitleFadeSpeed = new Color(TitleObj.GetComponent<SpriteRenderer>().color.r, TitleObj.GetComponent<SpriteRenderer>().color.g, TitleObj.GetComponent<SpriteRenderer>().color.b, FadeS);
+        Sound.StopBgm();
+        TitleFadeSpeed = new Color(TitleObj.GetComponent<SpriteRenderer>().color.r, TitleObj.GetComponent<SpriteRenderer>().color.g, TitleObj.GetComponent<SpriteRenderer>().color.b, FadeS);
 		FogFadeSpeed = new Color(FogObj.GetComponent<Renderer>().material.color.r, FogObj.GetComponent<Renderer>().material.color.g, FogObj.GetComponent<Renderer>().material.color.b, FadeS);
 
 		//カメラ操作を止める
@@ -69,7 +70,6 @@ public class TitleFade : MonoBehaviour
 	void Update()
 	{
 		//サウンド再生
-		Sound.StopBgm();
 		if (PlayedSE == false)
 		{
 			PlayedSE = true;
@@ -191,6 +191,7 @@ public class TitleFade : MonoBehaviour
 		{
 			//シーンのチェンジ用のフラグを立てる。
 			SceneChangeFlag = true;
+            Sound.PlayBgm("GM_BGM");
 		}
 
 	}
@@ -220,6 +221,7 @@ public class TitleFade : MonoBehaviour
             {
                 CameraOffed = true;
                 moveCamera.StopCameraOff();
+                
             }
 			TitleObj.SetActive (false);
 			FogObj.SetActive (false);
