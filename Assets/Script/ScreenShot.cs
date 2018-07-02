@@ -85,12 +85,13 @@ public class ScreenShot : MonoBehaviour
     }
 
     // マテリアルの変更
-    public bool SearchToSetClearImage(int id)
+    public bool SearchToSetClearImage(int id, int no)
     {
         string fileId = IdToString(id);
+        string prefabNo = IdToString(no);
         MeshRenderer renderer;
         Color color;
-        string path = "StagePrefab/" + prefabName + fileId + "(Clone)/" + childPrefabName;
+        string path = "StagePrefab/" + prefabName + prefabNo + "(Clone)/" + childPrefabName;
 
         if (System.IO.File.Exists(Application.dataPath + "/" + fileName + fileId + ".png") == true)
         {
@@ -113,7 +114,6 @@ public class ScreenShot : MonoBehaviour
 
             return true;
         }
-
         renderer = GameObject.Find(path).GetComponent<MeshRenderer>();
         renderer.materials[0].mainTexture = null;
 

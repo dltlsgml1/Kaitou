@@ -22,6 +22,11 @@ public class DefineScript
 
     public static float JUDGE_BNTIME = 5.0f;
     public static float JUDGE_DISTANCE = 10.0f;
-    public static float JUDGE_BNSPEED_BUTTON = 0.1f;
+    public static float JUDGE_BNSPEED_BUTTON = 5.1f;
     public static float JUDGE_BNSPEED_NONBUTTON = 0.25f;
+
+    public static float JUDGE_ANGLE = 1.5f;
+    public static float JUDGE_ANGLE2 = 88.5f;
+    public static float JUDGE_DISTANCE3 = 108.0f;
+    public static int MAX_STAGE = 21;
 }

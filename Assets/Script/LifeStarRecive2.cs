@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class LifeStarRecive2 : MonoBehaviour {
     public int ReceiveLimitNum;
+    public int GoldLimit;
+    public int SilverLimit;
     public bool clearflg;
+    //CSVData GetCSV;
     GameMain GetMain;
-    //GameObject GetMainObj;
     
 	// Use this for initialization
 	void Start () {
-        //GetMainObj = GameObject.Find("MainSceneScript");
         GetMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
-        //ReceiveLimitNum = PassStageID.PassUpperCount();
+        GoldLimit=(int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
+        SilverLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
+       
         ReceiveLimitNum = GetMain.Limit;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        
+
+
         clearflg = GetMain.ClearFlg;
         ReceiveLimitNum = GetMain.Limit;
-        //ReceiveLimitNum = GetMain.NormalCount;
+        
 	}
 }

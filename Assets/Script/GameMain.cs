@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using System;
 public class GameMain : MonoBehaviour
 {
-    
+
     //以下、ブロックに関する情報
     GameObject[] Blocks = new GameObject[DefineScript.NUM_BLOCKS];
     GameObject[] CollapsBlocks = new GameObject[DefineScript.NUM_BLOCKS];
@@ -22,19 +22,17 @@ public class GameMain : MonoBehaviour
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
     Ray ray;
-
-
+    public MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
     public int BlocksCount = 0;             //現在ブロックの数
     public int CollapsCount = 0;            //現在燃やすブロックの数
-    public int OldCollapsCount = 0;         //上限回数をへらすときに使う
     public int NormalCount = 0;             //現在普通ブロックの数
     public int Limit;                       //現在の上限回数
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
     public int ClearLimit = 0;
     public int FailLimitNum = 0;            //残りの上限回数
-    public bool TutorialFlg = false;
+    public bool TutorialFlg = true;
     public bool ClearFlg = false;           //ステージクリアフラグ
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
@@ -43,16 +41,22 @@ public class GameMain : MonoBehaviour
     public bool Burned = false;
     public bool buttonup = false;
     public bool FadeEnd = false;
+    public bool PlayedSE = false;
+    public bool PlayedSE2 = false;
+    public bool NowCol2 = false;
+    public bool TutorialAtari = false;
+    public bool limitminus = false;
 
-    // スクショ関係
-    public bool ScreenshotFlg = false;
-    private ScreenShot SS;
+    float angle90 = 90.0f;
+    float angle180 = 180.0f;
+    float angle270 = 270.0f;
 
     public void Restart()
     {
-        for(int i=0;i<Blocks.Length;i++)
+        for (int i = 0; i < Blocks.Length; i++)
         {
-            if(Blocks[i].GetComponent<Blocks>().BurnFlg==true)
+            Blocks[i].transform.Find("FlashCubeParticle").GetComponent<flashcube>().oneroot = true;
+            if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
                 {
@@ -60,51 +64,53 @@ public class GameMain : MonoBehaviour
                     Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
+            
+           
         }
-
         FailFlg = false;
         ClearFlg = false;
-        Limit  = ClearedLimitNum = PassStageID.PassUpperCount();
-        
+        Limit = ClearedLimitNum = PassStageID.PassUpperCount();
 
-        MoveCamera mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
+
+        
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
-    
+
 
     void Start()
     {
+        mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
-        Sound.LoadBgm("gm_bgm", "GM_Bgm");
-        Sound.LoadBgm("gm_burn", "GM_Burn");
-        Sound.LoadBgm("gm_burnnow", "GM_BurnNow");
-        Sound.LoadSe("se_burn", "GM_Burn");
-        Sound.LoadSe("se_burnnow", "GM_BurnNow");
+        Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
+        Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
+        Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
+        Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
+        Sound.PlayBgm("GM_BGM");
+        Sound.SetLoopFlgSe("SE_INFO", true, 4);
+        Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
         if (TutorialFlg == false)
         {
-            Sound.PlayBgm("gm_bgm");
-            Sound.PlaySe("se_burn", 2);
             Limit = ClearedLimitNum = PassStageID.PassUpperCount();
         }
         else
         {
-            Limit = 1;
+            Limit = 5;
         }
-        SS = this.GetComponent<ScreenShot>();
-        SS.Init("Stage", "ClearStageSS", "ClearImage");
 
     }
-    
+
 
     void Update()
     {
+        
         BlocksCount = 0;
         NormalCount = 0;
         CollapsCount = 0;
         UnsetCollapsing = true;
         Nowcol = false;
-
+        NowCol2 = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -117,12 +123,12 @@ public class GameMain : MonoBehaviour
                 PlaneVector[i, j] = MainCamera.WorldToScreenPoint(PlaneVector[i, j]);
             }
         }
-      
+
         for (int i = 0, j = 0, k = 0; i < Blocks.Length; i++)
         {
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
-
+                
                 CollapsBlocks[j] = Blocks[i];
                 CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
@@ -145,37 +151,30 @@ public class GameMain : MonoBehaviour
             }
 
         }
-        
 
-        if (MoveCamera.ResetFlg ==true)
-        {
-            Restart();
-            MoveCamera.ResetFlg = false;
-        }
         
         if (Atari() == true)
         {
+            MainCamera.GetComponentInParent<MoveCamera>().StopCameraOn();
             if (TutorialFlg == false)
             {
-                if (FadeEnd ==true)
+                if (FadeEnd == true)
                 {
                     SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                 }
             }
-            
+
         }
     }
 
-   
+
     bool Atari()
     {
-
-        if (Limit == 0 && NormalCount != 0 && TutorialFlg == false)
-        {
-            FailFlg = true;
-            return true;
-        }
-
+        if (mvcamera.Rotation.y > 360.0f)
+            mvcamera.Rotation.y = 0.0f;
+        if (mvcamera.Rotation.y < -360.0f)
+            mvcamera.Rotation.y = 0.0f;
+        mvcamera.StopCameraOff();
         ray = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
 
         for (int CollapsNow = 0; CollapsNow < CollapsCount; CollapsNow++)
@@ -185,60 +184,87 @@ public class GameMain : MonoBehaviour
 
             for (int BlockNow = 0; BlockNow < NormalCount; BlockNow++)
             {
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
+                if (TutorialAtari == true)
+                    continue;
+                if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
+                {
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBottom == true)
-                {
+                    {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
-                }              
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsTop == true)
-                {
+                    }
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsTop == true)
+                    {
                         atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
-                }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsRight == true)
-                {
-                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                    }
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsRight == true)
+                    {
+                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
 
-                }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true && 
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsLeft == true)
-                {
-                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
+                    }
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true &&
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsLeft == true)
+                    {
+                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
 
-                }
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true &&
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsFront == true)
-                {
-                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
-                }
-                    
-                if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBack == true)
-                {
-                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
+                    }
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true &&
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsFront == true)
+                    {
+                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
+                    }
+
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBack == true)
+                    {
+                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
+                    }
+
+                    if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
+                    {
+                        NowCol2 = true;
+                    }
                 }
             }
+
+        }
+        if (NowCol2 == true)
+        {
+            if (PlayedSE2 == false)
+            {
+                Sound.PlaySe("SE_INFO", 4);
+                PlayedSE2 = true;
+            }
+        }
+        else
+        {
+            Sound.StopSe("SE_INFO", 4);
+            PlayedSE2 = false;
         }
 
-        
         if (Input.GetButton("AButton"))
         {
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
+                    if (Collapsing == false)
+                    {
+                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
+                    }
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME )
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+
                         Collapsing = true;
                         UnsetCollapsing = false;
-                        Burned = true;
-                        
+                        limitminus = true;
+                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     }
                     Nowcol = true;
-                   
+
                 }
                 else
                 {
@@ -246,25 +272,22 @@ public class GameMain : MonoBehaviour
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                 }
             }
-            
+
         }
-        if(Input.GetButtonUp("AButton"))
-        {
-            buttonup = true;
-        }
-        
+
 
         if (Collapsing == true)
         {
+            mvcamera.StopCameraOn();
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
                     UnsetCollapsing = false;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 += DefineScript.JUDGE_BNSPEED_NONBUTTON;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 >= DefineScript.JUDGE_BNTIME)
                     {
-                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;                       
+                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
                     }
 
                 }
@@ -272,6 +295,7 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().canburn = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
                 }
             }
 
@@ -281,47 +305,59 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-                    Burned = true;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
+                    
                 }
             }
         }
 
-        if(UnsetCollapsing == true )
+        if (UnsetCollapsing == true)
         {
             Collapsing = false;
+            Burned = false;
         }
 
 
 
-        if (NormalCount == 0 && TutorialFlg == false)
-        {
-
-            ClearFlg = true;
-            
-            ClearedLimitNum = Limit;
-            FailLimitNum = PassStageID.PassUpperCount() - Limit;
-            //Todo: ここでスクショ撮影処理。
-            if (!ScreenshotFlg)
-            {
-                ScreenshotFlg = true;
-                GlobalCoroutine.Go(SS.CreateClearImage(PassStageID.StageID));
-            }
-            //注意：このif分中はステセレに戻るまで毎フレーム入ります。よって毎回取ることになってしまうことに注意。
-            return true;
-        }
-        if (buttonup == true && Burned==true&&Nowcol == false) 
+        
+        if (NowCol2==true && limitminus==true)
         {
             Limit--;
-            Burned = false;
-            buttonup = false;
-            
-        }
+            ClearLimit++;
+            limitminus = false;
+            Sound.PlaySe("SE_STAR", 3);
 
+        }
+        
+        if (NormalCount == 0 && TutorialFlg == false)
+        {
+            ClearFlg = true;
+
+
+            ClearedLimitNum = Limit;
+            FailLimitNum = PassStageID.PassUpperCount() - Limit;
+
+            return true;
+        }
+        if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)
+        {
+            FailFlg = true;
+            if (PlayedSE == false)
+            {
+                Sound.PlaySe("SE_FAIL", 1);
+                PlayedSE = true;
+            }
+            return true;
+        }
+        
         return false;
     }
 
     void atari2(int BlockNow, int CollapsNow, int Blockplain, int CollapsPlain, Vector3[] CollapsVertices)
     {
+
+       
+        float distance = Vector2.Distance((Vector2)CollapsBlockPosition[CollapsNow], (Vector2)NormalBlockPosition[BlockNow]);
         bool temp = false;
         if (Vector2.Distance(NormalPlaneVector[BlockNow, Blockplain],
                       CollapsPlaneVector[CollapsNow, CollapsPlain])
@@ -329,21 +365,46 @@ public class GameMain : MonoBehaviour
         {
             if (IsVisibleFromCamera(CollapsPlain, CollapsVertices, ray))
             {
+                
                 if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                 {
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                     temp = true;
+
                 }
                 else
                 {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow],NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if ((mvcamera.Rotation.x >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.x <= DefineScript.JUDGE_ANGLE)||
+                        (mvcamera.Rotation.x >= DefineScript.JUDGE_ANGLE2 && mvcamera.Rotation.x <= -DefineScript.JUDGE_ANGLE2))
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+                        if(distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                                CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                                NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                                temp = true;
+                        }
                     }
+
+                    if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
+                        (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle180 - 2.0f && mvcamera.Rotation.y <= angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle270 - 2.0f && mvcamera.Rotation.y <= angle270 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle90 - 2.0f && mvcamera.Rotation.y <= -angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle180 - 2.0f && mvcamera.Rotation.y <= -angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle270 - 2.0f && mvcamera.Rotation.y <= -angle270 + 2.0f) ||
+                        mvcamera.Rotation.y >= 358.0f ||
+                        mvcamera.Rotation.y <= -358.0f)
+                    {
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
+
+
                 }
             }
             else
@@ -356,18 +417,40 @@ public class GameMain : MonoBehaviour
                 }
                 else
                 {
-                    float distance = Vector2.Distance(CollapsBlockPosition[CollapsNow], NormalBlockPosition[BlockNow]);
-                    if (distance >= 4.5f || distance <= 5.5f)
+                    if ((mvcamera.Rotation.x >= -DefineScript.JUDGE_ANGLE && mvcamera.Rotation.x <= DefineScript.JUDGE_ANGLE) ||
+                        (mvcamera.Rotation.x >= DefineScript.JUDGE_ANGLE2 && mvcamera.Rotation.x <= -DefineScript.JUDGE_ANGLE2))
                     {
-                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
-                        temp = true;
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
+                    }
+
+                    if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
+                        (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle180 - 2.0f && mvcamera.Rotation.y <= angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= angle270 - 2.0f && mvcamera.Rotation.y <= angle270 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle90 - 2.0f && mvcamera.Rotation.y <= -angle90 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle180 - 2.0f && mvcamera.Rotation.y <= -angle180 + 2.0f) ||
+                        (mvcamera.Rotation.y >= -angle270 - 2.0f && mvcamera.Rotation.y <= -angle270 + 2.0f) ||
+                        mvcamera.Rotation.y >= 358.0f ||
+                        mvcamera.Rotation.y <= -358.0f)
+                    {
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        {
+                            CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
+                            NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+                            temp = true;
+                        }
                     }
                 }
             }
-            
+
         }
-        if(temp==true)
+
+        if (temp == true)
         {
             switch (CollapsPlain)
             {
@@ -398,7 +481,8 @@ public class GameMain : MonoBehaviour
 
             }
         }
-        
+
+
     }
 
     public bool IsVisibleFromCamera(int i, Vector3[] vertices, Ray CameraRay)
@@ -452,15 +536,11 @@ public class GameMain : MonoBehaviour
             return false;
         }
     }
-    
+
     public void SetBlock()
     {
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
     }
 
-    private void OnDestroy()
-    {
-        Sound.StopBgm();
-        Sound.StopSe("se_burn", 2);
-    }
+
 }

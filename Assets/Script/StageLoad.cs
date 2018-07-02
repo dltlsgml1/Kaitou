@@ -39,10 +39,12 @@ public class StageLoad : MonoBehaviour {
             Instantiate(StagePrefab, new Vector3(i*Distance, 0, 0), Quaternion.Euler(-90, 0, 0), parent);
 
             StageRank.CheckRank(i);
-            SetClearFrame(parent.Find("Stage" + CastStageId(i) + "(Clone)").gameObject, StageRank.GetRank());
-            SetClearStarMaterial(parent.Find("Stage" + CastStageId(i) + "(Clone)/Star").gameObject, StageRank.GetRank());
+            SetClearFrame(parent.Find(CsvData.StageDateList[i + 1].StageName + "(Clone)").gameObject, StageRank.GetRank());
+            SetClearStarMaterial(parent.Find(CsvData.StageDateList[i + 1].StageName + "(Clone)/Star").gameObject, StageRank.GetRank());
 
-            ScreenShot.SearchToSetClearImage(i);
+            string stagename = CsvData.StageDateList[i + 1].StageName;
+            int stageId = (int)CsvData.StageDateList[i + 1].StageID;
+            ScreenShot.SearchToSetClearImage(stageId, Int32.Parse(stagename.Substring(5)));
         }
     }
 

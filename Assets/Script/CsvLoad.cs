@@ -14,15 +14,18 @@ public class CsvLoad : MonoBehaviour {
 		public Nullable<int> StageID;       //CSVのステージID部分
 		public string StageName;             //CSVのstagename部分
         public Nullable<int> UpperCunt;      //CSVの上限回数部分
-        public Nullable<int> MinCunt;      //CSVの最小Clear回数部分
+		public Nullable<int> MinCunt;      //CSVの最小Clear回数部分
+		public Nullable<int> GoldCunt;      //CSVの金評価Clear回数部分
+		public Nullable<int> SilverCunt;      //CSVの銀評価Clear回数部分
+		public Nullable<int> BronzeCunt;      //CSVの同評価Clear回数部分
         public Nullable<int> ClearFlag;      //CSVのクリアチェック部分
         public Nullable<float> Pos_X;        //カメラのポジションX
         public Nullable<float> Pos_Y;        //カメラのポジションY
         public Nullable<float> Pos_Z;        //カメラのポジションZ
         public Nullable<float> Rot_X;        //カメラの角度X
         public Nullable<float> Rot_Y;        //カメラの角度Y
-        public Nullable<float> Rot_Z;        //カメラの角度Z
-        public string StageTitle;             //CSVのTitle部分
+
+		public Nullable<float> Rot_Z;        //カメラの角度Z
     }
 	//実際のキャラデータ格納箇所
 	public List<StageDate> StageDateList = new List<StageDate>();
@@ -88,6 +91,9 @@ public class CsvLoad : MonoBehaviour {
 					StageName = null,
 					UpperCunt = null,
                     MinCunt = null,
+					GoldCunt = null,
+					SilverCunt = null,
+					BronzeCunt = null,
                     ClearFlag = null,
                     Pos_X = null,
                     Pos_Y = null,
@@ -95,7 +101,6 @@ public class CsvLoad : MonoBehaviour {
                     Rot_X=null,
                     Rot_Y=null,
                     Rot_Z=null,
-                    StageTitle = null,
 				});
 			} else {
                
@@ -104,44 +109,40 @@ public class CsvLoad : MonoBehaviour {
                     StageID = int.Parse (arrays [i, 0]),
                     StageName = arrays [i, 1],
                     UpperCunt = int.Parse (arrays [i, 2]),
-                    MinCunt = int.Parse(arrays[i, 3]),
-                    ClearFlag = int.Parse (arrays [i, 4]),
-                    Pos_X = float.Parse(arrays[i, 5]),
-                    Pos_Y = float.Parse(arrays[i, 6]),
-                    Pos_Z = float.Parse(arrays[i, 7]),
-                    Rot_X = float.Parse(arrays[i, 8]),
-                    Rot_Y = float.Parse(arrays[i, 9]),
-                    Rot_Z = float.Parse(arrays[i, 10]),                  
-                    StageTitle = arrays[i, 11],
+					MinCunt = int.Parse(arrays[i, 3]),
+					GoldCunt = int.Parse(arrays[i, 4]),
+					SilverCunt = int.Parse(arrays[i, 5]),
+					BronzeCunt = int.Parse(arrays[i, 6]),
+                    ClearFlag = int.Parse (arrays [i, 7]),
+                    Pos_X = float.Parse(arrays[i, 8]),
+                    Pos_Y = float.Parse(arrays[i, 9]),
+                    Pos_Z = float.Parse(arrays[i, 10]),
+                    Rot_X = float.Parse(arrays[i, 11]),
+                    Rot_Y = float.Parse(arrays[i, 12]),
+                    Rot_Z = float.Parse(arrays[i, 13]), 
                     
 				});
                 CSVData.GetData().Add(new CSVData.StageDate()
                 {
-                    StageID = int.Parse(arrays[i, 0]),
-                    StageName = arrays[i, 1],
-                    UpperCunt = int.Parse(arrays[i, 2]),
-                    MinCunt = int.Parse(arrays[i, 3]),
-                    ClearFlag = int.Parse(arrays[i, 4]),
-                    Pos_X = float.Parse(arrays[i, 5]),
-                    Pos_Y = float.Parse(arrays[i, 6]),
-                    Pos_Z = float.Parse(arrays[i, 7]),
-                    Rot_X = float.Parse(arrays[i, 8]),
-                    Rot_Y = float.Parse(arrays[i, 9]),
-                    Rot_Z = float.Parse(arrays[i, 10]),
-                    StageTitle = arrays[i, 11],
-                    //ClearFlag = int.Parse(arrays[i, 3]),
-                    //Pos_X = float.Parse(arrays[i, 4]),
-                    //Pos_Y = float.Parse(arrays[i, 5]),
-                    //Pos_Z = float.Parse(arrays[i, 6]),
-                    //Rot_X = float.Parse(arrays[i, 7]),
-                    //Rot_Y = float.Parse(arrays[i, 8]),
-                    //Rot_Z = float.Parse(arrays[i, 9]),
-                    //StageTitle = arrays[i, 10],
+						StageID = int.Parse (arrays [i, 0]),
+						StageName = arrays [i, 1],
+						UpperCunt = int.Parse (arrays [i, 2]),
+						MinCunt = int.Parse(arrays[i, 3]),
+						GoldCunt = int.Parse(arrays[i, 4]),
+						SilverCunt = int.Parse(arrays[i, 5]),
+						BronzeCunt = int.Parse(arrays[i, 6]),
+						ClearFlag = int.Parse (arrays [i, 7]),
+						Pos_X = float.Parse(arrays[i, 8]),
+						Pos_Y = float.Parse(arrays[i, 9]),
+						Pos_Z = float.Parse(arrays[i, 10]),
+						Rot_X = float.Parse(arrays[i, 11]),
+						Rot_Y = float.Parse(arrays[i, 12]),
+						Rot_Z = float.Parse(arrays[i, 13]),
                 });
             }
 		}
 
-        //デバッグログ確認
+       
 
     }
     private void Awake()

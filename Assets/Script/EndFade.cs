@@ -43,8 +43,8 @@ public class EndFade : MonoBehaviour
     //時間確認
     public bool stopFlag = false;     //次のシーン行くまで待機的なフラグ
     private float countTime = 0.0f;
-    public float endTime = 4.0f;
-    public float ClearFadeTime = 4.0f;
+    private float endTime = 1.0f;
+    private float ClearFadeTime = 2.0f;
     public float FailedFadeTime = 2.0f;
     bool endChake = false;
 
@@ -56,7 +56,13 @@ public class EndFade : MonoBehaviour
     public failed ClearFade;
     public failed FailedFade;
 
+    // スクショ用
+    private ScreenShot SS;
+    private bool ScreenshotFlg = false;
+    GameObject saveObj;
 
+    //クリア・失敗のときのSEフラグ
+    bool PlayedSE = false;
 
     // Use this for initialization
     void Start()
@@ -64,6 +70,12 @@ public class EndFade : MonoBehaviour
         ClearFadeSpeed = new Color(ClearObj.GetComponent<Renderer>().material.color.r, ClearObj.GetComponent<Renderer>().material.color.g, ClearObj.GetComponent<Renderer>().material.color.b, FadeS);
         FogFadeSpeed = new Color(FogObj.GetComponent<Renderer>().material.color.r, FogObj.GetComponent<Renderer>().material.color.g, FogObj.GetComponent<Renderer>().material.color.b, FadeS);
         FailedFadeSpeed = new Color(FailedObj.GetComponent<Renderer>().material.color.r, FailedObj.GetComponent<Renderer>().material.color.g, FailedObj.GetComponent<Renderer>().material.color.b, FadeS);
+
+        // スクショ用準備
+        SS = this.GetComponent<ScreenShot>();
+        SS.Init("Stage", "ClearStageSS", "ClearImage");
+        saveObj = GameObject.Find("SaveData").gameObject;
+        saveObj.GetComponent<ExportCsvScript>().SetStageId(GameObject.Find("StagePrefab").GetComponent<MainStageLoad>().StageID);
     }
 
     // Update is called once per frame
@@ -72,6 +84,12 @@ public class EndFade : MonoBehaviour
         if(MainScript.ClearFlg && !endChake)
         {
             countTime += Time.deltaTime;
+
+            if(ClearFadeTime / 2 <= countTime)
+            {
+                SaveAndScreenshot();
+            }
+
             if (ClearFadeTime <= countTime && !ClearFade.In)
             {
                 countTime = 0.0f;
@@ -100,13 +118,24 @@ public class EndFade : MonoBehaviour
             FailedStartFlag = MainScript.FailFlg;
 
         }
-
         if (ClearStartFlag)
         {
+            Sound.StopBgm();
+            if (PlayedSE == false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_CLEAR");
+            }
             ClearAnima();
         }
         if (FailedStartFlag)
         {
+            Sound.StopBgm();
+            if (PlayedSE == false)
+            {
+                PlayedSE = true;
+                Sound.PlaySe("SE_FAIL");
+            }
             FailedAnima();
         }
 
@@ -152,7 +181,7 @@ public class EndFade : MonoBehaviour
 
 
             float val = time;
-            float num = val * val;
+            //float num = val * val;  使わない変数はとりあえずコメント化　--6/25 李--
             // Color color = new Color(val * val, val * val, val * val);
             Color color = new Color(val, val, val); //エミッションの光度を変えてる。
             FogObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
@@ -270,4 +299,20 @@ public class EndFade : MonoBehaviour
 
     }
 
+    void SaveAndScreenshot()
+    {
+        // スクショ作成とセーブデータ更新
+        if (!ScreenshotFlg)
+        {
+            if(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit <= saveObj.GetComponent<ExportCsvScript>().GetClearData(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()))
+            {
+                GlobalCoroutine.Go(SS.CreateClearImage(saveObj.GetComponent<ExportCsvScript>().GetNowStageId()));
+                saveObj.GetComponent<ExportCsvScript>().SetClearData(GameObject.Find("MainSceneScript").GetComponent<GameMain>().ClearLimit);
+                saveObj.GetComponent<ExportCsvScript>().WriteFile();
+            }
+
+            ScreenshotFlg = true;
+        }
+
+    }
 }

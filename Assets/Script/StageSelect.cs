@@ -15,18 +15,21 @@ public class StageSelect : MonoBehaviour
     public bool FadeOutFlag = false;        //フェードアウトフラグ
     public bool FadeInitOutFlag = false;
     bool SetNowStage = false;
+    bool TutorialFlag = false;
     public bool TimeFlag = false;           //このフラグがtrueになったらzoomを止める
-    public float Volume = 0.2f;             //サウンドのボリューム
+    private float Volume = 0.7f;             //サウンドのボリューム
     public Vector3 TargetPos;               //移動先の設定   
     public int StageID = 1;                     //ステージID
-    public float DefaultKey = 0.5f;         //このスティック以上倒すとキー入力判定
+    public float DefaultKey = 0.8f;         //このスティック以上倒すとキー入力判定
     public Rigidbody RB;                    //このオブジェクトのRigidbodyを持ってくる用
     private float Distance = 14.0f;             //オブジェクト間の距離
     public Vector3 vector = new Vector3(20, 0, 0);   //移動時のベクトル
     public bool SePlayFlag = false;         //何回も再生しないように
-    int StageNum = 30;
+    int StageNum = 20;
+    bool MoveFlag = false;
 
     public Camera ZoomIn;
+    public GameObject pause;
 
     GameObject MapObject;
     MapScript Map;
@@ -58,12 +61,16 @@ public class StageSelect : MonoBehaviour
         Sound.LoadSe("StageIn", Sound.SearchFilename(Sound.eSoundFilename.SS_StageIn));  //メインに遷移する時のSE
         Sound.LoadSe("In", "StageSelect/SS_In");
         Sound.LoadSe("MapSelect", "StageSelect/SS_Mapselect");
-        Sound.LoadSe("MoveEnd", "StageSelect/SS_Moveend");
-        Sound.SetVolumeBgm("bgm", Volume);
+        Sound.LoadSe("MapIn", "StageSelect/GM_SS_Paper");//マップ出すときの音
+        Sound.PlayBgm("bgm");
+        Sound.SetLoopFlgSe("MapIn", false, 4);
+
+
         Sound.SetVolumeSe("Move", Volume, 0);
         Sound.SetVolumeSe("StageIn", Volume, 1);
-        Sound.PlayBgm("bgm");
-        Sound.SetLoopFlgSe("Move", true, 0);
+        Sound.SetVolumeSe("In", Volume, 2);
+        Sound.SetVolumeSe("MapSelect", Volume, 3);
+        Sound.SetVolumeSe("MapIn", Volume, 4);
         this.transform.position = new Vector3(0, 0, 0);
         StageID = PassStageID.PassStageId();
         this.transform.position = new Vector3(-Distance*(StageID), 0, 0);
@@ -80,7 +87,7 @@ public class StageSelect : MonoBehaviour
         StageID = PassStageID.PassStageId();
         if (SetNowStage)
         {
-            Debug.Log("NowStage");
+            Sound.SetLoopFlgSe("Move", true, 0);
             SetNowStagePrefab();
         }
 
@@ -89,13 +96,15 @@ public class StageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag)
+        if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag&&!Pause.is_pause)
         {
-            ChangeMapOpen();
+         
             StageSelectMoveFlag();      //ステージ移動フラグを立てる
             StageSelectMove();          //ステージの移動をする
             SelectStage();              //ステージの決定かタイトルに戻るよう
             Transitions();              //遷移
+            ChangeMapOpen();
+            TutorialTransition();
         }
     }
 
@@ -104,8 +113,9 @@ public class StageSelect : MonoBehaviour
         float Decision;                                 //上下を判定用
         Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
         
-        if (Decision < -DefaultKey && !TargetFlag)
+        if (Input.GetButtonDown("SelectButton")&&!MoveFlag)
         {
+    
             PassStageID.GetStageID(StageID);
             Map.enabled = true;
             this.enabled = false;
@@ -191,6 +201,7 @@ public class StageSelect : MonoBehaviour
         {
             if (this.transform.position.x > TargetPos.x)
             {
+                MoveFlag = true;
                 if (!SePlayFlag)
                 {
                     Sound.PlaySe("Move", 0);                //ToDo　音代わるかも
@@ -200,8 +211,8 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
+                MoveFlag = false;
                 Sound.StopSe("Move", 0);                    //ToDo 音代わるかも
-                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -214,6 +225,7 @@ public class StageSelect : MonoBehaviour
         {
             if (this.transform.position.x < TargetPos.x)
             {
+                MoveFlag = true;
                 if (!SePlayFlag)
                 {
                     Sound.PlaySe("Move", 0);                    //ToDo　音代わるかも
@@ -224,8 +236,8 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
+                MoveFlag = false;
                 Sound.StopSe("Move", 0);                        //ToDo 音代わるかも
-                Sound.PlaySe("MoveEnd");
                 SePlayFlag = false;
                 this.transform.position = TargetPos;
                 RB.isKinematic = true;
@@ -243,22 +255,23 @@ public class StageSelect : MonoBehaviour
     }
     public void SelectStage()       //遊ぶステージの決定
     {
-        float Decision;
+        // float Decision;  使わない変数はとりあえずコメント化　--6/25 李--
         if (StageID != 0)
         {
             if (Input.GetButtonDown("AButton") && !TargetFlag)
             {
-                Sound.PlaySe("StageIn", 1);                     //ToDo 音代わるかも
+                Sound.PlaySe("In", 2);                     //ToDo 音代わるかも
                 Sound.StopBgm();                                //ToDo　音代わるかも
                 SelectStageFlag = true;
             }
         }
-        Decision = Input.GetAxisRaw("LeftStick X");
-        if (Decision < -DefaultKey)
+        if (StageID == 0)
         {
-            if (this.transform.position.x >= 0)
+            if (Input.GetButtonDown("AButton") && !TargetFlag)
             {
-                BackTitleFlag = true;
+                Sound.PlaySe("In", 2);                     //ToDo 音代わるかも
+                Sound.StopBgm();                                //ToDo　音代わるかも
+                TutorialFlag = true;
             }
         }
     }
@@ -300,6 +313,45 @@ public class StageSelect : MonoBehaviour
         }
     }
 
+    public void TutorialTransition()       //遷移
+    {
+        if (TutorialFlag)
+        {
+
+            if (time < MaxTime - 0.1f)
+            {
+                if (!FadeInitOutFlag)
+                {
+                    FadeFlag.FadeOutFlag = true;
+                    FadeInitOutFlag = true;
+                }
+            }
+
+            else
+            {
+                time = Mathf.PingPong(timeCount, MaxTime + 0.1f);
+                ZoomIn.orthographicSize -= 0.01f;
+            }
+
+            if (!FadeFlag.FadeOutFlag)
+            {
+                SelectStageFlag = false;
+                PassStageID.GetStageID(StageID);
+                PassStageID.GetStageName(CSVData.StageDateList[StageID].StageName);
+                PassStageID.GetPosition((float)CSVData.StageDateList[StageID].Pos_X, (float)CSVData.StageDateList[StageID].Pos_Y, (float)CSVData.StageDateList[StageID].Pos_Z);
+                PassStageID.GetRotation((float)CSVData.StageDateList[StageID].Rot_X, (float)CSVData.StageDateList[StageID].Rot_Y, (float)CSVData.StageDateList[StageID].Rot_Z);
+                PassStageID.GetUpperCount((int)CSVData.StageDateList[StageID].UpperCunt);
+                SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            }
+        }
+        if (BackTitleFlag)
+        {
+            BackTitleFlag = false;
+            // SceneManager.LoadScene("Title", LoadSceneMode.Single);
+        }
+    }
+
+
     private void FadeImage()
     {
         fadeImage.Fade();
@@ -311,7 +363,7 @@ public class StageSelect : MonoBehaviour
 
         //IsClearNowObj = (CSVData.StageDateList[StageID].ClearFlag != 0 && CSVData.StageDateList[StageID].ClearFlag >= CSVData.StageDateList[StageID].MinCunt) ? true : false;
         IsClearNowObj = (saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) != 0 && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) >= CSVData.StageDateList[StageID].MinCunt && saveObj.GetComponent<ExportCsvScript>().GetClearData(StageID) <= CSVData.StageDateList[StageID].UpperCunt) ? true : false;
-        NowObj = this.transform.Find("Stage" + CastStageId(StageID) + "(Clone)").gameObject;
+        NowObj = this.transform.Find(CSVData.StageDateList[StageID].StageName + "(Clone)").gameObject;
         NowObj = NowObj.transform.Find("ClearStageSS").gameObject;
         fadeImage = NowObj.GetComponent<FadeImage>();
         fadeImage.Init(NowObj.GetComponent<Renderer>(), LookTime, InvisibleTime, FadeTime);

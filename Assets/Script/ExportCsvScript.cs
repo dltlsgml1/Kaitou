@@ -13,12 +13,14 @@ public class ExportCsvScript : MonoBehaviour
     private string FileName = "SaveData.csv";   // セーブデータのファイル名
     private bool CreateFileFlg = false;
 
+    private int NowStageId;     // 現在のステージ番号
+
     // 初期化
     public void Init(int max)
     {
         ClearNum = new int[max];
         MaxData = max;
-        
+        Cursor.visible = false;
         // ファイルがなければ作る
         CreateSaveFile();
 
@@ -26,11 +28,28 @@ public class ExportCsvScript : MonoBehaviour
         ReadFile();
     }
 
+    // 現在の利用しているステージID
+    public void SetStageId(int id)
+    {
+        NowStageId = id;
+    }
+
+    public int GetNowStageId()
+    {
+        return NowStageId;
+    }
+
     // クリア手数のセット
-    public void SetClearData(int id, int clearnum = 0)
+    public void SetClearData(int clearnum = 100)
+    {
+        ClearNum[NowStageId] = clearnum;
+    }
+
+    private void SetClearData(int id, int clearnum = 100)
     {
         ClearNum[id] = clearnum;
     }
+
 
     // クリア手数の取得
     public int GetClearData(int id)
@@ -60,7 +79,7 @@ public class ExportCsvScript : MonoBehaviour
             // データ出力
             for (int i = 0; i < MaxData; i++)
             {
-                string[] str = { "Stage" + IdToString(i), "" + 0 };
+                string[] str = { "Stage" + IdToString(i), "" + 100 };
                 string str2 = string.Join(",", str);
                 sw.WriteLine(str2);
             }
@@ -82,6 +101,7 @@ public class ExportCsvScript : MonoBehaviour
         int idx;
         string id, clear;
         int idData, clearData;
+        int cnt = 0;
 
         // 行がnullじゃない間(つまり次の行がある場合は)、処理をする
         while ((line = sr.ReadLine()) != null)
@@ -89,6 +109,11 @@ public class ExportCsvScript : MonoBehaviour
             idx = line.IndexOf(",");
             clear = line.Substring(idx + 1);
             id = line.Substring(5, 2);
+
+            // セーブデータがデータ最大数を超えた場合の例外処理
+            cnt++;
+            if (cnt > MaxData + 1)
+                break;
 
             if(clear != "クリア回数")
             {
@@ -104,6 +129,7 @@ public class ExportCsvScript : MonoBehaviour
                 SetClearData(idData, clearData);
                 
             }
+
         }
         // StreamReaderを閉じる
         sr.Close();
@@ -131,6 +157,16 @@ public class ExportCsvScript : MonoBehaviour
         // StreamWriterを閉じる
         sw.Close();
 
+    }
+
+    // ファイル削除
+    public void DeleteFile()
+    {
+        string path = Application.dataPath + "/" + FileName;
+        if (System.IO.File.Exists(path) == true)
+        {
+            System.IO.File.Delete(path);
+        }
     }
 
     private string IdToString(int id)
