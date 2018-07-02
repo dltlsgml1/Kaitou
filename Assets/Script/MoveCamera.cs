@@ -16,7 +16,7 @@ public class MoveCamera : MonoBehaviour {
     public Vector3 Rotation;                           //回転のデータ
     Vector2 ScreenPosition;                     //スクリーンの位置データ
     float Key;                                  //Axisで取られた正負の確認
-    float DefaultKey=0.5f;                      //勝手に移動するの防ぐ用
+    float DefaultKey=0.7f;                      //勝手に移動するの防ぐ用
     public bool CheckDebug;
     public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
