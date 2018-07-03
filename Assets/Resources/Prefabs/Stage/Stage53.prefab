@@ -2596,7 +2596,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1122118187179840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.78, y: -1.39, z: 1.09}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4788685920045718}
@@ -2880,7 +2880,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238259940323304}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: -1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4411876830222138}
@@ -2941,7 +2941,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1955790067848550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 3, z: 0}
+  m_LocalPosition: {x: -3, y: 3, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4183791181261330}
@@ -3344,7 +3344,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624636305652984}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -1, z: -3}
+  m_LocalPosition: {x: 2, y: -1, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4079838454183056}
@@ -3665,7 +3665,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192232227644404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -2, z: -2}
+  m_LocalPosition: {x: 1, y: -2, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4885120506609542}
@@ -4030,7 +4030,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808114001096648}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4830568132917186}
@@ -9975,6 +9975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114212843945632758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10038,6 +10039,7 @@ MonoBehaviour:
   StartBlockFlg: 0
   BurnCnt: 0
   CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
 --- !u!114 &114454756755909198
 MonoBehaviour:
@@ -10050,6 +10052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114461657415549240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10096,6 +10099,7 @@ MonoBehaviour:
   StartBlockFlg: 0
   BurnCnt: 0
   CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
 --- !u!114 &114553156753773470
 MonoBehaviour:
@@ -10108,6 +10112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114573356244627544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10136,6 +10141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114682235714947090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10182,6 +10188,7 @@ MonoBehaviour:
   StartBlockFlg: 0
   BurnCnt: 0
   CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
 --- !u!114 &114802347874880954
 MonoBehaviour:
@@ -10212,6 +10219,7 @@ MonoBehaviour:
   StartBlockFlg: 0
   BurnCnt: 0
   CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
 --- !u!114 &114877921196674394
 MonoBehaviour:
@@ -10242,6 +10250,7 @@ MonoBehaviour:
   StartBlockFlg: 1
   BurnCnt: 0
   CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
 --- !u!114 &114931651177904236
 MonoBehaviour:
@@ -10254,6 +10263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!198 &198041167632341124
 ParticleSystem:
   m_ObjectHideFlags: 1
