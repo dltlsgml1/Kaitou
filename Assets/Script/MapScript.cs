@@ -63,6 +63,7 @@ public class MapScript : MonoBehaviour
     {
         Is_Map = true;
         Sound.StopSe("Move", 0);
+        Sound.PlaySe("MapIn", 4);
 
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable = StageSelectObject.GetComponent<StageSelect>();
@@ -100,7 +101,6 @@ public class MapScript : MonoBehaviour
         if (Pause.is_pause) { return; }
         if (InitFlag)
         {
-            Sound.PlaySe("MapIn", 4);
             MapOpen();
         }
         else
@@ -219,6 +219,7 @@ public class MapScript : MonoBehaviour
             Frame.transform.position = FramePosition;
             FrameFade.FadeOutFlag = true;
             FingerMoveFlag = false;
+            Sound.PlaySe("MapSelect", 3);
         }
 
     }
@@ -259,7 +260,6 @@ public class MapScript : MonoBehaviour
                     FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
 
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
@@ -281,7 +281,6 @@ public class MapScript : MonoBehaviour
                     FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
 
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
@@ -302,7 +301,6 @@ public class MapScript : MonoBehaviour
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
                     FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
@@ -323,7 +321,6 @@ public class MapScript : MonoBehaviour
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
                     FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
@@ -361,7 +358,6 @@ public class MapScript : MonoBehaviour
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
                     FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
                     EndPosition.y = InitHeight + (-Decision * Height);
-                    Sound.PlaySe("MapSelect", 3);
 
 
                 }
@@ -382,7 +378,7 @@ public class MapScript : MonoBehaviour
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
-                    Sound.PlaySe("MapSelect", 3);
+                    ;
 
                 }
             }
@@ -402,7 +398,6 @@ public class MapScript : MonoBehaviour
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
@@ -422,7 +417,6 @@ public class MapScript : MonoBehaviour
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
-                    Sound.PlaySe("MapSelect", 3);
 
                 }
             }
