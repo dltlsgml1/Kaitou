@@ -1,10 +1,17 @@
-﻿using System.Collections;
+﻿
+#define DEBUG_MODE//コメントアウトで解除
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class Result : MonoBehaviour {
 
+
+
+public class Result : MonoBehaviour {
 
     public GameObject SetImage;
     public GameObject SetCursol;
@@ -24,7 +31,7 @@ public class Result : MonoBehaviour {
     
     Transform KeyPosition;
     Transform[] SetStar = new Transform[3];
-    Vector3[] StarSize = new Vector3[3];
+    Vector3[] InitSize = new Vector3[3];
     SpriteRenderer[] Selectfade = new SpriteRenderer[4];
 
     float[] size = new float[3]; 
@@ -56,52 +63,65 @@ public class Result : MonoBehaviour {
         select_color_A = 0;
         size[0] = size[1] = 0; size[2] = 0;
 
-        StarSize[0] = new Vector3(0,0,0);
-        StarSize[1] = new Vector3(0, 0, 0);
-        StarSize[2] = new Vector3(0, 0, 0);
+        
 
         SetStar[0] = StarObj[0].GetComponent<Transform>();
         SetStar[1] = StarObj[1].GetComponent<Transform>();
         SetStar[2] = StarObj[2].GetComponent<Transform>();
 
+        //初期位置保存
+        for (int i = 0; i < 3; i++)
+        {
+            InitSize[i] = new Vector3(SetStar[i].localPosition.x, SetStar[i].localPosition.y, SetStar[i].localPosition.z);
+        }
+
+        //マテリアルセット
         for (int i = 0; i < 4; i++)
         {
             Selectfade[i] = Select[i].GetComponent<SpriteRenderer>();
         }
 
-            if (bronzflg)
-            {
-                SetStar[0].GetComponent<MeshRenderer>().material = starmat[0];
-                SetStar[1].GetComponent<MeshRenderer>().material = starmat[0];
-                SetStar[2].GetComponent<MeshRenderer>().material = starmat[0];
-            }
-            else if (silverflg)
-            {
-                SetStar[0].GetComponent<MeshRenderer>().material = starmat[1];
-                SetStar[1].GetComponent<MeshRenderer>().material = starmat[1];
-                SetStar[2].GetComponent<MeshRenderer>().material = starmat[1];
-            }
-            else if (goldflg)
-            {
-                SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
-                SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
-                SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
-            } //public Material[] lightmat = new Material[10];
-    //this.transform.GetChild(i).GetComponent<MeshRenderer>().material = lightmat[i];
+        if (bronzflg)
+        {
+            SetStar[0].GetComponent<MeshRenderer>().material = starmat[0];
+            SetStar[1].GetComponent<MeshRenderer>().material = starmat[0];
+            SetStar[2].GetComponent<MeshRenderer>().material = starmat[0];
+        }
+        else if (silverflg)
+        {
+            SetStar[0].GetComponent<MeshRenderer>().material = starmat[1];
+            SetStar[1].GetComponent<MeshRenderer>().material = starmat[1];
+            SetStar[2].GetComponent<MeshRenderer>().material = starmat[1];
+        }
+        else if (goldflg)
+        {
+            SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
+            SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
+            SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
+        } 
 
         KeyPosition = SetCursol.GetComponent<Transform>();
         fade = SetImage.GetComponent<Image>();
 
+        //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
+
+        //初期カーソルぽししょん
         KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        //フェードアウト終了完了（操作可能区間）
         if (result_ok)
         {
-            //入力処理
-            InputCollection();
+            //フェードイン・アウト中の操作切断
+            if (fadeInflg == false && fadeOutflg == false)
+            {
+                //入力処理
+                InputCollection();
+            }
 
             //カーソル位置更新
             KeyCheck();
@@ -119,10 +139,11 @@ public class Result : MonoBehaviour {
 
 	}
 
+    //入力関係の処理
     void InputCollection()
     {
         //カーソル移動
-        if (Input.GetKeyDown("up"))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (Cursolnum<1)
             {
@@ -133,7 +154,7 @@ public class Result : MonoBehaviour {
                 Cursolnum--;
             }
         }
-        if (Input.GetKeyDown("down"))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (Cursolnum > 1)
             {
@@ -145,26 +166,38 @@ public class Result : MonoBehaviour {
             }
         }
 
-        //決定
-        //if (Input.GetKeyDown("SPACE"))
-        //{
-        //    switch (Cursolnum)
-        //    {
-        //        case 0:
-        //            SceneManager.LoadScene("");
-        //            break;
-        //        case 1:
-        //            SceneManager.LoadScene("");
-        //            break;
-        //        case 2:
-        //            SceneManager.LoadScene("");
-        //            break;
-        //    }
-        //}
-
-
+        //決定（各シーンに遷移）
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            switch (Cursolnum)
+            {
+                case 0:
+#if DEBUG_MODE
+                    fadeInflg=true;
+#else
+                    //SceneManager.LoadScene("");
+#endif
+                    break;
+                case 1:
+#if DEBUG_MODE
+                    fadeInflg =true;
+#else
+                    //SceneManager.LoadScene("");
+#endif
+                    break;
+                case 2:
+#if DEBUG_MODE
+                    fadeInflg =true;
+#else
+                    //SceneManager.LoadScene("");
+#endif
+                    break;
+            }
+        }
     }
 
+
+    //カーソル位置確認処理
     void KeyCheck()
     {
         switch (Cursolnum)
@@ -182,7 +215,7 @@ public class Result : MonoBehaviour {
     }
 
 
-
+    //フェードイン・アウト処理
     void ResultFade()
     {
         if (fadeInflg)
@@ -190,6 +223,7 @@ public class Result : MonoBehaviour {
             if (fade_color_A > 1)
             {
                 fadeInflg = false;
+                ResultInit();//初期化
             }
             fade_color_A += fadespeed;
         }
@@ -198,7 +232,7 @@ public class Result : MonoBehaviour {
             if (fade_color_A < 0)
             {
                 fadeOutflg = false;
-                resultAnimationStart = true;
+                resultAnimationStart = true;//評価アニメーションスタート
             }
             fade_color_A -= fadespeed;
 
@@ -206,6 +240,8 @@ public class Result : MonoBehaviour {
         fade.color = new Color(1,1,1, fade_color_A);
     }
 
+
+    //選択項目フェードイン処理
     void SelectFadeIn()
     {
         if (select_color_A < 255)
@@ -219,6 +255,7 @@ public class Result : MonoBehaviour {
     }
 
 
+    //評価アニメーション処理
     void ResultAnimation()
     {
         if (resultAnimationStart)
@@ -247,5 +284,38 @@ public class Result : MonoBehaviour {
         }
     }
    
+
+
+    //初期化処理
+    void ResultInit()
+    {
+        fadeInflg = false;
+        fadeOutflg = true;
+        resultAnimationStart = false;
+        result_ok = false;
+
+        Cursolnum = 0;
+        fade_color_A = 1;
+        select_color_A = 0;
+        size[0] = size[1] = 0; size[2] = 0;
+
+        //初期位置
+        for (int i = 0; i < 3; i++)
+        {
+            SetStar[i].transform.localPosition = new Vector3(InitSize[i].x, InitSize[i].y, InitSize[i].z);
+        }
+            
+        //初期フェードカラー
+        fade.color = new Color(1, 1, 1, fade_color_A);
+
+        //初期カーソルぽししょん
+        KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+
+        //初期選択項目フェード
+        for (int i = 0; i < 4; i++)
+        {
+            Selectfade[i].color = new Color(255, 255, 255, select_color_A);
+        }
+    }
 
 }
