@@ -43,7 +43,9 @@ public class GameMain : MonoBehaviour
     public bool FadeEnd = false;
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
+    public bool PlayedSE3 = false;
     public bool NowCol2 = false;
+    public bool NowCantBurn = false;
     public bool TutorialAtari = false;
     public bool limitminus = false;
 
@@ -87,8 +89,10 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
         Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
         Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
+        Sound.LoadSe("SE_INFO_CANT", "GameMain/GM_Information_Fail");
         Sound.PlayBgm("GM_BGM");
         Sound.SetLoopFlgSe("SE_INFO", true, 4);
+        //Sound.SetLoopFlgSe("SE_INFO_CANT", true, 4);
         Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
         if (TutorialFlg == false)
         {
@@ -111,6 +115,7 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         Nowcol = false;
         NowCol2 = false;
+        NowCantBurn = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -188,39 +193,14 @@ public class GameMain : MonoBehaviour
                     continue;
                 if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
                 {
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBottom == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
-                    }
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsTop == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
-                    }
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsRight == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
 
-                    }
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true &&
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsLeft == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
-
-                    }
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true &&
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsFront == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
-                    }
-
-                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBack == true)
-                    {
-                        atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
-                    }
+                    
 
                     if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
                     {
@@ -244,11 +224,19 @@ public class GameMain : MonoBehaviour
             PlayedSE2 = false;
         }
 
+        if (Input.GetButtonDown("AButton"))
+        {
+            if(NowCantBurn==true)
+            {
+                Sound.PlaySe("SE_INFO_CANT", 5);
+            }
+        }
         if (Input.GetButton("AButton"))
         {
             for (int i = 0; i < NormalCount; i++)
             {
-                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
+                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true &&
+                    NormalBlocks[i].GetComponent<Blocks>().cantburn == false )
                 {
                     if (Collapsing == false)
                     {
@@ -455,28 +443,89 @@ public class GameMain : MonoBehaviour
             switch (CollapsPlain)
             {
                 case (int)DefineScript.CollisionIndex.Top:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsTopCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsBottomCollapsed = true;
+                    if(CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true && 
+                       NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsTopCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsBottomCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
                     break;
                 case (int)DefineScript.CollisionIndex.Bottom:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBottomCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsTopCollapsed = true;
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBottom == true &&
+                      NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBottomCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsTopCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
                     break;
                 case (int)DefineScript.CollisionIndex.Left:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsLeftCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsRightCollapsed = true;
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true &&
+                       NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsLeftCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsRightCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
+
                     break;
                 case (int)DefineScript.CollisionIndex.Right:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsRightCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsLeftCollapsed = true;
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsRight == true &&
+                       NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsLeft == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsRightCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsLeftCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
                     break;
                 case (int)DefineScript.CollisionIndex.Front:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsFrontCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsBackCollapsed = true;
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true &&
+                      NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsFrontCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsBackCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
                     break;
                 case (int)DefineScript.CollisionIndex.Back:
-                    CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBackCollapsed = true;
-                    NormalBlocks[BlockNow].GetComponent<Blocks>().IsFrontCollapsed = true;
+                    if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsBack == true &&
+                      NormalBlocks[CollapsNow].GetComponent<Blocks>().CollapsFront == true)
+                    {
+                        CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBackCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().IsFrontCollapsed = true;
+                    }
+                    else
+                    {
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NowCantBurn = true;
+                    }
                     break;
 
             }

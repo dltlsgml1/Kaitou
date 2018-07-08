@@ -7994,8 +7994,8 @@ MonoBehaviour:
   CollapsBottom: 1
   CollapsFront: 1
   CollapsBack: 1
-  CollapsLeft: 1
-  CollapsRight: 1
+  CollapsLeft: 0
+  CollapsRight: 0
   IsTopCollapsed: 0
   IsRightCollapsed: 0
   IsLeftCollapsed: 0
@@ -8007,8 +8007,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 1
   BurnCnt: 0
-  CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
+  cantburn: 0
 --- !u!114 &114052979030717056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8037,8 +8038,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
+  cantburn: 0
 --- !u!114 &114103108816666608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8054,8 +8056,8 @@ MonoBehaviour:
   CollapsBottom: 1
   CollapsFront: 1
   CollapsBack: 1
-  CollapsLeft: 1
-  CollapsRight: 1
+  CollapsLeft: 0
+  CollapsRight: 0
   IsTopCollapsed: 0
   IsRightCollapsed: 0
   IsLeftCollapsed: 0
@@ -8067,8 +8069,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
+  cantburn: 0
 --- !u!114 &114116288341677622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8080,6 +8083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114211107127853734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8108,8 +8112,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
+  BurnCnt2: 0
   canburn: 0
+  cantburn: 0
 --- !u!114 &114226387731737836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8121,6 +8126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114608024677438948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8166,6 +8172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114743682812664506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8194,6 +8201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244baa2d42f70d64bb77cf2114d03a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneroot: 1
 --- !u!114 &114877278436619020
 MonoBehaviour:
   m_ObjectHideFlags: 1
