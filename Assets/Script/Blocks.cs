@@ -21,16 +21,15 @@ public class Blocks : MonoBehaviour {
 
     public bool NormalNowcol = false;
     public bool CollapsNowcol = false;
-
-    public static bool nowplayingse = false;
+    
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt = 0.0f;
-    public int CollapsNum = 0;
     public float BurnCnt2 = 0.0f;
-    public static int NowCollapsingBlock = 0;
     public bool canburn = false;
+    public bool cantburn = false;
     
+
     void Start ()
     {      
         if (StartBlockFlg == true)
@@ -58,5 +57,7 @@ public class Blocks : MonoBehaviour {
         IsBackCollapsed = false;
         NormalNowcol = false;
         CollapsNowcol = false;
+        canburn = false;
+        cantburn = false;
     }
 }
