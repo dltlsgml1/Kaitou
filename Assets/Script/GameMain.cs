@@ -32,18 +32,17 @@ public class GameMain : MonoBehaviour
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
     public int ClearLimit = 0;
     public int FailLimitNum = 0;            //残りの上限回数
+    public int NowPitch = 0;
     public bool TutorialFlg = true;
     public bool ClearFlg = false;           //ステージクリアフラグ
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
     public bool UnsetCollapsing = false;    //上のフラグを解除するときに使うフラグ
     public bool Nowcol = false;
-    public bool Burned = false;
-    public bool buttonup = false;
     public bool FadeEnd = false;
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
-    public bool PlayedSE3 = false;
+
     public bool NowCollapsing = false;
     public bool NowCantBurn = false;
     public bool TutorialAtari = false;
@@ -251,10 +250,31 @@ public class GameMain : MonoBehaviour
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
                     UnsetCollapsing = false;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 += DefineScript.JUDGE_BNSPEED_NONBUTTON;
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 >= DefineScript.JUDGE_BNTIME)
+                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
+                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
+                        if (NowPitch < 4)
+                            NowPitch++;
+                        switch (NowPitch)
+                        {
+                            case 0:
+                                Sound.PlaySe("SE_STAR", 6);
+                                break;
+                            case 1:
+                                Sound.PlaySe("SE_STAR", 6);
+                                break;
+                            case 2:
+                                Sound.PlaySe("SE_STAR", 6);
+                                break;
+                            case 3:
+                                Sound.PlaySe("SE_STAR", 6);
+                                break;
+                            case 4:
+                                Sound.PlaySe("SE_STAR", 6);
+                                break;
+                        }
+                        
                     }
 
                 }
@@ -262,7 +282,6 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnOK = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
                 }
             }
 
@@ -272,7 +291,6 @@ public class GameMain : MonoBehaviour
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
                     
                 }
             }
@@ -281,7 +299,7 @@ public class GameMain : MonoBehaviour
         if (UnsetCollapsing == true)
         {
             Collapsing = false;
-            Burned = false;
+            NowPitch = 0;
         }
 
 
@@ -292,8 +310,6 @@ public class GameMain : MonoBehaviour
             Limit--;
             ClearLimit++;
             limitminus = false;
-            Sound.PlaySe("SE_STAR", 3);
-
         }
         
         if (NormalCount == 0 && TutorialFlg == false)

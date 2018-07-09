@@ -25,7 +25,6 @@ public class Blocks : MonoBehaviour {
     public bool BurnFlg;
     public bool StartBlockFlg;
     public float BurnCnt = 0.0f;
-    public float BurnCnt2 = 0.0f;
     public bool BurnOK = false;
     public bool CantBurn = false;
     public bool CanBurn = false;
