@@ -136,7 +136,7 @@ public class Emission : MonoBehaviour
         //{
         //    ChangeEmissionFlag = false;
         //}
-        if (S_blooks.NormalNowcol)
+        if (S_blooks.NormalNowcol && S_blooks.CanBurn)
         {
             canBurnFlag = S_blooks.NormalNowcol;
         }
@@ -292,7 +292,7 @@ public class Emission : MonoBehaviour
         //{
         //    ChangeEmissionFlag = false;
         //}
-        if (S_blooks.NormalNowcol)
+        if (S_blooks.NormalNowcol && S_blooks.CantBurn)
         {
             canNotBurnFlag = S_blooks.NormalNowcol;
         }
