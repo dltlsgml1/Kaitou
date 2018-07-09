@@ -38,13 +38,13 @@ public class GameMain : MonoBehaviour
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
     public bool UnsetCollapsing = false;    //上のフラグを解除するときに使うフラグ
-    public bool Nowcol = false;
     public bool FadeEnd = false;
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
 
     public bool NowCollapsing = false;
     public bool NowCantBurn = false;
+    public bool NowCanBurn = false;
     public bool TutorialAtari = false;
     public bool limitminus = false;
 
@@ -62,6 +62,8 @@ public class GameMain : MonoBehaviour
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
                 {
                     Blocks[i].GetComponent<Blocks>().BurnFlg = false;
+                    Blocks[i].GetComponent<Blocks>().UnsetCollapsFlag();
+
                     Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
@@ -70,10 +72,10 @@ public class GameMain : MonoBehaviour
         }
         FailFlg = false;
         ClearFlg = false;
+        ClearedLimitNum = 0;         //クリアしたときの上限回数
+        ClearLimit = 0;
+        FailLimitNum = 0;
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
-
-
-        
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
@@ -91,7 +93,6 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("SE_INFO_CANT", "GameMain/GM_Information_Fail");
         Sound.PlayBgm("GM_BGM");
         Sound.SetLoopFlgSe("SE_INFO", true, 4);
-        //Sound.SetLoopFlgSe("SE_INFO_CANT", true, 4);
         Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
         if (TutorialFlg == false)
         {
@@ -114,6 +115,7 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         NowCollapsing = false;
         NowCantBurn = false;
+        NowCanBurn = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -202,11 +204,15 @@ public class GameMain : MonoBehaviour
                     {
                         NowCollapsing = true;
                     }
+                    if(NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn ==true)
+                    {
+                        NowCanBurn = true;
+                    }
                 }
             }
 
         }
-        if (NowCollapsing == true)
+        if (NowCanBurn == true)
         {
             if (PlayedSE2 == false)
             {
@@ -222,11 +228,11 @@ public class GameMain : MonoBehaviour
 
         if (Input.GetButtonDown("AButton"))
         {
-            if(NowCollapsing == false)
+            if (NowCanBurn == false)
             {
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
-        }
+        }   
 
         if(Input.GetButtonDown("AButton"))
         {
