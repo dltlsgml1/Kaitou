@@ -26,8 +26,9 @@ public class Blocks : MonoBehaviour {
     public bool StartBlockFlg;
     public float BurnCnt = 0.0f;
     public float BurnCnt2 = 0.0f;
-    public bool canburn = false;
-    public bool cantburn = false;
+    public bool BurnOK = false;
+    public bool CantBurn = false;
+    public bool CanBurn = false;
     
 
     void Start ()
@@ -57,7 +58,8 @@ public class Blocks : MonoBehaviour {
         IsBackCollapsed = false;
         NormalNowcol = false;
         CollapsNowcol = false;
-        canburn = false;
-        cantburn = false;
+        BurnOK = false;
+        CantBurn = false;
+        CanBurn = false;
     }
 }

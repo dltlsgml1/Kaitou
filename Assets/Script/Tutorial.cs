@@ -272,7 +272,7 @@ public class Tutorial : MonoBehaviour
                 }
                 NormalBlock.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 NormalBlock.GetComponent<Blocks>().BurnFlg = false;
-                NormalBlock.GetComponent<Blocks>().canburn = false;
+                NormalBlock.GetComponent<Blocks>().BurnOK = false;
 
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
