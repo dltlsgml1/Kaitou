@@ -87,7 +87,8 @@ public class Pause : MonoBehaviour
             {
                 if(MainScript.GetComponent<GameMain>().ClearFlg == false//クリア中オフ
                     && MainScript.GetComponent<GameMain>().FailFlg == false //失敗中オフ
-                    && MainScript.GetComponent<GameMain>().TutorialFlg == false) //チュートリアル中オフ){
+                    && MainScript.GetComponent<GameMain>().TutorialFlg == false //チュートリアル中オフ
+                    && MainScript.GetComponent<GameMain>().Collapsing == false) //ブロック連鎖中オフ
                 {
                     if (TitleFadeScript.GetComponent<TitleFade>().SceneChangeFlag == true) //タイトル表示中オフ 
                     {
