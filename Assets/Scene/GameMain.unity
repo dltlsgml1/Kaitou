@@ -1808,7 +1808,9 @@ MonoBehaviour:
   FadeEnd: 0
   PlayedSE: 0
   PlayedSE2: 0
+  PlayedSE3: 0
   NowCol2: 0
+  NowCantBurn: 0
   TutorialAtari: 0
   limitminus: 0
 --- !u!4 &1180727678
@@ -1846,10 +1848,7 @@ MonoBehaviour:
   move: 0
   move_Max: 2
   fade_countMax: 0
-  LineObj: {fileID: 0}
-  AnimTime: 5
-  AnimeStatoTime: 0.5
-  isLineAnim: 0
+  Line: {fileID: 2009574631}
 --- !u!114 &1180727680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3317,6 +3316,27 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c067bb7b1420a3448fafe86ad5ad5f8, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2009574630 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1906669849932564, guid: 2c067bb7b1420a3448fafe86ad5ad5f8,
+    type: 2}
+  m_PrefabInternal: {fileID: 2009574629}
+--- !u!114 &2009574631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2009574630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18647cdd4bb767944a42d0c3478be08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LineObj: {fileID: 2009574630}
+  AnimTime: 5
+  AnimeStatoTime: 0.5
+  LineXSize: 1
+  isLineAnim: 0
 --- !u!1 &2108077622
 GameObject:
   m_ObjectHideFlags: 0

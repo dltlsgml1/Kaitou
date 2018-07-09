@@ -41,18 +41,7 @@ public class Pause : MonoBehaviour
     public static bool cancel_flg = false;
     Vector3 vec_Cursor;
 
-    // カーソルアニメーション
-    public GameObject LineObj;
-    public float AnimTime = 1.0f;
-    public float AnimeStatoTime = 0.5f;
-    public bool isLineAnim = false;
-
-    private float tmpTime = 0.0f;
-    private float tmpScale = 0.0f;
-    private float basePos;
-    private Transform tmpTrans;
-
-  
+    public LineAnimetion Line;
 
     // Use this for initialization
     void Start()
@@ -68,7 +57,7 @@ public class Pause : MonoBehaviour
         Sound.LoadSe("se_select", Sound.SearchFilename(Sound.eSoundFilename.PS_Select));
 
         //lineObj = GameObject.Find("GameObject/Pause/Pause_Cursor/Poseline").gameObject;
-        LineObj = GameObject.Find("Poseline").gameObject;
+       // LineObj = GameObject.Find("Poseline").gameObject;
         //LineObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         //LineObj.transform.localPosition = new Vector3(1.25f, 0.9f, 1.1f);
         //StartCoroutine(LineAnimation(4.7f, AnimTime));
@@ -88,33 +77,6 @@ public class Pause : MonoBehaviour
         // 現在読み込んでいるシーンの名前を取得
         currentScene = SceneManager.GetActiveScene().name;
    
-        // todo : これが初期化　アニメーション前にかならず行う。
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    InitLineAnimaton();
-        //}
-
-        if (isLineAnim)
-        {
-            LineAnimation(1.0f, AnimTime);
-        }
-
-        //if ((Input.GetKeyDown("0")))
-        //{
-        //    is_pause = !is_pause;
-        //    if (is_pause == false)
-        //    {
-        //        cancel_flg = true;
-        //    }
-        //    if (is_pause == true)
-        //    {
-        //        CursorReset();
-        //    }
-
-        //}
-        //Debug.Log("fade_outflg" + fade_outflg);
-        //Debug.Log("SlideOn_Off" + movepause.GetComponent<MovePose>().SlideOn_Off);
-
         ////ｑキーでゲームバック
         if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
             && fade_outflg == false //フェード中オフ 
@@ -444,15 +406,7 @@ public class Pause : MonoBehaviour
         }
 
 
-        //else
-        //{
-        //    KeyFlag = false;
-        //    moved = false;
-        //    Debug.Log("KeyOFF");
-        //}
-        //Debug.Log("KeyUpFlag " + KeyUpFlag);
-        //Debug.Log("KeyDownFlag " + KeyDownFlag);
-
+   
         /*
         //移動判定
         //if (moved == false && ((StickFlag == true && Distance < -0.5f) || KeyUpFlag == true))
@@ -461,7 +415,7 @@ public class Pause : MonoBehaviour
         //    moved = true;
         //    KeyUpFlag = false;
         //    KeyDownFlag = false;
-        //    InitLineAnimaton();     //アニメーション初期化
+        //    InitLineAnimation();     //アニメーション初期化
         //    Sound.PlaySe("se_select", 6);
         //    Debug.Log("KeyUpMove");
         //}
@@ -471,7 +425,7 @@ public class Pause : MonoBehaviour
         //    moved = true;
         //    KeyUpFlag = false;
         //    KeyDownFlag = false;
-        //    InitLineAnimaton();     //アニメーション初期化
+        //    InitLineAnimation();     //アニメーション初期化
         //    Sound.PlaySe("se_select", 6);
         //    Debug.Log("KeyUpMove");
         //}
@@ -481,7 +435,7 @@ public class Pause : MonoBehaviour
         //    moved = true;
         //    KeyUpFlag = false;
         //    KeyDownFlag = false;
-        //    InitLineAnimaton();     //アニメーション初期化
+        //    InitLineAnimation();     //アニメーション初期化
         //    Sound.PlaySe("se_select", 6);
         //    //Debug.Log("KeyDownMovw");
         //}
@@ -491,7 +445,7 @@ public class Pause : MonoBehaviour
         //    moved = true;
         //    KeyUpFlag = false;
         //    KeyDownFlag = false;
-        //    InitLineAnimaton();     //アニメーション初期化
+        //    InitLineAnimation();     //アニメーション初期化
         //    Sound.PlaySe("se_select", 6);
         //    //Debug.Log("KeyDownMovw");
         //}
@@ -551,13 +505,7 @@ public class Pause : MonoBehaviour
         }
         Cursor.transform.localPosition = vec_Cursor;
 
-        // 動いた先の座標で線のアニメーション座標を初期化
-        if (moved)
-        {
-            //InitLineAnimaton();
-        }
-        //Debug.Log("move" + move);
-    }
+     }
 
 
     //維持
@@ -604,7 +552,7 @@ public class Pause : MonoBehaviour
         moved = true;
         //KeyUpFlag = false;
         //KeyDownFlag = false;
-        InitLineAnimaton();     //アニメーション初期化
+        Line.InitLineAnimation();     //アニメーション初期化
         Sound.PlaySe("se_select", 6);
         //Debug.Log("KeyUpMove");
     }
@@ -615,7 +563,7 @@ public class Pause : MonoBehaviour
         moved = true;
         //KeyUpFlag = false;
         //KeyDownFlag = false;
-        InitLineAnimaton();     //アニメーション初期化
+        Line.InitLineAnimation();     //アニメーション初期化
         Sound.PlaySe("se_select", 6);
         //Debug.Log("KeyDownMovw");
     }
@@ -668,13 +616,13 @@ public class Pause : MonoBehaviour
 
     //    isLineAnim = false;
     //    yield return true;
-    //}
-
+    //}Animation
+    /*
     private void LineAnimation(float endScale, float animTime)
     {
         //if (!isInit)
         //{
-        //    InitLineAnimaton();
+        //    InitLineAnimation();
         //    isInit = true;
         //}
 
@@ -712,7 +660,7 @@ public class Pause : MonoBehaviour
 
     }
 
-    private void InitLineAnimaton()
+    private void InitLineAnimation()
     {
         LineObj.transform.localPosition = new Vector3(LineObj.transform.localPosition.x - LineObj.transform.localScale.x * 2, LineObj.transform.localPosition.y, LineObj.transform.localPosition.z);
         LineObj.transform.localScale = new Vector3(0.0f,1.0f, 0.1f);
@@ -724,6 +672,7 @@ public class Pause : MonoBehaviour
         isLineAnim = true;
         //moved = false;
     }
+    */
 }
 
 
