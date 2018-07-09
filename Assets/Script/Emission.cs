@@ -279,4 +279,161 @@ public class Emission : MonoBehaviour
 
         }
     }
+
+    void CanNotBurnEmission()
+    {
+        //if (canBurnFlag && UpCountFlag)
+        //{
+        //    ChangeEmissionFlag = true;
+        //}
+        //else
+        //{
+        //    ChangeEmissionFlag = false;
+        //}
+        if (S_blooks.NormalNowcol)
+        {
+            canBurnFlag = S_blooks.NormalNowcol;
+        }
+        else
+        {
+            canBurnFlag = false;
+        }
+
+
+
+        if (S_blooks.BurnFlg)
+        {
+
+            canBurnFlag = false;
+        }
+
+
+        if (canBurnFlag)
+        {
+            OneUCFlag = true;
+
+
+            time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
+
+
+            //ここでスピード調整して行き来する。
+            if (UpCountFlag)
+            {
+                timeCount += (float)canBurnSpeed;
+            }
+            if (DownCountFlag)
+            {
+                timeCount -= (float)canBurnSpeed;
+            }
+
+
+            float val = time;
+            // float num = val * val;
+            // Color color = new Color(val * val, val * val, val * val);
+            Color color = new Color(val, 0, 0); //エミッションの光度を変えてる。
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", color);　//ここで色を入れ込む。
+
+
+
+            //光るか光らなくなるかを見てる
+            if (time < CanBurnMaxEmission && !DownCountFlag)
+            {
+            }
+            else
+            {
+                if (DownCountFlag)
+                {
+
+                }
+                else
+                {
+                    UpCountFlag = false;
+                    OneUCFlag = false;
+                    DownCountFlag = true;
+                    ChangeEmissionFlag = false;
+                }
+            }
+            if (time > CanBurnMiniEmission && !UpCountFlag)
+            {
+            }
+            else
+            {
+                if (UpCountFlag)
+                {
+
+                }
+                else
+                {
+                    UpCountFlag = true;
+                    DownCountFlag = false;
+                    ChangeEmissionFlag = false;
+                }
+            }
+        }
+        else if (S_blooks.BurnFlg == false && OneUCFlag && S_blooks.NormalNowcol == false)
+        {
+
+            time = Mathf.PingPong(timeCount, CanBurnMaxEmission); //引数１と引数２の数値を行き来させる。
+            if (UpCountFlag)
+            {
+                timeCount += (float)canBurnSpeed;
+            }
+            if (DownCountFlag)
+            {
+                timeCount -= (float)canBurnSpeed;
+            }
+
+            float val = time;
+            // float num = val * val; 使わない変数はとりあえずコメント化　--6/25 李--
+            // Color color = new Color(val * val, val * val, val * val);
+            Color color = new Color(val, 0, 0); //エミッションの光度を変えてる。
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", color); //ここで色を入れ込む。
+
+            //光るか光らなくなるかを見てる
+            if (time < CanBurnMaxEmission - 0.06f && !DownCountFlag && OneUCFlag)
+            {
+
+            }
+            else
+            {
+                if (DownCountFlag)
+                {
+
+                }
+                else
+                {
+                    UpCountFlag = false;
+                    DownCountFlag = true;
+                    ChangeEmissionFlag = false;
+                }
+            }
+            if (time > CanBurnMiniEmission + 0.06f && !UpCountFlag && OneUCFlag)
+            {
+
+            }
+            else
+            {
+                if (UpCountFlag)
+                {
+
+                }
+                else
+                {
+                    UpCountFlag = true;
+                    DownCountFlag = false;
+                    ChangeEmissionFlag = false;
+                    OneUCFlag = false;
+                }
+            }
+        }
+        else if ((S_blooks.BurnFlg && OneUCFlag))
+        {
+            UpCountFlag = true;
+            DownCountFlag = false;
+            ChangeEmissionFlag = false;
+            OneUCFlag = false;
+
+        }
+    }
+
 }
