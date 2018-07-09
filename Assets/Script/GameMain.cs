@@ -62,6 +62,8 @@ public class GameMain : MonoBehaviour
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
                 {
                     Blocks[i].GetComponent<Blocks>().BurnFlg = false;
+                    Blocks[i].GetComponent<Blocks>().UnsetCollapsFlag();
+
                     Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
@@ -70,10 +72,10 @@ public class GameMain : MonoBehaviour
         }
         FailFlg = false;
         ClearFlg = false;
+        ClearedLimitNum = 0;         //クリアしたときの上限回数
+        ClearLimit = 0;
+        FailLimitNum = 0;
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
-
-
-        
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
@@ -91,7 +93,6 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("SE_INFO_CANT", "GameMain/GM_Information_Fail");
         Sound.PlayBgm("GM_BGM");
         Sound.SetLoopFlgSe("SE_INFO", true, 4);
-        //Sound.SetLoopFlgSe("SE_INFO_CANT", true, 4);
         Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
         if (TutorialFlg == false)
         {
@@ -211,7 +212,7 @@ public class GameMain : MonoBehaviour
             }
 
         }
-        if (NowCollapsing == true)
+        if (NowCanBurn == true)
         {
             if (PlayedSE2 == false)
             {
