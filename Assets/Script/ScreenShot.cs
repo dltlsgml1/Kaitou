@@ -122,7 +122,41 @@ public class ScreenShot : MonoBehaviour
         
         return false;
     }
-    
+
+    // マテリアルの変更
+    public bool SetImage(MeshRenderer rend, string name)
+    {
+        Color color;
+
+        if (System.IO.File.Exists(Application.dataPath + "/" + name + ".png") == true)
+        {
+            // ①．ファイル => バイナリ変換
+            byte[] image = System.IO.File.ReadAllBytes(Application.dataPath + "/" + name + ".png");
+
+            // ②．受け入れ用Texture2D作成
+            Texture2D tex = new Texture2D(0, 0);
+
+            // ③．バイナリ => Texture変換
+            tex.LoadImage(image);
+
+            // ④．Texture2Dをマテリアルに指定
+            //MeshRenderer renderer = GameObject.Find(prefabName + fileId).GetComponent<MeshRenderer>();
+            rend.materials[0].mainTexture = tex;
+
+            color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+            rend.material.color = color;
+
+            return true;
+        }
+        rend.materials[0].mainTexture = null;
+
+        color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+        rend.material.color = color;
+
+        return false;
+    }
+
+
     // IDの「0」付与対応用
     private string IdToString(int id)
     {
