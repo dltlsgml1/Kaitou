@@ -44,7 +44,7 @@ public class GameMain : MonoBehaviour
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
     public bool PlayedSE3 = false;
-    public bool NowCol2 = false;
+    public bool NowCollapsing = false;
     public bool NowCantBurn = false;
     public bool TutorialAtari = false;
     public bool limitminus = false;
@@ -113,8 +113,7 @@ public class GameMain : MonoBehaviour
         NormalCount = 0;
         CollapsCount = 0;
         UnsetCollapsing = true;
-        Nowcol = false;
-        NowCol2 = false;
+        NowCollapsing = false;
         NowCantBurn = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
@@ -200,17 +199,15 @@ public class GameMain : MonoBehaviour
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
                     atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
 
-                    
-
                     if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
                     {
-                        NowCol2 = true;
+                        NowCollapsing = true;
                     }
                 }
             }
 
         }
-        if (NowCol2 == true)
+        if (NowCollapsing == true)
         {
             if (PlayedSE2 == false)
             {
@@ -226,7 +223,7 @@ public class GameMain : MonoBehaviour
 
         if (Input.GetButtonDown("AButton"))
         {
-            if(NowCantBurn==true)
+            if(NowCollapsing == false)
             {
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
@@ -236,7 +233,7 @@ public class GameMain : MonoBehaviour
             for (int i = 0; i < NormalCount; i++)
             {
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true &&
-                    NormalBlocks[i].GetComponent<Blocks>().cantburn == false )
+                    NormalBlocks[i].GetComponent<Blocks>().CantBurn == false )
                 {
                     if (Collapsing == false)
                     {
@@ -244,19 +241,19 @@ public class GameMain : MonoBehaviour
                     }
                     if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME )
                     {
-                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+                        NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
 
                         Collapsing = true;
                         UnsetCollapsing = false;
                         limitminus = true;
                         NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     }
-                    Nowcol = true;
+            
 
                 }
                 else
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().canburn = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnOK = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                 }
             }
@@ -275,13 +272,13 @@ public class GameMain : MonoBehaviour
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 += DefineScript.JUDGE_BNSPEED_NONBUTTON;
                     if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 >= DefineScript.JUDGE_BNTIME)
                     {
-                        NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+                        NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
                     }
 
                 }
                 else
                 {
-                    NormalBlocks[i].GetComponent<Blocks>().canburn = false;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnOK = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
                 }
@@ -289,7 +286,7 @@ public class GameMain : MonoBehaviour
 
             for (int i = 0; i < NormalCount; i++)
             {
-                if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)
+                if (NormalBlocks[i].GetComponent<Blocks>().BurnOK == true)
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
@@ -308,7 +305,7 @@ public class GameMain : MonoBehaviour
 
 
         
-        if (NowCol2==true && limitminus==true)
+        if (NowCollapsing==true && limitminus==true)
         {
             Limit--;
             ClearLimit++;
@@ -320,14 +317,11 @@ public class GameMain : MonoBehaviour
         if (NormalCount == 0 && TutorialFlg == false)
         {
             ClearFlg = true;
-
-
             ClearedLimitNum = Limit;
             FailLimitNum = PassStageID.PassUpperCount() - Limit;
-
             return true;
         }
-        if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)
+        if (Limit == 0 && NormalCount != 0 &&NowCollapsing==false && TutorialFlg == false)
         {
             FailFlg = true;
             if (PlayedSE == false)
@@ -448,11 +442,11 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsTopCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsBottomCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn  = true;
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
                     break;
@@ -462,11 +456,12 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBottomCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsTopCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn = true;
+
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
                     break;
@@ -476,11 +471,12 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsLeftCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsRightCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn = true;
+
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
 
@@ -491,11 +487,12 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsRightCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsLeftCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn = true;
+
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
                     break;
@@ -505,11 +502,12 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsFrontCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsBackCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn = true;
+
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
                     break;
@@ -519,15 +517,15 @@ public class GameMain : MonoBehaviour
                     {
                         CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsBackCollapsed = true;
                         NormalBlocks[BlockNow].GetComponent<Blocks>().IsFrontCollapsed = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn = true;
+
                     }
                     else
                     {
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().cantburn = true;
-                        NormalBlocks[BlockNow].GetComponent<Blocks>().canburn = false;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = true;
                         NowCantBurn = true;
                     }
                     break;
-
             }
         }
 
