@@ -899,6 +899,7 @@ GameObject:
   - component: {fileID: 893414694}
   - component: {fileID: 893414693}
   - component: {fileID: 893414697}
+  - component: {fileID: 893414698}
   m_Layer: 5
   m_Name: ResultCanvas
   m_TagString: Untagged
@@ -1007,6 +1008,8 @@ MonoBehaviour:
   - {fileID: 1499107147}
   - {fileID: 1511168080}
   - {fileID: 886352220}
+  SetStarEmpty: {fileID: 0}
+  SetStarObj: {fileID: 0}
   starmat:
   - {fileID: 2100000, guid: 4e55803a87a1f4d4d8aeb722b262f403, type: 2}
   - {fileID: 2100000, guid: 6090c908dcf21f540acb35abf2b284e6, type: 2}
@@ -1018,6 +1021,18 @@ MonoBehaviour:
   bronzflg: 0
   silverflg: 0
   goldflg: 1
+  SelectLine: {fileID: 0}
+--- !u!114 &893414698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 893414692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2e3d417696a014abb17d9e246b2b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1104205530
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,6 +53,8 @@ public class Result : MonoBehaviour {
 
     const float fadespeed=0.05f;
 
+    // スクショ用
+    private ScreenShot SS;
 
 	// Use this for initialization
 	void Start () {
@@ -118,6 +120,10 @@ public class Result : MonoBehaviour {
 
         //初期カーソルぽししょん
         KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+
+        // スクリーンショット初期化
+        SS = this.GetComponent<ScreenShot>();
+        SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
 	}
 	
 	// Update is called once per frame
