@@ -138,19 +138,21 @@ public class Emission : MonoBehaviour
         //}
         if (S_blooks.NormalNowcol && S_blooks.CanBurn)
         {
-            canBurnFlag = S_blooks.NormalNowcol;
+            canBurnFlag = true;
+            canNotBurnFlag = false;
         }
         else
         {
             canBurnFlag = false;
+            canNotBurnFlag = false;
         }
 
 
 
         if (S_blooks.BurnFlg)
         {
-
             canBurnFlag = false;
+            canNotBurnFlag = false;
         }
 
 
@@ -294,10 +296,12 @@ public class Emission : MonoBehaviour
         //}
         if (S_blooks.NormalNowcol && S_blooks.CantBurn)
         {
-            canNotBurnFlag = S_blooks.NormalNowcol;
+            canBurnFlag = false;
+            canNotBurnFlag = true;
         }
         else
         {
+            canBurnFlag = false;
             canNotBurnFlag = false;
         }
 
@@ -305,7 +309,7 @@ public class Emission : MonoBehaviour
         // Todo:切るタイミング
         if (S_blooks.BurnFlg)
         {
-
+            canBurnFlag = false;
             canNotBurnFlag = false;
         }
 
