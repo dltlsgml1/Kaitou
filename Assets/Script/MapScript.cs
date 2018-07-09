@@ -64,7 +64,7 @@ public class MapScript : MonoBehaviour
         Is_Map = true;
         Sound.StopSe("Move", 0);
         Sound.PlaySe("MapIn", 4);
-
+     //   this.transform.rotation = Quaternion.Euler(90f, 180, 0);
         StageSelectObject = GameObject.Find("StagePrefab");
         StageEnable = StageSelectObject.GetComponent<StageSelect>();
         spotlight.SetActive(true);
@@ -74,13 +74,13 @@ public class MapScript : MonoBehaviour
         if (StageID == 0)
         {
             StageID = PassStageID.PassStageId();
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
+//            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID), 4, 0);
 
         }
         else
         {
             StageID = PassStageID.PassStageId() - 1;
-            StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
+  //          StageSelectObject.transform.position = new Vector3(-14.0f * (StageID + 1), 4, 0);
         }
         Decision = StageID / 5;
         FingerPos = StageID % 5;
@@ -133,7 +133,7 @@ public class MapScript : MonoBehaviour
         EndRotation = new Vector3(90f, 180, 0);
         if (!RotationFlag)
         {
-            rate2 += 0.05f;
+            
 
             this.transform.rotation = Quaternion.Euler(Vector3.Lerp(StartRotation, EndRotation, rate2));
             NowRotation = Vector3.Lerp(StartRotation, EndRotation, rate2);
@@ -144,6 +144,7 @@ public class MapScript : MonoBehaviour
         }
         if (!PositionFlag)
         {
+            rate2 += 0.05f;
             this.transform.position = Vector3.Lerp(StartPosition, EndPosition, rate2);
             if (this.transform.position == EndPosition)
             {
