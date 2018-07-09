@@ -22,6 +22,7 @@ public class Emission : MonoBehaviour
     public bool DownCountFlag = false;                 //暗くするフラグ
     private bool OneUCFlag = false;                    //一回だけUpCount処理したいときのフラグ
     public bool canBurnFlag = false;                    //燃えれるインフォメーションのフラグ
+    public bool canNotBurnFlag = false;                    //燃えれないインフォメーションのフラグ
                                                         // Use this for initialization
     void Start()
     {
@@ -35,6 +36,7 @@ public class Emission : MonoBehaviour
     {
         BurnEmisson();
         CanBurnEmission();
+        CanNotBurnEmission();
 
         //if(S_blooks.BurnFlg)
         //{
@@ -292,23 +294,23 @@ public class Emission : MonoBehaviour
         //}
         if (S_blooks.NormalNowcol)
         {
-            canBurnFlag = S_blooks.NormalNowcol;
+            canNotBurnFlag = S_blooks.NormalNowcol;
         }
         else
         {
-            canBurnFlag = false;
+            canNotBurnFlag = false;
         }
 
 
-
+        // Todo:切るタイミング
         if (S_blooks.BurnFlg)
         {
 
-            canBurnFlag = false;
+            canNotBurnFlag = false;
         }
 
 
-        if (canBurnFlag)
+        if (canNotBurnFlag)
         {
             OneUCFlag = true;
 
