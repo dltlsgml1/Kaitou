@@ -36,7 +36,7 @@ public class Result : MonoBehaviour {
     Transform[] SetStar = new Transform[3];
     Vector3[] InitSize = new Vector3[3];
     SpriteRenderer[] Selectfade = new SpriteRenderer[4];
-   
+    Vector3 PositionPlus;
 
 
     float[] size = new float[3]; 
@@ -45,10 +45,10 @@ public class Result : MonoBehaviour {
     float select_color_A;
 
     //星サイズ　900
-    const float SetCursol_x = 4.4f;
+    const float SetCursol_x = 4.15f;
     const float SetCursol_z = 1.5f;
     const float Cursol1 = 1.2f;
-    const float Cursol2 = -0.9f;
+    const float Cursol2 = -0.8f;
     const float Cursol3 = -3;
 
     const float fadespeed=0.05f;
@@ -70,17 +70,22 @@ public class Result : MonoBehaviour {
         select_color_A = 0;
         size[0] = size[1] = 0; size[2] = 0;
 
-        
+        SetStarObj.transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
+                                                        SetStarEmpty.transform.localPosition.y,
+                                                        SetStarEmpty.transform.localPosition.z + 1.5f);
 
         SetStar[0] = StarObj[0].GetComponent<Transform>();
         SetStar[1] = StarObj[1].GetComponent<Transform>();
         SetStar[2] = StarObj[2].GetComponent<Transform>();
 
-        //初期位置保存
+       
+
+        //初期星位置保存
         for (int i = 0; i < 3; i++)
         {
             InitSize[i] = new Vector3(SetStar[i].localPosition.x, SetStar[i].localPosition.y, SetStar[i].localPosition.z);
         }
+
 
         //マテリアルセット
         for (int i = 0; i < 4; i++)
@@ -110,17 +115,13 @@ public class Result : MonoBehaviour {
         //KeyPosition = SetCursol.GetComponent<Transform>();
         fade = SetImage.GetComponent<Image>();
 
-        SetStarObj.transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
-                                                         SetStarEmpty.transform.localPosition.y,
-                                                         SetStarEmpty.transform.localPosition.z);
-
 
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
 
         //初期カーソルぽししょん
-        KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
-
+        //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+        SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         // スクリーンショット初期化
         SS = this.GetComponent<ScreenShot>();
         SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
@@ -283,22 +284,30 @@ public class Result : MonoBehaviour {
         {
             //-7
             //SetStarEmpty
-            if (size[0] >= -7)
+            if (SetStar[0].transform.localPosition.z >= InitSize[0].z - 15)
             {
-                size[0] -= 0.5f;
-
+                //size[0] -= 0.5f;
+                PositionPlus = SetStar[0].transform.localPosition;
+                PositionPlus.z -= 2.0f;
+                SetStar[0].transform.localPosition = PositionPlus;
                 //SetStar[0].transform.localPosition.z = size[0];
             }
-            else if (size[0] <= -7 && (silverflg == true || goldflg == true) && size[1] >= -7)
+            else if (SetStar[0].transform.localPosition.z <= InitSize[1].z - 15 && (silverflg == true || goldflg == true) && SetStar[1].transform.localPosition.z >= InitSize[1].z - 15)
             {
-                size[1] -= 1.0f;
+                //size[1] -= 1.0f;
+                PositionPlus = SetStar[1].transform.localPosition;
+                PositionPlus.z -= 3.0f;
+                SetStar[1].transform.localPosition = PositionPlus;
                 //SetStar[0].transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
                 //                                                SetStarEmpty.transform.localPosition.y,
                 //                                                size[0]);
             }
-            else if (size[1] <= -7 && goldflg == true && size[2] >= -7)
+            else if (SetStar[1].transform.localPosition.z <= InitSize[2].z - 15 && goldflg == true && SetStar[2].transform.localPosition.z >= InitSize[2].z - 15)
             {
-                size[2] -= 1.0f;
+                //size[2] -= 1.0f;
+                PositionPlus = SetStar[2].transform.localPosition;
+                PositionPlus.z -= 3.0f;
+                SetStar[2].transform.localPosition = PositionPlus;
                 //SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
             }
             else
@@ -355,8 +364,8 @@ public class Result : MonoBehaviour {
         fade.color = new Color(1, 1, 1, fade_color_A);
 
         //初期カーソルぽししょん
-        KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
-
+        //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+        SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         //初期選択項目フェード
         for (int i = 0; i < 4; i++)
         {
