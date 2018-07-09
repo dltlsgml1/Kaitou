@@ -17,6 +17,8 @@ public class Result : MonoBehaviour {
     public GameObject SetCursol;
     public GameObject[] StarObj = new GameObject[3];
     public GameObject[] Select=new GameObject[4];
+    public GameObject SetStarEmpty;
+    public GameObject SetStarObj;
 
     public Material[] starmat = new Material[3];
     public bool fadeInflg;
@@ -26,6 +28,7 @@ public class Result : MonoBehaviour {
     public bool bronzflg;
     public bool silverflg;
     public bool goldflg;
+    public LineAnimetion SelectLine;
 
     Image fade;
     
@@ -33,6 +36,8 @@ public class Result : MonoBehaviour {
     Transform[] SetStar = new Transform[3];
     Vector3[] InitSize = new Vector3[3];
     SpriteRenderer[] Selectfade = new SpriteRenderer[4];
+   
+
 
     float[] size = new float[3]; 
     int Cursolnum;
@@ -40,11 +45,11 @@ public class Result : MonoBehaviour {
     float select_color_A;
 
     //星サイズ　900
-    const float SetCursol_x = -200;
-    const float SetCursol_z = -150;
-    const float Cursol1 = -220;
-    const float Cursol2 = -320;
-    const float Cursol3 = -420;
+    const float SetCursol_x = 4.4f;
+    const float SetCursol_z = 1.5f;
+    const float Cursol1 = 1.2f;
+    const float Cursol2 = -0.9f;
+    const float Cursol3 = -3;
 
     const float fadespeed=0.05f;
 
@@ -52,7 +57,7 @@ public class Result : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+        SelectLine.InitLineAnimation();
         fadeInflg = false;
         fadeOutflg = true;
         resultAnimationStart = false;
@@ -100,8 +105,13 @@ public class Result : MonoBehaviour {
             SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
         } 
 
-        KeyPosition = SetCursol.GetComponent<Transform>();
+        //KeyPosition = SetCursol.GetComponent<Transform>();
         fade = SetImage.GetComponent<Image>();
+
+        SetStarObj.transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
+                                                         SetStarEmpty.transform.localPosition.y,
+                                                         SetStarEmpty.transform.localPosition.z);
+
 
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
@@ -153,6 +163,7 @@ public class Result : MonoBehaviour {
             {
                 Cursolnum--;
             }
+            SelectLine.InitLineAnimation();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -164,6 +175,7 @@ public class Result : MonoBehaviour {
             {
                 Cursolnum++;
             }
+            SelectLine.InitLineAnimation();
         }
 
         //決定（各シーンに遷移）
@@ -203,13 +215,16 @@ public class Result : MonoBehaviour {
         switch (Cursolnum)
         {
             case 0:
-                KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+                SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+                //KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
                 break;
             case 1:
-                KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol2, SetCursol_z);
+                SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol2, SetCursol_z);
+                //KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol2, SetCursol_z);
                 break;
             case 2:
-                KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol3, SetCursol_z);
+                SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol3, SetCursol_z);
+                //KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol3, SetCursol_z);
                 break;
         }
     }
@@ -261,26 +276,51 @@ public class Result : MonoBehaviour {
         if (resultAnimationStart)
         {
             //-7
+            //SetStarEmpty
             if (size[0] >= -7)
             {
-                size[0] -=0.5f;
-                SetStar[0].transform.localPosition = new Vector3(-19.5f, -8.5f, size[0]);
+                size[0] -= 0.5f;
+
+                //SetStar[0].transform.localPosition.z = size[0];
             }
-            else if (size[0] <= -7&&(silverflg == true || goldflg == true ) && size[1] >= -7)
+            else if (size[0] <= -7 && (silverflg == true || goldflg == true) && size[1] >= -7)
             {
-                size[1] -=1.0f;
-                SetStar[1].transform.localPosition = new Vector3(3.3f, -8.5f, size[1]);
+                size[1] -= 1.0f;
+                //SetStar[0].transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
+                //                                                SetStarEmpty.transform.localPosition.y,
+                //                                                size[0]);
             }
             else if (size[1] <= -7 && goldflg == true && size[2] >= -7)
             {
-                size[2] -=1.0f;
-                SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
+                size[2] -= 1.0f;
+                //SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
             }
             else
             {
                 resultAnimationStart = false;
                 result_ok = true;
             }
+
+            //if (size[0] >= -7)
+            //{
+            //    size[0] -=0.5f;
+            //    SetStar[0].transform.localPosition = new Vector3(-19.5f, -8.5f, size[0]);
+            //}
+            //else if (size[0] <= -7&&(silverflg == true || goldflg == true ) && size[1] >= -7)
+            //{
+            //    size[1] -=1.0f;
+            //    SetStar[1].transform.localPosition = new Vector3(3.3f, -8.5f, size[1]);
+            //}
+            //else if (size[1] <= -7 && goldflg == true && size[2] >= -7)
+            //{
+            //    size[2] -=1.0f;
+            //    SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
+            //}
+            //else
+            //{
+            //    resultAnimationStart = false;
+            //    result_ok = true;
+            //}
         }
     }
    
