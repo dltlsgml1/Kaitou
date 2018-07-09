@@ -228,39 +228,21 @@ public class GameMain : MonoBehaviour
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
         }
-        if (Input.GetButton("AButton"))
+
+        if(Input.GetButtonDown("AButton"))
         {
             for (int i = 0; i < NormalCount; i++)
             {
-                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true &&
-                    NormalBlocks[i].GetComponent<Blocks>().CantBurn == false )
+                if(NormalBlocks[i].GetComponent<Blocks>().CanBurn==true)
                 {
-                    if (Collapsing == false)
-                    {
-                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_BUTTON;
-                    }
-                    if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME )
-                    {
-                        NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
-
-                        Collapsing = true;
-                        UnsetCollapsing = false;
-                        limitminus = true;
-                        NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
-                    }
-            
-
-                }
-                else
-                {
-                    NormalBlocks[i].GetComponent<Blocks>().BurnOK = false;
-                    NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
+                    Collapsing = true;
+                    UnsetCollapsing = false;
+                    limitminus = true;
+                    NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
                 }
             }
-
         }
-
-
+        
         if (Collapsing == true)
         {
             mvcamera.StopCameraOn();
