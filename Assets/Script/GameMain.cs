@@ -38,13 +38,13 @@ public class GameMain : MonoBehaviour
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
     public bool UnsetCollapsing = false;    //上のフラグを解除するときに使うフラグ
-    public bool Nowcol = false;
     public bool FadeEnd = false;
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
 
     public bool NowCollapsing = false;
     public bool NowCantBurn = false;
+    public bool NowCanBurn = false;
     public bool TutorialAtari = false;
     public bool limitminus = false;
 
@@ -114,6 +114,7 @@ public class GameMain : MonoBehaviour
         UnsetCollapsing = true;
         NowCollapsing = false;
         NowCantBurn = false;
+        NowCanBurn = false;
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -202,6 +203,10 @@ public class GameMain : MonoBehaviour
                     {
                         NowCollapsing = true;
                     }
+                    if(NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn ==true)
+                    {
+                        NowCanBurn = true;
+                    }
                 }
             }
 
@@ -222,11 +227,11 @@ public class GameMain : MonoBehaviour
 
         if (Input.GetButtonDown("AButton"))
         {
-            if(NowCollapsing == false)
+            if (NowCanBurn == false)
             {
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
-        }
+        }   
 
         if(Input.GetButtonDown("AButton"))
         {
