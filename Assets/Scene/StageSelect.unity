@@ -1749,17 +1749,29 @@ Prefab:
     - target: {fileID: 114563036605858836, guid: 6c23f6c2f7db5e74298cae18c9908bba,
         type: 2}
       propertyPath: StocDisplayOff.z
-      value: -5.5
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 114563036605858836, guid: 6c23f6c2f7db5e74298cae18c9908bba,
         type: 2}
       propertyPath: StocDisplayOn.z
-      value: -5.5
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 114563036605858836, guid: 6c23f6c2f7db5e74298cae18c9908bba,
         type: 2}
       propertyPath: CalculatePosition.z
-      value: -5.5
+      value: -11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065561547692608, guid: 6c23f6c2f7db5e74298cae18c9908bba, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065561547692608, guid: 6c23f6c2f7db5e74298cae18c9908bba, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065561547692608, guid: 6c23f6c2f7db5e74298cae18c9908bba, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c23f6c2f7db5e74298cae18c9908bba, type: 2}
