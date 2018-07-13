@@ -1,5 +1,5 @@
 ﻿
-#define DEBUG_MODE//コメントアウトで解除
+
 
 
 
@@ -30,6 +30,10 @@ public class Result : MonoBehaviour {
     public bool goldflg;
     public LineAnimetion SelectLine;
 
+    //-------test----------------
+    StageRank ResultRankCheck;
+    //----------------------
+
     Image fade;
     
     Transform KeyPosition;
@@ -56,6 +60,10 @@ public class Result : MonoBehaviour {
     // スクショ用
     private ScreenShot SS;
 
+
+
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -78,7 +86,44 @@ public class Result : MonoBehaviour {
         SetStar[1] = StarObj[1].GetComponent<Transform>();
         SetStar[2] = StarObj[2].GetComponent<Transform>();
 
-       
+        
+        //------------test-------------------------------
+        //フレームカラー初期化
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
+        }
+        //ステージIDを確認（未実装）----------------------------------------------------------
+        //ResultRankCheck.CheckRank(PassStageID.PassStageId());
+        //ResultRankCheck.GetRank();
+        //switch (ResultRankCheck.GetRank())
+        //{
+        //    case StageRank.RANK.NORMAL://normal
+        //        GameObject.Find("Frame").transform.GetChild(0).gameObject.SetActive(true);
+        //        break;
+        //    case StageRank.RANK.BRONZE:
+        //        GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
+        //        bronzflg = true;
+        //        silverflg = false;
+        //        goldflg = false;
+
+        //        break;
+        //    case StageRank.RANK.SILVER:
+        //        GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
+        //        bronzflg = false;
+        //        silverflg = true;
+        //        goldflg = false;
+        //        break;
+        //    case StageRank.RANK.GOLD:
+        //        GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
+        //         bronzflg = false;
+        //        silverflg = false;
+        //        goldflg = true;
+        //        break;
+        //}
+        //ステージIDを確認（未実装） end----------------------------------------------------------
+        //test end-----------------------------------------------
+
 
         //初期星位置保存
         for (int i = 0; i < 3; i++)
@@ -98,18 +143,24 @@ public class Result : MonoBehaviour {
             SetStar[0].GetComponent<MeshRenderer>().material = starmat[0];
             SetStar[1].GetComponent<MeshRenderer>().material = starmat[0];
             SetStar[2].GetComponent<MeshRenderer>().material = starmat[0];
+            //デバッグ確認用(後に消す必要あり)
+            GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
         }
         else if (silverflg)
         {
             SetStar[0].GetComponent<MeshRenderer>().material = starmat[1];
             SetStar[1].GetComponent<MeshRenderer>().material = starmat[1];
             SetStar[2].GetComponent<MeshRenderer>().material = starmat[1];
+            //デバッグ確認用(後に消す必要あり)
+            GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
         }
         else if (goldflg)
         {
             SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
             SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
             SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
+            //デバッグ確認用(後に消す必要あり)
+            GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
         } 
 
         //KeyPosition = SetCursol.GetComponent<Transform>();
@@ -119,7 +170,7 @@ public class Result : MonoBehaviour {
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
 
-        //初期カーソルぽししょん
+        //初期カーソルポジション
         //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         // スクリーンショット初期化
@@ -127,6 +178,11 @@ public class Result : MonoBehaviour {
         SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
 	}
 	
+
+
+
+
+
 	// Update is called once per frame
 	void Update () {
 
@@ -155,6 +211,11 @@ public class Result : MonoBehaviour {
         ResultAnimation();
 
 	}
+
+
+
+
+
 
     //入力関係の処理
     void InputCollection()
@@ -185,35 +246,48 @@ public class Result : MonoBehaviour {
             SelectLine.InitLineAnimation();
         }
 
-        //決定（各シーンに遷移）
+        //決定
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            switch (Cursolnum)
-            {
-                case 0:
-#if DEBUG_MODE
-                    fadeInflg=true;
-#else
-                    //SceneManager.LoadScene("");
-#endif
-                    break;
-                case 1:
-#if DEBUG_MODE
-                    fadeInflg =true;
-#else
-                    //SceneManager.LoadScene("");
-#endif
-                    break;
-                case 2:
-#if DEBUG_MODE
-                    fadeInflg =true;
-#else
-                    //SceneManager.LoadScene("");
-#endif
-                    break;
-            }
+            fadeInflg = true;
+
         }
     }
+
+
+
+
+
+
+
+
+    //シーン遷移先確認
+    void StageCheck()
+    {
+        //switch (Cursolnum)
+        //{
+        //    case 0:
+
+        //        SceneManager.LoadScene("");
+
+        //        break;
+        //    case 1:
+
+        //       SceneManager.LoadScene("");
+
+        //        break;
+        //    case 2:
+
+        //        SceneManager.LoadScene("");
+
+        //        break;
+        //}
+    }
+
+
+
+
+
 
 
     //カーソル位置確認処理
@@ -237,6 +311,11 @@ public class Result : MonoBehaviour {
     }
 
 
+
+
+
+
+
     //フェードイン・アウト処理
     void ResultFade()
     {
@@ -246,6 +325,7 @@ public class Result : MonoBehaviour {
             {
                 fadeInflg = false;
                 ResultInit();//初期化
+                //StartCheck();//シーン遷移
             }
             fade_color_A += fadespeed;
         }
@@ -263,6 +343,11 @@ public class Result : MonoBehaviour {
     }
 
 
+
+
+
+
+
     //選択項目フェードイン処理
     void SelectFadeIn()
     {
@@ -275,6 +360,11 @@ public class Result : MonoBehaviour {
             }
         }
     }
+
+
+
+
+
 
 
     //評価アニメーション処理
@@ -341,6 +431,11 @@ public class Result : MonoBehaviour {
    
 
 
+
+
+
+
+
     //初期化処理
     void ResultInit()
     {
@@ -363,7 +458,13 @@ public class Result : MonoBehaviour {
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
 
-        //初期カーソルぽししょん
+        //フレームカラー初期化
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        //初期カーソルポジション
         //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         //初期選択項目フェード
