@@ -86,7 +86,9 @@ public class GameMain : MonoBehaviour
         mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
         Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
-        Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
+        Sound.LoadSe("SE_STAR1", "GameMain/GM_Star1");
+        Sound.LoadSe("SE_STAR2", "GameMain/GM_Star2");
+        Sound.LoadSe("SE_STAR3", "GameMain/GM_Star3");
         Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
         Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
         Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
@@ -213,7 +215,7 @@ public class GameMain : MonoBehaviour
             }
 
         }
-        if (NowCanBurn == true)
+        if (NowCanBurn == true && Collapsing == false)
         {
             if (PlayedSE2 == false)
             {
@@ -245,6 +247,7 @@ public class GameMain : MonoBehaviour
                     UnsetCollapsing = false;
                     limitminus = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
+                    Sound.PlaySe("SE_STAR1", 6);
                 }
             }
         }
@@ -261,27 +264,21 @@ public class GameMain : MonoBehaviour
                     if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt >= DefineScript.JUDGE_BNTIME)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().BurnOK = true;
-                        if (NowPitch < 4)
-                            NowPitch++;
+                        
                         switch (NowPitch)
                         {
                             case 0:
-                                Sound.PlaySe("SE_STAR", 6);
+                                Sound.PlaySe("SE_STAR2", 7);
                                 break;
                             case 1:
-                                Sound.PlaySe("SE_STAR", 6);
+                                Sound.PlaySe("SE_STAR3", 8);
                                 break;
-                            case 2:
-                                Sound.PlaySe("SE_STAR", 6);
+                            default:
+                                Sound.PlaySe("SE_STAR3", 8);
                                 break;
-                            case 3:
-                                Sound.PlaySe("SE_STAR", 6);
-                                break;
-                            case 4:
-                                Sound.PlaySe("SE_STAR", 6);
-                                break;
+
                         }
-                        
+                        NowPitch++;
                     }
 
                 }
