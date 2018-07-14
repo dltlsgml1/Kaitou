@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 33082758239616030}
   - component: {fileID: 65063263554163068}
   - component: {fileID: 23304087789107874}
-  - component: {fileID: 114894127176344234}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -1791,29 +1790,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114972388998337828}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
---- !u!114 &114894127176344234
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1264599319612756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114972388998337828}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  isBurned: 0
 --- !u!114 &114972388998337828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1842,8 +1823,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
-  canburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!198 &198970148732307424
 ParticleSystem:
   m_ObjectHideFlags: 1
