@@ -31,7 +31,8 @@ public class Result : MonoBehaviour {
     public LineAnimetion SelectLine;
 
     //-------test----------------
-    StageRank ResultRankCheck;
+    //StageRank ResultRankCheck;
+    //StageRank.RANK rank;
     //----------------------
 
     Image fade;
@@ -48,6 +49,14 @@ public class Result : MonoBehaviour {
     float fade_color_A;
     float select_color_A;
 
+
+    //test
+    int GLimit;
+    int SLimit;
+    GameMain GetMain;
+    int Limit;
+    //
+
     //星サイズ　900
     const float SetCursol_x = 4.15f;
     const float SetCursol_z = 1.5f;
@@ -56,6 +65,8 @@ public class Result : MonoBehaviour {
     const float Cursol3 = -3;
 
     const float fadespeed=0.05f;
+
+    const float DefaultKeyPos = 0.8f;
 
     // スクショ用
     private ScreenShot SS;
@@ -73,6 +84,7 @@ public class Result : MonoBehaviour {
         resultAnimationStart = false;
         result_ok = false;
 
+
         Cursolnum = 0;
         fade_color_A = 1;
         select_color_A = 0;
@@ -85,7 +97,7 @@ public class Result : MonoBehaviour {
         SetStar[0] = StarObj[0].GetComponent<Transform>();
         SetStar[1] = StarObj[1].GetComponent<Transform>();
         SetStar[2] = StarObj[2].GetComponent<Transform>();
-
+        //ResultRankCheck = GetComponent<StageRank>();
         
         //------------test-------------------------------
         //フレームカラー初期化
@@ -93,34 +105,69 @@ public class Result : MonoBehaviour {
         {
             GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
         }
-        //ステージIDを確認（未実装）----------------------------------------------------------
-        //ResultRankCheck.CheckRank(PassStageID.PassStageId());
-        //ResultRankCheck.GetRank();
-        //switch (ResultRankCheck.GetRank())
-        //{
-        //    case StageRank.RANK.NORMAL://normal
-        //        GameObject.Find("Frame").transform.GetChild(0).gameObject.SetActive(true);
-        //        break;
-        //    case StageRank.RANK.BRONZE:
-        //        GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
-        //        bronzflg = true;
-        //        silverflg = false;
-        //        goldflg = false;
+        //追加test
+        //GetMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
+        Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
+        GLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
+        SLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
+        //Debug.Log(Limit);
+        //Debug.Log(GLimit);
+        //Debug.Log(SLimit);
 
-        //        break;
-        //    case StageRank.RANK.SILVER:
-        //        GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
-        //        bronzflg = false;
-        //        silverflg = true;
-        //        goldflg = false;
-        //        break;
-        //    case StageRank.RANK.GOLD:
-        //        GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
-        //         bronzflg = false;
-        //        silverflg = false;
-        //        goldflg = true;
-        //        break;
-        //}
+        if (Limit <= GLimit)
+        {
+            GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
+            bronzflg = false;
+            silverflg = false;
+            goldflg = true;
+        }
+        else if (Limit <= SLimit)
+        {
+            GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
+            bronzflg = false;
+            silverflg = true;
+            goldflg = false;
+        }
+        else
+        {
+            GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
+            bronzflg = true;
+            silverflg = false;
+            goldflg = false;
+        }
+
+        //追加テストend
+
+
+        //ステージIDを確認（未実装）----------------------------------------------------------
+       // ResultRankCheck.CheckRank(5);
+       //// ResultRankCheck.CheckRank(PassStageID.StageID);
+       // rank = ResultRankCheck.GetRank();
+       // switch (rank)
+       // {
+       //     case StageRank.RANK.NORMAL://normal
+       //         GameObject.Find("Frame").transform.GetChild(0).gameObject.SetActive(true);
+       //         break;
+       //     case StageRank.RANK.BRONZE:
+       //         GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
+       //         bronzflg = true;
+       //         silverflg = false;
+       //         goldflg = false;
+
+       //         break;
+       //     case StageRank.RANK.SILVER:
+       //         GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
+       //         bronzflg = false;
+       //         silverflg = true;
+       //         goldflg = false;
+       //         break;
+       //     case StageRank.RANK.GOLD:
+       //         GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
+       //         bronzflg = false;
+       //         silverflg = false;
+       //         goldflg = true;
+       //         break;
+       // }
         //ステージIDを確認（未実装） end----------------------------------------------------------
         //test end-----------------------------------------------
 
@@ -138,30 +185,54 @@ public class Result : MonoBehaviour {
             Selectfade[i] = Select[i].GetComponent<SpriteRenderer>();
         }
 
+        //Todo:確認 ステセレは星の色が金で一定だが評価の場合はどうするのか？-------------------
+
+        //↓評価星色変更Ver
+        //if (bronzflg)
+        //{
+        //    SetStar[0].GetComponent<MeshRenderer>().material = starmat[0];
+        //    SetStar[1].GetComponent<MeshRenderer>().material = starmat[0];
+        //    SetStar[2].GetComponent<MeshRenderer>().material = starmat[0];
+        //    GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
+        //}
+        //else if (silverflg)
+        //{
+        //    SetStar[0].GetComponent<MeshRenderer>().material = starmat[1];
+        //    SetStar[1].GetComponent<MeshRenderer>().material = starmat[1];
+        //    SetStar[2].GetComponent<MeshRenderer>().material = starmat[1];
+        //    GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
+        //}
+        //else if (goldflg)
+        //{
+        //    SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
+        //    SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
+        //    SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
+        //    GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
+        //} 
+
+
+        //↓評価星色一定Ver
+        SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
+        SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
+        SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
         if (bronzflg)
         {
-            SetStar[0].GetComponent<MeshRenderer>().material = starmat[0];
-            SetStar[1].GetComponent<MeshRenderer>().material = starmat[0];
-            SetStar[2].GetComponent<MeshRenderer>().material = starmat[0];
-            //デバッグ確認用(後に消す必要あり)
             GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
         }
         else if (silverflg)
         {
-            SetStar[0].GetComponent<MeshRenderer>().material = starmat[1];
-            SetStar[1].GetComponent<MeshRenderer>().material = starmat[1];
-            SetStar[2].GetComponent<MeshRenderer>().material = starmat[1];
-            //デバッグ確認用(後に消す必要あり)
             GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
         }
         else if (goldflg)
         {
-            SetStar[0].GetComponent<MeshRenderer>().material = starmat[2];
-            SetStar[1].GetComponent<MeshRenderer>().material = starmat[2];
-            SetStar[2].GetComponent<MeshRenderer>().material = starmat[2];
-            //デバッグ確認用(後に消す必要あり)
             GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
         } 
+
+        //---------------------------------------------------------------------------------------------
+
+
+
+
 
         //KeyPosition = SetCursol.GetComponent<Transform>();
         fade = SetImage.GetComponent<Image>();
@@ -220,35 +291,50 @@ public class Result : MonoBehaviour {
     //入力関係の処理
     void InputCollection()
     {
+        float Decision;                                 //上下を判定用
+        Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
+
         //カーソル移動
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Decision > DefaultKeyPos)
         {
-            if (Cursolnum<1)
+        //if (Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+            if (SelectLine.tmpTime>(SelectLine.AnimTime/2))
             {
-                Cursolnum = 2;
+                if (Cursolnum < 1)
+                {
+                    Cursolnum = 2;
+                }
+                else
+                {
+                    Cursolnum--;
+                }
+                SelectLine.InitLineAnimation();
             }
-            else
-            {
-                Cursolnum--;
-            }
-            SelectLine.InitLineAnimation();
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if(Decision < -DefaultKeyPos)
         {
-            if (Cursolnum > 1)
+        //if (Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+            if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
             {
-                Cursolnum = 0;
+                if (Cursolnum > 1)
+                {
+                    Cursolnum = 0;
+                }
+                else
+                {
+                    Cursolnum++;
+                }
+                SelectLine.InitLineAnimation();
             }
-            else
-            {
-                Cursolnum++;
-            }
-            SelectLine.InitLineAnimation();
         }
 
         //決定
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetButtonDown("AButton"))
         {
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
             fadeInflg = true;
 
         }
@@ -264,32 +350,32 @@ public class Result : MonoBehaviour {
     //シーン遷移先確認
     void StageCheck()
     {
-        //switch (Cursolnum)
-        //{
-        //    case 0:
+        switch (Cursolnum)
+        {
+            case 0:
 
-        //        SceneManager.LoadScene("");
+                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
-        //        break;
-        //    case 1:
+                break;
+            case 1:
 
-        //       SceneManager.LoadScene("");
+                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
-        //        break;
-        //    case 2:
+                break;
+            case 2:
 
-        //        SceneManager.LoadScene("");
+                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
-        //        break;
-        //}
+                break;
+        }
     }
 
 
 
 
 
-
-
+    //-1.2,10.9,62.1
+    //28.538,5.403,14.047
     //カーソル位置確認処理
     void KeyCheck()
     {
@@ -325,7 +411,7 @@ public class Result : MonoBehaviour {
             {
                 fadeInflg = false;
                 ResultInit();//初期化
-                //StartCheck();//シーン遷移
+                StageCheck();//シーン遷移
             }
             fade_color_A += fadespeed;
         }

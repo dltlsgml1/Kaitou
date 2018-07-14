@@ -165,7 +165,7 @@ public class GameMain : MonoBehaviour
             {
                 if (FadeEnd == true)
                 {
-                    SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                    SceneManager.LoadScene("Result", LoadSceneMode.Single);
                 }
             }
 
