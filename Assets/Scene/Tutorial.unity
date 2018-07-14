@@ -323,8 +323,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114197665593481524, guid: 063e1111d9419c94d9d70760135aca41,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: S_blooks
       value: 
       objectReference: {fileID: 47538286}
@@ -596,8 +595,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114197665593481524, guid: 063e1111d9419c94d9d70760135aca41,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: S_blooks
       value: 
       objectReference: {fileID: 1649352813}
@@ -773,8 +771,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114197665593481524, guid: 063e1111d9419c94d9d70760135aca41,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: S_blooks
       value: 
       objectReference: {fileID: 1004465588}
@@ -1766,18 +1763,18 @@ MonoBehaviour:
   ClearedLimitNum: 0
   ClearLimit: 0
   FailLimitNum: 0
+  NowPitch: 0
   TutorialFlg: 0
   ClearFlg: 0
   FailFlg: 0
   Collapsing: 0
   UnsetCollapsing: 0
-  Nowcol: 0
-  Burned: 0
-  buttonup: 0
   FadeEnd: 0
   PlayedSE: 0
   PlayedSE2: 0
-  NowCol2: 0
+  NowCollapsing: 0
+  NowCantBurn: 0
+  NowCanBurn: 0
   TutorialAtari: 0
   limitminus: 0
 --- !u!4 &1180727678
@@ -1815,10 +1812,7 @@ MonoBehaviour:
   move: 0
   move_Max: 2
   fade_countMax: 0
-  LineObj: {fileID: 0}
-  AnimTime: 1
-  AnimeStatoTime: 0.5
-  isLineAnim: 0
+  Line: {fileID: 0}
 --- !u!114 &1180727680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,6 +2352,55 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9839318396d1c7341b819eafdd185809, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1330581492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1330581494}
+  - component: {fileID: 1330581493}
+  m_Layer: 0
+  m_Name: EmissionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1330581493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330581492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cffba7942dd23b44b789cb8324d5615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Edit_ObjColor: {r: 0, g: 0, b: 0, a: 0}
+  Edit_CanEmissionColor: {r: 0, g: 1, b: 0, a: 0}
+  Edit_CanNotEmissionColor: {r: 1, g: 0, b: 0, a: 0}
+  Edit_BurnEmissionColor: {r: 1, g: 1, b: 1, a: 0}
+  Edit_ChangeTime: 1
+  Edit_UpStartFlg: 1
+  shareNowTime: 0
+  EmissionPower: 0.6
+  EmissionCnt: 0
+--- !u!4 &1330581494
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330581492}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1354669608
 Prefab:
   m_ObjectHideFlags: 0
@@ -2397,8 +2440,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114197665593481524, guid: 063e1111d9419c94d9d70760135aca41,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: S_blooks
       value: 
       objectReference: {fileID: 615723892}
@@ -3085,8 +3127,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114197665593481524, guid: 063e1111d9419c94d9d70760135aca41,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: S_blooks
       value: 
       objectReference: {fileID: 2099252177}
