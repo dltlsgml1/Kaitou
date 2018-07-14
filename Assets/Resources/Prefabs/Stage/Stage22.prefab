@@ -127,7 +127,6 @@ GameObject:
   - component: {fileID: 33841794729043494}
   - component: {fileID: 65702403312528590}
   - component: {fileID: 23575516997741274}
-  - component: {fileID: 114856313189062026}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -416,7 +415,6 @@ GameObject:
   - component: {fileID: 33641087457364952}
   - component: {fileID: 65980094299282200}
   - component: {fileID: 23593136323947366}
-  - component: {fileID: 114636251055260026}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -616,6 +614,7 @@ GameObject:
   - component: {fileID: 65415486729799388}
   - component: {fileID: 23908436708755880}
   - component: {fileID: 114962026072907010}
+  - component: {fileID: 114762094492252960}
   m_Layer: 0
   m_Name: NormalBlock (2)
   m_TagString: NormalBlock
@@ -742,6 +741,7 @@ GameObject:
   - component: {fileID: 65929863719840318}
   - component: {fileID: 23951504309239378}
   - component: {fileID: 114307060211923306}
+  - component: {fileID: 114837688959628644}
   m_Layer: 0
   m_Name: NormalBlock (1)
   m_TagString: NormalBlock
@@ -778,7 +778,6 @@ GameObject:
   - component: {fileID: 33374786280155470}
   - component: {fileID: 65098394186385572}
   - component: {fileID: 23057777461866878}
-  - component: {fileID: 114973500687697008}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -1048,6 +1047,7 @@ GameObject:
   - component: {fileID: 65471547150628028}
   - component: {fileID: 23076709921406110}
   - component: {fileID: 114438188044235662}
+  - component: {fileID: 114502293063302624}
   m_Layer: 0
   m_Name: NormalBlock (3)
   m_TagString: NormalBlock
@@ -1479,7 +1479,6 @@ GameObject:
   - component: {fileID: 33103808997433094}
   - component: {fileID: 65186259871399254}
   - component: {fileID: 23159218173794496}
-  - component: {fileID: 114240032738958598}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -1517,6 +1516,7 @@ GameObject:
   - component: {fileID: 65732950093759768}
   - component: {fileID: 23345906170729040}
   - component: {fileID: 114500661052408066}
+  - component: {fileID: 114949516974945340}
   m_Layer: 0
   m_Name: NormalBlock (4)
   m_TagString: NormalBlock
@@ -2388,7 +2388,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1006221643166246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.0859032, y: 0.72896194, z: 0.65687466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4763011724609966}
@@ -7115,23 +7115,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114240032738958598
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1947100473858498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114962026072907010}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
 --- !u!114 &114307060211923306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7160,8 +7143,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
-  canburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114438188044235662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7190,8 +7174,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 1
   BurnCnt: 0
-  CollapsNum: 0
-  canburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114500661052408066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7220,42 +7205,73 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
-  canburn: 0
---- !u!114 &114636251055260026
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
+--- !u!114 &114502293063302624
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1310802643785510}
+  m_GameObject: {fileID: 1712894596657366}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114307060211923306}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
---- !u!114 &114856313189062026
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  isBurned: 0
+--- !u!114 &114762094492252960
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1086508721883664}
+  m_GameObject: {fileID: 1410874956026690}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114438188044235662}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  isBurned: 0
+--- !u!114 &114837688959628644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483831065303102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  isBurned: 0
+--- !u!114 &114949516974945340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1975117276710362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  isBurned: 0
 --- !u!114 &114962026072907010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7284,25 +7300,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  CollapsNum: 0
-  canburn: 0
---- !u!114 &114973500687697008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1501573407177418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114500661052408066}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!198 &198118385681581502
 ParticleSystem:
   m_ObjectHideFlags: 1
