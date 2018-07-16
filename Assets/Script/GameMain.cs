@@ -207,6 +207,7 @@ public class GameMain : MonoBehaviour
                     if(NormalBlocks[BlockNow].GetComponent<Blocks>().CanBurn ==true)
                     {
                         NowCanBurn = true;
+                        NormalBlocks[BlockNow].GetComponent<Blocks>().CantBurn = false;
                     }
                 }
             }
@@ -253,7 +254,7 @@ public class GameMain : MonoBehaviour
             mvcamera.StopCameraOn();
             for (int i = 0; i < NormalCount; i++)
             {
-                if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
+                if (NormalBlocks[i].GetComponent<Blocks>().CanBurn == true)
                 {
                     UnsetCollapsing = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
