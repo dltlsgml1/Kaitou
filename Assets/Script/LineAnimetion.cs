@@ -12,7 +12,7 @@ public class LineAnimetion : MonoBehaviour {
     public float LineXSize = 1.0f;
     public bool isLineAnim = false;
 
-    private float tmpTime = 0.0f;
+    public float tmpTime = 0.0f;
     private float tmpScale = 0.0f;
     private float basePos;
     private Transform tmpTrans;
