@@ -28,6 +28,10 @@ public class Result : MonoBehaviour {
     public bool bronzflg;
     public bool silverflg;
     public bool goldflg;
+    bool OneSeFlg;
+    bool StarOneSeFlg1;
+    bool StarOneSeFlg2;
+    bool StarOneSeFlg3;
     public LineAnimetion SelectLine;
 
     //-------test----------------
@@ -83,7 +87,10 @@ public class Result : MonoBehaviour {
         fadeOutflg = true;
         resultAnimationStart = false;
         result_ok = false;
-
+        OneSeFlg = false;
+        StarOneSeFlg1 = false;
+        StarOneSeFlg2 = false;
+        StarOneSeFlg3 = false;
 
         Cursolnum = 0;
         fade_color_A = 1;
@@ -99,20 +106,18 @@ public class Result : MonoBehaviour {
         SetStar[2] = StarObj[2].GetComponent<Transform>();
         //ResultRankCheck = GetComponent<StageRank>();
         
-        //------------test-------------------------------
+
         //フレームカラー初期化
         for (int i = 0; i < 4; i++)
         {
             GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
         }
-        //追加test
-        //GetMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
+        //ゲームメイン評価確認
         Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
         GLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
         SLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
-        //Debug.Log(Limit);
-        //Debug.Log(GLimit);
-        //Debug.Log(SLimit);
+       
+
 
         if (Limit <= GLimit)
         {
@@ -136,40 +141,7 @@ public class Result : MonoBehaviour {
             goldflg = false;
         }
 
-        //追加テストend
 
-
-        //ステージIDを確認（未実装）----------------------------------------------------------
-       // ResultRankCheck.CheckRank(5);
-       //// ResultRankCheck.CheckRank(PassStageID.StageID);
-       // rank = ResultRankCheck.GetRank();
-       // switch (rank)
-       // {
-       //     case StageRank.RANK.NORMAL://normal
-       //         GameObject.Find("Frame").transform.GetChild(0).gameObject.SetActive(true);
-       //         break;
-       //     case StageRank.RANK.BRONZE:
-       //         GameObject.Find("Frame").transform.GetChild(1).gameObject.SetActive(true);
-       //         bronzflg = true;
-       //         silverflg = false;
-       //         goldflg = false;
-
-       //         break;
-       //     case StageRank.RANK.SILVER:
-       //         GameObject.Find("Frame").transform.GetChild(2).gameObject.SetActive(true);
-       //         bronzflg = false;
-       //         silverflg = true;
-       //         goldflg = false;
-       //         break;
-       //     case StageRank.RANK.GOLD:
-       //         GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
-       //         bronzflg = false;
-       //         silverflg = false;
-       //         goldflg = true;
-       //         break;
-       // }
-        //ステージIDを確認（未実装） end----------------------------------------------------------
-        //test end-----------------------------------------------
 
 
         //初期星位置保存
@@ -232,9 +204,6 @@ public class Result : MonoBehaviour {
 
 
 
-
-
-        //KeyPosition = SetCursol.GetComponent<Transform>();
         fade = SetImage.GetComponent<Image>();
 
 
@@ -242,11 +211,26 @@ public class Result : MonoBehaviour {
         fade.color = new Color(1, 1, 1, fade_color_A);
 
         //初期カーソルポジション
-        //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
-        // スクリーンショット初期化
+
+        // スクリーンショット初期化(Todo：クリアSSが貼れてない)
         SS = this.GetComponent<ScreenShot>();
         SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
+
+        //リザルトBGM
+        //Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
+        //カーソル移動SE
+        //Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
+        //決定SE
+        //Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        //星評価SE
+        //Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+
+
+
+        //Sound.PlayBgm("GM_BGM");
+        
+        //Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
 	}
 	
 
@@ -260,12 +244,10 @@ public class Result : MonoBehaviour {
         //フェードアウト終了完了（操作可能区間）
         if (result_ok)
         {
-            //フェードイン・アウト中の操作切断
-            if (fadeInflg == false && fadeOutflg == false)
-            {
-                //入力処理
-                InputCollection();
-            }
+           
+            //入力処理
+            InputCollection();
+            
 
             //カーソル位置更新
             KeyCheck();
@@ -284,59 +266,84 @@ public class Result : MonoBehaviour {
 	}
 
 
-
-
-
-
     //入力関係の処理
     void InputCollection()
     {
-        float Decision;                                 //上下を判定用
-        Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
-
-        //カーソル移動
-        if (Decision > DefaultKeyPos)
+        //SESTOP(入力関係)
+        if (OneSeFlg)
         {
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-            if (SelectLine.tmpTime>(SelectLine.AnimTime/2))
-            {
-                if (Cursolnum < 1)
-                {
-                    Cursolnum = 2;
-                }
-                else
-                {
-                    Cursolnum--;
-                }
-                SelectLine.InitLineAnimation();
-            }
+            //Sound.StopSe("SE_INFO", 4);
+            OneSeFlg = true;
         }
-        if(Decision < -DefaultKeyPos)
+         //フェードイン・アウト中の操作切断
+        if (fadeInflg == false && fadeOutflg == false)
         {
-        //if (Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-            if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
+            float Decision;                                 //上下を判定用
+            Decision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
+
+            //カーソル移動
+            if (Decision > DefaultKeyPos)
             {
-                if (Cursolnum > 1)
+                //if (Input.GetKeyDown(KeyCode.UpArrow))
+                //{
+                if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
                 {
-                    Cursolnum = 0;
+                    if (Cursolnum < 1)
+                    {
+                        Cursolnum = 2;
+                    }
+                    else
+                    {
+                        Cursolnum--;
+                    }
+                    SelectLine.InitLineAnimation();
+                    //SE再生（カーソル移動）
+                    if (!OneSeFlg)
+                    {
+                        //Sound.PlaySe("SE_INFO", 4);
+                        OneSeFlg = true;
+                    }
+
                 }
-                else
-                {
-                    Cursolnum++;
-                }
-                SelectLine.InitLineAnimation();
             }
-        }
+            if (Decision < -DefaultKeyPos)
+            {
+                //if (Input.GetKeyDown(KeyCode.DownArrow))
+                //{
+                if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
+                {
+                    if (Cursolnum > 1)
+                    {
+                        Cursolnum = 0;
+                    }
+                    else
+                    {
+                        Cursolnum++;
+                    }
+                    SelectLine.InitLineAnimation();
+                    //SE再生（カーソル移動）
+                    if (!OneSeFlg)
+                    {
+                        //Sound.PlaySe("SE_INFO", 4);
+                        OneSeFlg = true;
+                    }
+                }
+            }
 
-        //決定
-        if(Input.GetButtonDown("AButton"))
-        {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-            fadeInflg = true;
+            //決定
+            if (Input.GetButtonDown("AButton"))
+            {
+                //if (Input.GetKeyDown(KeyCode.Space))
+                //{
+                fadeInflg = true;
+                //SE再生(決定)
+                if (!OneSeFlg)
+                {
+                    //Sound.PlaySe("SE_INFO", 4);
+                    OneSeFlg = true;
+                }
 
+            }
         }
     }
 
@@ -394,6 +401,7 @@ public class Result : MonoBehaviour {
                 //KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol3, SetCursol_z);
                 break;
         }
+       
     }
 
 
@@ -470,48 +478,54 @@ public class Result : MonoBehaviour {
             }
             else if (SetStar[0].transform.localPosition.z <= InitSize[1].z - 15 && (silverflg == true || goldflg == true) && SetStar[1].transform.localPosition.z >= InitSize[1].z - 15)
             {
+                //星評価SE1
+                if (!StarOneSeFlg1)
+                {
+                    //Sound.PlaySe("SE_INFO", 4);
+                    StarOneSeFlg1 = true;
+                }
+                else
+                {
+                    //Sound.StopSe("SE_INFO", 4);
+                }
                 //size[1] -= 1.0f;
                 PositionPlus = SetStar[1].transform.localPosition;
                 PositionPlus.z -= 3.0f;
                 SetStar[1].transform.localPosition = PositionPlus;
-                //SetStar[0].transform.localPosition = new Vector3(SetStarEmpty.transform.localPosition.x,
-                //                                                SetStarEmpty.transform.localPosition.y,
-                //                                                size[0]);
             }
             else if (SetStar[1].transform.localPosition.z <= InitSize[2].z - 15 && goldflg == true && SetStar[2].transform.localPosition.z >= InitSize[2].z - 15)
             {
+                //星評価SE2
+                if (!StarOneSeFlg2)
+                {
+                    //Sound.PlaySe("SE_INFO", 4);
+                    StarOneSeFlg2 = true;
+                }
+                else
+                {
+                    //Sound.StopSe("SE_INFO", 4);
+                }
                 //size[2] -= 1.0f;
                 PositionPlus = SetStar[2].transform.localPosition;
                 PositionPlus.z -= 3.0f;
                 SetStar[2].transform.localPosition = PositionPlus;
-                //SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
             }
             else
             {
+                //星評価SE3
+                if (!StarOneSeFlg3)
+                {
+                    //Sound.PlaySe("SE_INFO", 4);
+                    StarOneSeFlg3 = true;
+                }
+                else
+                {
+                    //Sound.StopSe("SE_INFO", 4);
+                }
                 resultAnimationStart = false;
                 result_ok = true;
             }
 
-            //if (size[0] >= -7)
-            //{
-            //    size[0] -=0.5f;
-            //    SetStar[0].transform.localPosition = new Vector3(-19.5f, -8.5f, size[0]);
-            //}
-            //else if (size[0] <= -7&&(silverflg == true || goldflg == true ) && size[1] >= -7)
-            //{
-            //    size[1] -=1.0f;
-            //    SetStar[1].transform.localPosition = new Vector3(3.3f, -8.5f, size[1]);
-            //}
-            //else if (size[1] <= -7 && goldflg == true && size[2] >= -7)
-            //{
-            //    size[2] -=1.0f;
-            //    SetStar[2].transform.localPosition = new Vector3(26.0f, -8.5f, size[2]);
-            //}
-            //else
-            //{
-            //    resultAnimationStart = false;
-            //    result_ok = true;
-            //}
         }
     }
    
@@ -529,6 +543,7 @@ public class Result : MonoBehaviour {
         fadeOutflg = true;
         resultAnimationStart = false;
         result_ok = false;
+        StarOneSeFlg1 = StarOneSeFlg2 = StarOneSeFlg3 = false;
 
         Cursolnum = 0;
         fade_color_A = 1;
@@ -550,8 +565,6 @@ public class Result : MonoBehaviour {
             GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
         }
 
-        //初期カーソルポジション
-        //KeyPosition.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
         //初期選択項目フェード
         for (int i = 0; i < 4; i++)
