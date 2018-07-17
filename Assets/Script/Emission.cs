@@ -29,7 +29,7 @@ public class Emission : MonoBehaviour
     private bool isBaseTimeObj;
     private bool isEnding;
 
-    private Blocks S_Blocks;
+    public Blocks S_Blocks;
     public bool isBurned;
     private bool isBurning;
 
@@ -181,7 +181,7 @@ public class Emission : MonoBehaviour
 
         InitMaterial();
 
-        S_Blocks = this.GetComponent<Blocks>();
+        S_Blocks = this.transform.parent.GetComponent<Blocks>();
 
 
         if (S_Blocks.StartBlockFlg)
@@ -203,8 +203,8 @@ public class Emission : MonoBehaviour
     {
         if (EmissiveObj == null)
         {
-            EmissiveObj = this.transform.Find("GlassBlock").gameObject;
-            //EmissiveObj = this.gameObject;
+            //EmissiveObj = this.transform.Find("GlassBlock").gameObject;
+            EmissiveObj = this.gameObject;
             SetEditMatrial();
         }
 

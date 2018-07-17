@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 33082758239616030}
   - component: {fileID: 65063263554163068}
   - component: {fileID: 23304087789107874}
+  - component: {fileID: 114019809182497102}
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -274,7 +275,6 @@ GameObject:
   - component: {fileID: 65934467081171906}
   - component: {fileID: 23443504097011610}
   - component: {fileID: 114972388998337828}
-  - component: {fileID: 114240457352168978}
   m_Layer: 0
   m_Name: GlassBlock2
   m_TagString: NormalBlock
@@ -1779,12 +1779,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114240457352168978
+--- !u!114 &114019809182497102
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1724603840192796}
+  m_GameObject: {fileID: 1264599319612756}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
@@ -1794,6 +1794,7 @@ MonoBehaviour:
   EndFlg: 0
   StartFlg: 0
   CanEmission: 0
+  S_Blocks: {fileID: 0}
   isBurned: 0
 --- !u!114 &114972388998337828
 MonoBehaviour:
