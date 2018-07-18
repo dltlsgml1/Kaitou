@@ -166,21 +166,27 @@ public class Emission : MonoBehaviour
 
     public void Init()
     {
+        // エミッションマネージャ取得
         GetEmissionInfo();
 
+        // 各値初期化
         NowTime = 0.0f;
         ChangeTime = EmManager.Edit_ChangeTime;
-        //MinValue = Edit_MinValue;
-        //MaxValue = Edit_MaxValue;
         UpFlg = EmManager.Edit_UpStartFlg;
-        EndFlg = false;
+
         value = 0;
+
+        EndFlg = false;
+        StartFlg = false;
+
         isEmissioning = false;
         Old_isEmissioning = false;
         isBaseTimeObj = false;
         isEnding = false;
+
         EmManager.EmissionCnt = 0;
 
+        // マテリアル初期化
         InitMaterial();
 
         S_Blocks = this.transform.parent.GetComponent<Blocks>();
@@ -189,12 +195,14 @@ public class Emission : MonoBehaviour
         if (S_Blocks.StartBlockFlg)
         {
             isBurned = true;
+            isBurning = true;
             Color color = new Color(1, 1, 1); //エミッションの光度を変えてる。
             EmissiveObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color * EmManager.EmissionPower);　//ここで色を入れ込む。
         }
         else
         {
             isBurned = false;
+            isBurning = false;
             Color color = new Color(0, 0, 0); //エミッションの光度を変えてる。
             EmissiveObj.GetComponent<Renderer>().material.SetColor("_EmissionColor", color);　//ここで色を入れ込む。
         }
