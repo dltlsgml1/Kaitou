@@ -64,7 +64,8 @@ public class GameMain : MonoBehaviour
                     Blocks[i].GetComponent<Blocks>().BurnFlg = false;
                     Blocks[i].GetComponent<Blocks>().UnsetCollapsFlag();
 
-                    Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
+                    Blocks[i].transform.Find("GlassBlock").GetComponent<Emission>().Init();
+                    //Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
             

@@ -163,7 +163,7 @@ public class Emission : MonoBehaviour
 
     }
 
-    private void Init()
+    public void Init()
     {
         GetEmissionInfo();
 
@@ -178,6 +178,7 @@ public class Emission : MonoBehaviour
         Old_isEmissioning = false;
         isBaseTimeObj = false;
         isEnding = false;
+        EmManager.EmissionCnt = 0;
 
         InitMaterial();
 
@@ -297,6 +298,7 @@ public class Emission : MonoBehaviour
                 NowTime = ChangeTime;
                 //isBurning = false;
                 EmManager.SetIsBasedSetted(false);
+                EmManager.EmissionCnt--;
             }
 
             EmissionColor = new Color(EmManager.Edit_BurnEmissionColor.r * value, EmManager.Edit_BurnEmissionColor.g * value, EmManager.Edit_BurnEmissionColor.b * value);
