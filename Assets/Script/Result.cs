@@ -25,7 +25,8 @@ public class Result : MonoBehaviour
     public bool bronzflg;
     public bool silverflg;
     public bool goldflg;
-    bool OneSeFlg;
+    bool OneSelectSeFlg;
+    bool OneEnterSeFlg;
     bool StarOneSeFlg1;
     bool StarOneSeFlg2;
     bool StarOneSeFlg3;
@@ -67,9 +68,9 @@ public class Result : MonoBehaviour
     const float Cursol2 = -0.8f;
     const float Cursol3 = -3;
     const float fadespeed = 0.05f;
-
+    const float ResultVolume = 0.7f;
     const float DefaultKeyPos = 0.8f;
-    const int LastStageID = 30;
+    const int LastStageID = 20;
 
     // スクショ用
     private ScreenShot SS;
@@ -82,7 +83,7 @@ public class Result : MonoBehaviour
     void Start()
     {
 
-        SelectLine.InitLineAnimation();
+        
         
         S_ID = PassStageID.PassStageId();
         
@@ -90,7 +91,8 @@ public class Result : MonoBehaviour
         fadeOutflg = true;
         resultAnimationStart = false;
         result_ok = false;
-        OneSeFlg = false;
+        OneSelectSeFlg = false;
+        OneEnterSeFlg = false;
         StarOneSeFlg1 = false;
         StarOneSeFlg2 = false;
         StarOneSeFlg3 = false;
@@ -123,7 +125,7 @@ public class Result : MonoBehaviour
         {
             GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
         }
-        //ゲームメイン評価確認
+        ////ゲームメイン評価確認
         Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
         GLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
         SLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
@@ -161,6 +163,9 @@ public class Result : MonoBehaviour
             InitSize[i] = new Vector3(SetStar[i].localPosition.x, SetStar[i].localPosition.y, SetStar[i].localPosition.z);
         }
 
+        //初期ラインポジション
+        SelectLine.LineObj.transform.localPosition = new Vector3(0.0f, 10.0f, 0.0f);
+        SelectLine.InitLineAnimation();
 
         //マテリアルセット
         for (int i = 0; i < 4; i++)
@@ -221,25 +226,33 @@ public class Result : MonoBehaviour
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
 
-        //初期カーソルポジション
-        SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
 
         // スクリーンショット初期化(Todo：クリアSSが貼れてない)
         SS = this.GetComponent<ScreenShot>();
         SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
 
         //リザルトBGM
-        //Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
+        Sound.LoadBgm("ResultBGM", "Result/RT_BGM");
         //カーソル移動SE
-        //Sound.LoadSe("SE_STAR", "GameMain/GM_Star");
+        Sound.LoadSe("ResultSTAR01", "Result/RT_Star01");
         //決定SE
-        //Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        Sound.LoadSe("ResultSTAR02", "Result/RT_Star02");
         //星評価SE
-        //Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        Sound.LoadSe("ResultSTAR03", "Result/RT_Star03");
+
+        Sound.LoadSe("Select", "Pause/PS_Select");
+
+        Sound.LoadSe("In", "StageSelect/SS_In");
+        //Sound.LoadSe("In", "Pause/PS_Enter");
+
+        Sound.SetVolumeSe("ResultSTAR01", ResultVolume, 1);
+        Sound.SetVolumeSe("ResultSTAR02", ResultVolume, 2);
+        Sound.SetVolumeSe("ResultSTAR03", ResultVolume, 3);
+        Sound.SetVolumeSe("Select", ResultVolume, 4);
+        Sound.SetVolumeSe("In", ResultVolume, 5);
 
 
-
-        //Sound.PlayBgm("GM_BGM");
+        Sound.PlayBgm("ResultBGM");
 
         //Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
     }
@@ -282,11 +295,18 @@ public class Result : MonoBehaviour
     void InputCollection()
     {
         //SESTOP(入力関係)
-        if (OneSeFlg)
+        if (OneSelectSeFlg)
         {
-            //Sound.StopSe("SE_INFO", 4);
-            OneSeFlg = true;
+            Sound.StopSe("Select", 4);
+            OneSelectSeFlg = false;
         }
+        if (OneEnterSeFlg)
+        {
+            Sound.StopSe("In", 5);
+            OneEnterSeFlg = false;
+        }
+
+
         //フェードイン・アウト中の操作切断
         if (fadeInflg == false && fadeOutflg == false)
         {
@@ -298,7 +318,7 @@ public class Result : MonoBehaviour
             {
                 //if (Input.GetKeyDown(KeyCode.UpArrow))
                 //{
-                if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
+                if (SelectLine.tmpTime >= SelectLine.AnimTime)
                 {
                     //最終ステージ処理
                     if (LastStageID == S_ID)
@@ -325,10 +345,10 @@ public class Result : MonoBehaviour
                     }
                     SelectLine.InitLineAnimation();
                     //SE再生（カーソル移動）
-                    if (!OneSeFlg)
+                    if (!OneSelectSeFlg)
                     {
-                        //Sound.PlaySe("SE_INFO", 4);
-                        OneSeFlg = true;
+                        Sound.PlaySe("Select", 4);
+                        OneSelectSeFlg = true;
                     }
 
                 }
@@ -337,7 +357,7 @@ public class Result : MonoBehaviour
             {
                 //if (Input.GetKeyDown(KeyCode.DownArrow))
                 //{
-                if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
+                if (SelectLine.tmpTime >=SelectLine.AnimTime)
                 {
                     if (Cursolnum > 1)
                     {
@@ -357,10 +377,10 @@ public class Result : MonoBehaviour
                     }
                     SelectLine.InitLineAnimation();
                     //SE再生（カーソル移動）
-                    if (!OneSeFlg)
+                    if (!OneSelectSeFlg)
                     {
-                        //Sound.PlaySe("SE_INFO", 4);
-                        OneSeFlg = true;
+                        Sound.PlaySe("Select", 4);
+                        OneSelectSeFlg = true;
                     }
                 }
             }
@@ -372,14 +392,17 @@ public class Result : MonoBehaviour
             //決定
             if (Input.GetButtonDown("AButton"))
             {
-                //if (Input.GetKeyDown(KeyCode.Space))
-                //{
-                fadeInflg = true;
-                //SE再生(決定)
-                if (!OneSeFlg)
+                if (!fadeInflg)
                 {
-                    //Sound.PlaySe("SE_INFO", 4);
-                    OneSeFlg = true;
+                    //if (Input.GetKeyDown(KeyCode.Space))
+                    //{
+                    fadeInflg = true;
+                    //SE再生(決定)
+                    if (!OneEnterSeFlg)
+                    {
+                        Sound.PlaySe("In", 5);                     //ToDo 音代わるかも
+                        OneEnterSeFlg = true;
+                    }
                 }
 
             }
@@ -414,7 +437,7 @@ public class Result : MonoBehaviour
             case 1://もう一度
                 
                 SceneManager.LoadScene("GameMain", LoadSceneMode.Single);
-
+                Debug.Log(S_ID);
                 break;
             case 2://ステセレ
                 
@@ -422,6 +445,7 @@ public class Result : MonoBehaviour
 
                 break;
         }
+        Sound.StopBgm();
         ResultInit();//初期化
     }
 
@@ -532,12 +556,12 @@ public class Result : MonoBehaviour
                 //星評価SE1
                 if (!StarOneSeFlg1)
                 {
-                    //Sound.PlaySe("SE_INFO", 4);
+                    Sound.PlaySe("ResultSTAR01", 1);
                     StarOneSeFlg1 = true;
                 }
                 else
                 {
-                    //Sound.StopSe("SE_INFO", 4);
+                    //Sound.StopSe("ResultSTAR01", 1);
                 }
                 //size[1] -= 1.0f;
                 PositionPlus = SetStar[1].transform.localPosition;
@@ -549,12 +573,12 @@ public class Result : MonoBehaviour
                 //星評価SE2
                 if (!StarOneSeFlg2)
                 {
-                    //Sound.PlaySe("SE_INFO", 4);
+                    Sound.PlaySe("ResultSTAR02", 2);
                     StarOneSeFlg2 = true;
                 }
                 else
                 {
-                    //Sound.StopSe("SE_INFO", 4);
+                    //Sound.StopSe("ResultSTAR02", 2);
                 }
                 //size[2] -= 1.0f;
                 PositionPlus = SetStar[2].transform.localPosition;
@@ -566,15 +590,20 @@ public class Result : MonoBehaviour
                 //星評価SE3
                 if (!StarOneSeFlg3)
                 {
-                    //Sound.PlaySe("SE_INFO", 4);
+                    Sound.PlaySe("ResultSTAR03", 3);
                     StarOneSeFlg3 = true;
                 }
                 else
                 {
-                    //Sound.StopSe("SE_INFO", 4);
+                    Sound.StopSe("ResultSTAR01", 1);
+                    Sound.StopSe("ResultSTAR02", 2);
+                    Sound.StopSe("ResultSTAR03", 3);
                 }
                 resultAnimationStart = false;
                 result_ok = true;
+                //初期カーソルポジション
+                SelectLine.LineObj.transform.localPosition = new Vector3(SetCursol_x, Cursol1, SetCursol_z);
+                SelectLine.InitLineAnimation();
             }
 
         }
