@@ -72,6 +72,7 @@ public class Emission : MonoBehaviour
         {
             isBurned = true;
             isBurning = true;
+            EmManager.EmissionCnt--;
         }
 
         // エミッションの種類の切り替わり
@@ -298,7 +299,6 @@ public class Emission : MonoBehaviour
                 NowTime = ChangeTime;
                 //isBurning = false;
                 EmManager.SetIsBasedSetted(false);
-                EmManager.EmissionCnt--;
             }
 
             EmissionColor = new Color(EmManager.Edit_BurnEmissionColor.r * value, EmManager.Edit_BurnEmissionColor.g * value, EmManager.Edit_BurnEmissionColor.b * value);
