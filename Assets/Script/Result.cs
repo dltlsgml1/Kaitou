@@ -1,8 +1,4 @@
 ﻿
-
-
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +7,13 @@ using UnityEngine.UI;
 
 
 
-public class Result : MonoBehaviour {
+public class Result : MonoBehaviour
+{
 
     public GameObject SetImage;
     public GameObject SetCursol;
     public GameObject[] StarObj = new GameObject[3];
-    public GameObject[] Select=new GameObject[4];
+    public GameObject[] Select = new GameObject[4];
     public GameObject SetStarEmpty;
     public GameObject SetStarObj;
 
@@ -40,7 +37,7 @@ public class Result : MonoBehaviour {
     //----------------------
 
     Image fade;
-    
+
     Transform KeyPosition;
     Transform[] SetStar = new Transform[3];
     Vector3[] InitSize = new Vector3[3];
@@ -48,7 +45,8 @@ public class Result : MonoBehaviour {
     Vector3 PositionPlus;
 
 
-    float[] size = new float[3]; 
+    float[] size = new float[3];
+    int S_ID;
     int Cursolnum;
     float fade_color_A;
     float select_color_A;
@@ -60,17 +58,18 @@ public class Result : MonoBehaviour {
     GameMain GetMain;
     int Limit;
     //
-
+    float SetCursol_x = 3.15f;
     //星サイズ　900
-    const float SetCursol_x = 4.15f;
+    const float SetCursol_x_Start = 1.56f;
+    const float SetCursol_x_End = 4.15f;
     const float SetCursol_z = 1.5f;
     const float Cursol1 = 1.2f;
     const float Cursol2 = -0.8f;
     const float Cursol3 = -3;
-
-    const float fadespeed=0.05f;
+    const float fadespeed = 0.05f;
 
     const float DefaultKeyPos = 0.8f;
+    const int LastStageID = 30;
 
     // スクショ用
     private ScreenShot SS;
@@ -79,10 +78,14 @@ public class Result : MonoBehaviour {
 
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
         SelectLine.InitLineAnimation();
+        
+        S_ID = PassStageID.PassStageId();
+        
         fadeInflg = false;
         fadeOutflg = true;
         resultAnimationStart = false;
@@ -91,8 +94,16 @@ public class Result : MonoBehaviour {
         StarOneSeFlg1 = false;
         StarOneSeFlg2 = false;
         StarOneSeFlg3 = false;
+        //最後のステージは「次へ」無し
+        if (LastStageID == S_ID)
+        {
+            Cursolnum = 1;
+        }
+        else
+        {
+            Cursolnum = 0;
+        }
 
-        Cursolnum = 0;
         fade_color_A = 1;
         select_color_A = 0;
         size[0] = size[1] = 0; size[2] = 0;
@@ -105,7 +116,7 @@ public class Result : MonoBehaviour {
         SetStar[1] = StarObj[1].GetComponent<Transform>();
         SetStar[2] = StarObj[2].GetComponent<Transform>();
         //ResultRankCheck = GetComponent<StageRank>();
-        
+
 
         //フレームカラー初期化
         for (int i = 0; i < 4; i++)
@@ -116,7 +127,7 @@ public class Result : MonoBehaviour {
         Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
         GLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
         SLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
-       
+
 
 
         if (Limit <= GLimit)
@@ -198,7 +209,7 @@ public class Result : MonoBehaviour {
         else if (goldflg)
         {
             GameObject.Find("Frame").transform.GetChild(3).gameObject.SetActive(true);
-        } 
+        }
 
         //---------------------------------------------------------------------------------------------
 
@@ -229,25 +240,26 @@ public class Result : MonoBehaviour {
 
 
         //Sound.PlayBgm("GM_BGM");
-        
+
         //Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
-	}
-	
+    }
 
 
 
 
 
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         //フェードアウト終了完了（操作可能区間）
         if (result_ok)
         {
-           
+
             //入力処理
             InputCollection();
-            
+
 
             //カーソル位置更新
             KeyCheck();
@@ -263,7 +275,7 @@ public class Result : MonoBehaviour {
         //リザルトアニメーション更新
         ResultAnimation();
 
-	}
+    }
 
 
     //入力関係の処理
@@ -275,7 +287,7 @@ public class Result : MonoBehaviour {
             //Sound.StopSe("SE_INFO", 4);
             OneSeFlg = true;
         }
-         //フェードイン・アウト中の操作切断
+        //フェードイン・アウト中の操作切断
         if (fadeInflg == false && fadeOutflg == false)
         {
             float Decision;                                 //上下を判定用
@@ -288,13 +300,28 @@ public class Result : MonoBehaviour {
                 //{
                 if (SelectLine.tmpTime > (SelectLine.AnimTime / 2))
                 {
-                    if (Cursolnum < 1)
+                    //最終ステージ処理
+                    if (LastStageID == S_ID)
                     {
-                        Cursolnum = 2;
+                        if (Cursolnum < 2)
+                        {
+                            Cursolnum = 2;
+                        }
+                        else
+                        {
+                            Cursolnum--;
+                        }
                     }
                     else
                     {
-                        Cursolnum--;
+                        if (Cursolnum < 1)
+                        {
+                            Cursolnum = 2;
+                        }
+                        else
+                        {
+                            Cursolnum--;
+                        }
                     }
                     SelectLine.InitLineAnimation();
                     //SE再生（カーソル移動）
@@ -314,7 +341,15 @@ public class Result : MonoBehaviour {
                 {
                     if (Cursolnum > 1)
                     {
-                        Cursolnum = 0;
+                        //最終ステージ処理
+                        if (LastStageID == S_ID)
+                        {
+                            Cursolnum = 1;
+                        }
+                        else
+                        {
+                            Cursolnum = 0;
+                        }
                     }
                     else
                     {
@@ -329,6 +364,10 @@ public class Result : MonoBehaviour {
                     }
                 }
             }
+
+            //ラインアニメーション移動
+            MoveCursol();
+
 
             //決定
             if (Input.GetButtonDown("AButton"))
@@ -350,7 +389,10 @@ public class Result : MonoBehaviour {
 
 
 
-
+    void MoveCursol()
+    {
+        SetCursol_x = SetCursol_x_Start + (SetCursol_x_End - SetCursol_x_Start) * (SelectLine.tmpTime - 0.0f) / (SelectLine.AnimTime - 0.0f);
+    }
 
 
 
@@ -359,22 +401,28 @@ public class Result : MonoBehaviour {
     {
         switch (Cursolnum)
         {
-            case 0:
+            case 0://次へ
 
-                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                PassStageID.GetStageID(S_ID+1);
+                PassStageID.GetStageName(CSVData.StageDateList[S_ID+1].StageName);
+                PassStageID.GetPosition((float)CSVData.StageDateList[S_ID + 1].Pos_X, (float)CSVData.StageDateList[S_ID + 1].Pos_Y, (float)CSVData.StageDateList[S_ID + 1].Pos_Z);
+                PassStageID.GetRotation((float)CSVData.StageDateList[S_ID + 1].Rot_X, (float)CSVData.StageDateList[S_ID + 1].Rot_Y, (float)CSVData.StageDateList[S_ID + 1].Rot_Z);
+                PassStageID.GetUpperCount((int)CSVData.StageDateList[S_ID + 1].UpperCunt);
+                SceneManager.LoadScene("GameMain", LoadSceneMode.Single);
+                
+                break;
+            case 1://もう一度
+                
+                SceneManager.LoadScene("GameMain", LoadSceneMode.Single);
 
                 break;
-            case 1:
-
-                SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
-
-                break;
-            case 2:
-
+            case 2://ステセレ
+                
                 SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
                 break;
         }
+        ResultInit();//初期化
     }
 
 
@@ -401,7 +449,7 @@ public class Result : MonoBehaviour {
                 //KeyPosition.gameObject.transform.localPosition = new Vector3(SetCursol_x, Cursol3, SetCursol_z);
                 break;
         }
-       
+
     }
 
 
@@ -418,7 +466,6 @@ public class Result : MonoBehaviour {
             if (fade_color_A > 1)
             {
                 fadeInflg = false;
-                ResultInit();//初期化
                 StageCheck();//シーン遷移
             }
             fade_color_A += fadespeed;
@@ -433,7 +480,7 @@ public class Result : MonoBehaviour {
             fade_color_A -= fadespeed;
 
         }
-        fade.color = new Color(1,1,1, fade_color_A);
+        fade.color = new Color(1, 1, 1, fade_color_A);
     }
 
 
@@ -450,7 +497,11 @@ public class Result : MonoBehaviour {
             select_color_A += fadespeed;
             for (int i = 0; i < 4; i++)
             {
-                Selectfade[i].color = new Color(255, 255, 255, select_color_A);
+                if (LastStageID == S_ID && i == 0) { }//最終ステージのみ
+                else
+                {
+                    Selectfade[i].color = new Color(255, 255, 255, select_color_A);
+                }
             }
         }
     }
@@ -528,7 +579,7 @@ public class Result : MonoBehaviour {
 
         }
     }
-   
+
 
 
 
@@ -555,7 +606,7 @@ public class Result : MonoBehaviour {
         {
             SetStar[i].transform.localPosition = new Vector3(InitSize[i].x, InitSize[i].y, InitSize[i].z);
         }
-            
+
         //初期フェードカラー
         fade.color = new Color(1, 1, 1, fade_color_A);
 
