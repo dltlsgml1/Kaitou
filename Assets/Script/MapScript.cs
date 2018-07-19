@@ -85,7 +85,7 @@ public class MapScript : MonoBehaviour
         Decision = StageID / 5;
         FingerPos = StageID % 5;
         EndFinger = new Vector3(EvenNumber + ((FingerPos) * Width), InitHeight + (-Decision * Height), -11);
-        FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+        FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
         CameraData = GameObject.Find("CameraObejct");
         Ymoved = true;
         StartPosition = this.transform.position;
@@ -129,8 +129,8 @@ public class MapScript : MonoBehaviour
     public void MapOpen()
     {
         rate += 0.05f;
-        EndPosition = new Vector3(0.39f, -8f, -4f);
-        EndRotation = new Vector3(90f, 180, 0);
+        EndPosition = new Vector3(0.39f, -7.75f, -3.9f);
+        EndRotation = new Vector3(114.464f, 360, 180);
         if (!RotationFlag)
         {
             
@@ -197,9 +197,13 @@ public class MapScript : MonoBehaviour
                 RotationFlag = false;
                 StagePositionFlag = false;
                 CameraPositionFlag = false;
-                Frame.transform.position = FramePosition;
+                Frame.transform.localPosition = FramePosition;
                 Frame.SetActive(true);
                 FrameFade.FadeOutFlag = true;
+                StartRotation.x = this.transform.rotation.x;
+                StartRotation.y = this.transform.rotation.y;
+                StartRotation.z = this.transform.rotation.z;
+                StartPosition = this.transform.position;
             }
         }
     }
@@ -210,14 +214,14 @@ public class MapScript : MonoBehaviour
         if (FingerMoveFlag && !FrameFade.FadeOutFlag && !FrameFade.FadeInFlag && rate == 0)
         {
             rate = 1;
-            Debug.Log("入ってる");
+
             FrameFade.FadeInFlag = true;
         }
         if (!FrameFade.FadeInFlag)
         {
 
             rate = 0f;
-            Frame.transform.position = FramePosition;
+            Frame.transform.localPosition = FramePosition;
             FrameFade.FadeOutFlag = true;
             FingerMoveFlag = false;
             Sound.PlaySe("MapSelect", 3);
@@ -258,7 +262,7 @@ public class MapScript : MonoBehaviour
                     EndPosition = StartPosition;
 
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
 
                     EndPosition.y = InitHeight + (-Decision * Height);
 
@@ -279,7 +283,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
 
                     EndPosition.y = InitHeight + (-Decision * Height);
 
@@ -300,7 +304,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
 
                 }
@@ -320,7 +324,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
 
                 }
@@ -357,7 +361,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
 
 
@@ -375,7 +379,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
@@ -395,7 +399,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
@@ -414,7 +418,7 @@ public class MapScript : MonoBehaviour
                     StartPosition = Finger.transform.position;
                     EndPosition = StartPosition;
                     EndPosition.x = EvenNumber + ((FingerPos) * Width);
-                    FramePosition = new Vector3(-4.24f + ((FingerPos) * 2.33f), 0.04f + (-Decision * 1.589f), -10);
+                    FramePosition = new Vector3(3.3f + ((FingerPos) * -1.65f), 0.11f, -3.35f + (Decision * 0.91f));
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
@@ -479,6 +483,7 @@ public class MapScript : MonoBehaviour
                         rate += 0.05f;
                         if (!StagePositionFlag)
                         {
+                            this.transform.rotation = Quaternion.Euler(101f, 270f, 90f);
                             StageSelectObject.transform.position = Vector3.Lerp(new Vector3(-14.0f * (StageID), 4, 0), new Vector3(-14.0f * (StageID), 0, 0), rate);
                             if (StageSelectObject.transform.position == new Vector3(-14.0f * (StageID), 0, 0))
                             {
@@ -498,7 +503,7 @@ public class MapScript : MonoBehaviour
                                 StartFinger = Finger.transform.position;
                                 EndFinger = new Vector3(11, -10, 0);
                                 StartPosition = this.transform.position;
-                                EndPosition = new Vector3(-13.9f, -15.7f, -2.7f);
+                                EndPosition = new Vector3(-8.1f, -12.2f, -2f);
                             }
                         }
 
@@ -515,10 +520,19 @@ public class MapScript : MonoBehaviour
                             }
 
                             Finger.transform.position = new Vector3(11, -10, 0);
-                            if (PositionFlag)
+                            /* if (PositionFlag)
+                             {
+                                 this.transform.rotation = Quaternion.Euler(101f, 270f, 90f);
+                                 RotationFlag = true;
+                             }*/
+                            if (!RotationFlag)
                             {
-                                this.transform.rotation = Quaternion.Euler(80.5f, 136f, -41f);
-                                RotationFlag = true;
+                                this.transform.rotation = Quaternion.Euler(Vector3.Lerp(new Vector3(114.464f, 360, 180), new Vector3(101f, 270f, 90f), rate2));
+
+                                if (this.transform.rotation.x == 101f)
+                                {
+                                    RotationFlag = true;
+                                }
                             }
 
                         }
@@ -552,6 +566,8 @@ public class MapScript : MonoBehaviour
 
         if (SelectButtonFlag)
         {
+            EndRotation = new Vector3(101f, 270f, 90f);
+            EndPosition = new Vector3(-8.1f, -12.2f, -2f);
             spotlight.SetActive(false);
             Frame.SetActive(false);
             rate += 0.05f;
@@ -560,6 +576,8 @@ public class MapScript : MonoBehaviour
                 StageSelectObject.transform.position = Vector3.Lerp(new Vector3(-14.0f * (PassStageID.PassStageId()), 4, 0), new Vector3(-14.0f * (PassStageID.PassStageId()), 0, 0), rate);
                 if (StageSelectObject.transform.position == new Vector3(-14.0f * (PassStageID.PassStageId()), 0, 0))
                 {
+                                                this.transform.rotation = Quaternion.Euler(101f, 270f, 90f);
+
                     StagePositionFlag = true;
                 }
             }
@@ -575,13 +593,13 @@ public class MapScript : MonoBehaviour
                     rate = 0;
                     StartFinger = Finger.transform.position;
                     EndFinger = new Vector3(11, -10, 0);
-                    StartPosition = this.transform.position;
-                    EndPosition = new Vector3(-13.9f, -15.7f, -2.7f);
+                  
+                    
                 }
             }
 
-            if (CameraPositionFlag && StagePositionFlag)
-            {
+            //if (CameraPositionFlag && StagePositionFlag)
+            //{
                 rate2 += 0.05f;
                 if (!PositionFlag)
                 {
@@ -592,14 +610,16 @@ public class MapScript : MonoBehaviour
                     }
                 }
 
-                Finger.transform.position = new Vector3(11, -10, 0);
-                if (PositionFlag)
+                if (!RotationFlag)
                 {
-                    this.transform.rotation = Quaternion.Euler(80.5f, 136f, -41f);
-                    RotationFlag = true;
+                    this.transform.rotation = Quaternion.Euler(Vector3.Lerp(StartRotation, EndRotation, rate2));
+                    NowRotation = Vector3.Lerp(StartRotation, EndRotation, rate2);
+                    if (NowRotation == EndRotation)
+                    {
+                        RotationFlag = true;
+                    }
                 }
-
-            }
+            //}
 
 
 
