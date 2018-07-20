@@ -124,7 +124,10 @@ public class GameMain : MonoBehaviour
         NowCollapsing = false;
         NowCantBurn = false;
         NowCanBurn = false;
-        
+        if(Collapsing==true)
+        {
+            Controller.InputFlag = true;
+        }
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -384,7 +387,6 @@ public class GameMain : MonoBehaviour
                                 temp = true;
                         }
                     }
-                    Debug.Log(mvcamera.Rotation);
                     
                     if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
                         (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
@@ -398,7 +400,6 @@ public class GameMain : MonoBehaviour
                     {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
                         {
-                            Debug.Log(distance);
                             CBlock[CollapsNow].CollapsNowcol = true;
                             NBlock[BlockNow].NormalNowcol = true;
                             temp = true;
