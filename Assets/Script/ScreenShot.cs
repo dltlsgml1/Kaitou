@@ -65,8 +65,28 @@ public class ScreenShot : MonoBehaviour
                 yield return null;
             }
         }
-
     }
+
+    public IEnumerator DeleteScreenshot(string filename)
+    {
+
+        // ファイルがあるかどうか
+        if (System.IO.File.Exists(Application.dataPath + "/" + filename + ".png") == true)
+        {
+            // ファイル削除
+            System.IO.File.Delete(Application.dataPath + "/" + filename + ".png.meta");
+            while (System.IO.File.Exists(Application.dataPath + "/" + filename + ".png.meta") == true)
+            {
+                yield return null;
+            }
+            System.IO.File.Delete(Application.dataPath + "/" + filename + ".png");
+            while (System.IO.File.Exists(Application.dataPath + "/" + filename + ".png") == true)
+            {
+                yield return null;
+            }
+        }
+    }
+
 
     // スクリーンショットの作成
     private IEnumerator CreateScreenshot(int id)
@@ -83,6 +103,21 @@ public class ScreenShot : MonoBehaviour
         }
 
     }
+
+    public IEnumerator CreateScreenshot(string filename)
+    {
+
+        // スクリーンショットを撮る
+        ScreenCapture.CaptureScreenshot(filename + ".png");
+
+        // スクリーンショット生成まで待つ
+        while (System.IO.File.Exists(filename + ".png") == false)
+        {
+            yield return null;
+        }
+
+    }
+
 
     // マテリアルの変更
     public bool SearchToSetClearImage(int id, int no)
