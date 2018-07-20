@@ -126,11 +126,12 @@ public class Result : MonoBehaviour
             GameObject.Find("Frame").transform.GetChild(i).gameObject.SetActive(false);
         }
         ////ゲームメイン評価確認
-        Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
+        Limit = GameMain.ClearLimitBlockNum;
+        //Limit = GameObject.Find("SaveData").GetComponent<ExportCsvScript>().GetClearData(PassStageID.PassStageId());
         GLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
         SLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
 
-
+        
 
         if (Limit <= GLimit)
         {
@@ -437,7 +438,7 @@ public class Result : MonoBehaviour
             case 1://もう一度
                 
                 SceneManager.LoadScene("GameMain", LoadSceneMode.Single);
-                Debug.Log(S_ID);
+               
                 break;
             case 2://ステセレ
                 
