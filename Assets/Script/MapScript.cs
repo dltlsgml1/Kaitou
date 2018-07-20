@@ -512,7 +512,7 @@ public class MapScript : MonoBehaviour
                                 StartFinger = Finger.transform.position;
                                 EndFinger = new Vector3(11, -10, 0);
                                 StartPosition = this.transform.position;
-                                EndPosition = new Vector3(-8.1f, -12.2f, -2f);
+                                EndPosition = new Vector3(-8.1f, -12.2f, -2.9f);
                             }
                         }
 
@@ -548,7 +548,7 @@ public class MapScript : MonoBehaviour
 
 
 
-                        if (PositionFlag && RotationFlag && StagePositionFlag && CameraPositionFlag)
+                        if (PositionFlag && StagePositionFlag && CameraPositionFlag)
                         {
                             rate = 0;
                             rate2 = 0;
@@ -576,7 +576,7 @@ public class MapScript : MonoBehaviour
         if (SelectButtonFlag)
         {
             EndRotation = new Vector3(101f, 270f, 90f);
-            EndPosition = new Vector3(-8.1f, -12.2f, -2f);
+            EndPosition = new Vector3(-8.1f, -12.2f, -2.9f);
             spotlight.SetActive(false);
             Frame.SetActive(false);
             rate += 0.05f;
