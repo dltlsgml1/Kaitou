@@ -230,7 +230,7 @@ public class GameMain : MonoBehaviour
             PlayedSE2 = false;
         }
 
-        if (Input.GetButtonDown("AButton"))
+        if (Input.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
         {
             if (NowCanBurn == false)
             {
@@ -238,7 +238,7 @@ public class GameMain : MonoBehaviour
             }
         }   
 
-        if(Input.GetButtonDown("AButton"))
+        if(Input.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
         {
             for (int i = 0; i < NormalCount; i++)
             {

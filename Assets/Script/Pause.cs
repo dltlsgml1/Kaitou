@@ -345,7 +345,7 @@ public class Pause : MonoBehaviour
 
 
         //キー移動判定
-        if (Input.GetKeyDown("up"))
+        if (Input.GetKeyDown("w"))
         {
             KeyUpFlag = true;
             moved = false;
@@ -353,7 +353,7 @@ public class Pause : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown("down"))
+        if (Input.GetKeyDown("s"))
         {
             KeyDownFlag = true;
             moved = false;
@@ -488,21 +488,44 @@ public class Pause : MonoBehaviour
 
         vec_Cursor = Cursor.transform.localPosition;
         //Pause画面セレクト指移動
-        switch (move)//位置仮置き
+        if (currentScene == "GameMain")
         {
-            case 0://バック位置
-                vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -2.53f;
-                //CursorReset();
-                break;
-            case 1://リスタート位置
-                vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -3.54f;
-                break;
-            case 2://ステセレ位置
-                vec_Cursor.x = -8.3f;
-                vec_Cursor.y = -4.59f;
-                break;
+            switch (move)//位置仮置き
+            {
+                case 0://バック位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -2.53f;
+                    //CursorReset();
+                    break;
+                case 1://リスタート位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -3.54f;
+                    break;
+                case 2://ステセレ位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -4.59f;
+                    break;
+            }
+        }
+
+        if (currentScene == "StageSelect")
+        {
+            switch (move)//位置仮置き
+            {
+                case 0://バック位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -6.0f;
+                    //CursorReset();
+                    break;
+                case 1://リスタート位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -7.0f;
+                    break;
+                case 2://ステセレ位置
+                    vec_Cursor.x = -8.3f;
+                    vec_Cursor.y = -4.59f;
+                    break;
+            }
         }
         Cursor.transform.localPosition = vec_Cursor;
 
