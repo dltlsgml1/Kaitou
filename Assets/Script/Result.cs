@@ -393,7 +393,7 @@ public class Result : MonoBehaviour
 
 
             //決定
-            if (Input.GetButtonDown("AButton"))
+            if (Controller.GetButtonDown("AButton"))
             {
                 if (!fadeInflg)
                 {

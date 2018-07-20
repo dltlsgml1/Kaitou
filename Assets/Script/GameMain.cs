@@ -88,6 +88,7 @@ public class GameMain : MonoBehaviour
 
     void Start()
     {
+       
         mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
         Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
@@ -123,6 +124,10 @@ public class GameMain : MonoBehaviour
         NowCollapsing = false;
         NowCantBurn = false;
         NowCanBurn = false;
+        if(Collapsing==true)
+        {
+            Controller.InputFlag = true;
+        }
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -243,15 +248,14 @@ public class GameMain : MonoBehaviour
             PlayedSE2 = false;
         }
 
-        if (Input.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
+        if (Controller.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
         {
             if (NowCanBurn == false)
             {
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
-        }   
-
-        if(Input.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
+        }
+        if(Controller.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
         {
             for (int i = 0; i < NormalCount; i++)
             {
@@ -383,7 +387,6 @@ public class GameMain : MonoBehaviour
                                 temp = true;
                         }
                     }
-                    Debug.Log(mvcamera.Rotation);
                     
                     if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
                         (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
@@ -397,7 +400,6 @@ public class GameMain : MonoBehaviour
                     {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
                         {
-                            Debug.Log(distance);
                             CBlock[CollapsNow].CollapsNowcol = true;
                             NBlock[BlockNow].NormalNowcol = true;
                             temp = true;
