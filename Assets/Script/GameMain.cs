@@ -438,7 +438,7 @@ public class GameMain : MonoBehaviour
                         mvcamera.Rotation.y >= 358.0f ||
                         mvcamera.Rotation.y <= -358.0f)
                     {
-                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
                         {
                             CBlock[CollapsNow].CollapsNowcol = true;
                             NBlock[BlockNow].NormalNowcol = true;
