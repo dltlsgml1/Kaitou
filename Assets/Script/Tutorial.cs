@@ -11,7 +11,6 @@ public class Tutorial : MonoBehaviour
         TEXT_INDEX = 21,
         num_values
     }
-    public enum TUTORIAL_INDEX {RULE=0,RENSYA,SEIGEN};
 
     public static int CircleMax = 4;
     public int Limit = 5;
@@ -29,10 +28,9 @@ public class Tutorial : MonoBehaviour
     public Sprite[] TutorialSprite = new Sprite[(int)TUTORIAL_SPRITE.num_values];
     public SpriteRenderer TutorialRenderer;
 
-    public static int TutorialIndex;
+    public int TutorialIndex = 0;
     public int ExplainIndex = 0;
     public int ControlIndex = 0;
-    public int Seigenindex = 6;
 
     public bool isChangedTutorialText = false;
     public bool isNext = false;
@@ -86,10 +84,10 @@ public class Tutorial : MonoBehaviour
     {
         // 各変数初期化
         Limit = 5;
-        
+
+        TutorialIndex = 0;
         ExplainIndex = 0;
         ControlIndex = 0;
-        Seigenindex = 6;
 
         isChangedTutorialText = false;
         isNext = false;
@@ -151,19 +149,18 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("StartButton"))
+        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Space))
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
         switch (TutorialIndex)
         {
-            case (int)TUTORIAL_INDEX.RULE:
+            case 0:
                 Explain();
                 break;
-            case (int)TUTORIAL_INDEX.RENSYA:
+            case 1:
                 Control();
                 break;
-            case (int)TUTORIAL_INDEX.SEIGEN:
-                Seigen();
+            case 2:
                 break;
         }
 
@@ -500,7 +497,7 @@ public class Tutorial : MonoBehaviour
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
 
-                if(!FadeControllerInfoFlg && !FadeControllerInfoFrameFlg)
+                if (!FadeControllerInfoFlg && !FadeControllerInfoFrameFlg)
                 {
                     FadeControllerInfoFlg = true;
                     FadeControllerInfoFrameFlg = true;
@@ -529,7 +526,7 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("RButton"))
                     {
-                      
+                        TutorialIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
@@ -542,7 +539,7 @@ public class Tutorial : MonoBehaviour
                             GlobalCoroutine.Go(FadeControllerInfo.SpriteFadeOut(FadeTime));
                             GlobalCoroutine.Go(FadeControllerInfoFrame.SpriteFadeOut(FadeTime));
                         }
-                        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+
                     }
                 }
 
@@ -791,22 +788,15 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("RButton"))
                     {
-                        //kugiri
+                        ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
                         ResetCamera = false;
-                        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
                     }
                 }
-                break;
-    }
-}
-    void Seigen()
-    {
-        switch (Seigenindex)
-        {
 
+                break;
             case 6:
                 MainScript.GetComponent<GameMain>().TutorialAtari = true;
                 MainScript.GetComponent<GameMain>().mvcamera.StopCameraOff();
@@ -837,7 +827,7 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("RButton"))
                     {
-                        Seigenindex++;
+                        ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetNextTextFlg(false);
@@ -862,14 +852,14 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("LButton"))
                     {
-                        Seigenindex--;
+                        ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
-                        Seigenindex++;
+                        ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
@@ -895,14 +885,14 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("LButton"))
                     {
-                        Seigenindex--;
+                        ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
                     if (Input.GetButtonDown("RButton"))
                     {
-                        Seigenindex++;
+                        ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
@@ -928,7 +918,7 @@ public class Tutorial : MonoBehaviour
                 {
                     if (Input.GetButtonDown("LButton"))
                     {
-                        Seigenindex--;
+                        ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetBackTextFlg(false);
@@ -958,7 +948,7 @@ public class Tutorial : MonoBehaviour
                     {
                         if (Input.GetButtonDown("RButton"))
                         {
-                            Seigenindex++;
+                            ControlIndex++;
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                             isChangedTutorialText = false;
                             isNext = false;
@@ -1001,7 +991,10 @@ public class Tutorial : MonoBehaviour
 
                 break;
         }
+
     }
+
+
     private void OnDestroy()
     {
         MainScript.GetComponent<GameMain>().TutorialFlg = false;
