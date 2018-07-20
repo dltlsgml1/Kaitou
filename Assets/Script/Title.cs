@@ -33,7 +33,7 @@ public class Title : MonoBehaviour {
 
         if (cs_failed.FadeInFlag == false)
         {
-            if (Input.GetButtonDown("AButton"))
+            if (Controller.GetButtonDown("AButton"))
             {
                 if (EnterFlg == false)
                 {

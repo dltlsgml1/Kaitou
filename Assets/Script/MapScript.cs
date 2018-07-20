@@ -439,14 +439,14 @@ public class MapScript : MonoBehaviour
 
         }
         MoveFlag = true;
-        if (Input.GetButtonDown("AButton"))
+        if (Controller.GetButtonDown("AButton"))
         {
             Sound.PlaySe("MapSelect", 3);
 
             SelectFlag = true;
         }
 
-        if (Input.GetButtonDown("SelectButton"))
+        if (Controller.GetButtonDown("SelectButton"))
         {
             Sound.PlaySe("MapIn", 4);
             SelectButtonFlag = true;
