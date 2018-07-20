@@ -232,6 +232,7 @@ public class Result : MonoBehaviour
         SS = this.GetComponent<ScreenShot>();
         //SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
         SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ResultImage");
+        GlobalCoroutine.Go(SS.DeleteScreenshot("ResultImage"));
 
         //リザルトBGM
         Sound.LoadBgm("ResultBGM", "Result/RT_BGM");
@@ -396,7 +397,7 @@ public class Result : MonoBehaviour
             {
                 if (!fadeInflg)
                 {
-                    GlobalCoroutine.Go(SS.DeleteScreenshot("ResultImage"));
+                   
 
                     //if (Input.GetKeyDown(KeyCode.Space))
                     //{
