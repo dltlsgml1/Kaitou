@@ -541,7 +541,7 @@ public class Pause : MonoBehaviour
         fade.GetComponent<failed>().FadeIn_On();
         fade_outflg = true;
         fade_count++;
-        
+        Controller.InputFlag = false;
     }
 
     public void FedeOut()
@@ -558,7 +558,7 @@ public class Pause : MonoBehaviour
             fade_outflg = false;
             fade.GetComponent<failed>().FadeOut_On();
             CursorReset();
-
+            Controller.InputFlag = true;
         }
     }
 
