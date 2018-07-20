@@ -7994,8 +7994,8 @@ MonoBehaviour:
   CollapsBottom: 1
   CollapsFront: 1
   CollapsBack: 1
-  CollapsLeft: 0
-  CollapsRight: 0
+  CollapsLeft: 1
+  CollapsRight: 1
   IsTopCollapsed: 0
   IsRightCollapsed: 0
   IsLeftCollapsed: 0
@@ -8007,9 +8007,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 1
   BurnCnt: 0
-  BurnCnt2: 0
-  canburn: 0
-  cantburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114052979030717056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8038,9 +8038,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  BurnCnt2: 0
-  canburn: 0
-  cantburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114103108816666608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8056,8 +8056,8 @@ MonoBehaviour:
   CollapsBottom: 1
   CollapsFront: 1
   CollapsBack: 1
-  CollapsLeft: 0
-  CollapsRight: 0
+  CollapsLeft: 1
+  CollapsRight: 1
   IsTopCollapsed: 0
   IsRightCollapsed: 0
   IsLeftCollapsed: 0
@@ -8069,9 +8069,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  BurnCnt2: 0
-  canburn: 0
-  cantburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114116288341677622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8112,9 +8112,9 @@ MonoBehaviour:
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
-  BurnCnt2: 0
-  canburn: 0
-  cantburn: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
 --- !u!114 &114226387731737836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8138,12 +8138,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114052979030717056}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  S_Blocks: {fileID: 0}
+  isBurned: 0
 --- !u!114 &114678488714090016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8155,12 +8155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114211107127853734}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  S_Blocks: {fileID: 0}
+  isBurned: 0
 --- !u!114 &114715478456175264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8184,12 +8184,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114103108816666608}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  S_Blocks: {fileID: 0}
+  isBurned: 0
 --- !u!114 &114811973220527266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8213,12 +8213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeEmissionFlag: 0
-  S_blooks: {fileID: 114001059135554384}
-  LightEnd: 0
-  UpCountFlag: 1
-  DownCountFlag: 0
-  canBurnFlag: 0
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  S_Blocks: {fileID: 0}
+  isBurned: 0
 --- !u!198 &198018101000819984
 ParticleSystem:
   m_ObjectHideFlags: 1
