@@ -149,7 +149,7 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("StartButton"))
+        if (Controller.GetButtonDown("StartButton"))
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
         switch (TutorialIndex)
@@ -277,7 +277,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ExplainIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -311,14 +311,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ExplainIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ExplainIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -355,14 +355,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ExplainIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ExplainIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -388,7 +388,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && NormalBlock.GetComponent<Blocks>().NormalNowcol == false && !isNext)
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ExplainIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -477,7 +477,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (NormalBlock.GetComponent<Blocks>().BurnFlg == true && Input.GetButtonDown("RButton"))
+                    if (NormalBlock.GetComponent<Blocks>().BurnFlg == true && Controller.GetButtonDown("RButton"))
                     {
                         ExplainIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -524,7 +524,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         TutorialIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -600,7 +600,7 @@ public class Tutorial : MonoBehaviour
                     // フェード中かどうか
                     if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                     {
-                        if (Input.GetButtonDown("RButton"))
+                        if (Controller.GetButtonDown("RButton"))
                         {
                             ControlIndex++;
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -638,7 +638,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -664,14 +664,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -697,14 +697,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -731,7 +731,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -760,7 +760,7 @@ public class Tutorial : MonoBehaviour
                     // フェード中かどうか
                     if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
-                        if (Input.GetButtonDown("RButton"))
+                        if (Controller.GetButtonDown("RButton"))
                         {
                             ControlIndex++;
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -786,7 +786,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -825,7 +825,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -850,14 +850,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -883,14 +883,14 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
                         isChangedTutorialText = false;
                         SetInfoFlg(false, false);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         ControlIndex++;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -916,7 +916,7 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut() && !isNext)
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         ControlIndex--;
                         GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -946,7 +946,7 @@ public class Tutorial : MonoBehaviour
                     // フェード中かどうか
                     if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                     {
-                        if (Input.GetButtonDown("RButton"))
+                        if (Controller.GetButtonDown("RButton"))
                         {
                             ControlIndex++;
                             GlobalCoroutine.Go(TutorialText.SpriteFadeOut(FadeTime));
@@ -976,13 +976,13 @@ public class Tutorial : MonoBehaviour
                 // フェード中かどうか
                 if (!TutorialText.GetIsFadingIn() && !TutorialText.GetIsFadingOut())
                 {
-                    if (Input.GetButtonDown("LButton"))
+                    if (Controller.GetButtonDown("LButton"))
                     {
                         isChangedTutorialText = false;
                         ResetCamera = false;
                         SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
                     }
-                    if (Input.GetButtonDown("RButton"))
+                    if (Controller.GetButtonDown("RButton"))
                     {
                         isChangedTutorialText = false;
                         SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);

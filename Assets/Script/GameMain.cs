@@ -88,6 +88,7 @@ public class GameMain : MonoBehaviour
 
     void Start()
     {
+       
         mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
         Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
@@ -243,15 +244,14 @@ public class GameMain : MonoBehaviour
             PlayedSE2 = false;
         }
 
-        if (Input.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
+        if (Controller.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
         {
             if (NowCanBurn == false)
             {
                 Sound.PlaySe("SE_INFO_CANT", 5);
             }
-        }   
-
-        if(Input.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
+        }
+        if(Controller.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
         {
             for (int i = 0; i < NormalCount; i++)
             {
