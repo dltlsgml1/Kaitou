@@ -14,7 +14,25 @@ public class Controller : MonoBehaviour {
 		
 	}
 
-    public static bool ButtonDownFlag(string key, bool flag)
+    public static bool GetBouttonFlag(string key, bool flag)
+    {
+        if (flag)
+        {
+            if (Input.GetButton(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool GetButtonDownFlag(string key, bool flag)
     {
         if (flag)
         {

@@ -82,7 +82,6 @@ public class MovePose : MonoBehaviour
             }
             MovePos();
             SetPosition();
-
         }
 
         if (currentScene == "StageSelect")
