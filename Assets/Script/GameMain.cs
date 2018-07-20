@@ -124,6 +124,7 @@ public class GameMain : MonoBehaviour
         NowCollapsing = false;
         NowCantBurn = false;
         NowCanBurn = false;
+        
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
