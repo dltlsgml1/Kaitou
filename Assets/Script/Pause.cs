@@ -77,8 +77,8 @@ public class Pause : MonoBehaviour
         // 現在読み込んでいるシーンの名前を取得
         currentScene = SceneManager.GetActiveScene().name;
    
-        ////ｑキーでゲームバック
-        if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
+        ////pキーでポーズ
+        if ((Input.GetKeyDown("p") || Input.GetButtonDown("StartButton"))
             && fade_outflg == false //フェード中オフ 
             && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
@@ -541,6 +541,7 @@ public class Pause : MonoBehaviour
         fade.GetComponent<failed>().FadeIn_On();
         fade_outflg = true;
         fade_count++;
+        
     }
 
     public void FedeOut()
@@ -557,6 +558,7 @@ public class Pause : MonoBehaviour
             fade_outflg = false;
             fade.GetComponent<failed>().FadeOut_On();
             CursorReset();
+
         }
     }
 
