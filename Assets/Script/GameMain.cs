@@ -25,6 +25,7 @@ public class GameMain : MonoBehaviour
     public MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
+    public static int ClearLimitBlockNum;
     public int BlocksCount = 0;             //現在ブロックの数
     public int CollapsCount = 0;            //現在燃やすブロックの数
     public int NormalCount = 0;             //現在普通ブロックの数
@@ -168,6 +169,7 @@ public class GameMain : MonoBehaviour
             {
                 if (FadeEnd == true)
                 {
+                    ClearLimitBlockNum = ClearLimit;
                     SceneManager.LoadScene("Result", LoadSceneMode.Single);
                 }
             }
