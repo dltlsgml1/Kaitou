@@ -226,7 +226,8 @@ public class Result : MonoBehaviour
 
         // スクリーンショット初期化(Todo：クリアSSが貼れてない)
         SS = this.GetComponent<ScreenShot>();
-        SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
+        //SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ClearImage" + SS.IdToString(PassStageID.StageID));
+        SS.SetImage(GameObject.Find("ResultCanvas/Stage/Frame/ClearStageSS").GetComponent<MeshRenderer>(), "ResultImage");
 
         //リザルトBGM
         //Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
@@ -372,6 +373,7 @@ public class Result : MonoBehaviour
             //決定
             if (Input.GetButtonDown("AButton"))
             {
+                GlobalCoroutine.Go(SS.DeleteScreenshot("ResultImage"));
                 //if (Input.GetKeyDown(KeyCode.Space))
                 //{
                 fadeInflg = true;
