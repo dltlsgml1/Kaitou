@@ -149,7 +149,7 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("StartButton"))
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
 
         switch (TutorialIndex)
