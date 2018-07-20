@@ -4,19 +4,11 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static bool InputFlag = true;
 
-    public static bool GetBouttonFlag(string key, bool flag)
+    public static bool GetButton(string key)
     {
-        if (flag)
+        if (InputFlag)
         {
             if (Input.GetButton(key))
             {
@@ -32,9 +24,9 @@ public class Controller : MonoBehaviour {
             return false;
         }
     }
-    public static bool GetButtonDownFlag(string key, bool flag)
+    public static bool GetButtonDown(string key)
     {
-        if (flag)
+        if (InputFlag)
         {
             if (Input.GetButtonDown(key))
             {

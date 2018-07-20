@@ -45,7 +45,7 @@ public class MoveCamera : MonoBehaviour {
         if (!StopCamera)
         {
             if (Pause.is_pause) { return; }
-            if (!Input.GetButton("AButton"))
+            if (!Controller.GetButton("AButton"))
             {
              //   ParallelMove();
                 RotationCamera();
@@ -193,7 +193,7 @@ public class MoveCamera : MonoBehaviour {
     }
     public void FormatDate()        //初期化関数
     {
-        if (Input.GetButton("SelectButton"))
+        if (Controller.GetButton("SelectButton"))
         {
             Position = FormatPosition;
             Rotation = FormatRotation;
@@ -223,7 +223,7 @@ public class MoveCamera : MonoBehaviour {
     }
     public void BackStageSelect()
     {
-       /* if (Input.GetButtonDown("StartButton"))
+       /* if (Controller.GetButtonDown("StartButton"))
         {
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
         }*/

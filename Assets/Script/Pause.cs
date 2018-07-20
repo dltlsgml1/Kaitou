@@ -77,8 +77,8 @@ public class Pause : MonoBehaviour
         // 現在読み込んでいるシーンの名前を取得
         currentScene = SceneManager.GetActiveScene().name;
    
-        ////ｑキーでゲームバック
-        if ((Input.GetKeyDown("q") || Input.GetButtonDown("StartButton"))
+        ////pキーでポーズ
+        if ((Input.GetKeyDown("p") || Input.GetButtonDown("StartButton"))
             && fade_outflg == false //フェード中オフ 
             && movepause.GetComponent<MovePose>().SlideOn_Off == false) //Animation中オフ
         {
@@ -247,6 +247,7 @@ public class Pause : MonoBehaviour
             && fade_outflg == true 
             && fade_count > (fade_countMax / 3))
         {
+            Controller.InputFlag = true;
             OffPause();
             BackStageSelect_flg = false;
             pauseUI.SetActive(false);
@@ -262,6 +263,7 @@ public class Pause : MonoBehaviour
         if (BackTitle_flg == true
              && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
+            Controller.InputFlag = true;
             OffPause();
             is_pause = false;
             BackTitle_flg = false;
@@ -541,6 +543,7 @@ public class Pause : MonoBehaviour
         fade.GetComponent<failed>().FadeIn_On();
         fade_outflg = true;
         fade_count++;
+        Controller.InputFlag = false;
     }
 
     public void FedeOut()
@@ -557,6 +560,7 @@ public class Pause : MonoBehaviour
             fade_outflg = false;
             fade.GetComponent<failed>().FadeOut_On();
             CursorReset();
+            Controller.InputFlag = true;
         }
     }
 
