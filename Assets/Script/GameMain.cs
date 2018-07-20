@@ -169,8 +169,15 @@ public class GameMain : MonoBehaviour
             {
                 if (FadeEnd == true)
                 {
-                    ClearLimitBlockNum = ClearLimit;
-                    SceneManager.LoadScene("Result", LoadSceneMode.Single);
+                    if (FailFlg)//失敗時→ステセレ
+                    {
+                        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                    }
+                    if (ClearFlg)//成功時→リザルト
+                    {
+                        ClearLimitBlockNum = ClearLimit;
+                        SceneManager.LoadScene("Result", LoadSceneMode.Single);
+                    }
                 }
             }
 
