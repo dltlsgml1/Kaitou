@@ -20,6 +20,8 @@ public class MapScript : MonoBehaviour
     bool RotationFlag = false;
     bool FingerFlag = false;
     bool FadeInInit = false;
+    bool KeyUpFlag = false;
+    bool keyDownFlag = false;
     bool SelectButtonFlag = false;
     public static bool Is_Map = false;
     private bool SelectFlag = false;
@@ -235,6 +237,11 @@ public class MapScript : MonoBehaviour
         float XDecision;                                 //左右を判定用
         float YDecision;
         XDecision = Input.GetAxisRaw("LeftStick X");     //左スティックを取る
+        if (XDecision == 0)
+        {
+            XDecision = 0.1f;
+
+        }
         if (XDecision != 0)
         {
             if (XDecision < -0.5f || XDecision > 0.5f)
@@ -333,7 +340,9 @@ public class MapScript : MonoBehaviour
         }
         MoveFlag = true;
         YDecision = Input.GetAxisRaw("LeftStick Y");     //左スティックを取る
-
+        if (YDecision == 0) {
+            YDecision = 0.1f;
+        }
         if (YDecision != 0)
         {
             if (YDecision < -0.5f || YDecision > 0.5f)
@@ -383,7 +392,7 @@ public class MapScript : MonoBehaviour
                     EndPosition.y = InitHeight + (-Decision * Height);
                     Ymoved = true;
                     FingerMoveFlag = true;
-                    ;
+                    
 
                 }
             }
