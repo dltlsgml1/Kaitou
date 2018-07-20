@@ -48,7 +48,7 @@ public class Title : MonoBehaviour {
         if (cs_failed.FadeOutFlag == false && EnterFlg)
         {
             Sound.StopBgm();
-            Tutorial.TutorialIndex = (int)Tutorial.TUTORIAL_INDEX.RENSYA;
+            Tutorial.TutorialIndex = (int)Tutorial.TUTORIAL_INDEX.RULE;
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
 

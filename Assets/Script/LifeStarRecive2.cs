@@ -13,8 +13,12 @@ public class LifeStarRecive2 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GetMain = GameObject.Find("MainSceneScript").GetComponent<GameMain>();
-        GoldLimit=(int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
-        SilverLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
+        if(GetMain.TutorialFlg==false)
+        {
+            GoldLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].GoldCunt;
+            SilverLimit = (int)CSVData.StageDateList[PassStageID.PassStageId()].SilverCunt;
+        }
+       
        
         ReceiveLimitNum = GetMain.Limit;
 	}
