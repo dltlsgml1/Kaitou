@@ -247,6 +247,7 @@ public class Pause : MonoBehaviour
             && fade_outflg == true 
             && fade_count > (fade_countMax / 3))
         {
+            Controller.InputFlag = true;
             OffPause();
             BackStageSelect_flg = false;
             pauseUI.SetActive(false);
@@ -262,6 +263,7 @@ public class Pause : MonoBehaviour
         if (BackTitle_flg == true
              && fade.GetComponent<StageSelectFade>().FadeOutFlag == false)
         {
+            Controller.InputFlag = true;
             OffPause();
             is_pause = false;
             BackTitle_flg = false;
