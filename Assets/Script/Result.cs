@@ -30,6 +30,7 @@ public class Result : MonoBehaviour
     bool StarOneSeFlg1;
     bool StarOneSeFlg2;
     bool StarOneSeFlg3;
+    bool StickDown;
     public LineAnimetion SelectLine;
 
     //-------test----------------
@@ -69,7 +70,7 @@ public class Result : MonoBehaviour
     const float Cursol3 = -3;
     const float fadespeed = 0.05f;
     const float ResultVolume = 0.7f;
-    const float DefaultKeyPos = 0.8f;
+    const float DefaultKeyPos = 0.5f;
     const int LastStageID = 20;
 
     // スクショ用
@@ -96,6 +97,7 @@ public class Result : MonoBehaviour
         StarOneSeFlg1 = false;
         StarOneSeFlg2 = false;
         StarOneSeFlg3 = false;
+        StickDown = false;
         //最後のステージは「次へ」無し
         if (LastStageID == S_ID)
         {
@@ -321,7 +323,7 @@ public class Result : MonoBehaviour
             {
                 //if (Input.GetKeyDown(KeyCode.UpArrow))
                 //{
-                if (SelectLine.tmpTime >= SelectLine.AnimTime)
+                if (!StickDown && (SelectLine.tmpTime >= SelectLine.AnimTime))
                 {
                     //最終ステージ処理
                     if (LastStageID == S_ID)
@@ -353,14 +355,15 @@ public class Result : MonoBehaviour
                         Sound.PlaySe("Select", 4);
                         OneSelectSeFlg = true;
                     }
+                    StickDown = true;
 
                 }
             }
-            if (Decision < -DefaultKeyPos)
+            else if (Decision < -DefaultKeyPos)
             {
                 //if (Input.GetKeyDown(KeyCode.DownArrow))
                 //{
-                if (SelectLine.tmpTime >=SelectLine.AnimTime)
+                if (!StickDown&&(SelectLine.tmpTime >=SelectLine.AnimTime))
                 {
                     if (Cursolnum > 1)
                     {
@@ -385,7 +388,12 @@ public class Result : MonoBehaviour
                         Sound.PlaySe("Select", 4);
                         OneSelectSeFlg = true;
                     }
+                    StickDown = true;
                 }
+            }
+            else
+            {
+                StickDown = false;
             }
 
             //ラインアニメーション移動
