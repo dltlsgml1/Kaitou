@@ -22,7 +22,11 @@ GameObject:
   - component: {fileID: 33438992681728808}
   - component: {fileID: 65957876265037580}
   - component: {fileID: 23840349054796470}
+<<<<<<< HEAD
   - component: {fileID: 114197665593481524}
+=======
+  - component: {fileID: 114859895218342230}
+>>>>>>> Dev
   m_Layer: 0
   m_Name: GlassBlock
   m_TagString: Untagged
@@ -1140,7 +1144,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!114 &114197665593481524
+=======
+--- !u!114 &114859895218342230
+>>>>>>> Dev
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1151,6 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959358a6bfb57534fab969378932d7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   ChangeEmissionFlag: 0
   MiniEmission: 0.2
   MaxEmission: 1
@@ -1161,3 +1170,11 @@ MonoBehaviour:
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
+=======
+  EmissiveObj: {fileID: 0}
+  EndFlg: 0
+  StartFlg: 0
+  CanEmission: 0
+  S_Blocks: {fileID: 0}
+  isBurned: 0
+>>>>>>> Dev

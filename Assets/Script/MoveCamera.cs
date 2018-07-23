@@ -16,7 +16,11 @@ public class MoveCamera : MonoBehaviour {
     public Vector3 Rotation;                           //回転のデータ
     Vector2 ScreenPosition;                     //スクリーンの位置データ
     float Key;                                  //Axisで取られた正負の確認
+<<<<<<< HEAD
     float DefaultKey=0.5f;                      //勝手に移動するの防ぐ用
+=======
+    float DefaultKey=0.7f;                      //勝手に移動するの防ぐ用
+>>>>>>> Dev
     public bool CheckDebug;
     public bool HiSpeedChangeFlag;              //スピード切り替えのフラグ　早い場合
     public bool LowSpeedChangeFlag;             //スピード切り替えのフラグ　遅い場合
@@ -45,7 +49,11 @@ public class MoveCamera : MonoBehaviour {
         if (!StopCamera)
         {
             if (Pause.is_pause) { return; }
+<<<<<<< HEAD
             if (!Input.GetButton("AButton"))
+=======
+            if (!Controller.GetButton("AButton"))
+>>>>>>> Dev
             {
              //   ParallelMove();
                 RotationCamera();
@@ -193,7 +201,11 @@ public class MoveCamera : MonoBehaviour {
     }
     public void FormatDate()        //初期化関数
     {
+<<<<<<< HEAD
         if (Input.GetButton("SelectButton"))
+=======
+        if (Controller.GetButton("SelectButton"))
+>>>>>>> Dev
         {
             Position = FormatPosition;
             Rotation = FormatRotation;
@@ -223,7 +235,11 @@ public class MoveCamera : MonoBehaviour {
     }
     public void BackStageSelect()
     {
+<<<<<<< HEAD
        /* if (Input.GetButtonDown("StartButton"))
+=======
+       /* if (Controller.GetButtonDown("StartButton"))
+>>>>>>> Dev
         {
             SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
         }*/

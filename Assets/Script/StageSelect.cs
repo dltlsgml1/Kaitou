@@ -96,16 +96,27 @@ public class StageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         if (!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag&&!Pause.is_pause)
+=======
+        if (!SelectStageFlag&&!FadeFlag.FadeOutFlag&&!FadeFlag.FadeInFlag&&!Pause.is_pause)
+>>>>>>> Dev
         {
          
             StageSelectMoveFlag();      //ステージ移動フラグを立てる
             StageSelectMove();          //ステージの移動をする
             SelectStage();              //ステージの決定かタイトルに戻るよう
+<<<<<<< HEAD
             Transitions();              //遷移
             ChangeMapOpen();
             TutorialTransition();
         }
+=======
+            ChangeMapOpen();
+            TutorialTransition();
+        }
+        Transitions();              //遷移
+>>>>>>> Dev
     }
 
     public void ChangeMapOpen()         //マップに切り替え

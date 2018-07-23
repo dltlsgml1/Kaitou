@@ -9,7 +9,11 @@ public class FrameFade : MonoBehaviour {
     public static bool FadeOutFlag = false;
     bool FadeInit = false;
     float alfa = 0;
+<<<<<<< HEAD
     float time = 0.3f;
+=======
+    float time = 0.1f;
+>>>>>>> Dev
     float red, green, blue;
 
     // Use this for initialization

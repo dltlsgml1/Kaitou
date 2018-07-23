@@ -33,7 +33,11 @@ public class Title : MonoBehaviour {
 
         if (cs_failed.FadeInFlag == false)
         {
+<<<<<<< HEAD
             if (Input.GetButtonDown("AButton"))
+=======
+            if (Controller.GetButtonDown("AButton"))
+>>>>>>> Dev
             {
                 if (EnterFlg == false)
                 {
@@ -47,7 +51,11 @@ public class Title : MonoBehaviour {
 
         if (cs_failed.FadeOutFlag == false && EnterFlg)
         {
+<<<<<<< HEAD
             Sound.StopBgm();     
+=======
+            Sound.StopBgm();
+>>>>>>> Dev
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
 

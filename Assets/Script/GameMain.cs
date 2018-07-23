@@ -21,10 +21,20 @@ public class GameMain : MonoBehaviour
     Vector3[] NormalBlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
     Vector3[] BlockPosition = new Vector3[DefineScript.NUM_BLOCKS];
 
+<<<<<<< HEAD
+=======
+    public Blocks[] NBlock = new Blocks[30];
+    public Blocks[] CBlock = new Blocks[30];
+
+>>>>>>> Dev
     Ray ray;
     public MoveCamera mvcamera;
     public Camera MainCamera;               //カメラオブジェクト
 
+<<<<<<< HEAD
+=======
+    public static int ClearLimitBlockNum;
+>>>>>>> Dev
     public int BlocksCount = 0;             //現在ブロックの数
     public int CollapsCount = 0;            //現在燃やすブロックの数
     public int NormalCount = 0;             //現在普通ブロックの数
@@ -32,11 +42,16 @@ public class GameMain : MonoBehaviour
     public int ClearedLimitNum = 0;         //クリアしたときの上限回数
     public int ClearLimit = 0;
     public int FailLimitNum = 0;            //残りの上限回数
+<<<<<<< HEAD
+=======
+    public int NowPitch = 0;
+>>>>>>> Dev
     public bool TutorialFlg = true;
     public bool ClearFlg = false;           //ステージクリアフラグ
     public bool FailFlg = false;            //ステージ失敗フラグ
     public bool Collapsing = false;         //現在燃え移り判定が成立しているかどうかのフラグ
     public bool UnsetCollapsing = false;    //上のフラグを解除するときに使うフラグ
+<<<<<<< HEAD
     public bool Nowcol = false;
     public bool Burned = false;
     public bool buttonup = false;
@@ -44,6 +59,15 @@ public class GameMain : MonoBehaviour
     public bool PlayedSE = false;
     public bool PlayedSE2 = false;
     public bool NowCol2 = false;
+=======
+    public bool FadeEnd = false;
+    public bool PlayedSE = false;
+    public bool PlayedSE2 = false;
+
+    public bool NowCollapsing = false;
+    public bool NowCantBurn = false;
+    public bool NowCanBurn = false;
+>>>>>>> Dev
     public bool TutorialAtari = false;
     public bool limitminus = false;
 
@@ -61,6 +85,12 @@ public class GameMain : MonoBehaviour
                 if (Blocks[i].GetComponent<Blocks>().StartBlockFlg == false)
                 {
                     Blocks[i].GetComponent<Blocks>().BurnFlg = false;
+<<<<<<< HEAD
+=======
+                    Blocks[i].GetComponent<Blocks>().UnsetCollapsFlag();
+
+                    Blocks[i].transform.Find("GlassBlock").GetComponent<Emission>().Init();
+>>>>>>> Dev
                     Blocks[i].GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.0f, 0.0f, 0.0f));
                 }
             }
@@ -69,10 +99,17 @@ public class GameMain : MonoBehaviour
         }
         FailFlg = false;
         ClearFlg = false;
+<<<<<<< HEAD
         Limit = ClearedLimitNum = PassStageID.PassUpperCount();
 
 
         
+=======
+        ClearedLimitNum = 0;         //クリアしたときの上限回数
+        ClearLimit = 0;
+        FailLimitNum = 0;
+        Limit = ClearedLimitNum = PassStageID.PassUpperCount();
+>>>>>>> Dev
         mvcamera.Position = PassStageID.PassPosition();
         mvcamera.Rotation = PassStageID.PassRotation();
     }
@@ -80,6 +117,7 @@ public class GameMain : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
         mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
         Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
         Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
@@ -87,6 +125,19 @@ public class GameMain : MonoBehaviour
         Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
         Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
         Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
+=======
+       
+        mvcamera = GameObject.Find("GameObject").GetComponent<MoveCamera>();
+        Blocks = GameObject.FindGameObjectsWithTag("NormalBlock");
+        Sound.LoadBgm("GM_BGM", "GameMain/GM_Bgm");
+        Sound.LoadSe("SE_STAR1", "GameMain/GM_Star1");
+        Sound.LoadSe("SE_STAR2", "GameMain/GM_Star2");
+        Sound.LoadSe("SE_STAR3", "GameMain/GM_Star3");
+        Sound.LoadSe("SE_CLEAR", "GameMain/GM_Clear");
+        Sound.LoadSe("SE_FAIL", "GameMain/GM_Failed");
+        Sound.LoadSe("SE_INFO", "GameMain/GM_Information");
+        Sound.LoadSe("SE_INFO_CANT", "GameMain/GM_Information_Fail");
+>>>>>>> Dev
         Sound.PlayBgm("GM_BGM");
         Sound.SetLoopFlgSe("SE_INFO", true, 4);
         Sound.SetVolumeSe("SE_INFO", 0.5f, 4);
@@ -98,7 +149,11 @@ public class GameMain : MonoBehaviour
         {
             Limit = 5;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> Dev
     }
 
 
@@ -109,8 +164,18 @@ public class GameMain : MonoBehaviour
         NormalCount = 0;
         CollapsCount = 0;
         UnsetCollapsing = true;
+<<<<<<< HEAD
         Nowcol = false;
         NowCol2 = false;
+=======
+        NowCollapsing = false;
+        NowCantBurn = false;
+        NowCanBurn = false;
+        if(Collapsing==true)
+        {
+            Controller.InputFlag = true;
+        }
+>>>>>>> Dev
         for (int i = 0; i < Blocks.Length; i++)
         {
             BlockPosition[i] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
@@ -128,7 +193,11 @@ public class GameMain : MonoBehaviour
         {
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == true)
             {
+<<<<<<< HEAD
                 
+=======
+                CBlock[j] = Blocks[i].GetComponent<Blocks>();
+>>>>>>> Dev
                 CollapsBlocks[j] = Blocks[i];
                 CollapsBlockPosition[j] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
@@ -141,6 +210,10 @@ public class GameMain : MonoBehaviour
             if (Blocks[i].GetComponent<Blocks>().BurnFlg == false)
             {
                 NormalBlocks[k] = Blocks[i];
+<<<<<<< HEAD
+=======
+                NBlock[k] = Blocks[i].GetComponent<Blocks>();
+>>>>>>> Dev
                 NormalBlockPosition[k] = MainCamera.WorldToScreenPoint(Blocks[i].transform.position);
                 for (int l = 0; l < 6; l++)
                 {
@@ -160,7 +233,19 @@ public class GameMain : MonoBehaviour
             {
                 if (FadeEnd == true)
                 {
+<<<<<<< HEAD
                     SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+=======
+                    if (FailFlg)//失敗時→ステセレ
+                    {
+                        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+                    }
+                    if (ClearFlg)//成功時→リザルト
+                    {
+                        ClearLimitBlockNum = ClearLimit;
+                        SceneManager.LoadScene("Result", LoadSceneMode.Single);
+                    }
+>>>>>>> Dev
                 }
             }
 
@@ -188,6 +273,7 @@ public class GameMain : MonoBehaviour
                     continue;
                 if(MainCamera.gameObject.GetComponentInParent<MoveCamera>().MoveFlag==false)
                 {
+<<<<<<< HEAD
                     if (CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsTop == true &&
                     NormalBlocks[BlockNow].GetComponent<Blocks>().CollapsBottom == true)
                     {
@@ -225,12 +311,33 @@ public class GameMain : MonoBehaviour
                     if (NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol == true)
                     {
                         NowCol2 = true;
+=======
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Bottom, (int)DefineScript.CollisionIndex.Top, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Top, (int)DefineScript.CollisionIndex.Bottom, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Right, (int)DefineScript.CollisionIndex.Left, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Left, (int)DefineScript.CollisionIndex.Right, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Front, (int)DefineScript.CollisionIndex.Back, CollapsVertices);
+                    atari2(BlockNow, CollapsNow, (int)DefineScript.CollisionIndex.Back, (int)DefineScript.CollisionIndex.Front, CollapsVertices);
+
+                    if (NBlock[BlockNow].NormalNowcol == true)
+                    {
+                        NowCollapsing = true;
+                    }
+                    if(NBlock[BlockNow].CanBurn ==true)
+                    {
+                        NowCanBurn = true;
+                        NBlock[BlockNow].CantBurn = false;
+>>>>>>> Dev
                     }
                 }
             }
 
         }
+<<<<<<< HEAD
         if (NowCol2 == true)
+=======
+        if (NowCanBurn == true && Collapsing == false)
+>>>>>>> Dev
         {
             if (PlayedSE2 == false)
             {
@@ -244,6 +351,7 @@ public class GameMain : MonoBehaviour
             PlayedSE2 = false;
         }
 
+<<<<<<< HEAD
         if (Input.GetButton("AButton"))
         {
             for (int i = 0; i < NormalCount; i++)
@@ -276,11 +384,36 @@ public class GameMain : MonoBehaviour
         }
 
 
+=======
+        if (Controller.GetButtonDown("AButton")&&!Pause.Restart_flg&&!Pause.is_pause)
+        {
+            if (NowCanBurn == false)
+            {
+                Sound.PlaySe("SE_INFO_CANT", 5);
+            }
+        }
+        if(Controller.GetButtonDown("AButton") && !Pause.Restart_flg&&!Pause.is_pause)
+        {
+            for (int i = 0; i < NormalCount; i++)
+            {
+                if(NBlock[i].CanBurn==true)
+                {
+                    Collapsing = true;
+                    UnsetCollapsing = false;
+                    limitminus = true;
+                    NBlock[i].BurnOK = true;
+                    Sound.PlaySe("SE_STAR1", 6);
+                }
+            }
+        }
+        
+>>>>>>> Dev
         if (Collapsing == true)
         {
             mvcamera.StopCameraOn();
             for (int i = 0; i < NormalCount; i++)
             {
+<<<<<<< HEAD
                 if (NormalBlocks[i].GetComponent<Blocks>().NormalNowcol == true)
                 {
                     UnsetCollapsing = false;
@@ -288,24 +421,60 @@ public class GameMain : MonoBehaviour
                     if (NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 >= DefineScript.JUDGE_BNTIME)
                     {
                         NormalBlocks[i].GetComponent<Blocks>().canburn = true;
+=======
+                if (NBlock[i].CanBurn == true)
+                {
+                    UnsetCollapsing = false;
+                    NBlock[i].BurnCnt += DefineScript.JUDGE_BNSPEED_NONBUTTON;
+                    if (NBlock[i].BurnCnt >= DefineScript.JUDGE_BNTIME)
+                    {
+                        NBlock[i].BurnOK = true;
+                        
+                        switch (NowPitch)
+                        {
+                            case 0:
+                                Sound.PlaySe("SE_STAR2", 7);
+                                break;
+                            case 1:
+                                Sound.PlaySe("SE_STAR3", 8);
+                                break;
+                            default:
+                                Sound.PlaySe("SE_STAR3", 8);
+                                break;
+
+                        }
+                        NowPitch++;
+>>>>>>> Dev
                     }
 
                 }
                 else
                 {
+<<<<<<< HEAD
                     NormalBlocks[i].GetComponent<Blocks>().canburn = false;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
+=======
+                    NBlock[i].BurnOK = false;
+                    NBlock[i].BurnCnt = 0.0f;
+>>>>>>> Dev
                 }
             }
 
             for (int i = 0; i < NormalCount; i++)
             {
+<<<<<<< HEAD
                 if (NormalBlocks[i].GetComponent<Blocks>().canburn == true)
                 {
                     NormalBlocks[i].GetComponent<Blocks>().BurnFlg = true;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt = 0.0f;
                     NormalBlocks[i].GetComponent<Blocks>().BurnCnt2 = 0.0f;
+=======
+                if (NBlock[i].BurnOK == true)
+                {
+                    NBlock[i].BurnFlg = true;
+                    NBlock[i].BurnCnt = 0.0f;
+>>>>>>> Dev
                     
                 }
             }
@@ -314,24 +483,36 @@ public class GameMain : MonoBehaviour
         if (UnsetCollapsing == true)
         {
             Collapsing = false;
+<<<<<<< HEAD
             Burned = false;
+=======
+            NowPitch = 0;
+>>>>>>> Dev
         }
 
 
 
         
+<<<<<<< HEAD
         if (NowCol2==true && limitminus==true)
+=======
+        if (NowCollapsing==true && limitminus==true)
+>>>>>>> Dev
         {
             Limit--;
             ClearLimit++;
             limitminus = false;
+<<<<<<< HEAD
             Sound.PlaySe("SE_STAR", 3);
 
+=======
+>>>>>>> Dev
         }
         
         if (NormalCount == 0 && TutorialFlg == false)
         {
             ClearFlg = true;
+<<<<<<< HEAD
 
 
             ClearedLimitNum = Limit;
@@ -340,6 +521,13 @@ public class GameMain : MonoBehaviour
             return true;
         }
         if (Limit == 0 && NormalCount != 0 &&NowCol2==false && TutorialFlg == false)
+=======
+            ClearedLimitNum = Limit;
+            FailLimitNum = PassStageID.PassUpperCount() - Limit;
+            return true;
+        }
+        if (Limit == 0 && NormalCount != 0 &&NowCollapsing==false && TutorialFlg == false)
+>>>>>>> Dev
         {
             FailFlg = true;
             if (PlayedSE == false)
@@ -368,8 +556,13 @@ public class GameMain : MonoBehaviour
                 
                 if (NormalBlockPosition[BlockNow].z < CollapsBlockPosition[CollapsNow].z)
                 {
+<<<<<<< HEAD
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+=======
+                    CBlock[CollapsNow].CollapsNowcol = true;
+                    NBlock[BlockNow].NormalNowcol = true;
+>>>>>>> Dev
                     temp = true;
 
                 }
@@ -380,12 +573,21 @@ public class GameMain : MonoBehaviour
                     {
                         if(distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
                         {
+<<<<<<< HEAD
                                 CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                                 NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
                                 temp = true;
                         }
                     }
 
+=======
+                                CBlock[CollapsNow].CollapsNowcol = true;
+                                NBlock[BlockNow].NormalNowcol = true;
+                                temp = true;
+                        }
+                    }
+                    
+>>>>>>> Dev
                     if ((mvcamera.Rotation.y >= -2.0f && mvcamera.Rotation.y <= 2.0f) ||
                         (mvcamera.Rotation.y >= angle90 - 2.0f && mvcamera.Rotation.y <= angle90 + 2.0f) ||
                         (mvcamera.Rotation.y >= angle180 - 2.0f && mvcamera.Rotation.y <= angle180 + 2.0f) ||
@@ -396,10 +598,17 @@ public class GameMain : MonoBehaviour
                         mvcamera.Rotation.y >= 358.0f ||
                         mvcamera.Rotation.y <= -358.0f)
                     {
+<<<<<<< HEAD
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
                         {
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+=======
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
+                        {
+                            CBlock[CollapsNow].CollapsNowcol = true;
+                            NBlock[BlockNow].NormalNowcol = true;
+>>>>>>> Dev
                             temp = true;
                         }
                     }
@@ -411,8 +620,13 @@ public class GameMain : MonoBehaviour
             {
                 if (NormalBlockPosition[BlockNow].z > CollapsBlockPosition[CollapsNow].z)
                 {
+<<<<<<< HEAD
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+=======
+                    CBlock[CollapsNow].CollapsNowcol = true;
+                    NBlock[BlockNow].NormalNowcol = true;
+>>>>>>> Dev
                     temp = true;
                 }
                 else
@@ -422,8 +636,13 @@ public class GameMain : MonoBehaviour
                     {
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
                         {
+<<<<<<< HEAD
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+=======
+                            CBlock[CollapsNow].CollapsNowcol = true;
+                            NBlock[BlockNow].NormalNowcol = true;
+>>>>>>> Dev
                             temp = true;
                         }
                     }
@@ -438,10 +657,17 @@ public class GameMain : MonoBehaviour
                         mvcamera.Rotation.y >= 358.0f ||
                         mvcamera.Rotation.y <= -358.0f)
                     {
+<<<<<<< HEAD
                         if (distance >= DefineScript.JUDGE_DISTANCE3 - 10.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 10.0f)
                         {
                             CollapsBlocks[CollapsNow].GetComponent<Blocks>().CollapsNowcol = true;
                             NormalBlocks[BlockNow].GetComponent<Blocks>().NormalNowcol = true;
+=======
+                        if (distance >= DefineScript.JUDGE_DISTANCE3 - 1.0f && distance <= DefineScript.JUDGE_DISTANCE3 + 1.0f)
+                        {
+                            CBlock[CollapsNow].CollapsNowcol = true;
+                            NBlock[BlockNow].NormalNowcol = true;
+>>>>>>> Dev
                             temp = true;
                         }
                     }
@@ -455,6 +681,7 @@ public class GameMain : MonoBehaviour
             switch (CollapsPlain)
             {
                 case (int)DefineScript.CollisionIndex.Top:
+<<<<<<< HEAD
                     CollapsBlocks[CollapsNow].GetComponent<Blocks>().IsTopCollapsed = true;
                     NormalBlocks[BlockNow].GetComponent<Blocks>().IsBottomCollapsed = true;
                     break;
@@ -479,6 +706,97 @@ public class GameMain : MonoBehaviour
                     NormalBlocks[BlockNow].GetComponent<Blocks>().IsFrontCollapsed = true;
                     break;
 
+=======
+                    if(CBlock[CollapsNow].CollapsTop == true && 
+                       NBlock[BlockNow].CollapsBottom == true)
+                    {
+                        CBlock[CollapsNow].IsTopCollapsed = true;
+                        NBlock[BlockNow].IsBottomCollapsed = true;
+                        NBlock[BlockNow].CanBurn  = true;
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+                    break;
+                case (int)DefineScript.CollisionIndex.Bottom:
+                    if (CBlock[CollapsNow].CollapsBottom == true &&
+                      NBlock[BlockNow].CollapsTop == true)
+                    {
+                        CBlock[CollapsNow].IsBottomCollapsed = true;
+                        NBlock[BlockNow].IsTopCollapsed = true;
+                        NBlock[BlockNow].CanBurn = true;
+
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+                    break;
+                case (int)DefineScript.CollisionIndex.Left:
+                    if (CBlock[CollapsNow].CollapsLeft == true &&
+                       NBlock[BlockNow].CollapsRight == true)
+                    {
+                        CBlock[CollapsNow].IsLeftCollapsed = true;
+                        NBlock[BlockNow].IsRightCollapsed = true;
+                        NBlock[BlockNow].CanBurn = true;
+
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+
+                    break;
+                case (int)DefineScript.CollisionIndex.Right:
+                    if (CBlock[CollapsNow].CollapsRight == true &&
+                       NBlock[BlockNow].CollapsLeft == true)
+                    {
+                        CBlock[CollapsNow].IsRightCollapsed = true;
+                        NBlock[BlockNow].IsLeftCollapsed = true;
+                        NBlock[BlockNow].CanBurn = true;
+
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+                    break;
+                case (int)DefineScript.CollisionIndex.Front:
+                    if (CBlock[CollapsNow].CollapsFront == true &&
+                      NBlock[BlockNow].CollapsBack == true)
+                    {
+                        CBlock[CollapsNow].IsFrontCollapsed = true;
+                        NBlock[BlockNow].IsBackCollapsed = true;
+                        NBlock[BlockNow].CanBurn = true;
+
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+                    break;
+                case (int)DefineScript.CollisionIndex.Back:
+                    if (CBlock[CollapsNow].CollapsBack == true &&
+                      NBlock[BlockNow].CollapsFront == true)
+                    {
+                        CBlock[CollapsNow].IsBackCollapsed = true;
+                        NBlock[BlockNow].IsFrontCollapsed = true;
+                        NBlock[BlockNow].CanBurn = true;
+
+                    }
+                    else
+                    {
+                        NBlock[BlockNow].CantBurn = true;
+                        NowCantBurn = true;
+                    }
+                    break;
+>>>>>>> Dev
             }
         }
 

@@ -23,7 +23,10 @@ GameObject:
   - component: {fileID: 65856492595990906}
   - component: {fileID: 23328563439900004}
   - component: {fileID: 114969786994656174}
+<<<<<<< HEAD
   - component: {fileID: 114188506070439750}
+=======
+>>>>>>> Dev
   m_Layer: 0
   m_Name: NormalBlock
   m_TagString: NormalBlock
@@ -650,6 +653,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!114 &114188506070439750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -671,6 +675,8 @@ MonoBehaviour:
   UpCountFlag: 1
   DownCountFlag: 0
   canBurnFlag: 0
+=======
+>>>>>>> Dev
 --- !u!114 &114969786994656174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -696,12 +702,21 @@ MonoBehaviour:
   IsBackCollapsed: 0
   NormalNowcol: 0
   CollapsNowcol: 0
+<<<<<<< HEAD
   SetFire: {fileID: 1517672745578844}
   BurnFlg: 0
   StartBlockFlg: 0
   BurnCnt: 0
   CollapsNum: 0
   canburn: 0
+=======
+  BurnFlg: 0
+  StartBlockFlg: 0
+  BurnCnt: 0
+  BurnOK: 0
+  CantBurn: 0
+  CanBurn: 0
+>>>>>>> Dev
 --- !u!198 &198042181600282034
 ParticleSystem:
   m_ObjectHideFlags: 1

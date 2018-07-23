@@ -88,6 +88,10 @@ public class EndFade : MonoBehaviour
             if(ClearFadeTime / 2 <= countTime)
             {
                 SaveAndScreenshot();
+<<<<<<< HEAD
+=======
+                GlobalCoroutine.Go(SS.CreateScreenshot("ResultImage"));
+>>>>>>> Dev
             }
 
             if (ClearFadeTime <= countTime && !ClearFade.In)
